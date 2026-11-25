@@ -134,7 +134,7 @@
 | التلاوة | Islamic Network (cdn.islamic.network) | بث للاستخدام الشخصي والتعليمي | **بث فقط** | — |
 | الأذان | Azan.ogg — Andrewler — Commons | CC BY-SA 4.0 | محلي (MP3 محوَّل) + SHA-1 للأصل | **ينتظر الاستماع الكامل** |
 | المواقيت والقبلة | Adhan JS | MIT | حساب محلي | مقارَن بمصدرين |
-| الخطوط | Amiri Quran، Noto Sans Arabic، Noto Naskh Arabic، Inter (fontsource) | OFL 1.1 | محلي (مستضافة ذاتيًا) | — |
+| الخطوط | Amiri Quran، Amiri، El Messiri، IBM Plex Sans Arabic، Noto Naskh Arabic، Inter (fontsource) | OFL 1.1 | محلي (مستضافة ذاتيًا) | — |
 
 ## مستخدم في الموقع: متشابهات القرآن (2026-11-25)
 | المصدر | الاستخدام | الترخيص | الحالة |

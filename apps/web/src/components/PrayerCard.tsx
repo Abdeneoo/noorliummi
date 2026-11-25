@@ -18,7 +18,7 @@ const T = {
     adhanOff: 'صوت الأذان غير مفعّل على هذا الجهاز.', adhanOn: 'فعّل الأذان', jumuah: 'الجمعة', jumuahNote: 'يوم الجمعة: وقت الظهر المحسوب هو أول وقت الجمعة، وموعد الخطبة والصلاة يحدده مسجدك.', myJumuah: 'موعد الجمعة في مسجدي', clear: 'مسح',
     title: 'مواقيت الصلاة', next: 'الصلاة القادمة', current: 'الصلاة الحالية', city: 'المدينة', method: 'طريقة الحساب',
     here: 'موقعك الحالي', near: (c: string) => `قرب ${c}`,
-    gpsOn: (l: string, isHere: boolean) => `📍 المواقيت لموقعك الحالي${isHere ? '' : ` (${l})`}، وتُحدَّث تلقائيًا عند كل زيارة.`,
+    gpsOn: (l: string, isHere: boolean) => `المواقيت لموقعك الحالي${isHere ? '' : ` (${l})`}، وتُحدَّث تلقائيًا عند كل زيارة.`,
     refresh: 'تحديث الآن', locate: 'حدّد موقعي',
     auto: (c: string) => `المواقيت الآن لمدينة ${c} بحسب توقيت جهازك.`, chosen: (c: string) => `المواقيت لمدينة ${c}.`, exact: 'لمواقيت مكانك بالضبط:',
     noGeo: 'المتصفح لا يدعم تحديد الموقع. اختر مدينتك من القائمة.',
@@ -27,14 +27,14 @@ const T = {
     failed: 'تعذّر تحديد الموقع الآن. اختر مدينتك من القائمة أو أعد المحاولة.',
     qibla: (d: string) => `اتجاه القبلة: ${d}° من الشمال الحقيقي. `,
     note: 'المواقيت محسوبة فلكيًا على جهازك وقد تختلف دقائق عن الجدول الرسمي في بلدك؛ موقعك لا يُرسل إلى أي خادم.',
-    hijri: 'ar-SA-u-ca-islamic-umalqura-nu-arab', greg: 'ar-EG-u-nu-arab',
+    hijri: 'ar-SA-u-ca-islamic-umalqura-nu-arab', greg: 'ar-EG-u-nu-arab', settings: 'المدينة وطريقة الحساب والجمعة', in: 'بعد',
   },
   en: {
     names: { fajr: 'Fajr', sunrise: 'Sunrise', dhuhr: 'Dhuhr', asr: 'Asr', maghrib: 'Maghrib', isha: 'Isha' } as Record<PrayerName, string>,
     adhanOff: 'The adhan sound is not enabled on this device.', adhanOn: 'Enable the adhan', jumuah: 'Jumuah', jumuahNote: 'Friday: the calculated Dhuhr time is the start of the Jumuah time; the khutbah and prayer time is set by your mosque.', myJumuah: 'Jumuah at my mosque', clear: 'Clear',
     title: 'Prayer times', next: 'Next prayer', current: 'Current prayer', city: 'City', method: 'Calculation method',
     here: 'Your location', near: (c: string) => `near ${c}`,
-    gpsOn: (l: string, isHere: boolean) => `📍 Times for your current location${isHere ? '' : ` (${l})`}, refreshed on each visit.`,
+    gpsOn: (l: string, isHere: boolean) => `Times for your current location${isHere ? '' : ` (${l})`}, refreshed on each visit.`,
     refresh: 'Refresh now', locate: 'Use my location',
     auto: (c: string) => `Showing times for ${c}, based on your device's time zone.`, chosen: (c: string) => `Showing times for ${c}.`, exact: 'For your exact location:',
     noGeo: 'This browser does not support location. Please choose your city.',
@@ -43,7 +43,7 @@ const T = {
     failed: 'Could not get your location right now. Choose your city or try again.',
     qibla: (d: string) => `Qibla: ${d}° from true north. `,
     note: 'Times are calculated astronomically on your device and may differ by a few minutes from your local official timetable. Your location is never sent to any server.',
-    hijri: 'en-u-ca-islamic-umalqura', greg: 'en-GB',
+    hijri: 'en-u-ca-islamic-umalqura', greg: 'en-GB', settings: 'City, calculation & Jumuah', in: 'in',
   },
 };
 
@@ -127,7 +127,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   };
 
   if (!saved || !now || !view) {
-    return <section className="card" aria-busy="true" aria-label={t.title}><div className="next"><span className="label">{t.title}</span><span className="count">--:--:--</span></div></section>;
+    return <section className="prayer-panel" aria-busy="true" aria-label={t.title}><div className="pp-head"><div className="pp-next"><span className="label">{t.next}</span><span className="count">--:--:--</span></div></div></section>;
   }
   const { day, status, qibla } = view;
   const tz = saved.s.timezone;
@@ -139,59 +139,77 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   const hijri = new Intl.DateTimeFormat(t.hijri, { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
   const isFriday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: tz }).format(now) === 'Fri';
   const pname = (p: PrayerName) => (p === 'dhuhr' && isFriday ? t.jumuah : t.names[p]);
-  const greg = new Intl.DateTimeFormat(t.greg, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
+  const greg = new Intl.DateTimeFormat(t.greg, { weekday: 'long', day: 'numeric', month: 'long', timeZone: tz }).format(now);
+
+  // Day arc: Fajr at one end, Isha at the other; the light sits at "now" (exact quadratic split, no approximation).
+  const t0 = day.times.fajr.getTime(), t1 = day.times.isha.getTime();
+  const fr = (ms: number) => Math.min(1, Math.max(0, (ms - t0) / (t1 - t0)));
+  const P0 = [24, 132], P1 = [500, -64], P2 = [976, 132];
+  const at = (u: number) => [0, 1].map((k) => (1 - u) ** 2 * P0[k] + 2 * (1 - u) * u * P1[k] + u ** 2 * P2[k]);
+  const u = fr(now.getTime());
+  const Q0 = [0, 1].map((k) => (1 - u) * P0[k] + u * P1[k]);
+  const B = at(u);
+  const done = `M${P0[0]} ${P0[1]}Q${Q0[0].toFixed(1)} ${Q0[1].toFixed(1)} ${B[0].toFixed(1)} ${B[1].toFixed(1)}`;
+  const isNext = (p: PrayerName) => p === status.next.name;
+  // RTL: the day runs right-to-left, so mirror the arc for Arabic.
+  const flip = lang === 'ar' ? 'scale(-1 1) translate(-1000 0)' : undefined;
 
   return (
-    <section className="card" aria-label={t.title}>
-      <div className="meta"><span>{greg}</span><span>{hijri}</span><span>{placeLabel}</span></div>
-      {saved.src === 'gps' ? (
-        <div className="locate-banner ok">
-          <span>{t.gpsOn(placeLabel, !place.city)}</span>
-          <button type="button" className="btn ghost" onClick={() => locate()}>{t.refresh}</button>
+    <section className="prayer-panel" aria-label={t.title}>
+      <div className="pp-head">
+        <div className="pp-next" aria-live="off">
+          <span className="label">{t.next}</span>
+          <span className="name">{pname(status.next.name)} <span className="at">{formatTime(status.next.time, tz)}</span></span>
+          <span className="count" role="timer">{formatCountdown(status.remainingMs)}</span>
         </div>
-      ) : (
-        <div className="locate-banner">
-          <span>{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)} {t.exact}</span>
-          <button type="button" className="btn" onClick={() => locate()}>{t.locate}</button>
+        <div className="pp-meta">
+          <span className="place">{placeLabel}</span>
+          <span>{greg}</span>
+          <span>{hijri}</span>
+          <button type="button" className="btn ghost small" onClick={() => locate()}>{saved.src === 'gps' ? t.refresh : t.locate}</button>
         </div>
-      )}
-      <div className="next" aria-live="off">
-        <span className="label">{t.next}</span>
-        <span className="name">{pname(status.next.name)}</span>
-        <span className="count" role="timer">{formatCountdown(status.remainingMs)}</span>
-        {!(status.current.name === 'fajr' && now.getTime() >= day.times.sunrise.getTime() && status.next.name === 'dhuhr') && (
-          <span className="label">{t.current}: {pname(status.current.name)}</span>
-        )}
       </div>
+      <svg className="pp-arc" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
+        <g transform={flip}>
+          <path className="track" d={`M${P0[0]} ${P0[1]}Q${P1[0]} ${P1[1]} ${P2[0]} ${P2[1]}`} />
+          <path className="done" pathLength="1" d={done} />
+          {ORDER.map((p) => { const [x, y] = at(fr(day.times[p].getTime())); return <circle key={p} className={isNext(p) ? 'tick next' : 'tick'} cx={x} cy={y} r={isNext(p) ? 6 : 4} />; })}
+          <circle className="sun-halo" cx={B[0]} cy={B[1]} r="22" />
+          <circle className="sun" cx={B[0]} cy={B[1]} r="9" />
+        </g>
+      </svg>
       <ul className="times">
         {ORDER.map((p) => (
-          <li key={p} aria-current={p === status.next.name && status.next.time.getTime() === day.times[p].getTime() ? 'true' : undefined}>
+          <li key={p} aria-current={isNext(p) ? 'true' : undefined}>
             <span className="n">{pname(p)}</span>
             <span className="t">{formatTime(day.times[p], tz)}{p === 'dhuhr' && isFriday && jumuah ? <small> · {jumuah}</small> : null}</span>
           </li>
         ))}
       </ul>
-      <div className="row">
-        <div className="field"><label htmlFor="city">{t.city}</label>
-        <select id="city" value={cityId} onChange={(e) => e.target.value && update(fromCity(e.target.value))}>
-          {!cityId && <option value="">{placeLabel}</option>}
-          {CITIES.map((c) => <option key={c.id} value={c.id}>{cityName(c, lang)}</option>)}
-        </select></div>
-        <div className="field"><label htmlFor="method">{t.method}</label>
-        <select id="method" value={saved.s.method} onChange={(e) => update({ ...saved, s: { ...saved.s, method: e.target.value as MethodId } })}>
-          {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m[lang]}</option>)}
-        </select></div>
-      </div>
-      {!adhanOn && <div className="locate-banner"><span>{t.adhanOff}</span><a className="btn" href={lang === 'en' ? '/en/adhan' : '/adhan'}>{t.adhanOn}</a></div>}
-      {isFriday && <p className="note">{t.jumuahNote}</p>}
-      <details className="jumuah"><summary>{t.myJumuah}{jumuah ? `: ${jumuah}` : ''}</summary>
-        <div className="row">
-          <input id="jum" aria-label={t.myJumuah} type="time" value={jumuah} onChange={(e) => saveJumuah(e.target.value)} />
-          {jumuah && <button type="button" className="btn ghost small" onClick={() => saveJumuah('')}>{t.clear}</button>}
-        </div>
-      </details>
+      {saved.src !== 'gps' && <p className="pp-hint">{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)} {t.exact} <button type="button" className="linkish" onClick={() => locate()}>{t.locate}</button></p>}
       {geoMsg && <p className="note" role="status">{geoMsg}</p>}
-      <p className="note">{nearKaaba ? '' : t.qibla(qibla.toFixed(1))}{t.note}</p>
+      {!adhanOn && <p className="pp-hint">{t.adhanOff} <a href={lang === 'en' ? '/en/adhan' : '/adhan'}>{t.adhanOn}</a></p>}
+      {isFriday && <p className="note">{t.jumuahNote}</p>}
+      <details className="pp-settings">
+        <summary>{t.settings}</summary>
+        <div className="row">
+          <div className="field"><label htmlFor="city">{t.city}</label>
+          <select id="city" value={cityId} onChange={(e) => e.target.value && update(fromCity(e.target.value))}>
+            {!cityId && <option value="">{placeLabel}</option>}
+            {CITIES.map((c) => <option key={c.id} value={c.id}>{cityName(c, lang)}</option>)}
+          </select></div>
+          <div className="field"><label htmlFor="method">{t.method}</label>
+          <select id="method" value={saved.s.method} onChange={(e) => update({ ...saved, s: { ...saved.s, method: e.target.value as MethodId } })}>
+            {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m[lang]}</option>)}
+          </select></div>
+          <div className="field"><label htmlFor="jum">{t.myJumuah}</label>
+          <div className="row" style={{ marginTop: 0 }}>
+            <input id="jum" type="time" value={jumuah} onChange={(e) => saveJumuah(e.target.value)} />
+            {jumuah && <button type="button" className="btn ghost small" onClick={() => saveJumuah('')}>{t.clear}</button>}
+          </div></div>
+        </div>
+        <p className="note">{nearKaaba ? '' : t.qibla(qibla.toFixed(1))}{t.note}</p>
+      </details>
     </section>
   );
 }

@@ -19,11 +19,17 @@ importers:
       '@fontsource-variable/noto-naskh-arabic':
         specifier: ^5.3.0
         version: 5.3.0
-      '@fontsource-variable/noto-sans-arabic':
+      '@fontsource/amiri':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/amiri-quran':
         specifier: ^5.0.0
+        version: 5.3.0
+      '@fontsource/el-messiri':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/ibm-plex-sans-arabic':
+        specifier: ^5.3.0
         version: 5.3.0
       '@noor/islamic-core':
         specifier: workspace:*
@@ -408,11 +414,17 @@ packages:
   '@fontsource-variable/noto-naskh-arabic@5.3.0':
     resolution: {integrity: sha512-Ot0G5iln5MeLPKp1WNt6AGi4KHbPIVm0GEow2ED6rZ+8Rao+OuswhX4D+RPerc3aQ6teneLdqXSL8VPGorJvGg==}
 
-  '@fontsource-variable/noto-sans-arabic@5.3.0':
-    resolution: {integrity: sha512-Rz8+DBzza3//cmN+DBQajJhx3x+Dx12eUgnQsTOgPWbOT0+In6APmE8z4I/QQnUWfAx+s8l93+60qDT5vJH1sA==}
-
   '@fontsource/amiri-quran@5.3.0':
     resolution: {integrity: sha512-z/Y3JCqGWnWLpfJGBWPf7C42IxHjxxuwgcCHLmsU/hYd65GHXkZ/XTVpEGtWrEx9VlzdzMMRHDNTJvs8OwAeEw==}
+
+  '@fontsource/amiri@5.3.0':
+    resolution: {integrity: sha512-i4SWJnVIphj8556EdVzNrEG/Qu82k6JXjXTtSUIohx3tHmo2GHw1Kv60TWo+xjk7Yf1Etb2Gskh0lUFclTKyUw==}
+
+  '@fontsource/el-messiri@5.3.0':
+    resolution: {integrity: sha512-Fqhf6DEuRInnLso60tk2i8mQlFfDjYNeF6Ybrto7jBnAwNClQqn4g9lMae/M+ub1zWYteM98uPOA1DwU5J8hbw==}
+
+  '@fontsource/ibm-plex-sans-arabic@5.3.0':
+    resolution: {integrity: sha512-ZZ4g+JDgQY0NqSh4o0MNWU1sHQmtcee1g++aKAwyJvZxnT5y51JXsN1cIXnaQaMd40dcbK6QFYa+Z1LbaiNuqA==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -1302,9 +1314,13 @@ snapshots:
 
   '@fontsource-variable/noto-naskh-arabic@5.3.0': {}
 
-  '@fontsource-variable/noto-sans-arabic@5.3.0': {}
-
   '@fontsource/amiri-quran@5.3.0': {}
+
+  '@fontsource/amiri@5.3.0': {}
+
+  '@fontsource/el-messiri@5.3.0': {}
+
+  '@fontsource/ibm-plex-sans-arabic@5.3.0': {}
 
   '@img/colour@1.1.0':
     optional: true
