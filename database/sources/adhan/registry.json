@@ -67,5 +67,28 @@
     "verification_status": "license_verified_awaiting_listening",
     "reviewed_at": "2026-11-25",
     "publish": true
+  },
+  {
+    "audio_id": "adam-synagda",
+    "title": "أذان (تسجيل Adam-synagda)",
+    "audio_type": "adhan",
+    "muezzin_name": "Adam-synagda (كما في صفحة المصدر)",
+    "adhan_type": "regular",
+    "source_page_url": "https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg",
+    "copyright_holder": "Adam-synagda",
+    "license_name": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution": "Adam-synagda, CC0, via Wikimedia Commons",
+    "modification_notes": "حُوِّل من OGG إلى MP3 أحادي 96kbps دون قص",
+    "redistribution_allowed": true,
+    "self_hosting_allowed": true,
+    "offline_download_allowed": true,
+    "original_file": "Beautiful_adhan.ogg",
+    "original_sha1": "a1fa4fd942401922c5c3301816384aae86956522",
+    "local_file_path": "/audio/adhan/adam-synagda.mp3",
+    "duration": 154,
+    "verification_status": "license_verified_awaiting_listening",
+    "reviewed_at": "2026-11-25",
+    "publish": true
   }
 ]

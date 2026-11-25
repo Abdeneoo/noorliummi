@@ -76,8 +76,9 @@ export async function playSound(id: string, volume = 0.9): Promise<void> {
   stopSound();
   if (id === 'silent') return;
   const s = SOUNDS.find((x) => x.id === id);
+  const local = id === LOCAL_ID ? await localAdhanUrl() : null;
   const a = getPlayer();
-  a.muted = false; a.volume = volume; a.src = id === 'chime' || !s ? chime() : s.file; a.currentTime = 0;
+  a.muted = false; a.volume = volume; a.src = local ?? (id === 'chime' || !s ? chime() : s.file); a.currentTime = 0;
   try { await a.play(); primed = true; } catch { throw new Error('audio-blocked'); }
 }
 
@@ -87,4 +88,28 @@ export async function notify(title: string, tag: string, lang: 'ar' | 'en' = 'ar
   const opts = { tag, lang, dir: lang === 'ar' ? 'rtl' : 'ltr', icon: '/icon.svg', badge: '/icon.svg' } as NotificationOptions;
   try { const reg = await navigator.serviceWorker?.getRegistration(); if (reg) { await reg.showNotification(title, opts); return; } } catch { /* fall back */ }
   try { new Notification(title, opts); } catch { /* not supported */ }
+}
+
+// ---- The user's own adhan file: stored in IndexedDB on this device only, never uploaded. ----
+const DB = 'noor-audio', STORE = 'files', LOCAL_KEY = 'local-adhan';
+export const LOCAL_ID = 'local';
+const idb = () => new Promise<IDBDatabase>((ok, no) => { const r = indexedDB.open(DB, 1); r.onupgradeneeded = () => r.result.createObjectStore(STORE); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); });
+export async function saveLocalAdhan(f: File): Promise<void> {
+  if (!f.type.startsWith('audio/') && !/\.(mp3|m4a|aac|wav|ogg|opus|webm)$/i.test(f.name)) throw new Error('not-audio');
+  if (f.size > 30 * 1024 * 1024) throw new Error('too-big');
+  const db = await idb();
+  await new Promise<void>((ok, no) => { const tx = db.transaction(STORE, 'readwrite'); tx.objectStore(STORE).put({ name: f.name, type: f.type || 'audio/mpeg', blob: f }, LOCAL_KEY); tx.oncomplete = () => ok(); tx.onerror = () => no(tx.error); });
+  localUrl = null;
+}
+export async function localAdhanInfo(): Promise<{ name: string } | null> {
+  try { const db = await idb(); return await new Promise((ok) => { const r = db.transaction(STORE).objectStore(STORE).get(LOCAL_KEY); r.onsuccess = () => ok(r.result ? { name: r.result.name } : null); r.onerror = () => ok(null); }); } catch { return null; }
+}
+export async function removeLocalAdhan(): Promise<void> {
+  const db = await idb(); await new Promise<void>((ok) => { const tx = db.transaction(STORE, 'readwrite'); tx.objectStore(STORE).delete(LOCAL_KEY); tx.oncomplete = () => ok(); tx.onerror = () => ok(); });
+  localUrl = null;
+}
+let localUrl: string | null = null;
+async function localAdhanUrl(): Promise<string | null> {
+  if (localUrl) return localUrl;
+  try { const db = await idb(); const rec = await new Promise<{ blob: Blob } | undefined>((ok) => { const r = db.transaction(STORE).objectStore(STORE).get(LOCAL_KEY); r.onsuccess = () => ok(r.result); r.onerror = () => ok(undefined); }); if (!rec) return null; localUrl = URL.createObjectURL(rec.blob); return localUrl; } catch { return null; }
 }
