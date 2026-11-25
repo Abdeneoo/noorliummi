@@ -2,7 +2,7 @@
  * Generates read-only JSON for the reader from the verbatim Tanzil XML.
  * Text is copied character-for-character; this script only changes the container format.
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseTanzilMetadata, parseTanzilText, sha256File } from '../../../packages/islamic-core/src/index';
@@ -27,3 +27,29 @@ for (const m of meta) {
   writeFileSync(`${out}/surah/${m.index}.json`, JSON.stringify({ meta: m, bismillah: rows[0].bismillah ?? null, ayat: rows.map((a) => ({ n: a.aya, t: a.text })) }));
 }
 console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (checksums verified)`);
+
+// ---- Adhkar (Hisn al-Muslim): container conversion only, text untouched ----
+{
+  const dir = resolve(here, '../../../database/sources/hisn-al-muslim');
+  const [sum] = readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/);
+  if (sha256File(`${dir}/hisn.json`) !== sum) throw new Error('Checksum mismatch for hisn.json — refusing to build');
+  const raw = JSON.parse(readFileSync(`${dir}/hisn.json`, 'utf8')) as Record<string, { Adhkar: { Text: string; Count: number; Reference?: string }[] }>;
+  const cats = Object.entries(raw).map(([title, v], i) => ({
+    id: i + 1,
+    title,
+    items: v.Adhkar.map((d, j) => ({ n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '' })),
+  }));
+  mkdirSync(`${out}/adhkar`, { recursive: true });
+  writeFileSync(`${out}/adhkar/index.json`, JSON.stringify(cats.map((c) => ({ id: c.id, title: c.title, count: c.items.length }))));
+  for (const c of cats) writeFileSync(`${out}/adhkar/${c.id}.json`, JSON.stringify(c));
+  console.log(`Adhkar JSON generated: ${cats.length} categories, ${cats.reduce((n, c) => n + c.items.length, 0)} entries`);
+}
+
+// ---- Adhan audio registry: only entries marked publish:true whose file exists ----
+{
+  const reg = JSON.parse(readFileSync(resolve(here, '../../../database/sources/adhan/registry.json'), 'utf8')) as Record<string, any>[];
+  const pub = reg.filter((r) => r.publish && r.local_file_path && existsSync(resolve(here, '../public' + r.local_file_path)) && r.redistribution_allowed && r.self_hosting_allowed)
+    .map((r) => ({ id: r.audio_id, title: r.title, by: r.copyright_holder, license: r.license_name, licenseUrl: r.license_url, source: r.source_page_url, kind: r.adhan_type, file: r.local_file_path, duration: r.duration, note: r.modification_notes || undefined }));
+  writeFileSync(`${out}/adhan-registry.json`, JSON.stringify(pub));
+  console.log(`Adhan registry: ${pub.length} published of ${reg.length} registered`);
+}

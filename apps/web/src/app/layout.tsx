@@ -3,6 +3,8 @@ import Link from 'next/link';
 import '@fontsource-variable/noto-kufi-arabic';
 import '@fontsource/amiri-quran';
 import './globals.css';
+import ThemeToggle from '@/components/ThemeToggle';
+import AdhanController from '@/components/AdhanController';
 
 export const metadata: Metadata = {
   title: { default: 'نور لأمي', template: '%s | نور لأمي' },
@@ -24,17 +26,22 @@ function Mark() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: "try{var t=localStorage.getItem('noor.theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}" }} />
+        <AdhanController />
         <a className="skip" href="#main">تخطَّ إلى المحتوى</a>
         <header className="site">
           <div className="wrap">
             <Link href="/" className="brand"><Mark />نور لأمي</Link>
             <nav className="main" aria-label="التنقل الرئيسي">
               <Link href="/">الرئيسية</Link>
-              <Link href="/quran">القرآن الكريم</Link>
+              <Link href="/quran">القرآن</Link>
+              <Link href="/adhkar">الأذكار</Link>
+              <Link href="/adhan">الأذان</Link>
               <Link href="/dedication">الإهداء</Link>
             </nav>
+            <ThemeToggle />
           </div>
         </header>
         <main id="main"><div className="wrap">{children}</div></main>
