@@ -27,6 +27,7 @@ export default async function Athar({ searchParams }: { searchParams: Promise<{ 
       <div className="athar-actions">
         <a className="btn" href="#new">اصنع صفحة لمن تحب</a>
         <MyAthar />
+        <Link className="btn ghost" href="/account">حسابي</Link>
       </div>
 
       <section className="card" aria-labelledby="dir-title">
@@ -64,7 +65,7 @@ export default async function Athar({ searchParams }: { searchParams: Promise<{ 
         <ul className="note">
           <li>اختر سورًا أو ختمة كاملة بصوت قارئ، وأذكارًا، واكتب إهداءك ودعاءك، ثم شارك الرابط.</li>
           <li>الصفحة لا تظهر في الدليل إلا إذا اخترت ذلك، ولا تظهر في محركات البحث.</li>
-          <li>يمكنك تعديلها من «صفحاتي» على هذا الجهاز، أو من رابط التعديل الذي يظهر بعد الإنشاء (احفظه لتعدّل من أي جهاز).</li>
+          <li>للتعديل من أي جهاز: ادخل إلى «حسابي» بالبريد (بلا كلمة مرور)، أو احفظ رابط التعديل الذي يظهر بعد الإنشاء.</li>
         </ul>
         <AtharForm />
       </section>

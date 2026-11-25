@@ -423,3 +423,4 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .athar-dir strong { font-family: var(--font-display); color: var(--primary); font-size: 1.1rem; } .athar-dir small { color: var(--muted); font-size: .82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .listed-opt { display: flex; gap: var(--s2); align-items: center; margin: 0 0 var(--s4); font-size: .92rem; cursor: pointer; } .listed-opt input { width: 20px; height: 20px; accent-color: var(--secondary); }
 .edit-link { margin-top: var(--s4); padding: var(--s3) var(--s4); border-radius: 12px; background: color-mix(in srgb, var(--gold) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); font-size: .9rem; } .edit-link p { margin: 0 0 var(--s2); }
+.account-card h2 { font-family: var(--font-display); }

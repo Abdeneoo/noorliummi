@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { validateAthar } from '@/lib/athar';
 import { createPage } from '@/lib/athar-store';
 import { rateLimited } from '@/lib/db';
+import { currentUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
@@ -10,6 +11,6 @@ export async function POST(req: Request) {
   if (body.website) return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 }); // honeypot
   const v = validateAthar(body);
   if (!v.ok) return NextResponse.json({ error: v.error }, { status: 400 });
-  try { return NextResponse.json(await createPage(v.value), { status: 201 }); }
+  try { const u = await currentUser(req); return NextResponse.json(await createPage(v.value, u?.id ?? null), { status: 201 }); }
   catch (e) { console.error('athar create failed', e); return NextResponse.json({ error: 'تعذّر الحفظ الآن. حاول لاحقًا.' }, { status: 503 }); }
 }

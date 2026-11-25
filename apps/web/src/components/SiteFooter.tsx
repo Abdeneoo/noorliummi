@@ -2,11 +2,11 @@ import Link from 'next/link';
 type Lang = 'ar' | 'en';
 const C = {
   ar: { tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', dua: 'صدقة جارية عن روح والدة صاحب المشروع — نسألكم لها الدعاء بالرحمة والمغفرة.', home: '/',
-    cols: [['تصفّح', [['القرآن', '/quran'], ['الصلاة والأذان', '/prayer'], ['الأذكار', '/adhkar'], ['المعرفة', '/knowledge']]], ['المزيد', [['الأدوات', '/tools'], ['الصدقة الجارية', '/sadaqah'], ['الإهداء', '/dedication'], ['English', '/en']]], ['عن الموقع', [['المصادر والتراخيص', '/sources'], ['الخصوصية والشروط', '/privacy'], ['الكود المفتوح', 'https://github.com/Abdeneoo/noorliummi']]]] as [string, [string, string][]][],
-    bottom: 'مجاني بلا إعلانات ولا حسابات · مفتوح المصدر' },
+    cols: [['تصفّح', [['القرآن', '/quran'], ['الصلاة والأذان', '/prayer'], ['الأذكار', '/adhkar'], ['المعرفة', '/knowledge']]], ['المزيد', [['الأدوات', '/tools'], ['الصدقة الجارية', '/sadaqah'], ['الإهداء', '/dedication'], ['English', '/en']]], ['عن الموقع', [['حسابي', '/account'], ['المصادر والتراخيص', '/sources'], ['الخصوصية والشروط', '/privacy'], ['الكود المفتوح', 'https://github.com/Abdeneoo/noorliummi']]]] as [string, [string, string][]][],
+    bottom: 'مجاني بلا إعلانات · الحساب اختياري · مفتوح المصدر' },
   en: { tag: 'A light that never fades, a legacy that never ends', dua: 'Sadaqah jariyah for the founder’s mother — please remember her in your prayers.', home: '/en',
     cols: [['Browse', [['Quran', '/en/quran'], ['Prayer & Adhan', '/en/prayer'], ['Adhkar', '/en/adhkar'], ['Knowledge', '/en/knowledge']]], ['More', [['Tools', '/en/tools'], ['Sadaqah Jariyah', '/en/sadaqah'], ['Dedication', '/en/dedication'], ['العربية', '/']]], ['About', [['Sources & licences', '/en/sources'], ['Privacy & terms', '/en/privacy'], ['Open source code', 'https://github.com/Abdeneoo/noorliummi']]]] as [string, [string, string][]][],
-    bottom: 'Free, no ads, no accounts · Open source' },
+    bottom: 'Free, no ads · accounts optional · Open source' },
 };
 export default function SiteFooter({ lang = 'ar' }: { lang?: Lang }) {
   const c = C[lang];

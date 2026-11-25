@@ -61,6 +61,7 @@ Environment=HOME=$APP_HOME
 EnvironmentFile=-$APP_HOME/secrets/db.env
 # Optional app secrets, e.g. SUNNAH_API_KEY=... (create the file as noor, mode 600; never commit it)
 EnvironmentFile=-$APP_HOME/secrets/app.env
+EnvironmentFile=-$APP_HOME/secrets/mail.env
 ExecStart=/usr/bin/env node node_modules/next/dist/bin/next start -p $PORT -H 127.0.0.1
 Restart=on-failure
 RestartSec=3

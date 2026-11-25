@@ -21,6 +21,7 @@
     "@noor/islamic-core": "workspace:*",
     "@noor/prayer-engine": "workspace:*",
     "next": "^15.0.0",
+    "nodemailer": "^10.6.1",
     "pg": "^8.23.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/nodemailer": "^8.0.2",
     "@types/pg": "^8.23.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

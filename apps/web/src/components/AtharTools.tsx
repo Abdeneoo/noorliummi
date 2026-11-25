@@ -11,6 +11,8 @@ export default function AtharTools({ slug, initial }: { slug: string; initial: A
     const m = location.hash.match(/^#k=([a-f0-9]{64})$/);
     if (m) { rememberPage(slug, initial.display_name, m[1]); history.replaceState(null, '', location.pathname); }
     const mine = !!readMine()[slug]; setOwner(mine); if (mine) rememberPage(slug, initial.display_name);
+    // Signed-in owners can edit from any device without the edit link.
+    if (!mine) void fetch('/api/account', { cache: 'no-store' }).then((r) => r.json()).then((j) => { if ((j.pages ?? []).some((p: { slug: string }) => p.slug === slug)) setOwner(true); }).catch(() => undefined);
   }, [slug, initial.display_name]);
 
   const del = async () => {
@@ -27,7 +29,7 @@ export default function AtharTools({ slug, initial }: { slug: string; initial: A
 
   return (
     <div className="athar-tools">
-      {owner && !edit && <div className="row"><button type="button" className="btn ghost" onClick={() => setEdit(true)}>تعديل</button><button type="button" className="btn ghost" onClick={() => { navigator.clipboard?.writeText(editLink(slug, readMine()[slug])); setMsg('نُسخ رابط التعديل. احفظه في مكان آمن ولا تشاركه.'); }}>نسخ رابط التعديل</button><button type="button" className="btn ghost" onClick={del}>حذف الصفحة</button></div>}
+      {owner && !edit && <div className="row"><button type="button" className="btn ghost" onClick={() => setEdit(true)}>تعديل</button>{readMine()[slug] && <button type="button" className="btn ghost" onClick={() => { navigator.clipboard?.writeText(editLink(slug, readMine()[slug])); setMsg('نُسخ رابط التعديل. احفظه في مكان آمن ولا تشاركه.'); }}>نسخ رابط التعديل</button>}<button type="button" className="btn ghost" onClick={del}>حذف الصفحة</button></div>}
       {owner && edit && <AtharForm slug={slug} initial={initial} onDone={() => location.reload()} />}
       {!owner && !rep && <button type="button" className="btn ghost small" onClick={() => setRep(true)}>الإبلاغ عن محتوى غير لائق</button>}
       {rep && (

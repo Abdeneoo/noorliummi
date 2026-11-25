@@ -62,6 +62,7 @@ export function SiteHeader({ lang }: { lang: Lang }) {
             <div className="nav-menu">
               {NAV[lang].slice(5).map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}><Icon name={it.icon} />{it.label}</Link>)}
               <Link href={ar ? '/sources' : '/en/sources'}><Icon name="hadith" />{ar ? 'المصادر والتراخيص' : 'Sources & licences'}</Link>
+              <Link href="/account"><Icon name="heart" />{ar ? 'حسابي' : 'My account (Arabic)'}</Link>
             </div>
           </details>
         </nav>
@@ -91,6 +92,7 @@ export function TabBar({ lang }: { lang: Lang }) {
         <div className="more-sheet">
           {rest.map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}><Icon name={it.icon} />{it.label}</Link>)}
           <Link href={lang === 'ar' ? '/sources' : '/en/sources'}><Icon name="hadith" />{lang === 'ar' ? 'المصادر' : 'Sources'}</Link>
+          <Link href="/account"><Icon name="heart" />{lang === 'ar' ? 'حسابي' : 'Account'}</Link>
           <Link href={lang === 'ar' ? '/en' : '/'} lang={lang === 'ar' ? 'en' : 'ar'}><Icon name="globe" />{lang === 'ar' ? 'English' : 'العربية'}</Link>
         </div>
       </details>

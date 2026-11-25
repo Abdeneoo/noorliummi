@@ -4,15 +4,15 @@ import { FREEZE_AT, hashToken, newSlug, newToken, type AtharInput, type AtharIte
 
 export interface AtharPage { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: 'active' | 'frozen'; listed: boolean; items: AtharItem[] }
 
-export async function createPage(v: AtharInput): Promise<{ slug: string; token: string }> {
+export async function createPage(v: AtharInput, ownerId: number | null = null): Promise<{ slug: string; token: string }> {
   const token = newToken(); const c = await db().connect();
   try {
     await c.query('BEGIN');
     for (let attempt = 0; ; attempt++) {
       const slug = newSlug();
       const r = await c.query<{ id: string }>(
-        'INSERT INTO memorial_pages (slug, display_name, dedication, dua_text, edit_token_hash, visibility) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT (slug) DO NOTHING RETURNING id',
-        [slug, v.display_name, v.dedication, v.dua_text, hashToken(token), v.listed ? 'listed' : 'unlisted']);
+        'INSERT INTO memorial_pages (slug, display_name, dedication, dua_text, edit_token_hash, visibility, owner_id) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (slug) DO NOTHING RETURNING id',
+        [slug, v.display_name, v.dedication, v.dua_text, hashToken(token), v.listed ? 'listed' : 'unlisted', ownerId]);
       if (r.rowCount) { await writeItems(c, Number(r.rows[0].id), v.items); await c.query('COMMIT'); return { slug, token }; }
       if (attempt > 4) throw new Error('slug collision');
     }
@@ -33,20 +33,20 @@ export async function getPage(slug: string): Promise<AtharPage | null> {
 }
 
 /** Owner actions need the edit token; returns false if slug/token do not match. */
-export async function updatePage(slug: string, token: string, v: AtharInput): Promise<boolean> {
+export async function updatePage(slug: string, token: string, v: AtharInput, ownerId: number | null = null): Promise<boolean> {
   const c = await db().connect();
   try {
     await c.query('BEGIN');
-    const r = await c.query<{ id: string }>("UPDATE memorial_pages SET display_name=$3, dedication=$4, dua_text=$5, visibility=$6, updated_at=now() WHERE slug=$1 AND edit_token_hash=$2 AND status <> 'removed' RETURNING id",
-      [slug, hashToken(token), v.display_name, v.dedication, v.dua_text, v.listed ? 'listed' : 'unlisted']);
+    const r = await c.query<{ id: string }>("UPDATE memorial_pages SET display_name=$3, dedication=$4, dua_text=$5, visibility=$6, updated_at=now() WHERE slug=$1 AND (edit_token_hash=$2 OR (owner_id IS NOT NULL AND owner_id=$7)) AND status <> 'removed' RETURNING id",
+      [slug, hashToken(token), v.display_name, v.dedication, v.dua_text, v.listed ? 'listed' : 'unlisted', ownerId]);
     if (!r.rowCount) { await c.query('ROLLBACK'); return false; }
     await writeItems(c, Number(r.rows[0].id), v.items); await c.query('COMMIT'); return true;
   } catch (e) { await c.query('ROLLBACK'); throw e; } finally { c.release(); }
 }
 
 /** Deletion clears the text immediately (privacy) and hides the page. */
-export async function deletePage(slug: string, token: string): Promise<boolean> {
-  const r = await db().query("UPDATE memorial_pages SET status='removed', display_name='-', dedication='', dua_text='', deleted_at=now(), updated_at=now() WHERE slug=$1 AND edit_token_hash=$2 AND status <> 'removed' RETURNING id", [slug, hashToken(token)]);
+export async function deletePage(slug: string, token: string, ownerId: number | null = null): Promise<boolean> {
+  const r = await db().query("UPDATE memorial_pages SET status='removed', display_name='-', dedication='', dua_text='', owner_id=NULL, deleted_at=now(), updated_at=now() WHERE slug=$1 AND (edit_token_hash=$2 OR (owner_id IS NOT NULL AND owner_id=$3)) AND status <> 'removed' RETURNING id", [slug, hashToken(token), ownerId]);
   if (r.rowCount) await db().query('DELETE FROM memorial_page_content WHERE page_id = $1', [r.rows[0].id]);
   return !!r.rowCount;
 }
@@ -100,4 +100,23 @@ export async function listPages(q: string, page = 0): Promise<{ rows: ListedPage
      WHERE visibility = 'listed' AND status = 'active' AND ($1 = '' OR display_name ILIKE '%' || $1 || '%')
      ORDER BY created_at DESC LIMIT $2 OFFSET $3`, [q, per + 1, page * per]);
   return { rows: r.rows.slice(0, per), more: r.rows.length > per };
+}
+
+/** Pages owned by an account. */
+export async function ownedPages(ownerId: number): Promise<{ slug: string; display_name: string; listed: boolean; status: string }[]> {
+  const r = await db().query("SELECT slug, display_name, visibility = 'listed' AS listed, status FROM memorial_pages WHERE owner_id = $1 AND status <> 'removed' ORDER BY created_at DESC", [ownerId]);
+  return r.rows;
+}
+/** Links pages to an account when the caller proves ownership with each page's edit token. */
+export async function claimPages(ownerId: number, pairs: { slug: string; token: string }[]): Promise<number> {
+  let n = 0;
+  for (const p of pairs.slice(0, 50)) {
+    const r = await db().query("UPDATE memorial_pages SET owner_id = $1 WHERE slug = $2 AND edit_token_hash = $3 AND status <> 'removed' AND (owner_id IS NULL OR owner_id = $1)", [ownerId, p.slug, hashToken(p.token)]);
+    n += r.rowCount ?? 0;
+  }
+  return n;
+}
+export async function isOwner(slug: string, ownerId: number): Promise<boolean> {
+  const r = await db().query("SELECT 1 FROM memorial_pages WHERE slug = $1 AND owner_id = $2 AND status <> 'removed'", [slug, ownerId]);
+  return !!r.rowCount;
 }
