@@ -1,4 +1,5 @@
 'use client';
+import { logDay } from '@/lib/daylog';
 import { useEffect, useRef, useState } from 'react';
 import type { Dhikr } from '@/lib/adhkar';
 import ShareImageButton from './ShareImageButton';
@@ -23,6 +24,7 @@ export default function DhikrList({ catId, items, lang = 'ar' }: { catId: number
     if (cur >= d.c) return;
     if (cur + 1 === d.c && 'vibrate' in navigator) navigator.vibrate?.(30);
     save({ ...done, [d.n]: cur + 1 });
+    if (cur + 1 === d.c && items.every((x) => x.n === d.n || (done[x.n] ?? 0) >= x.c)) logDay('a');
     // When a dhikr is completed, move to the next unfinished one so the reader need not look for it.
     if (cur + 1 === d.c) {
       const next = items.find((x) => x.n !== d.n && (done[x.n] ?? 0) < x.c && x.n > d.n) ?? items.find((x) => x.n !== d.n && (done[x.n] ?? 0) < x.c);

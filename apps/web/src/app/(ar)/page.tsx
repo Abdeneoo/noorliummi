@@ -4,6 +4,7 @@ import HomeCover from '@/components/HomeCover';
 import Tiles from '@/components/Tiles';
 import Reveal from '@/components/Reveal';
 import Tasbeeh from '@/components/Tasbeeh';
+import SeasonCard from '@/components/SeasonCard';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
     <>
       <HomeCover />
       <div className="lift reveal"><PrayerCard /></div>
+      <SeasonCard />
 
       <div className="duo section reveal">
         <ContinueReading />

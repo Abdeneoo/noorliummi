@@ -1,4 +1,5 @@
 'use client';
+import { logDay } from '@/lib/daylog';
 import { useEffect, useState } from 'react';
 import { recordActivity } from './Lantern';
 
@@ -44,7 +45,7 @@ export default function Tasbeeh({ lang = 'ar', storeKey = 'home', compact = fals
   useEffect(() => { try { const v = JSON.parse(localStorage.getItem(KEY) || 'null'); if (v) { setI(v.i ?? 0); setN(v.n ?? 0); setTarget(v.t ?? 33); } } catch { /* ignore */ } }, [KEY]);
   const save = (ni: number, nn: number, nt: number) => { try { localStorage.setItem(KEY, JSON.stringify({ i: ni, n: nn, t: nt })); } catch { /* ignore */ } };
   const tap = () => {
-    const nn = n + 1; setN(nn); setPulse((p) => p + 1); save(i, nn, target);
+    const nn = n + 1; setN(nn); setPulse((p) => p + 1); save(i, nn, target); logDay('t');
     try { if ((target && nn % target === 0) || nn % 100 === 0) navigator.vibrate?.([60, 40, 60]); else if (nn % 33 === 0) navigator.vibrate?.(40); else navigator.vibrate?.(8); } catch { /* ignore */ }
     if (rec && nn % 33 === 0) void recordActivity(rec, 'tasbeeh');
   };

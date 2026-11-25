@@ -13,7 +13,7 @@ type Item = { t: string; label: string; src?: string };
 const START = SURAHS.reduce<number[]>((a, s, i) => { a.push(i === 0 ? 1 : a[i - 1] + SURAHS[i - 1].ayas); return a; }, []);
 const AYAH_RECITERS = RECITERS.map((r, i) => ({ ...r, i })).filter((r) => r.mode === 'ayah');
 
-export default function Sakina({ surah, adhkar }: { surah?: number; adhkar?: { t: string; c: number; a?: string }[] }) {
+export default function Sakina({ surah, adhkar, back }: { surah?: number; adhkar?: { t: string; c: number; a?: string }[]; back?: string }) {
   const [items, setItems] = useState<Item[]>([]); const [i, setI] = useState(0); const [playing, setPlaying] = useState(false);
   const [rec, setRec] = useState(AYAH_RECITERS.find((r) => r.id === 'ar.minshawi')?.i ?? AYAH_RECITERS[0].i);
   const [left, setLeft] = useState<number | null>(null); const [asleep, setAsleep] = useState(false); const [size, setSize] = useState(1);
@@ -49,7 +49,7 @@ export default function Sakina({ surah, adhkar }: { surah?: number; adhkar?: { t
   return (
     <div className={`sakina${asleep ? ' asleep' : ''}`} style={{ ['--sk' as string]: size }} onClick={() => asleep && setAsleep(false)}>
       <div className="sk-top">
-        <Link href={adhkar ? '/adhkar/29' : `/quran/${surah ?? 67}`} className="sk-x" aria-label="خروج من وضع السكينة">✕</Link>
+        <Link href={back ?? (adhkar ? '/adhkar/29' : `/quran/${surah ?? 67}`)} className="sk-x" aria-label="خروج من وضع السكينة">✕</Link>
         <div className="sk-zoom"><button type="button" onClick={() => zoom(-.1)} aria-label="تصغير الخط">ا-</button><button type="button" onClick={() => zoom(.1)} aria-label="تكبير الخط">ا+</button></div>
       </div>
       {cur ? <>

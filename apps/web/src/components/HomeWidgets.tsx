@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { logDay } from '@/lib/daylog';
 import { useEffect, useState } from 'react';
 import { SURAHS, arDigits } from '@/lib/quran';
 import Icon from './Icon';
@@ -10,7 +11,7 @@ const KEY = 'noor.lastRead';
 
 /** Records the surah being read (device only) so the home page can offer "continue reading". */
 export function LastRead({ surah }: { surah: number }) {
-  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ s: surah, t: Date.now() })); } catch { /* ignore */ } }, [surah]);
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ s: surah, t: Date.now() })); } catch { /* ignore */ } logDay('q'); }, [surah]);
   return null;
 }
 

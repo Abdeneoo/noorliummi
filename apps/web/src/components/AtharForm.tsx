@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import surahs from '@/generated/surahs.json';
 import adhkar from '@/generated/adhkar/index.json';
 import { RECITERS } from '@/lib/reciters';
@@ -24,6 +24,12 @@ const label = (it: Item) => (it.kind === 'surah' ? `سورة ${S[it.ref - 1]?.na
 export default function AtharForm({ initial, slug, onDone }: { initial?: AtharInitial; slug?: string; onDone?: () => void }) {
   const [f, setF] = useState<AtharInitial>(initial ?? { display_name: '', dedication: '', dua_text: '', items: [{ kind: 'surah', ref: 1 }, { kind: 'surah', ref: 36 }], listed: false });
   const [pickS, setPickS] = useState(112); const [pickA, setPickA] = useState(A[0]?.id ?? 1); const [pickR, setPickR] = useState(0);
+  // «أضف هذا الدعاء إلى صفحة أثر» from the dua library: /athar?add=dhikr:56#new
+  useEffect(() => {
+    if (initial) return;
+    const m = new URLSearchParams(location.search).get('add')?.match(/^(dhikr|surah):(\d{1,3})$/);
+    if (m) { const it = { kind: m[1] as 'dhikr' | 'surah', ref: Number(m[2]) }; setF((v) => v.items.some((x) => x.kind === it.kind && x.ref === it.ref) ? v : { ...v, items: [...v.items, it].slice(0, 10) }); }
+  }, [initial]);
   const [busy, setBusy] = useState(false); const [err, setErr] = useState(''); const [made, setMade] = useState<string | null>(null); const [tok, setTok] = useState('');
   const add = (it: Item) => setF((p) => (p.items.length >= 10 || p.items.some((x) => x.kind === it.kind && x.ref === it.ref) ? p : { ...p, items: [...p.items, it] }));
 

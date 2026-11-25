@@ -12,6 +12,7 @@ export default async function Sadaqah() {
       items={[
         { href: '/dedication', icon: 'heart', title: 'الإهداء', desc: 'إلى أمي الغالية.' },
         { href: '/athar', icon: 'sadaqah', title: 'صفحات الأثر', desc: 'الدليل، واصنع صفحة لمن تحب: سور وأذكار ودعاء.' },
+        { href: '/duas', icon: 'adhkar', title: 'أدعية موثّقة للإهداء', desc: 'للمتوفى والوالدين والمريض، من القرآن وحصن المسلم.' },
         { href: '/adhkar/56', icon: 'adhkar', title: 'الدعاء للميت', desc: 'من حصن المسلم.' },
         { href: '/adhkar/61', icon: 'adhkar', title: 'دعاء زيارة القبور', desc: 'من حصن المسلم.' },
         { href: '/quran/36', icon: 'quran', title: 'سورة يس', desc: 'اقرأ واستمع.' },
