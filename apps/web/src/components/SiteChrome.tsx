@@ -17,7 +17,7 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/adhkar', label: 'الأذكار', icon: 'adhkar', match: ['/adhkar'] },
     { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat'] },
     { href: '/sadaqah', label: 'الصدقة الجارية', icon: 'sadaqah', match: ['/sadaqah', '/dedication', '/athar'] },
-    { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz'] },
+    { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz', '/tasbeeh'] },
   ],
   en: [
     { href: '/en', label: 'Home', icon: 'home' },
@@ -26,7 +26,7 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/en/adhkar', label: 'Adhkar', icon: 'adhkar', match: ['/en/adhkar'] },
     { href: '/en/knowledge', label: 'Knowledge', icon: 'knowledge', match: ['/en/knowledge', '/en/names'] },
     { href: '/en/sadaqah', label: 'Sadaqah Jariyah', icon: 'sadaqah', match: ['/en/sadaqah', '/en/dedication'] },
-    { href: '/en/tools', label: 'Tools', icon: 'tools', match: ['/en/tools', '/en/hifz'] },
+    { href: '/en/tools', label: 'Tools', icon: 'tools', match: ['/en/tools', '/en/hifz', '/en/tasbeeh'] },
   ],
 };
 const SHORT: Record<Lang, Record<string, string>> = {

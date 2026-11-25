@@ -1,8 +1,9 @@
 /** Validation for athar (sadaqah-jariyah) pages. Pure functions: no I/O, unit-tested. */
 import { createHash, randomBytes } from 'node:crypto';
 import adhkarIndex from '@/generated/adhkar/index.json';
+import { RECITERS } from '@/lib/reciters';
 
-export interface AtharItem { kind: 'surah' | 'dhikr'; ref: number }
+export interface AtharItem { kind: 'surah' | 'dhikr' | 'reciter'; ref: number }
 export interface AtharInput { display_name: string; dedication: string; dua_text: string; items: AtharItem[] }
 export const LIMITS = { name: 80, dedication: 300, dua: 1000, items: 10, reason: 300 } as const;
 const DHIKR_IDS = new Set((adhkarIndex as { id: number }[]).map((c) => c.id));
@@ -31,6 +32,7 @@ export function validateAthar(body: unknown): Result<AtharInput> {
     const kind = it?.kind; const ref = Number(it?.ref);
     if (kind === 'surah' && Number.isInteger(ref) && ref >= 1 && ref <= 114) { /* ok */ }
     else if (kind === 'dhikr' && DHIKR_IDS.has(ref)) { /* ok */ }
+    else if (kind === 'reciter' && Number.isInteger(ref) && ref >= 0 && ref < RECITERS.length) { if (items.some((x) => x.kind === 'reciter')) return { ok: false, error: 'يمكن اختيار قارئ واحد للختمة.' }; }
     else return { ok: false, error: 'عنصر غير صالح في قائمة القراءة.' };
     const k = `${kind}:${ref}`; if (!seen.has(k)) { seen.add(k); items.push({ kind, ref }); }
   }

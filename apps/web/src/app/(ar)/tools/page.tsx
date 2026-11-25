@@ -5,6 +5,7 @@ export default function Tools() {
   return (
     <Hub eyebrow="الأدوات" title="أدوات يومية" intro="كل الأدوات تعمل على جهازك، وبياناتك تبقى عندك."
       items={[
+        { href: '/tasbeeh', icon: 'adhkar', title: 'عدّاد التسبيح', desc: 'سبّح واحسب بلمسة، مع هدف ٣٣ أو ١٠٠.' },
         { href: '/hifz', icon: 'hifz', title: 'الحفظ والمراجعة', desc: 'مراجعة متباعدة لما تحفظه من القرآن.' },
         { href: '/times', icon: 'compass', title: 'القبلة', desc: 'بوصلة القبلة واتجاهها من موقعك.' },
         { href: '/adhan', icon: 'bell', title: 'الأذان والتنبيه', desc: 'اختيار صوت الأذان وتنبيهات الصلاة.' },

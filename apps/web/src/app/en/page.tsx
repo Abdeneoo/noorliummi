@@ -4,6 +4,7 @@ import PrayerCard from '@/components/PrayerCard';
 import HomeCover from '@/components/HomeCover';
 import Tiles from '@/components/Tiles';
 import Reveal from '@/components/Reveal';
+import Tasbeeh from '@/components/Tasbeeh';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 export const metadata: Metadata = { title: 'Home' };
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <HomeCover lang="en" />
       <div className="lift reveal"><PrayerCard lang="en" /></div>
       <div className="duo section reveal"><ContinueReading lang="en" /><TodayAdhkar lang="en" /></div>
+      <div className="section reveal tas-home"><Tasbeeh lang="en" /></div>
       <section className="section reveal" aria-labelledby="sections-title">
         <div className="section-head"><h2 id="sections-title">Explore</h2><Link href="/en/knowledge">All sections</Link></div>
         <Tiles items={[

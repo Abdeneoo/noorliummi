@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { DEFAULT_PREFS, LOCAL_ID, PRAYER_AR, PRAYER_LIST, SOUNDS, loadPrayerSettings, loadPrefs, localAdhanInfo, playSound, removeLocalAdhan, saveLocalAdhan, savePrefs, soundsFor, stopSound, type AdhanPrefs, type Prayer } from '@/lib/adhan';
+import AdhanLibrary from './AdhanLibrary';
+import { DEFAULT_PREFS, LOCAL_ID, PRAYER_AR, PRAYER_LIST, SOUNDS, loadPrayerSettings, loadPrefs, localAdhanInfo, playSound, removeLocalAdhan, saveLocalAdhan, listLocal, fmtDur, type LocalAdhan, savePrefs, soundsFor, stopSound, type AdhanPrefs, type Prayer } from '@/lib/adhan';
 
 const PRAYER_EN: Record<Prayer, string> = { fajr: 'Fajr', dhuhr: 'Dhuhr', asr: 'Asr', maghrib: 'Maghrib', isha: 'Isha' };
 const L = {
@@ -47,6 +48,8 @@ export default function AdhanSettings({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
   const [hasCity, setHasCity] = useState(true);
   const [mine, setMine] = useState<{ name: string } | null>(null);
   useEffect(() => { void localAdhanInfo().then(setMine); }, []);
+  const [lib, setLib] = useState<LocalAdhan[]>([]);
+  useEffect(() => { const r = () => void listLocal().then(setLib); r(); window.addEventListener('noor:adhan-lib', r); return () => window.removeEventListener('noor:adhan-lib', r); }, []);
   const pickFile = async (f?: File) => {
     if (!f) return; setMsg('');
     try { await saveLocalAdhan(f); setMine({ name: f.name }); update({ ...prefs, sound: { fajr: LOCAL_ID, dhuhr: LOCAL_ID, asr: LOCAL_ID, maghrib: LOCAL_ID, isha: LOCAL_ID } }); setMsg(t.saved); }
@@ -104,7 +107,8 @@ export default function AdhanSettings({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
             <div className="field"><label htmlFor={`s-${p}`}>{t.prayer(p)}</label>
               <select id={`s-${p}`} value={prefs.sound[p]} onChange={(e) => update({ ...prefs, sound: { ...prefs.sound, [p]: e.target.value } })}>
                 {mine && <option value={LOCAL_ID}>{t.mineOpt(mine.name)}</option>}
-                {soundsFor(p).map((s) => <option key={s.id} value={s.id}>{lang === 'en' ? `Adhan — ${s.by}` : s.title}</option>)}
+                {soundsFor(p).map((s) => <option key={s.id} value={s.id}>{lang === 'en' ? `Adhan — ${s.by}` : s.title} ({fmtDur(s.duration)})</option>)}
+                {lib.length > 0 && <optgroup label={lang === 'en' ? 'On my device' : 'من جهازي'}>{lib.map((x) => <option key={x.id} value={x.id}>{x.title}{x.duration ? ` (${fmtDur(x.duration)})` : ''}</option>)}</optgroup>}
                 <option value="chime">{t.chime}</option>
                 <option value="silent">{t.silent}</option>
               </select></div>
@@ -113,7 +117,9 @@ export default function AdhanSettings({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
         ))}
       </section>
 
-      <section className="card">
+      <AdhanLibrary lang={lang} prefs={prefs} update={update} />
+
+      {mine && <section className="card">
         <h2>{t.mine}</h2>
         <p style={{ margin: '0 0 12px', color: 'var(--muted)' }}>{t.mineNote}</p>
         {mine && <p className="note">{t.mineName(mine.name)}</p>}
@@ -122,7 +128,7 @@ export default function AdhanSettings({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
           {mine && <button type="button" className="btn ghost" onClick={() => update({ ...prefs, sound: { fajr: LOCAL_ID, dhuhr: LOCAL_ID, asr: LOCAL_ID, maghrib: LOCAL_ID, isha: LOCAL_ID } })}>{t.useAll}</button>}
           {mine && <button type="button" className="btn ghost" onClick={async () => { await removeLocalAdhan(); setMine(null); const d = DEFAULT_PREFS.sound; update({ ...prefs, sound: Object.fromEntries(PRAYER_LIST.map((k) => [k, prefs.sound[k] === LOCAL_ID ? d[k] : prefs.sound[k]])) as AdhanPrefs['sound'] }); }}>{t.removeMine}</button>}
         </div>
-      </section>
+      </section>}
 
       <section className="card">
         <h2>{t.kiosk}</h2>

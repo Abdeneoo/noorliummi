@@ -28,7 +28,7 @@ export async function getPage(slug: string): Promise<AtharPage | null> {
   const r = await db().query("SELECT id, slug, display_name, dedication, dua_text, status FROM memorial_pages WHERE slug = $1 AND status <> 'removed'", [slug]);
   if (!r.rowCount) return null;
   const p = r.rows[0];
-  const items = await db().query<{ kind: 'surah' | 'dhikr'; ref: number }>('SELECT kind, ref FROM memorial_page_content WHERE page_id = $1 ORDER BY sort', [p.id]);
+  const items = await db().query<{ kind: 'surah' | 'dhikr' | 'reciter'; ref: number }>('SELECT kind, ref FROM memorial_page_content WHERE page_id = $1 ORDER BY sort', [p.id]);
   return { ...p, id: Number(p.id), items: items.rows };
 }
 

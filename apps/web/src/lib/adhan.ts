@@ -5,7 +5,7 @@ export type Prayer = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';
 export const PRAYER_AR: Record<Prayer, string> = { fajr: 'الفجر', dhuhr: 'الظهر', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' };
 export const PRAYER_LIST: Prayer[] = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 
-export interface AdhanSound { id: string; title: string; by: string; license: string; licenseUrl: string; source: string; kind: 'fajr' | 'regular'; file: string; duration: number; note?: string }
+export interface AdhanSound { id: string; title: string; by: string; license: string; licenseUrl: string; source: string; kind: 'fajr' | 'regular'; file: string; duration: number; note?: string; groups?: string[] }
 export const SOUNDS = registry as AdhanSound[];
 /** Built-in choices that need no audio file. */
 export const BUILTIN = [{ id: 'chime', title: 'نغمة تنبيه هادئة' }, { id: 'silent', title: 'إشعار صامت فقط' }] as const;
@@ -76,7 +76,7 @@ export async function playSound(id: string, volume = 0.9): Promise<void> {
   stopSound();
   if (id === 'silent') return;
   const s = SOUNDS.find((x) => x.id === id);
-  const local = id === LOCAL_ID ? await localAdhanUrl() : null;
+  const local = id === LOCAL_ID ? await localAdhanUrl() : id.startsWith('local:') ? await libUrl(id) : null;
   const a = getPlayer();
   a.muted = false; a.volume = volume; a.src = local ?? (id === 'chime' || !s ? chime() : s.file); a.currentTime = 0;
   try { await a.play(); primed = true; } catch { throw new Error('audio-blocked'); }
@@ -113,3 +113,70 @@ async function localAdhanUrl(): Promise<string | null> {
   if (localUrl) return localUrl;
   try { const db = await idb(); const rec = await new Promise<{ blob: Blob } | undefined>((ok) => { const r = db.transaction(STORE).objectStore(STORE).get(LOCAL_KEY); r.onsuccess = () => ok(r.result); r.onerror = () => ok(undefined); }); if (!rec) return null; localUrl = URL.createObjectURL(rec.blob); return localUrl; } catch { return null; }
 }
+
+
+// ---- The user's own adhan library (many files): IndexedDB on this device only, never uploaded. ----
+export interface LocalAdhan { id: string; name: string; title: string; size: number; duration: number | null; sha: string; match?: string }
+export interface CatalogueItem { id: string; c: string; f: string; sha: string | null; d: number | null; t: { ar: string | null; en: string }; m: { ar: string | null; en: string } | null; p: { ar: string | null; en: string | null } | null; co: { code: string; ar: string; en: string } | null; g: string[]; s: 'pending' | 'rejected' | 'approved'; r: string[]; fl: string[]; o: string | null }
+let catalogue: CatalogueItem[] | null = null;
+export async function loadCatalogue(): Promise<CatalogueItem[]> { return (catalogue ??= (await import('@/generated/adhan-catalogue.json')).default as CatalogueItem[]); }
+const hex = (b: ArrayBuffer) => [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, '0')).join('');
+const durationOf = (blob: Blob) => new Promise<number | null>((ok) => {
+  const a = new Audio(); const u = URL.createObjectURL(blob); const done = (v: number | null) => { URL.revokeObjectURL(u); ok(v); };
+  a.preload = 'metadata'; a.onloadedmetadata = () => done(Number.isFinite(a.duration) ? Math.round(a.duration) : null); a.onerror = () => done(null); a.src = u;
+  setTimeout(() => done(null), 8000);
+});
+const isAudio = (f: File) => f.type.startsWith('audio/') || /\.(mp3|m4a|aac|wav|ogg|oga|opus|webm|flac)$/i.test(f.name);
+/** Adds files to the device library; recognises recordings of the public collections by their exact bytes (SHA-256). */
+export async function addLocalFiles(files: File[], onProgress?: (done: number, total: number) => void): Promise<{ added: number; matched: number; skipped: number; quota: boolean }> {
+  const cat = await loadCatalogue().catch(() => [] as CatalogueItem[]);
+  const bySha = new Map(cat.filter((c) => c.sha).map((c) => [c.sha as string, c]));
+  const db = await idb();
+  let added = 0, matched = 0, skipped = 0, quota = false;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    if (!isAudio(f) || f.size > 40 * 1024 * 1024) { skipped++; onProgress?.(i + 1, files.length); continue; }
+    const sha = hex(await crypto.subtle.digest('SHA-256', await f.arrayBuffer()));
+    const id = 'local:' + sha.slice(0, 16);
+    const duration = await durationOf(f);
+    const hit = bySha.get(sha); const match = hit?.id;
+    const title = hit ? (hit.t.ar ?? hit.t.en) : f.name.replace(/\.[a-z0-9]+$/i, '').replace(/_/g, ' ');
+    try {
+      await new Promise<void>((ok, no) => { const tx = db.transaction(STORE, 'readwrite'); tx.objectStore(STORE).put({ name: f.name, title, type: f.type || 'audio/mpeg', blob: f, size: f.size, sha, duration, match }, id); tx.oncomplete = () => ok(); tx.onerror = () => no(tx.error); tx.onabort = () => no(tx.error); });
+      added++; if (match) matched++;
+    } catch (e) { if ((e as DOMException)?.name === 'QuotaExceededError') { quota = true; break; } skipped++; }
+    onProgress?.(i + 1, files.length);
+  }
+  return { added, matched, skipped, quota };
+}
+export async function listLocal(): Promise<LocalAdhan[]> {
+  try {
+    const db = await idb();
+    return await new Promise((ok) => {
+      const out: LocalAdhan[] = []; const r = db.transaction(STORE).objectStore(STORE).openCursor();
+      r.onsuccess = () => { const c = r.result; if (!c) return ok(out); const k = String(c.key); const v = c.value; if (k.startsWith('local:')) out.push({ id: k, name: v.name, title: v.title ?? v.name, size: v.size, duration: v.duration ?? null, sha: v.sha, match: v.match }); c.continue(); };
+      r.onerror = () => ok(out);
+    });
+  } catch { return []; }
+}
+export async function removeLocal(id: string): Promise<void> {
+  const db = await idb(); await new Promise<void>((ok) => { const tx = db.transaction(STORE, 'readwrite'); tx.objectStore(STORE).delete(id); tx.oncomplete = () => ok(); tx.onerror = () => ok(); });
+  const u = libUrls.get(id); if (u) { URL.revokeObjectURL(u); libUrls.delete(id); }
+}
+const libUrls = new Map<string, string>();
+async function libUrl(id: string): Promise<string | null> {
+  const hit = libUrls.get(id); if (hit) return hit;
+  try { const db = await idb(); const rec = await new Promise<{ blob: Blob } | undefined>((ok) => { const r = db.transaction(STORE).objectStore(STORE).get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ok(undefined); }); if (!rec) return null; const u = URL.createObjectURL(rec.blob); libUrls.set(id, u); return u; } catch { return null; }
+}
+
+// ---- Favourites (device only) ----
+const FAV = 'noor.adhan.fav';
+export function loadFavs(): string[] { try { return JSON.parse(localStorage.getItem(FAV) || '[]'); } catch { return []; } }
+export function toggleFav(id: string): string[] { const f = loadFavs(); const n = f.includes(id) ? f.filter((x) => x !== id) : [...f, id]; try { localStorage.setItem(FAV, JSON.stringify(n)); } catch { /* ignore */ } return n; }
+
+// ---- Offline copies of published recordings (Cache Storage; the service worker serves them) ----
+export const AUDIO_CACHE = 'noor-adhan-audio';
+export async function cacheOffline(file: string): Promise<boolean> { try { const c = await caches.open(AUDIO_CACHE); await c.add(file); return true; } catch { return false; } }
+export async function isOffline(file: string): Promise<boolean> { try { const c = await caches.open(AUDIO_CACHE); return !!(await c.match(file)); } catch { return false; } }
+export async function dropOffline(file: string): Promise<void> { try { const c = await caches.open(AUDIO_CACHE); await c.delete(file); } catch { /* ignore */ } }
+export const fmtDur = (s: number | null | undefined) => (s == null ? '' : `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`);

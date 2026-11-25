@@ -300,3 +300,45 @@ main > .wrap > * { animation: fadeIn .5s ease both; }
 .cover-dedication .ded-first { font-family: var(--font-calligraphic); font-size: clamp(1.35rem, 2.6vw, 1.7rem); color: #F8F6F0; font-weight: 400; line-height: 1.7; }
 .cover-dedication .ded-dua { margin: var(--s3) 0 0; padding-top: var(--s3); border-top: 1px solid rgba(198, 166, 107, .25); font-family: var(--font-calligraphic); font-size: 1.15rem; color: #E9D9B4; font-weight: 400; }
 @media (min-width: 900px) { .cover-dedication { margin: var(--s2) 0 0; text-align: start; } }
+
+/* ---------- adhan library ---------- */
+.lib-tools { display: grid; gap: var(--s3); margin: var(--s4) 0; } .lib-tools .search { margin: 0; }
+.lib-groups { margin: 0; } .lib-groups button { display: inline-flex; align-items: center; min-height: 38px; padding: 4px 14px; border-radius: var(--radius-pill); border: 0; background: var(--tint); color: var(--text); font-size: .88rem; cursor: pointer; }
+.lib-groups button.on { background: var(--primary); color: var(--on-primary); }
+.lib-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); max-height: 560px; overflow: auto; }
+.lib-list li { display: grid; grid-template-columns: auto 1fr auto auto; grid-template-areas: 'play meta dur fav' 'play use use use'; align-items: center; gap: 6px var(--s3); padding: var(--s3); border-radius: 16px; background: var(--bg); transition: background-color .2s; }
+.lib-list li > select { grid-area: use; min-height: 38px; padding: 4px 10px; font-size: .88rem; }
+.lib-list li > .btn { grid-column: 2 / -1; justify-self: start; }
+@media (min-width: 720px) { .lib-list li { grid-template-columns: auto 1fr auto auto 170px auto; grid-template-areas: 'play meta dur fav use act'; } .lib-list li > select { grid-area: use; } .lib-list li > .btn { grid-area: act; grid-column: auto; } }
+.lib-list li.playing { background: color-mix(in srgb, var(--gold) 18%, var(--bg)); }
+.lib-play { grid-area: play; width: 44px; height: 44px; border-radius: 22px 22px 10px 10px; border: 0; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; cursor: pointer; }
+.lib-play svg { width: 18px; height: 18px; fill: currentColor; }
+.lib-meta { grid-area: meta; display: grid; min-width: 0; } .lib-meta strong { font-weight: 600; color: var(--primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .lib-meta small { color: var(--muted); font-size: .8rem; line-height: 1.5; }
+.lib-dur { grid-area: dur; font-family: 'Inter Variable', var(--font-ui); font-variant-numeric: tabular-nums; font-size: .85rem; color: var(--muted); direction: ltr; }
+.lib-fav { grid-area: fav; width: 40px; height: 40px; border: 0; background: transparent; color: var(--muted); cursor: pointer; border-radius: 12px; display: grid; place-items: center; }
+.lib-fav svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; } .lib-fav.on { color: var(--gold-text); } .lib-fav.on svg { fill: var(--gold); stroke: var(--gold-text); }
+.lib-import { margin-top: var(--s6); padding-top: var(--s4); border-top: 1px solid var(--line); } .lib-import h3 { margin: 0 0 var(--s1); font-size: 1.05rem; color: var(--primary); }
+.lib-rights { margin-top: var(--s4); font-size: .9rem; color: var(--muted); } .lib-rights summary { color: var(--secondary); }
+
+/* ---------- tasbeeh ---------- */
+.tasbeeh { text-align: center; } .tasbeeh h2 { font-family: var(--font-display); }
+.tas-phrases { justify-content: center; margin: 0 0 var(--s4); }
+.tas-phrases button { min-height: 38px; padding: 4px 14px; border-radius: var(--radius-pill); border: 0; background: var(--tint); color: var(--text); font-family: var(--font-quran); font-size: 1.05rem; cursor: pointer; }
+.tas-phrases button.on { background: var(--primary); color: var(--on-primary); }
+.tas-tap { position: relative; display: grid; place-items: center; align-content: center; gap: 2px; width: min(260px, 72vw); aspect-ratio: 1; margin: 0 auto; border: 0; border-radius: 50%; cursor: pointer; color: var(--text);
+  background: radial-gradient(circle at 50% 35%, var(--surface), var(--tint)); box-shadow: inset 0 0 0 1px var(--line), var(--shadow); -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: transform .12s var(--ease); }
+.tas-tap:active { transform: scale(.97); }
+.tas-tap svg { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); transform: rotate(-90deg); }
+.tas-track { fill: none; stroke: var(--line); stroke-width: 3; } .tas-ring { fill: none; stroke: var(--gold); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset .3s var(--ease); }
+.tas-phrase { font-family: var(--font-quran); font-size: 1.35rem; color: var(--primary); }
+.tas-count { font-family: 'Inter Variable', var(--font-ui); font-size: clamp(2.6rem, 10vw, 3.4rem); font-weight: 300; line-height: 1.1; animation: pop .25s var(--ease) both; }
+html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
+.tas-hint { font-size: .85rem; color: var(--muted); }
+.tas-tap.reached { box-shadow: inset 0 0 0 2px var(--gold), 0 0 40px -8px rgba(198, 166, 107, .7); }
+.tas-controls { justify-content: center; } .tas-controls .field { flex: 0 1 160px; }
+/* ---------- khatma player ---------- */
+.khatma h2 { font-family: var(--font-display); } .khatma-now { font-family: var(--font-display); font-size: 1.3rem; color: var(--primary); margin: 0 0 var(--s3); }
+.khatma-bar { height: 6px; border-radius: 6px; background: var(--tint); overflow: hidden; } .khatma-bar span { display: block; height: 100%; background: var(--gold); border-radius: 6px; transition: width .4s var(--ease); }
+.khatma.is-playing { position: sticky; bottom: 16px; z-index: 20; box-shadow: var(--shadow); }
+@media (max-width: 899px) { .khatma.is-playing { bottom: calc(90px + env(safe-area-inset-bottom)); } }
+.tas-home .tasbeeh { max-width: 640px; margin: 0 auto; }

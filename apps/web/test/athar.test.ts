@@ -32,3 +32,13 @@ describe('athar validation', () => {
     expect(validateReason({ reason: '' }).ok).toBe(false);
   });
 });
+
+describe('athar reciter item', () => {
+  it('accepts one full-mushaf reciter and rejects bad or repeated ones', async () => {
+    const { validateAthar } = await import('../src/lib/athar');
+    const base = { display_name: 'والدي', dedication: '', dua_text: '' };
+    expect(validateAthar({ ...base, items: [{ kind: 'reciter', ref: 0 }] }).ok).toBe(true);
+    expect(validateAthar({ ...base, items: [{ kind: 'reciter', ref: 999 }] }).ok).toBe(false);
+    expect(validateAthar({ ...base, items: [{ kind: 'reciter', ref: 0 }, { kind: 'reciter', ref: 1 }] }).ok).toBe(false);
+  });
+});

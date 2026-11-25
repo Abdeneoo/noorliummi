@@ -3,6 +3,7 @@ import PrayerCard from '@/components/PrayerCard';
 import HomeCover from '@/components/HomeCover';
 import Tiles from '@/components/Tiles';
 import Reveal from '@/components/Reveal';
+import Tasbeeh from '@/components/Tasbeeh';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
         <ContinueReading />
         <TodayAdhkar />
       </div>
+      <div className="section reveal tas-home"><Tasbeeh /></div>
 
       <section className="section reveal" aria-labelledby="sections-title">
         <div className="section-head"><h2 id="sections-title">استكشف</h2><Link href="/knowledge">كل الأقسام</Link></div>

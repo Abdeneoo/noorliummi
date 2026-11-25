@@ -2,18 +2,19 @@
 import { useState } from 'react';
 import surahs from '@/generated/surahs.json';
 import adhkar from '@/generated/adhkar/index.json';
+import { RECITERS } from '@/lib/reciters';
 
-type Item = { kind: 'surah' | 'dhikr'; ref: number };
+type Item = { kind: 'surah' | 'dhikr' | 'reciter'; ref: number };
 export interface AtharInitial { display_name: string; dedication: string; dua_text: string; items: Item[] }
 const S = surahs as { index: number; name: string }[];
 const A = adhkar as { id: number; title: string }[];
 export const MINE = 'noor.athar.mine'; // { [slug]: token } kept on this device only
 export function readMine(): Record<string, string> { try { return JSON.parse(localStorage.getItem(MINE) ?? '{}'); } catch { return {}; } }
-const label = (it: Item) => (it.kind === 'surah' ? `سورة ${S[it.ref - 1]?.name}` : A.find((a) => a.id === it.ref)?.title ?? '');
+const label = (it: Item) => (it.kind === 'surah' ? `سورة ${S[it.ref - 1]?.name}` : it.kind === 'reciter' ? `ختمة كاملة بصوت ${RECITERS[it.ref]?.name ?? ''}` : A.find((a) => a.id === it.ref)?.title ?? '');
 
 export default function AtharForm({ initial, slug, onDone }: { initial?: AtharInitial; slug?: string; onDone?: () => void }) {
   const [f, setF] = useState<AtharInitial>(initial ?? { display_name: '', dedication: '', dua_text: '', items: [{ kind: 'surah', ref: 1 }, { kind: 'surah', ref: 36 }] });
-  const [pickS, setPickS] = useState(112); const [pickA, setPickA] = useState(A[0]?.id ?? 1);
+  const [pickS, setPickS] = useState(112); const [pickA, setPickA] = useState(A[0]?.id ?? 1); const [pickR, setPickR] = useState(0);
   const [busy, setBusy] = useState(false); const [err, setErr] = useState(''); const [made, setMade] = useState<string | null>(null);
   const add = (it: Item) => setF((p) => (p.items.length >= 10 || p.items.some((x) => x.kind === it.kind && x.ref === it.ref) ? p : { ...p, items: [...p.items, it] }));
 
@@ -66,6 +67,10 @@ export default function AtharForm({ initial, slug, onDone }: { initial?: AtharIn
         <div className="row">
           <select aria-label="سورة" value={pickS} onChange={(e) => setPickS(+e.target.value)}>{S.map((s) => <option key={s.index} value={s.index}>{s.index}. {s.name}</option>)}</select>
           <button type="button" className="btn ghost" onClick={() => add({ kind: 'surah', ref: pickS })}>أضف السورة</button>
+        </div>
+        <div className="row">
+          <select aria-label="قارئ للختمة" value={pickR} onChange={(e) => setPickR(+e.target.value)}>{RECITERS.map((r, k) => <option key={r.id} value={k}>{r.name}</option>)}</select>
+          <button type="button" className="btn ghost" onClick={() => add({ kind: 'reciter', ref: pickR })} disabled={f.items.some((x) => x.kind === 'reciter')}>أضف ختمة كاملة بصوت القارئ</button>
         </div>
         <div className="row">
           <select aria-label="ذكر" value={pickA} onChange={(e) => setPickA(+e.target.value)} style={{ maxWidth: '100%' }}>{A.map((a) => <option key={a.id} value={a.id}>{a.title}</option>)}</select>

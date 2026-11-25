@@ -72,6 +72,14 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   console.log(`Adhan registry: ${pub.length} published of ${reg.length} registered`);
 }
 
+// ---- Adhan collections catalogue (metadata only, no audio): for the review report and for recognising files users import ----
+{
+  const cat = JSON.parse(readFileSync(resolve(here, '../../../database/sources/adhan-collections/catalogue.json'), 'utf8')) as { counts: Record<string, number>; items: Record<string, any>[] };
+  const items = cat.items.map((r) => ({ id: r.id, c: r.collection, f: r.file, sha: r.sha256, d: r.duration, t: r.title, m: r.muezzin, p: r.place, co: r.country, g: r.groups, s: r.status, r: (r.reasons as string[]).map((x) => x.split(':')[0]), fl: r.flags, o: r.origin }));
+  writeFileSync(`${out}/adhan-catalogue.json`, JSON.stringify(items));
+  console.log(`Adhan catalogue: ${items.length} recordings (${JSON.stringify(cat.counts)})`);
+}
+
 // ---- Tafsir al-Jalalayn: verified by checksum, re-keyed by ayah, text untouched ----
 {
   const dir = resolve(here, '../../../database/sources/tafsir-jalalayn');
