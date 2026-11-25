@@ -5,6 +5,7 @@ import juzStart from '@/generated/juz.json';
 import { SURAHS } from '@/lib/quran';
 import { arDigitsN as ar } from '@/lib/arnum';
 import GroupDhikr from './GroupDhikr';
+import QrButton from './QrButton';
 
 type Juz = { juz: number; reader: string; done: boolean; mine?: boolean };
 type K = { slug: string; display_name: string; feminine: boolean; athar_slug: string | null; round: number; juz: Juz[]; kind: 'quran' | 'dhikr' | 'dua'; phrase: number; target: number; count: number };
@@ -63,6 +64,7 @@ export default function KhatmaBoard({ slug, dua }: { slug: string; dua: { masc: 
         <p className="note">قُرئ {ar(done)} من ٣٠ جزءًا · محجوز {ar(taken - done)} · متاح {ar(30 - taken)}</p>
         <div className="row"><button type="button" className="btn" onClick={share}>{copied ? 'نُسخ الرابط ✓' : 'شارك الرابط مع العائلة'}</button>
           {k.athar_slug && <Link className="btn ghost" href={`/athar/${k.athar_slug}`}>صفحة الأثر</Link>}</div>
+        <QrButton path={`/khatma/${slug}`} caption={`ختمة مُهداة إلى ${k.display_name}`} />
       </section>
 
       {complete && (

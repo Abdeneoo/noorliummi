@@ -10,6 +10,7 @@ import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'نور لأمي', alternateName: 'Noor Li Ummi', inLanguage: ['ar', 'en'], url: (process.env.SITE_URL || 'https://staging.noorliummi.io'), potentialAction: { '@type': 'SearchAction', target: `${process.env.SITE_URL || 'https://staging.noorliummi.io'}/search?q={q}`, 'query-input': 'required name=q' } }) }} />
       <HomeCover />
       <div className="lift reveal"><PrayerCard /></div>
       <SeasonCard />

@@ -22,6 +22,7 @@ export default function Tools() {
         { href: '/search', icon: 'hadith', title: 'البحث في المصادر', desc: 'بحث واحد في المصحف والأذكار والأحاديث.' },
         { href: '/zakat', icon: 'tools', title: 'حاسبة الزكاة', desc: 'استرشادية: نقود وذهب وفضة وعروض تجارة.' },
         { href: '/inheritance', icon: 'tools', title: 'حاسبة الميراث', desc: 'استرشادية للحالات البسيطة: الزوجان والأبوان والأولاد.' },
+        { href: '/display', icon: 'mosque', title: 'وضع العرض', desc: 'لوحة مواقيت بشاشة كاملة للمسجد أو البيت.' },
         { href: '/hajj', icon: 'mosque', title: 'موسم الحج', desc: 'العدّ إلى عرفة وأيام الحج ورابط نسك الرسمي.' },
         { href: '/calendar', icon: 'compass', title: 'التقويم والمواسم', desc: 'العدّ إلى رمضان والمناسبات والأيام البيض، مع تذكير في تقويمك.' },
         { href: '/situations', icon: 'adhkar', title: 'أذكار حسب الموقف', desc: 'النوم، البيت، المسجد، الطعام، السفر…' },

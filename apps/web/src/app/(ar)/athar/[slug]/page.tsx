@@ -12,7 +12,11 @@ import surahs from '@/generated/surahs.json';
 import adhkar from '@/generated/adhkar/index.json';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'صفحة أثر', robots: { index: false, follow: false, nocache: true } };
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params; const robots = { index: false, follow: false, nocache: true };
+  try { const p = isSlug(slug) ? await getPage(slug) : null; if (p && p.status === 'active') { const d = (p.dedication || 'صفحة مُهداة: سور وأذكار ودعاء. ادخل واقرأ وادعُ.').slice(0, 160); return { title: `صفحة أثر — ${p.display_name}`, description: d, robots, openGraph: { title: `صفحة أثر — ${p.display_name}`, description: d, images: ['/brand/og-cover.jpg'] } }; } } catch { /* db unavailable */ }
+  return { title: 'صفحة أثر', robots };
+}
 const S = surahs as { index: number; name: string; ayas: number }[];
 const A = adhkar as { id: number; title: string }[];
 

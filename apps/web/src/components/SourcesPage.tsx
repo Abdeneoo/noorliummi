@@ -11,7 +11,7 @@ export default function SourcesPage({ lang = 'ar' }: { lang?: Lang }) {
       <header className="page-head">
         <p className="eyebrow">{ar ? 'الشفافية' : 'Transparency'}</p>
         <h1>{ar ? 'المصادر والتراخيص' : 'Sources and licences'}</h1>
-        <p>{ar ? 'كل ما يعرضه الموقع من نصوص وصوتيات وبيانات، ومصدره وترخيصه، في مكان واحد. لا نكتب نصوصًا دينية بأنفسنا، وكل نص يُعرض كما ورد في مصدره.' : 'Every text, recording and dataset the site uses, with its source and licence, in one place. We write no religious text ourselves.'}</p>
+        <p>{ar ? 'كل ما يعرضه الموقع من نصوص وصوتيات وبيانات، ومصدره وترخيصه، في مكان واحد. لا نكتب نصوصًا دينية بأنفسنا، وكل نص يُعرض كما ورد في مصدره. حالة المراجعة الشرعية لكل الأقسام: لم تُراجع بعد (نسخة تجريبية) — آخر تحديث لهذه الحالة: نوفمبر ٢٠٢٦.' : 'Every text, recording and dataset the site uses, with its source and licence, in one place. We write no religious text ourselves.'}</p>
       </header>
       <nav className="chips src-nav" aria-label={ar ? 'أقسام المصادر' : 'Source sections'}>
         {GROUPS.map((g) => <a key={g.id} href={`#${g.id}`}>{g.title[lang]}</a>)}

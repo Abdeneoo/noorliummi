@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import ShareImageButton from './ShareImageButton';
 import FridayReminder from './FridayReminder';
+import QrButton from './QrButton';
 import { recordActivity } from './Lantern';
 /** Sharing tools under an athar page: story image, Friday calendar reminder, group khatma, «قرأتُ ما تيسّر». */
 export default function AtharShare({ slug, name, dua }: { slug: string; name: string; dua: string }) {
@@ -16,6 +17,7 @@ export default function AtharShare({ slug, name, dua }: { slug: string; name: st
         <Link className="btn ghost" href={`/khatma?athar=${slug}`}>ابدأ ختمة جماعية</Link>
       </div>
       <FridayReminder path={`/athar/${slug}`} name={name} />
+      <QrButton path={`/athar/${slug}`} caption={`صفحة أثر · ${name}`} />
     </section>
   );
 }
