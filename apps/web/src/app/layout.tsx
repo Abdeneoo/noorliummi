@@ -39,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="main" aria-label="التنقل الرئيسي">
               <Link href="/">الرئيسية</Link>
               <Link href="/quran">القرآن</Link>
+              <Link href="/tafsir">التفسير</Link>
               <Link href="/adhkar">الأذكار</Link>
               <Link href="/times">المواقيت</Link>
               <Link href="/adhan">الأذان</Link>

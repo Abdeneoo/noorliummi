@@ -5,7 +5,7 @@ import type { SurahMeta } from '@/lib/quran';
 
 const strip = (s: string) => s.replace(/[ً-ٰٟ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').toLowerCase();
 
-export default function SurahIndex({ surahs }: { surahs: SurahMeta[] }) {
+export default function SurahIndex({ surahs, base = '/quran' }: { surahs: SurahMeta[]; base?: string }) {
   const [q, setQ] = useState('');
   const k = strip(q.trim());
   const list = k ? surahs.filter((s) => strip(s.name).includes(k) || s.tname.toLowerCase().includes(k) || String(s.index) === k) : surahs;
@@ -17,7 +17,7 @@ export default function SurahIndex({ surahs }: { surahs: SurahMeta[] }) {
         <ul className="surah-list">
           {list.map((s) => (
             <li key={s.index}>
-              <Link href={`/quran/${s.index}`}>
+              <Link href={`${base}/${s.index}`}>
                 <span className="num">{s.index}</span>
                 <span><span className="nm">سورة {s.name}</span><span className="sub">{s.type === 'Meccan' ? 'مكية' : 'مدنية'} · {s.ayas} آية</span></span>
               </Link>

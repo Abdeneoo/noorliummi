@@ -21,11 +21,16 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
         <h1>سورة {meta.name}</h1>
         <div className="meta"><span>{meta.type === 'Meccan' ? 'مكية' : 'مدنية'}</span><span>{arDigits(meta.ayas)} آية</span><span>ترتيبها في المصحف {arDigits(meta.index)}</span></div>
       </header>
+      <div className="row" style={{ justifyContent: 'center', margin: '8px 0 4px' }}>
+        <Link className="btn ghost" href={`/tafsir/${n}`}>تفسير السورة</Link>
+        <Link className="btn ghost" href={`/mutashabihat/${n}`}>المتشابهات</Link>
+      </div>
+      <p className="note" style={{ textAlign: 'center' }}>اضغط على رقم أي آية لقراءة تفسيرها.</p>
       <Recitation surah={n} surahName={meta.name} />
       {bismillah && <p className="bismillah" lang="ar">{bismillah}</p>}
       <div className="ayat" lang="ar">
         {ayat.map((a) => (
-          <span key={a.n} id={`a${a.n}`}>{a.t}<span className="ayah-end" aria-label={`آية ${a.n}`}>﴿{arDigits(a.n)}﴾</span> </span>
+          <span key={a.n} id={`a${a.n}`}>{a.t}<Link className="ayah-end" href={`/tafsir/${n}#a${a.n}`} aria-label={`تفسير الآية ${a.n}`}>﴿{arDigits(a.n)}﴾</Link> </span>
         ))}
       </div>
       <nav className="pager" aria-label="التنقل بين السور">

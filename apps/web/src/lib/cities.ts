@@ -37,6 +37,15 @@ export function methodForTimezone(tz: string): MethodId {
 export function cityForTimezone(tz: string): City | undefined {
   return CITIES.find((c) => c.tz === tz && c.id !== 'makkah' && c.id !== 'madinah' && c.id !== 'jeddah' && c.id !== 'dammam' && c.id !== 'alexandria') ?? CITIES.find((c) => c.tz === tz);
 }
+/** Nearest listed city and its distance (km), for a friendly label only. */
+export function nearestCityDist(lat: number, lng: number): { city: City; km: number } {
+  let best = CITIES[0]; let bd = Infinity;
+  for (const c of CITIES) {
+    const dLat = (c.lat - lat) * 111; const dLng = (c.lng - lng) * 111 * Math.cos((lat * Math.PI) / 180);
+    const d = Math.hypot(dLat, dLng); if (d < bd) { bd = d; best = c; }
+  }
+  return { city: best, km: bd };
+}
 /** Nearest listed city within ~60 km, for a friendly label only. */
 export function nearestCity(lat: number, lng: number): City | undefined {
   let best: City | undefined; let bd = Infinity;
