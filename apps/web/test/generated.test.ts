@@ -112,3 +112,26 @@ describe('Names of Allah', () => {
     for (const n of g) expect(Object.keys(n).sort()).toEqual(['id', 'name', 'page', 'refs', 'url']);
   });
 });
+
+describe('Quranic Arabic Corpus alignment', () => {
+  it('file is unmodified, keeps its copyright header, and every aligned ayah has one entry per Tanzil word', async () => {
+    const { createHash } = await import('node:crypto');
+    const dir = resolve(__dirname, '../../../database/sources/quranic-corpus');
+    const buf = readFileSync(`${dir}/quranic-corpus-morphology-0.4.txt`);
+    expect(createHash('sha256').update(buf).digest('hex')).toBe('a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46');
+    expect(buf.toString('utf8')).toContain('PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK');
+    const { rootArabic } = await import('../src/lib/morph');
+    let aligned = 0; const none: string[] = [];
+    for (let s = 1; s <= 114; s++) {
+      const su = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/surah/${s}.json`), 'utf8')) as { ayat: { n: number; t: string }[] };
+      const m = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/morph/${s}.json`), 'utf8')) as Record<string, { r: string }[] | null>;
+      for (const a of su.ayat) {
+        const x = m[a.n]; if (x === null) { none.push(`${s}:${a.n}`); continue; }
+        expect(x.length).toBe(a.t.split(' ').length); aligned++;
+        for (const w of x) if (w.r) expect(rootArabic(w.r)).not.toBe('');
+      }
+    }
+    expect(aligned).toBe(6232); expect(none).toEqual(['2:181', '8:6', '13:37', '37:130']);
+    expect(rootArabic('smw')).toBe('س م و');
+  });
+});

@@ -178,3 +178,38 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   writeFileSync(`${out}/names-of-allah.json`, JSON.stringify(names));
   console.log(`Names of Allah generated: 99 names, ${kept} verified Quran refs, ${dropped} unverified refs dropped`);
 }
+
+// ---- Quranic Arabic Corpus v0.4 (GPL, verbatim file): per-word POS, root, features aligned to our Tanzil words ----
+{
+  const dir = resolve(here, '../../../database/sources/quranic-corpus');
+  const file = `${dir}/quranic-corpus-morphology-0.4.txt`;
+  if (sha256File(file) !== readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for Quranic Arabic Corpus — refusing to build');
+  type Seg = { tag: string; f: string[] };
+  const byAyah = new Map<string, Seg[][]>();
+  for (const line of readFileSync(file, 'utf8').split(/\r?\n/)) {
+    if (!line.startsWith('(')) continue;
+    const [loc, , tag, feats] = line.split('\t');
+    const [s1, a1, w1] = loc.slice(1, -1).split(':').map(Number);
+    const k = `${s1}:${a1}`; if (!byAyah.has(k)) byAyah.set(k, []);
+    const words = byAyah.get(k)!; (words[w1 - 1] ??= []).push({ tag, f: feats.split('|') });
+  }
+  mkdirSync(`${out}/morph`, { recursive: true });
+  let aligned = 0; const skipped: string[] = [];
+  for (const m of meta) {
+    const res: Record<number, unknown> = {};
+    for (const a of ayat.filter((x) => x.sura === m.index)) {
+      const words = byAyah.get(`${m.index}:${a.aya}`) ?? [];
+      if (words.length !== a.text.split(' ').length) { res[a.aya] = null; skipped.push(`${m.index}:${a.aya}`); continue; }
+      aligned++;
+      res[a.aya] = words.map((segs) => {
+        const stem = segs.find((x) => x.f[0] === 'STEM') ?? segs[0];
+        const val = (key: string) => stem.f.find((x) => x.startsWith(`${key}:`))?.slice(key.length + 1) ?? '';
+        const pre = segs.filter((x) => x.f[0] === 'PREFIX').map((x) => x.tag);
+        const suf = segs.filter((x) => x.f[0] === 'SUFFIX').map((x) => [x.tag, x.f.find((y) => y.startsWith('PRON:'))?.slice(5) ?? ''].filter(Boolean).join(':'));
+        return { p: stem.tag, r: val('ROOT'), f: stem.f.filter((x) => !/^(STEM|POS|LEM|ROOT):?/.test(x)), pre, suf };
+      });
+    }
+    writeFileSync(`${out}/morph/${m.index}.json`, JSON.stringify(res));
+  }
+  console.log(`Quranic Arabic Corpus: ${aligned} ayat aligned, not aligned: ${skipped.join(' ')}`);
+}

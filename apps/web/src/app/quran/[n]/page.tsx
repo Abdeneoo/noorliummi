@@ -24,6 +24,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
       <div className="row" style={{ justifyContent: 'center', margin: '8px 0 4px' }}>
         <Link className="btn ghost" href={`/tafsir/${n}`}>تفسير السورة</Link>
         <Link className="btn ghost" href={`/mutashabihat/${n}`}>المتشابهات</Link>
+        <Link className="btn ghost" href={`/quran/${n}/words`}>الكلمات وجذورها</Link>
       </div>
       <p className="note" style={{ textAlign: 'center' }}>اضغط على رقم أي آية لقراءة تفسيرها.</p>
       <Recitation surah={n} surahName={meta.name} start={SURAHS.slice(0, n - 1).reduce((t, x) => t + x.ayas, 0) + 1} count={meta.ayas} />
