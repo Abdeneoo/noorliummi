@@ -72,7 +72,7 @@
 | kmkholm/masjid-silencer | مرجع كتم الهاتف في المسجد | MIT | 2026-07-26 | Reference | للجوال لاحقًا |
 | OpenITI/RELEASE | كتب تراثية | لم يُفحص ترخيص المحتوى | — | Not verified | المستودع موجود؛ مرحلة المكتبة |
 | WeblateOrg/weblate | منصة ترجمة الواجهة | GPL-3.0 | 2026-11-25 | Approved (خدمة مستقلة) | تشغيله كخدمة منفصلة لا يُلزم كودنا بـGPL. يُؤجَّل حتى وجود مترجمين |
-| api.metals.live | سعر الذهب والفضة | — | — | **Not verified** | لم يستجب من بيئة العمل؛ لا يُعتمد عليه قبل التأكد من عمله وشروطه |
+| api.metals.live | سعر الذهب والفضة | — | — | **Rejected** | لا يستجيب (فحصان مستقلان) |
 
 ## مصادر الإلحاق 3 (فُحصت 2026-11-25)
 
@@ -84,3 +84,42 @@
 | risan/quran-json | قرآن JSON وترجمات | CC BY-SA 4.0 | 2026-10-01 | Approved (conditions) | شرط المشاركة بالمثل؛ غير مطلوب حاليًا لأن Tanzil مصدرنا |
 | qazasaz/quranwbw | كلمة بكلمة | **لا يوجد ملف ترخيص** | 2019-07-18 | Unclear | نعتمد QUL لكلمة بكلمة |
 | Cloudflare R2 | تخزين ملفات مرخصة + نسخ احتياطي مشفر خارج السيرفر | خدمة (باقة مجانية تتطلب وسيلة دفع) | — | بانتظار موافقة صاحب المشروع | |
+
+## سجل تراخيص صوت الأذان (فُحص 2026-11-25 من واجهة Wikimedia Commons API مباشرة: حقول extmetadata)
+
+| # | الملف | صاحب العمل كما في الصفحة | الترخيص | النوع | SHA-1 (أول 10) | الحالة | ملاحظة |
+|---|---|---|---|---|---|---|---|
+| 1 | File:Beautiful_adhan.ogg | Adam-synagda — عمله الخاص، وهو الرافع | CC0 | عادي | a1fa4fd942 | **Approved** — الافتراضي | يُستمع له كاملًا قبل النشر |
+| 2 | File:Adhan.ogg | Aishatu98 — عملها الخاص | CC0 | عادي | b86432f158 | **Approved** (بعد الاستماع) | |
+| 3 | File:Muslim_calling_to_prayer.ogg | Aishatu98 — عملها الخاص | CC0 | عادي | 4c4ebb5ede | **Approved** (بعد الاستماع) | |
+| 4 | File:Azan.ogg | Andrewler — عمله الخاص | CC BY-SA 4.0 | عادي | ada13592b0 | **Approved** | إسناد + نفس الترخيص لأي مقطع مقصوص |
+| 5 | File:Adhan_wiki.oga | Jarih — عمله الخاص | CC BY-SA 3.0 | عادي | f36efbf989 | Approved (بعد الاستماع) | |
+| 6 | File:The_Adhan_-_…_Aaqib_Azeez.mp3 | الصفحة تنسب العمل للرافع **Atcovi** «عمله الخاص»، والمؤذن Aaqib Azeez | CC BY-SA 4.0 | عادي | 971bced4b0 | **Approved (conditions)** | يلزم التأكد من علاقة الرافع بالمؤذن من صفحة الملف قبل النشر |
+| 7 | File:Eid_al-Fitr_Fajr_azan_at_Malmö_Mosque…webm | Islamic Center Malmö؛ **مأخوذ من YouTube** ورفعه طرف ثالث (Rafic.Mufid) | CC BY 3.0 | فجر | bc75d5cee2 | **Approved (conditions)** | القناة هي المسجد نفسه، فالسلسلة معقولة؛ يُتحقق من ختم مراجعة الترخيص في Commons. أذان الفجر الوحيد المتاح حاليًا |
+| 8 | File:Maghrib_Adhan_at_the_Masjid_al_Haram…webm | مصوّر فرد (3omar Faruq)؛ مأخوذ من YouTube | CC BY 3.0 | عادي | 4482abb50e | **Unclear** | المصوّر يملك تسجيله لا أداء المؤذن؛ يُؤجَّل |
+| 9 | archive.org: adhan.recordings.from.doha.qatar | الرافع «Unknown»، لا مصدر ولا مسجِّل مذكور | Public Domain Mark | 5 صلوات | — | **Rejected حاليًا** | علامة ملك عام من رافع مجهول بلا مصدر؛ لا تكفي |
+| — | Mawaqit CDN، aladhan CDN، مجموعات الحرمين في archive.org، Assabile، مستودعات MP3 على GitHub | — | لا ترخيص | — | — | **Rejected** | |
+
+بدائل تعمل دون أي ملف: نغمة تنبيه مولّدة برمجيًا (Web Audio)، وملف أذان يختاره المستخدم من جهازه ويبقى في متصفحه (IndexedDB) ولا يُرفع للخادم.
+
+## التلاوة — الحكم بعد قراءة الشروط الحالية
+
+| المصدر | ما تقوله صفحته اليوم | ما نفعله |
+|---|---|---|
+| Islamic Network / Al Quran Cloud | بث وتضمين وتنزيل «للاستخدام الشخصي والتعليمي»؛ يطلبون التخزين المؤقت من جهتنا؛ **لا توجد اليوم جملة عن إعادة التوزيع ولا عن الـbitrates** (الصيغة القديمة المنقولة لم تعد في الصفحة) | **المصدر الأول**: بث مباشر + كاش على جهاز المستخدم. لا مرآة على خادمنا قبل رد مكتوب منهم |
+| MP3Quran، EveryAyah، Quran Foundation | بلا ترخيص إعادة توزيع | بث من المصدر فقط مع الإسناد، خلف Feature Flag لكل مصدر |
+| Wikimedia Commons: Recitations by Aaqib Azeez (CC0/CC BY-SA) | لم يُفحص ملفًا ملفًا بعد | مرشح للاستضافة الذاتية، **مشروط بمراجعة متخصص لصحة التلاوة** |
+| توقيت الكلمات (cpfair، QuranLab) | CC BY 4.0 | Approved |
+
+## مصادر وأدوات أخرى من الإلحاق 4
+
+| المصدر | الحالة | ملاحظة |
+|---|---|---|
+| gold-api.com (`/price/XAU`, `/price/XAG`) | Approved (conditions) | يعمل (فُحص 2026-11-25)، بلا مفتاح وبلا ضمان خدمة؛ كاش + إدخال يدوي دائم |
+| Frankfurter v2 (`/v2/rate/usd/sar`) | **Approved** | يعمل، ويغطي SAR وEGP (فُحص). مسار v1 الذي جرّبته سابقًا خاطئ |
+| Dorar (الدرر السنية) | Reference only | النقاط المستخدمة في حزم طرف ثالث غير موثقة رسميًا ولا شروط منشورة لها؛ نكتفي بروابط إلى dorar.net حتى يتضح الإذن |
+| Mawaqit (android-tv-app) | Reference | مرجع تصميم لشاشة المسجد؛ يُقرأ LICENSE قبل أي نقل |
+| Nusuk (nusuk.sa) | روابط خروج فقط | لا منطق تصاريح ولا بيانات حجاج عندنا |
+| Coolify | **Rejected لهذا السيرفر** | يثبّت Docker وTraefik على 80/443، فيتعارض مع Caddy والمواقع الثلاثة القائمة (D-018) |
+| Listmonk (AGPL-3.0) | مؤجل | بعد الإطلاق؛ خدمة مستقلة + Double opt-in |
+| Cloudflare R2 | بانتظار الموافقة | |
