@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import AyatText from '@/components/AyatText';
 import Recitation from '@/components/Recitation';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
 
@@ -29,11 +30,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
       <p className="note" style={{ textAlign: 'center' }}>اضغط على رقم أي آية لقراءة تفسيرها.</p>
       <Recitation surah={n} surahName={meta.name} start={SURAHS.slice(0, n - 1).reduce((t, x) => t + x.ayas, 0) + 1} count={meta.ayas} />
       {bismillah && <p className="bismillah" lang="ar">{bismillah}</p>}
-      <div className="ayat" lang="ar">
-        {ayat.map((a) => (
-          <span key={a.n} id={`a${a.n}`}>{a.t}<Link className="ayah-end" href={`/tafsir/${n}#a${a.n}`} aria-label={`تفسير الآية ${a.n}`}>﴿{arDigits(a.n)}﴾</Link> </span>
-        ))}
-      </div>
+      <AyatText surah={n} ayat={ayat} />
       <nav className="pager" aria-label="التنقل بين السور">
         {n > 1 ? <Link className="btn ghost" href={`/quran/${n - 1}`}>السورة السابقة</Link> : <span />}
         <Link className="btn ghost" href={`/tafsir/${n}`}>التفسير</Link>

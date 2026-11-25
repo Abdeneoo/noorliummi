@@ -268,3 +268,23 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   }
   console.log(`QuranEnc English ${version}: ${n} ayat`);
 }
+
+// ---- Tajweed (cpfair/quran-tajweed, CC BY 4.0) mapped onto our Tanzil text by scripts/map-tajweed.py ----
+{
+  const dir = resolve(here, '../../../database/sources/quran-tajweed');
+  const sums = Object.fromEntries(readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse() as [string, string]));
+  for (const f of Object.keys(sums)) if (sha256File(`${dir}/${f}`) !== sums[f]) throw new Error(`Checksum mismatch for tajweed ${f} — refusing to build`);
+  const mapped = JSON.parse(readFileSync(`${dir}/tajweed-mapped.json`, 'utf8')) as Record<string, [string, number, number][]>;
+  mkdirSync(`${out}/tajweed`, { recursive: true });
+  let n = 0;
+  for (const m of meta) {
+    const res: Record<number, [string, number, number][]> = {};
+    for (const a of ayat.filter((x) => x.sura === m.index)) {
+      const v = mapped[`${m.index}:${a.aya}`] ?? [];
+      for (const [, s0, e0] of v) if (s0 < 0 || e0 > a.text.length || s0 >= e0) throw new Error(`Tajweed range out of bounds at ${m.index}:${a.aya}`);
+      if (v.length) res[a.aya] = v; n += v.length;
+    }
+    writeFileSync(`${out}/tajweed/${m.index}.json`, JSON.stringify(res));
+  }
+  console.log(`Tajweed: ${n} annotations`);
+}

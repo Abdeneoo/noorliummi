@@ -159,3 +159,27 @@ describe('English data', () => {
     expect(k).toBe(189);
   });
 });
+
+describe('Tajweed mapping', () => {
+  it('every annotation sits inside its ayah, letter signatures hold, identical ayat keep the published offsets', () => {
+    const dir = resolve(__dirname, '../../../database/sources/quran-tajweed');
+    const pub = JSON.parse(readFileSync(`${dir}/tajweed.hafs.uthmani-pause-sajdah.json`, 'utf8')) as { surah: number; ayah: number; annotations: { rule: string; start: number; end: number }[] }[];
+    const old = new Map(readFileSync(`${dir}/quran-uthmani-2017.txt`, 'utf8').replace(/^\uFEFF/, '').split(/\r?\n/).filter((l) => l && !l.startsWith('#')).map((l) => { const [s, a, ...t] = l.split('|'); return [`${s}:${a}`, t.join('|')] as const; }));
+    const SIG: Record<string, string> = { hamzat_wasl: 'ٱ', qalqalah: 'قطبجد', lam_shamsiyyah: 'ل' };
+    let n = 0; let identical = 0;
+    for (let s = 1; s <= 114; s++) {
+      const su = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/surah/${s}.json`), 'utf8')) as { ayat: { n: number; t: string }[] };
+      const tj = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/tajweed/${s}.json`), 'utf8')) as Record<string, [string, number, number][]>;
+      for (const a of su.ayat) {
+        const v = tj[a.n] ?? [];
+        for (const [r, x, y] of v) { expect(y).toBeLessThanOrEqual(a.t.length); expect(x).toBeLessThan(y); if (SIG[r]) expect(SIG[r]).toContain(a.t[x]); n++; }
+        if (old.get(`${s}:${a.n}`) === a.t) {
+          identical++;
+          const p = pub.find((x) => x.surah === s && x.ayah === a.n)!;
+          expect(v).toEqual(p.annotations.map((x) => [x.rule, x.start, x.end]));
+        }
+      }
+    }
+    expect(n).toBe(60023); expect(identical).toBe(5816);
+  });
+});

@@ -108,3 +108,11 @@ html[dir='ltr'] .tafsir-ayah, html[dir='ltr'] .dhikr-text, html[dir='ltr'] .bism
 .en-fn { margin: 6px 0 0; font-size: .85rem; color: var(--muted); white-space: pre-line; border-inline-start: 3px solid var(--line); padding-inline-start: 10px; }
 .dhikr-tl { font-style: italic; color: var(--muted); margin: 8px 0 0; } .dhikr-en { margin: 6px 0 10px; line-height: 1.8; }
 details.jumuah { margin-top: 10px; font-size: .9rem; } details.jumuah summary { cursor: pointer; color: var(--muted); }
+
+.tj-madd_6 { color: #9b0000; } .tj-madd_muttasil { color: #c2185b; } .tj-madd_munfasil { color: #e64a19; } .tj-madd_246 { color: #ef6c00; } .tj-madd_2 { color: #b8860b; }
+.tj-ghunnah { color: #2e7d32; } .tj-ikhfa { color: #00838f; } .tj-ikhfa_shafawi { color: #00695c; } .tj-iqlab { color: #1565c0; }
+.tj-idghaam_ghunnah { color: #6a1b9a; } .tj-idghaam_no_ghunnah { color: #8e24aa; } .tj-idghaam_shafawi { color: #4527a0; } .tj-idghaam_mutajanisayn { color: #5e35b1; } .tj-idghaam_mutaqaribayn { color: #7e57c2; }
+.tj-qalqalah { color: #0277bd; } .tj-hamzat_wasl, .tj-lam_shamsiyyah { color: #8a8a8a; } .tj-silent { color: #a9a9a9; }
+html[data-theme='dark'] .tj { filter: brightness(1.6) saturate(.9); }
+@media (prefers-color-scheme: dark) { html:not([data-theme='light']) .tj { filter: brightness(1.6) saturate(.9); } }
+.tj-legend { margin: 8px 0 14px; font-size: .9rem; } .tj-legend ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; } .tj-legend summary { cursor: pointer; color: var(--muted); }
