@@ -2,9 +2,10 @@ import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import '@fontsource-variable/noto-kufi-arabic';
 import '@fontsource/amiri-quran';
-import './globals.css';
+import '../globals.css';
 import ThemeToggle from '@/components/ThemeToggle';
 import AdhanController from '@/components/AdhanController';
+import Mark from '@/components/Mark';
 
 export const metadata: Metadata = {
   title: { default: 'نور لأمي', template: '%s | نور لأمي' },
@@ -13,17 +14,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }, // staging: not public until the owner approves launch
 };
 export const viewport: Viewport = { themeColor: '#103d32', width: 'device-width', initialScale: 1 };
-
-function Mark() {
-  // Provisional mark (identity not final): a rising light above an open book.
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 24c-3-2-7-2.5-11-2V11c4-.5 8 0 11 2 3-2 7-2.5 11-2v11c-4-.5-8 0-11 2Z" />
-      <path d="M16 13v11" />
-      <path d="M16 3v4M10.5 5l1.5 2.6M21.5 5 20 7.6" stroke="#c6a66b" />
-    </svg>
-  );
-}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -45,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/times">المواقيت</Link>
               <Link href="/adhan">الأذان</Link>
               <Link href="/dedication">الإهداء</Link>
+              <Link href="/en" lang="en" hrefLang="en">English</Link>
             </nav>
             <ThemeToggle />
           </div>

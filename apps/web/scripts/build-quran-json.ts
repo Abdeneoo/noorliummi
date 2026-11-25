@@ -5,7 +5,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { normDhikr } from '../src/lib/dhikr-norm';
+import { dhikrKey, normDhikr } from '../src/lib/dhikr-norm';
 import { parseOpenITI } from '../src/lib/openiti';
 import { parseTanzilMetadata, parseTanzilText, sha256File } from '../../../packages/islamic-core/src/index';
 
@@ -39,21 +39,24 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   // OpenDua recordings (CC BY 4.0) attached only on an exact match of the Arabic text after removing diacritics/punctuation.
   const od = resolve(here, '../../../database/sources/opendua');
   if (sha256File(`${od}/catalogue.json`) !== readFileSync(`${od}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for opendua catalogue.json — refusing to build');
-  const cat = JSON.parse(readFileSync(`${od}/catalogue.json`, 'utf8')) as { entries: { variations?: { steps: { items?: { dua?: { arabic: string } }[]; recordings?: { url: string }[] }[] }[] }[] };
+  const cat = JSON.parse(readFileSync(`${od}/catalogue.json`, 'utf8')) as { entries: { variations?: { steps: { items?: { dua?: { arabic: string; translation?: string; transliteration?: string } }[]; recordings?: { url: string }[] }[] }[] }[] };
   const audio = new Map<string, string>();
+  const english = new Map<string, { en: string; tl: string }>(); // OpenDua CC BY 4.0 English, exact text match only
   for (const e of cat.entries) for (const v of e.variations ?? []) for (const st of v.steps) {
-    if (st.items?.length === 1 && st.items[0].dua && st.recordings?.length === 1) audio.set(normDhikr(st.items[0].dua.arabic), st.recordings[0].url.split('/').pop()!);
+    if (st.items?.length === 1 && st.items[0].dua && st.recordings?.length === 1) audio.set(dhikrKey(st.items[0].dua.arabic), st.recordings[0].url.split('/').pop()!);
+    if (st.items?.length === 1 && st.items[0].dua) { const d = st.items[0].dua as { arabic: string; translation?: string; transliteration?: string }; if (d.translation) english.set(dhikrKey(d.arabic), { en: d.translation, tl: d.transliteration ?? '' }); }
   }
-  let withAudio = 0;
+  let withAudio = 0; let withEnglish = 0;
   const cats = Object.entries(raw).map(([title, v], i) => ({
     id: i + 1,
     title,
     items: v.Adhkar.map((d, j) => {
-      const a = audio.get(normDhikr(d.Text)); if (a) withAudio++;
-      return { n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '', ...(a ? { a } : {}) };
+      const a = audio.get(dhikrKey(d.Text)); if (a) withAudio++;
+      const e = english.get(dhikrKey(d.Text)); if (e) withEnglish++;
+      return { n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '', ...(a ? { a } : {}), ...(e ? { en: e.en, tl: e.tl } : {}) };
     }),
   }));
-  console.log(`Adhkar with OpenDua audio: ${withAudio}`);
+  console.log(`Adhkar with OpenDua audio: ${withAudio}, with English: ${withEnglish}`);
   mkdirSync(`${out}/adhkar`, { recursive: true });
   writeFileSync(`${out}/adhkar/index.json`, JSON.stringify(cats.map((c) => ({ id: c.id, title: c.title, count: c.items.length }))));
   for (const c of cats) writeFileSync(`${out}/adhkar/${c.id}.json`, JSON.stringify(c));
@@ -246,4 +249,22 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
     writeFileSync(`${out}/morph/${m.index}.json`, JSON.stringify(res));
   }
   console.log(`Quranic Arabic Corpus: ${aligned} ayat aligned, not aligned: ${skipped.join(' ')}`);
+}
+
+// ---- QuranEnc English (Noor International Center), verbatim translation + footnotes; Arabic stays Tanzil ----
+{
+  const dir = resolve(here, '../../../database/sources/quranenc-english-saheeh');
+  const sums = Object.fromEntries(readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse() as [string, string]));
+  const version = readFileSync(`${dir}/VERSION`, 'utf8').trim();
+  mkdirSync(`${out}/en/quran`, { recursive: true });
+  let n = 0;
+  for (const m of meta) {
+    const f = `${dir}/s${m.index}.json`;
+    if (sha256File(f) !== sums[`s${m.index}.json`]) throw new Error(`Checksum mismatch for QuranEnc s${m.index}.json — refusing to build`);
+    const rows = (JSON.parse(readFileSync(f, 'utf8')) as { result: { sura: string; aya: string; translation: string; footnotes: string }[] }).result;
+    if (rows.length !== m.ayas || rows.some((r, i) => Number(r.sura) !== m.index || Number(r.aya) !== i + 1)) throw new Error(`QuranEnc structure mismatch in sura ${m.index}`);
+    writeFileSync(`${out}/en/quran/${m.index}.json`, JSON.stringify({ v: version, ayat: rows.map((r) => ({ tr: r.translation, fn: r.footnotes ?? '' })) }));
+    n += rows.length;
+  }
+  console.log(`QuranEnc English ${version}: ${n} ayat`);
 }

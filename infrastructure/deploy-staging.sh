@@ -31,6 +31,8 @@ as_noor bash "$APP/infrastructure/fetch-opendua-audio.sh"
 echo "== 2c hadith sources (fawazahmed0, pinned + checksum-verified)"
 as_noor bash "$APP/infrastructure/fetch-hadith.sh"
 
+bash "$APP/infrastructure/check-quranenc-version.sh" || true
+
 echo "== 3/6 Quran integrity gate"
 as_noor sh -c "cd $APP && $PNPM predeploy" | grep -E "Tests|passed|failed"
 

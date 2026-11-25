@@ -5,34 +5,40 @@ import { useEffect, useRef, useState } from 'react';
  * Streamed directly from Islamic Network (cdn.islamic.network); nothing is copied to our server.
  * 'surah' = one file per surah; 'ayah' = one file per ayah, played in sequence (availability checked 2026-11-25).
  */
-type Rec = { id: string; name: string; mode: 'surah' | 'ayah'; br: number };
+type Rec = { id: string; name: string; en: string; mode: 'surah' | 'ayah'; br: number };
 const RECITERS: Rec[] = [
-  { id: 'ar.alafasy', name: 'مشاري راشد العفاسي', mode: 'surah', br: 128 },
-  { id: 'ar.abdulbasitmurattal', name: 'عبد الباسط عبد الصمد (مرتّل)', mode: 'surah', br: 128 },
-  { id: 'ar.abdulbasitmujawwad', name: 'عبد الباسط عبد الصمد (مجوّد)', mode: 'surah', br: 128 },
-  { id: 'ar.abdullahbasfar', name: 'عبد الله بصفر', mode: 'surah', br: 128 },
-  { id: 'ar.husary', name: 'محمود خليل الحصري', mode: 'ayah', br: 128 },
-  { id: 'ar.husarymujawwad', name: 'محمود خليل الحصري (مجوّد)', mode: 'ayah', br: 128 },
-  { id: 'ar.minshawi', name: 'محمد صديق المنشاوي', mode: 'ayah', br: 128 },
-  { id: 'ar.minshawimujawwad', name: 'محمد صديق المنشاوي (مجوّد)', mode: 'ayah', br: 64 },
-  { id: 'ar.abdurrahmaansudais', name: 'عبد الرحمن السديس', mode: 'ayah', br: 192 },
-  { id: 'ar.saoodshuraym', name: 'سعود الشريم', mode: 'ayah', br: 64 },
-  { id: 'ar.mahermuaiqly', name: 'ماهر المعيقلي', mode: 'ayah', br: 128 },
-  { id: 'ar.hudhaify', name: 'علي الحذيفي', mode: 'ayah', br: 128 },
-  { id: 'ar.muhammadayyoub', name: 'محمد أيوب', mode: 'ayah', br: 128 },
-  { id: 'ar.muhammadjibreel', name: 'محمد جبريل', mode: 'ayah', br: 128 },
-  { id: 'ar.shaatree', name: 'أبو بكر الشاطري', mode: 'ayah', br: 128 },
-  { id: 'ar.ahmedajamy', name: 'أحمد بن علي العجمي', mode: 'ayah', br: 128 },
-  { id: 'ar.hanirifai', name: 'هاني الرفاعي', mode: 'ayah', br: 192 },
-  { id: 'ar.abdulsamad', name: 'عبد الباسط عبد الصمد (آية بآية)', mode: 'ayah', br: 64 },
-  { id: 'ar.aymanswoaid', name: 'أيمن سويد', mode: 'ayah', br: 64 },
-  { id: 'ar.ibrahimakhbar', name: 'إبراهيم الأخضر', mode: 'ayah', br: 32 },
+  { id: 'ar.alafasy', name: 'مشاري راشد العفاسي', en: 'Mishary Rashid Alafasy', mode: 'surah', br: 128 },
+  { id: 'ar.abdulbasitmurattal', name: 'عبد الباسط عبد الصمد (مرتّل)', en: 'Abdul Basit Abdul Samad (murattal)', mode: 'surah', br: 128 },
+  { id: 'ar.abdulbasitmujawwad', name: 'عبد الباسط عبد الصمد (مجوّد)', en: 'Abdul Basit Abdul Samad (mujawwad)', mode: 'surah', br: 128 },
+  { id: 'ar.abdullahbasfar', name: 'عبد الله بصفر', en: 'Abdullah Basfar', mode: 'surah', br: 128 },
+  { id: 'ar.husary', name: 'محمود خليل الحصري', en: 'Mahmoud Khalil Al-Husary', mode: 'ayah', br: 128 },
+  { id: 'ar.husarymujawwad', name: 'محمود خليل الحصري (مجوّد)', en: 'Mahmoud Khalil Al-Husary (mujawwad)', mode: 'ayah', br: 128 },
+  { id: 'ar.minshawi', name: 'محمد صديق المنشاوي', en: 'Mohamed Siddiq Al-Minshawi', mode: 'ayah', br: 128 },
+  { id: 'ar.minshawimujawwad', name: 'محمد صديق المنشاوي (مجوّد)', en: 'Mohamed Siddiq Al-Minshawi (mujawwad)', mode: 'ayah', br: 64 },
+  { id: 'ar.abdurrahmaansudais', name: 'عبد الرحمن السديس', en: 'Abdur-Rahman As-Sudais', mode: 'ayah', br: 192 },
+  { id: 'ar.saoodshuraym', name: 'سعود الشريم', en: 'Saud Ash-Shuraim', mode: 'ayah', br: 64 },
+  { id: 'ar.mahermuaiqly', name: 'ماهر المعيقلي', en: 'Maher Al-Muaiqly', mode: 'ayah', br: 128 },
+  { id: 'ar.hudhaify', name: 'علي الحذيفي', en: 'Ali Al-Hudhaify', mode: 'ayah', br: 128 },
+  { id: 'ar.muhammadayyoub', name: 'محمد أيوب', en: 'Muhammad Ayyub', mode: 'ayah', br: 128 },
+  { id: 'ar.muhammadjibreel', name: 'محمد جبريل', en: 'Muhammad Jibreel', mode: 'ayah', br: 128 },
+  { id: 'ar.shaatree', name: 'أبو بكر الشاطري', en: 'Abu Bakr Ash-Shatri', mode: 'ayah', br: 128 },
+  { id: 'ar.ahmedajamy', name: 'أحمد بن علي العجمي', en: 'Ahmed ibn Ali Al-Ajamy', mode: 'ayah', br: 128 },
+  { id: 'ar.hanirifai', name: 'هاني الرفاعي', en: 'Hani Ar-Rifai', mode: 'ayah', br: 192 },
+  { id: 'ar.abdulsamad', name: 'عبد الباسط عبد الصمد (آية بآية)', en: 'Abdul Basit Abdul Samad (ayah by ayah)', mode: 'ayah', br: 64 },
+  { id: 'ar.aymanswoaid', name: 'أيمن سويد', en: 'Ayman Suwayd', mode: 'ayah', br: 64 },
+  { id: 'ar.ibrahimakhbar', name: 'إبراهيم الأخضر', en: 'Ibrahim Al-Akhdar', mode: 'ayah', br: 32 },
 ];
 const KEY = 'noor.reciter';
 const ayahUrl = (r: Rec, global: number) => `https://cdn.islamic.network/quran/audio/${r.br}/${r.id}/${global}.mp3`;
 const arNum = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
-export default function Recitation({ surah, surahName, start, count }: { surah: number; surahName: string; start: number; count: number }) {
+const L = {
+  ar: { aria: 'الاستماع إلى السورة', reciter: 'القارئ', full: 'السورة كاملة', byAyah: 'آية بآية (مع تتبّع الآية)', prev: 'السابقة', next: 'التالية', pause: 'إيقاف مؤقت', resume: 'متابعة', play: 'تشغيل', pos: (c: number, n: number) => `الآية ${arNum(c)} من ${arNum(n)}`, follow: 'تتبّع الآية', err: 'تعذّر تحميل التلاوة من المصدر الآن. جرّب قارئًا آخر أو أعد المحاولة لاحقًا.', note: (r: string) => `التلاوة بصوت ${r}، تُبث مباشرة من Islamic Network (alquran.cloud). حقوق التلاوة لأصحابها.`, album: 'القرآن الكريم — نور لأمي', title: (s: string) => `سورة ${s}` },
+  en: { aria: 'Listen to the surah', reciter: 'Reciter', full: 'Full surah', byAyah: 'Ayah by ayah (follows the text)', prev: 'Previous', next: 'Next', pause: 'Pause', resume: 'Resume', play: 'Play', pos: (c: number, n: number) => `Ayah ${c} of ${n}`, follow: 'Follow ayah', err: 'Could not load the recitation from its source. Try another reciter or try again later.', note: (r: string) => `Recited by ${r}, streamed directly from Islamic Network (alquran.cloud). Recitation rights belong to their owners.`, album: 'The Holy Quran — Noor Li Ummi', title: (s: string) => `Surah ${s}` },
+};
+
+export default function Recitation({ surah, surahName, start, count, lang = 'ar' }: { surah: number; surahName: string; start: number; count: number; lang?: 'ar' | 'en' }) {
+  const t = L[lang];
   const [rid, setRid] = useState(RECITERS[0].id);
   const [error, setError] = useState(false);
   const [cur, setCur] = useState(1); // ayah-mode position
@@ -41,11 +47,12 @@ export default function Recitation({ surah, surahName, start, count }: { surah: 
   const player = useRef<HTMLAudioElement | null>(null);
   const preload = useRef<HTMLAudioElement | null>(null);
   const r = RECITERS.find((x) => x.id === rid) ?? RECITERS[0];
+  const rname = (x: Rec) => (lang === 'en' ? x.en : x.name);
 
   useEffect(() => { try { const v = localStorage.getItem(KEY); if (v && RECITERS.some((x) => x.id === v)) setRid(v); } catch { /* ignore */ } }, []);
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
-    navigator.mediaSession.metadata = new MediaMetadata({ title: `سورة ${surahName}`, artist: r.name, album: 'القرآن الكريم — نور لأمي' });
+    navigator.mediaSession.metadata = new MediaMetadata({ title: t.title(surahName), artist: rname(r), album: t.album });
   }, [surahName, r.name]);
 
   // Highlight (and optionally follow) the ayah being recited in ayah mode.
@@ -80,12 +87,12 @@ export default function Recitation({ surah, surahName, start, count }: { surah: 
   };
 
   return (
-    <section className="card recitation" aria-label="الاستماع إلى السورة">
+    <section className="card recitation" aria-label={t.aria}>
       <div className="row" style={{ marginTop: 0 }}>
-        <div className="field"><label htmlFor="reciter">القارئ</label>
+        <div className="field"><label htmlFor="reciter">{t.reciter}</label>
           <select id="reciter" value={rid} onChange={(e) => choose(e.target.value)}>
-            <optgroup label="السورة كاملة">{RECITERS.filter((x) => x.mode === 'surah').map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</optgroup>
-            <optgroup label="آية بآية (مع تتبّع الآية)">{RECITERS.filter((x) => x.mode === 'ayah').map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</optgroup>
+            <optgroup label={t.full}>{RECITERS.filter((x) => x.mode === 'surah').map((x) => <option key={x.id} value={x.id}>{rname(x)}</option>)}</optgroup>
+            <optgroup label={t.byAyah}>{RECITERS.filter((x) => x.mode === 'ayah').map((x) => <option key={x.id} value={x.id}>{rname(x)}</option>)}</optgroup>
           </select></div>
       </div>
       {r.mode === 'surah' ? (
@@ -93,15 +100,15 @@ export default function Recitation({ surah, surahName, start, count }: { surah: 
           src={`https://cdn.islamic.network/quran/audio-surah/${r.br}/${r.id}/${surah}.mp3`} />
       ) : (
         <div className="row" style={{ marginTop: 12, alignItems: 'center' }}>
-          <button type="button" className="btn ghost" onClick={() => cur > 1 && playAyah(cur - 1)} disabled={cur <= 1} aria-label="الآية السابقة">السابقة</button>
-          <button type="button" className="btn" onClick={toggle}>{playing ? 'إيقاف مؤقت' : cur > 1 ? 'متابعة' : 'تشغيل'}</button>
-          <button type="button" className="btn ghost" onClick={() => cur < count && playAyah(cur + 1)} disabled={cur >= count} aria-label="الآية التالية">التالية</button>
-          <span role="status">الآية {arNum(cur)} من {arNum(count)}</span>
-          <label style={{ display: 'flex', gap: 6, alignItems: 'center' }}><input type="checkbox" checked={follow} onChange={(e) => setFollow(e.target.checked)} /> تتبّع الآية</label>
+          <button type="button" className="btn ghost" onClick={() => cur > 1 && playAyah(cur - 1)} disabled={cur <= 1} aria-label={t.prev}>{t.prev}</button>
+          <button type="button" className="btn" onClick={toggle}>{playing ? t.pause : cur > 1 ? t.resume : t.play}</button>
+          <button type="button" className="btn ghost" onClick={() => cur < count && playAyah(cur + 1)} disabled={cur >= count} aria-label={t.next}>{t.next}</button>
+          <span role="status">{t.pos(cur, count)}</span>
+          <label style={{ display: 'flex', gap: 6, alignItems: 'center' }}><input type="checkbox" checked={follow} onChange={(e) => setFollow(e.target.checked)} /> {t.follow}</label>
         </div>
       )}
-      {error && <p className="note" role="alert">تعذّر تحميل التلاوة من المصدر الآن. جرّب قارئًا آخر أو أعد المحاولة لاحقًا.</p>}
-      <p className="note">التلاوة بصوت {r.name}، تُبث مباشرة من Islamic Network (alquran.cloud). حقوق التلاوة لأصحابها.</p>
+      {error && <p className="note" role="alert">{t.err}</p>}
+      <p className="note">{t.note(rname(r))}</p>
     </section>
   );
 }

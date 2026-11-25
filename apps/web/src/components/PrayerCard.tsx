@@ -1,16 +1,59 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { METHODS, formatCountdown, formatTime, getPrayerStatus, getScheduleForInstant, qiblaDirection, type MethodId, type PrayerName, type PrayerSettings } from '@noor/prayer-engine';
-import { CITIES, cityForTimezone, methodForTimezone, nearestCity, nearestCityDist } from '@/lib/cities';
+import { CITIES, cityForTimezone, methodForTimezone, nearestCity, nearestCityDist, type City } from '@/lib/cities';
 
-const NAMES: Record<PrayerName, string> = { fajr: 'الفجر', sunrise: 'الشروق', dhuhr: 'الظهر', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' };
+type Lang = 'ar' | 'en';
 const ORDER: PrayerName[] = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
 const KEY = 'noor.prayer.v1';
 const ASKED = 'noor.geo.asked'; // set once the visitor has answered (or dismissed) the location prompt
-interface Saved { label: string; s: PrayerSettings; src?: 'auto' | 'city' | 'gps'; acc?: number }
-const fromCity = (id: string): Saved => { const c = CITIES.find((x) => x.id === id) ?? CITIES[0]; return { label: c.ar, src: 'city', s: { latitude: c.lat, longitude: c.lng, timezone: c.tz, method: c.method } }; };
+/** label: Arabic label (kept for older saved data); cid/near: language-neutral place, rendered per language. */
+interface Saved { label: string; s: PrayerSettings; src?: 'auto' | 'city' | 'gps'; acc?: number; cid?: string; near?: boolean }
 
-export default function PrayerCard() {
+const T = {
+  ar: {
+    names: { fajr: 'الفجر', sunrise: 'الشروق', dhuhr: 'الظهر', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' } as Record<PrayerName, string>,
+    title: 'مواقيت الصلاة', next: 'الصلاة القادمة', current: 'الصلاة الحالية', city: 'المدينة', method: 'طريقة الحساب',
+    here: 'موقعك الحالي', near: (c: string) => `قرب ${c}`,
+    gpsOn: (l: string, isHere: boolean) => `📍 المواقيت لموقعك الحالي${isHere ? '' : ` (${l})`}، وتُحدَّث تلقائيًا عند كل زيارة.`,
+    refresh: 'تحديث الآن', locate: 'حدّد موقعي',
+    auto: (c: string) => `المواقيت الآن لمدينة ${c} بحسب توقيت جهازك.`, chosen: (c: string) => `المواقيت لمدينة ${c}.`, exact: 'لمواقيت مكانك بالضبط:',
+    noGeo: 'المتصفح لا يدعم تحديد الموقع. اختر مدينتك من القائمة.',
+    asking: 'نطلب إذن موقعك مرة واحدة لنضبط المواقيت على مكانك بالضبط. الموقع لا يغادر جهازك.', locating: 'جارٍ تحديد الموقع…',
+    denied: 'لم يُسمح بتحديد الموقع، فالمواقيت حسب المدينة المختارة. يمكنك السماح لاحقًا من إعدادات المتصفح ثم الضغط على «حدّد موقعي».',
+    failed: 'تعذّر تحديد الموقع الآن. اختر مدينتك من القائمة أو أعد المحاولة.',
+    qibla: (d: string) => `اتجاه القبلة: ${d}° من الشمال الحقيقي. `,
+    note: 'المواقيت محسوبة فلكيًا على جهازك وقد تختلف دقائق عن الجدول الرسمي في بلدك؛ موقعك لا يُرسل إلى أي خادم.',
+    hijri: 'ar-SA-u-ca-islamic-umalqura-nu-arab', greg: 'ar-EG-u-nu-arab',
+  },
+  en: {
+    names: { fajr: 'Fajr', sunrise: 'Sunrise', dhuhr: 'Dhuhr', asr: 'Asr', maghrib: 'Maghrib', isha: 'Isha' } as Record<PrayerName, string>,
+    title: 'Prayer times', next: 'Next prayer', current: 'Current prayer', city: 'City', method: 'Calculation method',
+    here: 'Your location', near: (c: string) => `near ${c}`,
+    gpsOn: (l: string, isHere: boolean) => `📍 Times for your current location${isHere ? '' : ` (${l})`}, refreshed on each visit.`,
+    refresh: 'Refresh now', locate: 'Use my location',
+    auto: (c: string) => `Showing times for ${c}, based on your device's time zone.`, chosen: (c: string) => `Showing times for ${c}.`, exact: 'For your exact location:',
+    noGeo: 'This browser does not support location. Please choose your city.',
+    asking: 'We ask for your location once to match the times to where you are. It never leaves your device.', locating: 'Finding your location…',
+    denied: 'Location was not allowed, so times follow the chosen city. You can allow it later in your browser settings, then tap “Use my location”.',
+    failed: 'Could not get your location right now. Choose your city or try again.',
+    qibla: (d: string) => `Qibla: ${d}° from true north. `,
+    note: 'Times are calculated astronomically on your device and may differ by a few minutes from your local official timetable. Your location is never sent to any server.',
+    hijri: 'en-u-ca-islamic-umalqura', greg: 'en-GB',
+  },
+};
+
+const cityName = (c: City, lang: Lang) => (lang === 'ar' ? c.ar : c.en);
+const fromCity = (id: string): Saved => { const c = CITIES.find((x) => x.id === id) ?? CITIES[0]; return { label: c.ar, cid: c.id, src: 'city', s: { latitude: c.lat, longitude: c.lng, timezone: c.tz, method: c.method } }; };
+/** Older saved data has only the Arabic label: recover the city id from it. */
+const placeOf = (v: Saved) => {
+  if (v.cid) return { city: CITIES.find((c) => c.id === v.cid), near: !!v.near };
+  const city = CITIES.find((c) => v.label === c.ar || v.label === `قرب ${c.ar}` || v.label === `${c.ar} (موقعك)`);
+  return { city, near: !!city && v.label.startsWith('قرب ') };
+};
+
+export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
+  const t = T[lang];
   const [saved, setSaved] = useState<Saved | null>(null);
   const [now, setNow] = useState<Date | null>(null);
   const [geoMsg, setGeoMsg] = useState('');
@@ -25,8 +68,7 @@ export default function PrayerCard() {
       try { localStorage.setItem(KEY, JSON.stringify(init)); } catch { /* ignore */ }
     }
     setSaved(init); setNow(new Date());
-    // If the visitor already allowed location, refresh it quietly on each visit (e.g. when travelling). A manually chosen city is respected.
-    // Automatic: already allowed → refresh quietly; never asked → ask once on the first visit; refused → never nag.
+    // Automatic: already allowed → refresh quietly; never asked → ask once on the first visit; refused → never nag. A manually chosen city is respected.
     if (init.src !== 'city' && 'geolocation' in navigator) {
       let asked = false; try { asked = localStorage.getItem(ASKED) === '1'; } catch { /* ignore */ }
       const auto = (state?: PermissionState) => {
@@ -51,8 +93,8 @@ export default function PrayerCard() {
   }, [saved, now]);
 
   const locate = (quiet = false, first = false) => {
-    if (!('geolocation' in navigator)) { if (!quiet) setGeoMsg('المتصفح لا يدعم تحديد الموقع. اختر مدينتك من القائمة.'); return; }
-    if (!quiet) setGeoMsg(first ? 'نطلب إذن موقعك مرة واحدة لنضبط المواقيت على مكانك بالضبط. الموقع لا يغادر جهازك.' : 'جارٍ تحديد الموقع…');
+    if (!('geolocation' in navigator)) { if (!quiet) setGeoMsg(t.noGeo); return; }
+    if (!quiet) setGeoMsg(first ? t.asking : t.locating);
     const mark = () => { try { localStorage.setItem(ASKED, '1'); } catch { /* ignore */ } };
     navigator.geolocation.getCurrentPosition(
       (p) => {
@@ -60,74 +102,77 @@ export default function PrayerCard() {
         const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const lat = +p.coords.latitude.toFixed(3); const lng = +p.coords.longitude.toFixed(3);
         const { city, km } = nearestCityDist(lat, lng);
-        const label = km <= 20 ? city.ar : km <= 150 ? `قرب ${city.ar}` : 'موقعك الحالي';
-        const method = (nearestCity(lat, lng) ?? (km <= 150 ? city : undefined))?.method ?? methodForTimezone(tz);
-        update({ label, src: 'gps', acc: Math.round(p.coords.accuracy), s: { latitude: lat, longitude: lng, timezone: tz, method } });
+        const known = km <= 150;
+        const label = km <= 20 ? city.ar : known ? `قرب ${city.ar}` : 'موقعك الحالي';
+        const method = (nearestCity(lat, lng) ?? (known ? city : undefined))?.method ?? methodForTimezone(tz);
+        update({ label, cid: known ? city.id : undefined, near: km > 20, src: 'gps', acc: Math.round(p.coords.accuracy), s: { latitude: lat, longitude: lng, timezone: tz, method } });
         setGeoMsg('');
       },
       (err) => {
         mark();
         if (quiet && !first) return;
-        setGeoMsg(err.code === 1 ? 'لم يُسمح بتحديد الموقع، فالمواقيت حسب المدينة المختارة. يمكنك السماح لاحقًا من إعدادات المتصفح ثم الضغط على «حدّد موقعي».' : 'تعذّر تحديد الموقع الآن. اختر مدينتك من القائمة أو أعد المحاولة.');
+        setGeoMsg(err.code === 1 ? t.denied : t.failed);
       },
       { maximumAge: 600000, timeout: 15000, enableHighAccuracy: false },
     );
   };
 
   if (!saved || !now || !view) {
-    return <section className="card" aria-busy="true" aria-label="مواقيت الصلاة"><div className="next"><span className="label">مواقيت الصلاة</span><span className="count">--:--:--</span></div></section>;
+    return <section className="card" aria-busy="true" aria-label={t.title}><div className="next"><span className="label">{t.title}</span><span className="count">--:--:--</span></div></section>;
   }
   const { day, status, qibla } = view;
   const tz = saved.s.timezone;
   // Inside Makkah a single bearing is meaningless; hide it within ~10 km of the Kaaba.
   const nearKaaba = Math.hypot(saved.s.latitude - 21.4225, saved.s.longitude - 39.8262) < 0.09;
-  const cityId = saved.src === 'gps' ? '' : CITIES.find((c) => c.ar === saved.label)?.id ?? '';
-  const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
-  const greg = new Intl.DateTimeFormat('ar-EG-u-nu-arab', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
+  const place = placeOf(saved);
+  const placeLabel = place.city ? (place.near ? t.near(cityName(place.city, lang)) : cityName(place.city, lang)) : t.here;
+  const cityId = saved.src === 'gps' ? '' : place.city?.id ?? '';
+  const hijri = new Intl.DateTimeFormat(t.hijri, { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
+  const greg = new Intl.DateTimeFormat(t.greg, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
 
   return (
-    <section className="card" aria-label="مواقيت الصلاة">
-      <div className="meta"><span>{greg}</span><span>{hijri}</span><span>{saved.label}</span></div>
+    <section className="card" aria-label={t.title}>
+      <div className="meta"><span>{greg}</span><span>{hijri}</span><span>{placeLabel}</span></div>
       {saved.src === 'gps' ? (
         <div className="locate-banner ok">
-          <span>📍 المواقيت لموقعك الحالي{saved.label !== 'موقعك الحالي' ? ` (${saved.label})` : ''}، وتُحدَّث تلقائيًا عند كل زيارة.</span>
-          <button type="button" className="btn ghost" onClick={() => locate()}>تحديث الآن</button>
+          <span>{t.gpsOn(placeLabel, !place.city)}</span>
+          <button type="button" className="btn ghost" onClick={() => locate()}>{t.refresh}</button>
         </div>
       ) : (
         <div className="locate-banner">
-          <span>{saved.src === 'auto' ? `المواقيت الآن لمدينة ${saved.label} بحسب توقيت جهازك.` : `المواقيت لمدينة ${saved.label}.`} لمواقيت مكانك بالضبط:</span>
-          <button type="button" className="btn" onClick={() => locate()}>حدّد موقعي</button>
+          <span>{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)} {t.exact}</span>
+          <button type="button" className="btn" onClick={() => locate()}>{t.locate}</button>
         </div>
       )}
       <div className="next" aria-live="off">
-        <span className="label">الصلاة القادمة</span>
-        <span className="name">{NAMES[status.next.name]}</span>
+        <span className="label">{t.next}</span>
+        <span className="name">{t.names[status.next.name]}</span>
         <span className="count" role="timer">{formatCountdown(status.remainingMs)}</span>
         {!(status.current.name === 'fajr' && now.getTime() >= day.times.sunrise.getTime() && status.next.name === 'dhuhr') && (
-          <span className="label">الصلاة الحالية: {NAMES[status.current.name]}</span>
+          <span className="label">{t.current}: {t.names[status.current.name]}</span>
         )}
       </div>
       <ul className="times">
         {ORDER.map((p) => (
           <li key={p} aria-current={p === status.next.name && status.next.time.getTime() === day.times[p].getTime() ? 'true' : undefined}>
-            <span className="n">{NAMES[p]}</span>
+            <span className="n">{t.names[p]}</span>
             <span className="t">{formatTime(day.times[p], tz)}</span>
           </li>
         ))}
       </ul>
       <div className="row">
-        <div className="field"><label htmlFor="city">المدينة</label>
+        <div className="field"><label htmlFor="city">{t.city}</label>
         <select id="city" value={cityId} onChange={(e) => e.target.value && update(fromCity(e.target.value))}>
-          {!cityId && <option value="">{saved.label}</option>}
-          {CITIES.map((c) => <option key={c.id} value={c.id}>{c.ar}</option>)}
+          {!cityId && <option value="">{placeLabel}</option>}
+          {CITIES.map((c) => <option key={c.id} value={c.id}>{cityName(c, lang)}</option>)}
         </select></div>
-        <div className="field"><label htmlFor="method">طريقة الحساب</label>
+        <div className="field"><label htmlFor="method">{t.method}</label>
         <select id="method" value={saved.s.method} onChange={(e) => update({ ...saved, s: { ...saved.s, method: e.target.value as MethodId } })}>
-          {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m.ar}</option>)}
+          {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m[lang]}</option>)}
         </select></div>
       </div>
       {geoMsg && <p className="note" role="status">{geoMsg}</p>}
-      <p className="note">{nearKaaba ? '' : `اتجاه القبلة: ${qibla.toFixed(1)}° من الشمال الحقيقي. `}المواقيت محسوبة فلكيًا على جهازك وقد تختلف دقائق عن الجدول الرسمي في بلدك؛ موقعك لا يُرسل إلى أي خادم.</p>
+      <p className="note">{nearKaaba ? '' : t.qibla(qibla.toFixed(1))}{t.note}</p>
     </section>
   );
 }

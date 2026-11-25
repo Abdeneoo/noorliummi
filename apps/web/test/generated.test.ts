@@ -85,7 +85,7 @@ describe('Nawawi 40 equals the source', () => {
 
 describe('OpenDua audio mapping', () => {
   it('each attached recording belongs to a dua whose text matches the dhikr exactly (after removing diacritics)', async () => {
-    const { normDhikr } = await import('../src/lib/dhikr-norm');
+    const { dhikrKey: normDhikr } = await import('../src/lib/dhikr-norm');
     const cat = JSON.parse(readFileSync(resolve(__dirname, '../../../database/sources/opendua/catalogue.json'), 'utf8'));
     const byFile = new Map<string, string>();
     for (const e of cat.entries) for (const v of e.variations ?? []) for (const st of v.steps) {
@@ -97,7 +97,7 @@ describe('OpenDua audio mapping', () => {
       const g = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/adhkar/${c.id}.json`), 'utf8'));
       for (const it of g.items) if (it.a) { n++; expect(byFile.get(it.a)).toBe(normDhikr(it.t)); }
     }
-    expect(n).toBe(183);
+    expect(n).toBe(189);
   });
 });
 
@@ -133,5 +133,29 @@ describe('Quranic Arabic Corpus alignment', () => {
     }
     expect(aligned).toBe(6232); expect(none).toEqual(['2:181', '8:6', '13:37', '37:130']);
     expect(rootArabic('smw')).toBe('س م و');
+  });
+});
+
+describe('English data', () => {
+  it('QuranEnc translation and footnotes are identical to the source, aligned to every ayah', () => {
+    const dir = resolve(__dirname, '../../../database/sources/quranenc-english-saheeh');
+    let n = 0;
+    for (let s = 1; s <= 114; s++) {
+      const src = JSON.parse(readFileSync(`${dir}/s${s}.json`, 'utf8')).result as { aya: string; translation: string; footnotes: string }[];
+      const g = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/en/quran/${s}.json`), 'utf8')) as { v: string; ayat: { tr: string; fn: string }[] };
+      expect(g.v).toBe('1.1.2'); expect(g.ayat.length).toBe(src.length);
+      g.ayat.forEach((a, i) => { expect(a.tr).toBe(src[i].translation); expect(a.fn).toBe(src[i].footnotes ?? ''); n++; });
+    }
+    expect(n).toBe(6236);
+  });
+  it('OpenDua English is attached only on an exact Arabic match', async () => {
+    const { dhikrKey: normDhikr } = await import('../src/lib/dhikr-norm');
+    const cat = JSON.parse(readFileSync(resolve(__dirname, '../../../database/sources/opendua/catalogue.json'), 'utf8'));
+    const en = new Map<string, string>();
+    for (const e of cat.entries) for (const v of e.variations ?? []) for (const st of v.steps) if (st.items?.length === 1 && st.items[0].dua?.translation) en.set(normDhikr(st.items[0].dua.arabic), st.items[0].dua.translation);
+    const idx = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/adhkar/index.json'), 'utf8')) as { id: number }[];
+    let k = 0;
+    for (const c of idx) for (const it of JSON.parse(readFileSync(resolve(__dirname, `../src/generated/adhkar/${c.id}.json`), 'utf8')).items) if (it.en) { k++; expect(en.get(normDhikr(it.t))).toBe(it.en); }
+    expect(k).toBe(189);
   });
 });
