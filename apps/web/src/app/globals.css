@@ -510,3 +510,9 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .stat-grid li { background: var(--tint); border-radius: 14px; padding: 12px; display: grid; gap: 2px; } .stat-grid strong { font-size: 1.5rem; } .stat-grid span { font-size: .8rem; color: var(--muted); }
 .stat-bars { display: flex; align-items: flex-end; gap: 3px; height: 140px; } .stat-bars span { flex: 1; background: var(--primary); border-radius: 4px 4px 0 0; min-width: 4px; }
 .stat-row { display: block; height: 10px; border-radius: 6px; background: var(--gold); }
+.utils .lang-switch .short { display: none; }
+@media (max-width: 520px) { .utils { gap: 4px; } .utils .acct { display: none; } .utils .lang-switch .full { display: none; } .utils .lang-switch .short { display: inline; } .utils .theme-toggle { padding: 0 8px; } }
+@media (max-width: 1239px) { html[dir='ltr'] nav.main > a { padding-inline: 8px; font-size: .84rem; } html[dir='ltr'] .brand .wordmark { font-size: 1.15rem; } }
+@media (min-width: 900px) and (max-width: 1039px) { html[dir='ltr'] .brand .wordmark { display: none; } }
+@media (max-width: 520px) { html[dir='ltr'] .brand .wordmark { font-size: 1.05rem; } html[dir='ltr'] .brand .mark { width: 22px; } .font-size button { min-width: 30px; } }
+@media (max-width: 380px) { html[dir='ltr'] .brand .wordmark { display: none; } header.site .wrap { padding-inline: 12px; } }

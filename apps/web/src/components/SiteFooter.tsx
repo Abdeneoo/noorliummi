@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ReportLink from './ReportLink';
 type Lang = 'ar' | 'en';
 const C = {
   ar: { tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', dua: 'صدقة جارية عن روح والدة صاحب المشروع — نسألكم لها الدعاء بالرحمة والمغفرة.', home: '/',
@@ -27,7 +28,7 @@ export default function SiteFooter({ lang = 'ar' }: { lang?: Lang }) {
           ))}
         </nav>
       </div>
-      <div className="wrap foot-bottom"><span>{c.bottom}</span><span>{`© ${new Date().getFullYear()} ${lang === 'ar' ? 'نور لأمي' : 'Noor Li Ummi'}`}</span></div>
+      <div className="wrap foot-bottom"><span>{c.bottom}</span><span><ReportLink label={lang === 'ar' ? 'بلّغ عن خطأ في هذه الصفحة' : 'Report a mistake on this page'} /></span><span>{`© ${new Date().getFullYear()} ${lang === 'ar' ? 'نور لأمي' : 'Noor Li Ummi'}`}</span></div>
     </footer>
   );
 }

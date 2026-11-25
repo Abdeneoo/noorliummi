@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 type Hit = { book: string; ar: string; s: number; n: number; t: string };
 type Res = { hits: Hit[]; total: number; from: number; per: number; books: { key: string; ar: string; n: number }[] };
 const ar = (n: number) => n.toLocaleString('ar-EG');
-export default function HadithSearch({ book }: { book?: string }) {
-  const [q, setQ] = useState(''); const [res, setRes] = useState<Res | null>(null); const [busy, setBusy] = useState(false); const [err, setErr] = useState('');
+export default function HadithSearch({ book, initial = '' }: { book?: string; initial?: string }) {
+  const [q, setQ] = useState(initial); const [res, setRes] = useState<Res | null>(null); const [busy, setBusy] = useState(false); const [err, setErr] = useState('');
   const [filter, setFilter] = useState(book ?? ''); const [all, setAll] = useState<Hit[]>([]);
   const run = async (from: number, f = filter) => {
     if (q.trim().length < 3) { setErr('اكتب ثلاثة أحرف على الأقل.'); return; }
@@ -16,6 +16,8 @@ export default function HadithSearch({ book }: { book?: string }) {
       setRes(j); setAll(from === 0 ? j.hits : [...all, ...j.hits]);
     } catch { setErr('تعذّر الاتصال.'); } finally { setBusy(false); }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (initial.trim().length >= 3) void run(0); }, [initial]);
   const total = res?.total ?? 0;
   return (
     <section className="card hadith-search">

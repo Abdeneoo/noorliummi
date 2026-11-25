@@ -56,6 +56,8 @@ export const GROUPS: Group[] = [
     id: 'tools', title: { ar: 'الأدوات والتقنيات', en: 'Tools and technology' }, items: [
       { what: { ar: 'مواقيت الصلاة والقبلة', en: 'Prayer times and qibla' }, source: 'Adhan JS (Batoul Apps)', url: 'https://github.com/batoulapps/adhan-js', license: 'MIT',
         how: { ar: 'تُحسب على جهازك، وموقعك لا يُرسل إلى أي خادم. قوبلت بجداول رسمية.', en: 'Calculated on your device; checked against official tables.' } },
+      { what: { ar: 'سعر الذهب والفضة (حاسبة الزكاة)', en: 'Gold and silver price (zakat calculator)' }, source: 'gold-api.com', url: 'https://gold-api.com', license: 'واجهة مجانية عامة بلا مفتاح',
+        how: { ar: 'السعر العالمي بالدولار يُجلب من خادمنا مرة كل ساعة ويُعرض استرشادًا؛ والمستخدم يكتب سعر بلده.', en: 'World spot price in USD, fetched by our server hourly and shown as guidance; users enter their local price.' } },
       { what: { ar: 'المساجد القريبة', en: 'Nearby mosques' }, source: '© مساهمو OpenStreetMap', url: 'https://www.openstreetmap.org/copyright', license: 'ODbL',
         how: { ar: 'عبر Overpass API، بإحداثيات مقرّبة.', en: 'Via the Overpass API with rounded coordinates.' } },
       { what: { ar: 'جدولة الحفظ', en: 'Memorisation schedule' }, source: 'ts-fsrs', url: 'https://github.com/open-spaced-repetition/ts-fsrs', license: 'MIT',

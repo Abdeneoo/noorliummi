@@ -54,6 +54,7 @@ function isActive(path: string, it: Item) {
 export function SiteHeader({ lang }: { lang: Lang }) {
   const path = usePathname() || '/';
   const ar = lang === 'ar';
+  useEffect(() => { const on = (e: KeyboardEvent) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); location.href = '/search'; } }; document.addEventListener('keydown', on); return () => document.removeEventListener('keydown', on); }, []);
   return (
     <header className="site">
       <div className="wrap">
@@ -69,10 +70,13 @@ export function SiteHeader({ lang }: { lang: Lang }) {
           {NAV[lang].slice(1).map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}><span className="full">{it.label}</span><span className="short">{SHORT[lang][it.href] ?? it.label}</span></Link>)}
         </nav>
         <div className="utils">
-          <Link className="util-btn" href="/account" aria-label={ar ? 'حسابي' : 'My account'} title={ar ? 'حسابي' : 'My account'} aria-current={path.startsWith('/account') ? 'page' : undefined}>
+          <Link className="util-btn" href={ar ? '/search' : '/search'} aria-label={ar ? 'بحث (Ctrl+K)' : 'Search (Ctrl+K)'} title={ar ? 'بحث (Ctrl+K)' : 'Search (Ctrl+K)'} aria-current={path.startsWith('/search') ? 'page' : undefined}>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+          </Link>
+          <Link className="util-btn acct" href="/account" aria-label={ar ? 'حسابي' : 'My account'} title={ar ? 'حسابي' : 'My account'} aria-current={path.startsWith('/account') ? 'page' : undefined}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6" /><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4" /></svg>
           </Link>
-          <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'}>{ar ? 'English' : 'العربية'}</Link>
+          <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'}><span className="full">{ar ? 'English' : 'العربية'}</span><span className="short" aria-hidden="true">{ar ? 'EN' : 'ع'}</span></Link>
           <FontSize lang={lang} />
           <ThemeToggle lang={lang} />
         </div>
