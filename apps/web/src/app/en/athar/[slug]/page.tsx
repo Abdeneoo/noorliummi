@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import KhatmaPlayer from '@/components/KhatmaPlayer';
 import Tasbeeh from '@/components/Tasbeeh';
+import Lantern from '@/components/Lantern';
 import { isSlug } from '@/lib/athar';
 import { getPage } from '@/lib/athar-store';
 import { loadAdhkar, ADHKAR } from '@/lib/adhkar';
@@ -28,7 +29,8 @@ export default async function AtharPageEn({ params }: { params: Promise<{ slug: 
         <h1 style={{ margin: '8px 0' }} dir="auto">{p.display_name}</h1>
         {p.dedication && <p style={{ whiteSpace: 'pre-line' }} dir="auto">{p.dedication}</p>}
       </section>
-      {p.items.filter((it) => it.kind === 'reciter').map((it) => <KhatmaPlayer key="k" reciter={it.ref} pageKey={slug.slice(0, 12)} lang="en" />)}
+      <Lantern slug={slug} name={p.display_name} lang="en" />
+      {p.items.filter((it) => it.kind === 'reciter').map((it) => <KhatmaPlayer key="k" reciter={it.ref} pageKey={slug.slice(0, 12)} lang="en" atharSlug={slug} />)}
       {p.items.some((it) => it.kind !== 'reciter') && (
         <section className="card">
           <h2 style={{ marginTop: 0 }}>Read what you can</h2>
@@ -51,7 +53,7 @@ export default async function AtharPageEn({ params }: { params: Promise<{ slug: 
           <p className="note">Shown as the creator wrote it; personal texts are not machine-translated.</p>
         </section>
       )}
-      <Tasbeeh storeKey={`athar-${slug.slice(0, 12)}`} lang="en" />
+      <Tasbeeh storeKey={`athar-${slug.slice(0, 12)}`} lang="en" atharSlug={slug} />
       <p className="note">The texts on this page were written by its creator, not by Noor Li Ummi. <Link href={`/athar/${slug}`} lang="ar">العربية</Link></p>
     </article>
   );

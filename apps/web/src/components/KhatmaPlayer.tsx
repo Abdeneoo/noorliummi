@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { RECITERS, ayahUrl, surahUrl } from '@/lib/reciters';
 import { SURAHS, arDigits } from '@/lib/quran';
+import { recordActivity } from './Lantern';
 
 /**
  * The whole mushaf by one reciter, surah after surah, from where the listener stopped (saved on the device).
@@ -12,7 +13,7 @@ const TXT = {
   ar: { aria: 'ختمة كاملة', title: (n: string) => `القرآن كاملًا بصوت ${n}`, now: (n: string, a: number | null) => `سورة ${n}${a ? ` · الآية ${arDigits(a)}` : ''}`, prog: 'التقدم في الختمة', prev: 'السورة السابقة', pause: 'إيقاف مؤقت', resume: 'أكمل الاستماع', start: 'ابدأ الختمة', next: 'السورة التالية', from: 'ابدأ من سورة', err: 'تعذّر تشغيل التلاوة الآن؛ تأكد من الاتصال بالإنترنت ثم أعد المحاولة.', saved: 'يُحفظ موضع استماعك على جهازك.' },
   en: { aria: 'Whole-Quran recitation', title: (n: string) => `The whole Quran recited by ${n}`, now: (n: string, a: number | null) => `Surah ${n}${a ? ` · ayah ${a}` : ''}`, prog: 'Progress', prev: 'Previous surah', pause: 'Pause', resume: 'Continue listening', start: 'Start', next: 'Next surah', from: 'Start from surah', err: 'Could not play the recitation; check your connection and try again.', saved: 'Your listening position is saved on your device.' },
 };
-export default function KhatmaPlayer({ reciter, pageKey, lang = 'ar' }: { reciter: number; pageKey: string; lang?: 'ar' | 'en' }) {
+export default function KhatmaPlayer({ reciter, pageKey, lang = 'ar', atharSlug }: { reciter: number; pageKey: string; lang?: 'ar' | 'en'; atharSlug?: string }) {
   const t = TXT[lang];
   const r = RECITERS[reciter] ?? RECITERS[0];
   const KEY = `noor.khatma.${pageKey}.${r.id}`;
@@ -28,6 +29,7 @@ export default function KhatmaPlayer({ reciter, pageKey, lang = 'ar' }: { recite
     setErr(false); setSurah(s); setAyah(a); save(s, a);
     el.src = r.mode === 'surah' ? surahUrl(r, s) : ayahUrl(r, START[s - 1] + a - 1);
     el.onended = () => {
+      if (atharSlug && (r.mode === 'surah' || a === SURAHS[s - 1].ayas)) void recordActivity(atharSlug, 'read');
       if (r.mode === 'ayah' && a < SURAHS[s - 1].ayas) play(s, a + 1);
       else if (s < 114) play(s + 1, 1);
       else { setPlaying(false); save(1, 1); }

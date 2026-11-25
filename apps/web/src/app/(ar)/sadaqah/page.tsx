@@ -15,7 +15,8 @@ export default async function Sadaqah() {
         { href: '/adhkar/56', icon: 'adhkar', title: 'الدعاء للميت', desc: 'من حصن المسلم.' },
         { href: '/adhkar/61', icon: 'adhkar', title: 'دعاء زيارة القبور', desc: 'من حصن المسلم.' },
         { href: '/quran/36', icon: 'quran', title: 'سورة يس', desc: 'اقرأ واستمع.' },
-        { href: '/tasbeeh', icon: 'adhkar', title: 'عدّاد التسبيح', desc: 'سبّح بلمسة.' },
+        { href: '/khatma', icon: 'quran', title: 'ختمة جماعية', desc: 'ختمة لمن تحب، تتوزع أجزاؤها على العائلة.' },
+        { href: '/tasbeeh', icon: 'adhkar', title: 'عدّاد التسبيح', desc: 'سبّح بلمسة، وسجّل تسبيحك في صفحة أثر.' },
       ]}>
       <section className="card dedication">
         <p>إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>

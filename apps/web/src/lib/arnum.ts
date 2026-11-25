@@ -17,3 +17,4 @@ export const AYAH: [string, string, string, string] = ['آية', 'آيتان', '
 export const DHIKR: [string, string, string, string] = ['ذكر', 'ذكران', 'أذكار', 'ذكرًا'];
 export const BOOK: [string, string, string, string] = ['كتاب', 'كتابان', 'كتب', 'كتابًا'];
 export const ayat = (n: number) => arCount(n, AYAH, 'واحدة');
+export const MARRA: [string, string, string, string] = ['مرة', 'مرتان', 'مرات', 'مرةً'];

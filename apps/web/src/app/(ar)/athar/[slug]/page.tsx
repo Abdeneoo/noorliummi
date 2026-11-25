@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import AtharTools from '@/components/AtharTools';
 import KhatmaPlayer from '@/components/KhatmaPlayer';
 import Tasbeeh from '@/components/Tasbeeh';
+import Lantern from '@/components/Lantern';
+import AtharShare from '@/components/AtharShare';
 import { isSlug } from '@/lib/athar';
 import { getPage } from '@/lib/athar-store';
 import surahs from '@/generated/surahs.json';
@@ -29,7 +31,8 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
         <h1 style={{ margin: '8px 0' }}>{p.display_name}</h1>
         {p.dedication && <p style={{ whiteSpace: 'pre-line' }}>{p.dedication}</p>}
       </section>
-      {p.items.filter((it) => it.kind === 'reciter').map((it) => <KhatmaPlayer key="k" reciter={it.ref} pageKey={slug.slice(0, 12)} />)}
+      <Lantern slug={slug} name={p.display_name} />
+      {p.items.filter((it) => it.kind === 'reciter').map((it) => <KhatmaPlayer key="k" reciter={it.ref} pageKey={slug.slice(0, 12)} atharSlug={slug} />)}
       {p.items.some((it) => it.kind !== 'reciter') && (
         <section className="card">
           <h2 style={{ marginTop: 0 }}>اقرأ ما تيسّر</h2>
@@ -46,7 +49,8 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
           <p style={{ whiteSpace: 'pre-line', lineHeight: 2.1 }}>{p.dua_text}</p>
         </section>
       )}
-      <Tasbeeh storeKey={`athar-${slug.slice(0, 12)}`} />
+      <Tasbeeh storeKey={`athar-${slug.slice(0, 12)}`} atharSlug={slug} />
+      <AtharShare slug={slug} name={p.display_name} dua={p.dua_text} />
       <p className="note">كتب نصوص هذه الصفحة منشئُها، وليست من موقع نور لأمي. <Link href="/athar">اصنع صفحة لمن تحب</Link></p>
       <AtharTools slug={slug} initial={{ display_name: p.display_name, dedication: p.dedication, dua_text: p.dua_text, items: p.items, listed: p.listed }} />
     </article>

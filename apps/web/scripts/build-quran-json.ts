@@ -27,6 +27,10 @@ if (meta.length !== 114 || ayat.length !== 6236) throw new Error('Quran structur
 const NAME_FIX: Record<number, string> = { 14: 'إبراهيم', 76: 'الإنسان', 82: 'الانفطار', 84: 'الانشقاق' };
 for (const m of meta) if (NAME_FIX[m.index]) m.name = NAME_FIX[m.index];
 writeFileSync(`${out}/surahs.json`, JSON.stringify(meta));
+// Juz' starts [surah, ayah] (Tanzil metadata), used by the group khatma.
+const juz = [...readFileSync(`${src}/quran-data.xml`, 'utf8').matchAll(/<juz index="(\d+)" sura="(\d+)" aya="(\d+)"/g)].map((m) => [Number(m[2]), Number(m[3])]);
+if (juz.length !== 30) throw new Error('juz table check failed');
+writeFileSync(`${out}/juz.json`, JSON.stringify(juz));
 for (const m of meta) {
   const rows = ayat.filter((a) => a.sura === m.index);
   if (rows.length !== m.ayas) throw new Error(`Ayah count mismatch in sura ${m.index}`);

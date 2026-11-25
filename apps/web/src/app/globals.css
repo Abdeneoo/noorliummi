@@ -430,3 +430,58 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-inline-end-color: transparent; display: inline-block; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .copy-link { margin-inline-start: auto; min-height: 30px; font-size: .78rem; }
+/* Group khatma */
+.kg-head h1 { margin: 6px 0 12px; }
+.kg-grid { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.kg-juz { border: 1px solid var(--line); border-radius: 16px; padding: 12px; display: grid; gap: 6px; align-content: start; background: var(--surface); }
+.kg-juz small { color: var(--muted); font-size: .8rem; }
+.kg-juz.done { background: color-mix(in srgb, var(--secondary) 18%, var(--surface)); border-color: color-mix(in srgb, var(--secondary) 45%, var(--line)); }
+.kg-juz.mine { border-color: var(--gold); box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 30%, transparent); }
+.kg-juz.taken { opacity: .8; }
+.kg-state { font-size: .82rem; color: var(--muted); }
+.kg-done { text-align: center; border-color: color-mix(in srgb, var(--gold) 50%, var(--line)); }
+.kg-dua { font-family: var(--font-calligraphic); font-size: 1.15rem; line-height: 2.2; }
+.linkish { background: none; border: 0; color: var(--accent-strong); cursor: pointer; padding: 0; font: inherit; text-decoration: underline; }
+/* Lantern of light (athar pages) */
+.lantern { display: grid; grid-template-columns: 120px 1fr; gap: var(--s4); align-items: center; }
+.lantern-svg { width: 120px; height: 170px; overflow: visible; }
+.lantern-halo { opacity: var(--glow, .3); transform-origin: 60px 98px; }
+.lantern-flame { filter: drop-shadow(0 0 calc(6px + 18px * var(--glow, .3)) rgba(255, 220, 150, .95)); }
+@media (prefers-reduced-motion: no-preference) { .lantern-flame { animation: flicker 3.4s ease-in-out infinite; transform-origin: 60px 108px; } .lantern-halo { animation: lanternPulse 6s ease-in-out infinite alternate; } }
+@keyframes lanternPulse { from { transform: scale(.94); } to { transform: scale(1.06); } }
+.lantern-line { margin: 4px 0 12px; }
+@media (max-width: 520px) { .lantern { grid-template-columns: 1fr; justify-items: center; text-align: center; } }
+.tas-full { position: fixed; inset: 0; z-index: 100; display: grid; place-content: center; justify-items: center; gap: 10px; background: radial-gradient(circle at 50% 45%, #163a30, #0b1f19 70%); color: #F3E9D2; touch-action: manipulation; user-select: none; -webkit-user-select: none; cursor: pointer; }
+.tas-full .tas-phrase { color: #E6D3A8; font-size: clamp(1.8rem, 7vw, 2.6rem); }
+.tas-full .tas-count { font-size: clamp(5rem, 26vw, 9rem); color: #FFF4D6; }
+.tas-full .tas-hint { color: rgba(243, 233, 210, .7); }
+.tas-exit { position: absolute; top: calc(16px + env(safe-area-inset-top)); inset-inline-end: 16px; }
+/* Sakina (bedtime) mode: covers the page chrome */
+.sakina { position: fixed; inset: 0; z-index: 90; background: radial-gradient(circle at 50% 35%, #2a2116, #14100b 75%); color: #F1E4C8; display: grid; grid-template-rows: auto 1fr auto auto auto; justify-items: center; padding: calc(16px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)); overflow-y: auto; transition: filter 2s; }
+.sakina.asleep { filter: brightness(.12); }
+.sk-top { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+.sk-x, .sk-zoom button { color: #E6D3A8; background: rgba(255,255,255,.06); border: 1px solid rgba(230,211,168,.25); border-radius: 999px; min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; text-decoration: none; font-size: 1rem; cursor: pointer; }
+.sk-zoom { display: flex; gap: 8px; }
+.sk-text { align-self: center; max-width: 900px; text-align: center; font-family: var(--font-quran); font-size: calc(clamp(1.7rem, 5.2vw, 2.8rem) * var(--sk, 1)); line-height: 2.2; margin: 0; }
+.sk-text.dhikr { font-family: var(--font-calligraphic); font-size: calc(clamp(1.35rem, 4.2vw, 2.1rem) * var(--sk, 1)); }
+.sk-label { color: rgba(241,228,200,.65); font-size: .95rem; margin: 8px 0 18px; }
+.sk-controls { display: flex; gap: 14px; align-items: center; }
+.sk-controls button { min-width: 56px; min-height: 56px; border-radius: 999px; border: 1px solid rgba(230,211,168,.3); background: rgba(255,255,255,.05); color: #F1E4C8; font-size: 1.6rem; cursor: pointer; }
+.sk-controls .sk-play { min-width: 140px; font-size: 1.1rem; background: #C6A66B; color: #14100b; border: 0; }
+.sk-controls button:disabled { opacity: .35; }
+.sk-opts { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 16px; font-size: .9rem; color: rgba(241,228,200,.8); align-items: center; }
+.sk-opts select { margin-inline-start: 6px; background: #1f1810; color: #F1E4C8; border: 1px solid rgba(230,211,168,.3); border-radius: 10px; min-height: 40px; }
+.sk-sleep { position: fixed; bottom: 40%; inset-inline: 0; text-align: center; color: #F1E4C8; }
+.mquiz { margin: var(--s4) 0 var(--s5); }
+.mq-list { list-style: none; padding: 0; display: grid; gap: 12px; }
+.mq-q { margin: 0 0 10px; }
+.mq-opts { display: grid; gap: 8px; }
+.mq-opt { text-align: start; font-family: var(--font-quran); font-size: 1.15rem; line-height: 2; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; }
+.mq-opt.right { border-color: var(--secondary); background: color-mix(in srgb, var(--secondary) 16%, var(--surface)); }
+.mq-opt.wrong { border-color: #c96f5a; background: color-mix(in srgb, #c96f5a 12%, var(--surface)); }
+.font-size { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius-pill); overflow: hidden; }
+.font-size button { min-width: 34px; min-height: 36px; border: 0; background: transparent; color: var(--text); cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 1px; }
+.font-size button small { font-size: .7em; }
+.font-size button + button { border-inline-start: 1px solid var(--line); }
+.font-size button:disabled { opacity: .35; }
+@media (max-width: 420px) { .font-size button { min-width: 30px; } }

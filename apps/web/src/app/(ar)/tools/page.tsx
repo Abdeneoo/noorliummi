@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Hub } from '@/components/Tiles';
+import MyData from '@/components/MyData';
+import FridayReminder from '@/components/FridayReminder';
 export const metadata: Metadata = { title: 'الأدوات' };
 export default function Tools() {
   return (
@@ -11,7 +13,13 @@ export default function Tools() {
         { href: '/adhan', icon: 'bell', title: 'الأذان والتنبيه', desc: 'اختيار صوت الأذان وتنبيهات الصلاة.' },
         { href: '/mosques', icon: 'mosque', title: 'المساجد القريبة', desc: 'ابحث عن أقرب مسجد.' },
         { href: '/athar', icon: 'sadaqah', title: 'صفحة أثر', desc: 'صفحة مُهداة تشاركها.' },
+        { href: '/khatma', icon: 'quran', title: 'ختمة جماعية', desc: 'وزّع الأجزاء الثلاثين على العائلة برابط واحد.' },
+        { href: '/sakina', icon: 'quran', title: 'وضع السكينة', desc: 'آية واحدة بخط كبير وتلاوة هادئة ومؤقت نوم.' },
+        { href: '/mutashabihat', icon: 'similar', title: 'تحدّي المتشابهات', desc: 'ثلاثة أسئلة يومية لتثبيت الحفظ.' },
         { href: '/sources', icon: 'hadith', title: 'المصادر والتراخيص', desc: 'مصدر كل نص وتسجيل وترخيصه.' },
-      ]} />
+      ]}>
+      <section className="card"><h2 style={{ marginTop: 0 }}>تذكير الجمعة</h2><p className="note">يضيف موعدًا أسبوعيًا إلى تقويم هاتفك: سورة الكهف والصلاة على النبي ﷺ.</p><FridayReminder /></section>
+      <div className="section"><MyData /></div>
+    </Hub>
   );
 }

@@ -120,3 +120,18 @@ export async function isOwner(slug: string, ownerId: number): Promise<boolean> {
   const r = await db().query("SELECT 1 FROM memorial_pages WHERE slug = $1 AND owner_id = $2 AND status <> 'removed'", [slug, ownerId]);
   return !!r.rowCount;
 }
+
+export type ActivityKind = 'dua' | 'read' | 'tasbeeh';
+/** «قنديل النور»: counts of prayers, readings and tasbeeh rounds made from an athar page. */
+export async function getActivity(slug: string): Promise<Record<ActivityKind, number>> {
+  const r = await db().query<{ kind: ActivityKind; n: string }>("SELECT a.kind, a.n FROM athar_activity a JOIN memorial_pages p ON p.id = a.page_id WHERE p.slug = $1", [slug]);
+  const out = { dua: 0, read: 0, tasbeeh: 0 };
+  for (const row of r.rows) out[row.kind] = Number(row.n);
+  return out;
+}
+export async function addActivity(slug: string, kind: ActivityKind): Promise<boolean> {
+  const r = await db().query(
+    `INSERT INTO athar_activity (page_id, kind, n) SELECT id, $2, 1 FROM memorial_pages WHERE slug = $1 AND status = 'active'
+     ON CONFLICT (page_id, kind) DO UPDATE SET n = athar_activity.n + 1`, [slug, kind]);
+  return (r.rowCount ?? 0) > 0;
+}

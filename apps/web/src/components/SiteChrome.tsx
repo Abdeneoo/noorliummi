@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import Icon from './Icon';
 import ThemeToggle from './ThemeToggle';
+import FontSize from './FontSize';
 
 type Lang = 'ar' | 'en';
 type Item = { href: string; label: string; icon: string; match?: string[] };
@@ -79,6 +80,7 @@ export function SiteHeader({ lang }: { lang: Lang }) {
           </details>
         </nav>
         <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'}>{ar ? 'English' : 'العربية'}</Link>
+        <FontSize lang={lang} />
         <ThemeToggle lang={lang} />
       </div>
     </header>

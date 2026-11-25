@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Hub } from '@/components/Tiles';
+import MyData from '@/components/MyData';
 export const metadata: Metadata = { title: 'Tools' };
 export default function Tools() {
   return (
@@ -11,6 +12,8 @@ export default function Tools() {
         { href: '/en/adhan', icon: 'bell', title: 'Adhan & alerts', desc: 'Choose the adhan sound and prayer alerts.' },
         { href: '/en/mosques', icon: 'mosque', title: 'Nearby mosques', desc: 'Find the closest mosque.' },
         { href: '/en/sources', icon: 'hadith', title: 'Sources & licences', desc: 'Where every text and recording comes from.' },
-      ]} />
+      ]}>
+      <div className="section"><MyData lang="en" /></div>
+    </Hub>
   );
 }
