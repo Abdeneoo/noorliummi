@@ -116,3 +116,38 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   writeFileSync(`${out}/hadith/nawawi.json`, JSON.stringify(raw.hadiths.map((h) => ({ n: h.hadithnumber, t: h.text }))));
   console.log('Nawawi 40 generated: 42 hadith');
 }
+
+// ---- Hadith books (fawazahmed0, Unlicense): verbatim matn+isnad text only. No grades/notes are written out. ----
+{
+  const dir = resolve(here, '../../../database/sources/hadith-fawazahmed0');
+  const docs = JSON.parse(readFileSync(`${dir}/editions.json`, 'utf8')).books as Record<string, Record<string, string | null>>;
+  const sums = readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/) as [string, string]);
+  mkdirSync(`${out}/hadith`, { recursive: true });
+  const books: unknown[] = []; let total = 0;
+  for (const [sum, file] of sums) {
+    const key = file.replace(/^ara-|\.json$/g, '');
+    const path = `${dir}/files/${file}`;
+    if (!existsSync(path)) throw new Error(`Missing ${file} — run infrastructure/fetch-hadith.sh`);
+    if (sha256File(path) !== sum) throw new Error(`Checksum mismatch for ${file} — refusing to build`);
+    const raw = JSON.parse(readFileSync(path, 'utf8')) as { metadata: { name: string; sections: Record<string, string>; section_details: Record<string, { hadithnumber_first: number; hadithnumber_last: number }> }; hadiths: { hadithnumber: number; arabicnumber: number; text: string }[] };
+    const secs = Object.entries(raw.metadata.section_details).map(([k, v]) => ({ s: Number(k), en: raw.metadata.sections[k] ?? '', first: v.hadithnumber_first, last: v.hadithnumber_last })).filter((x) => x.s > 0 && x.en).sort((a, b) => a.s - b.s);
+    const bySec = new Map<number, { n: number; an: number; t: string }[]>();
+    let empty = 0;
+    for (const h of raw.hadiths) {
+      if (!h.text.trim()) { empty++; continue; }
+      const sec = secs.find((x) => h.hadithnumber >= x.first && h.hadithnumber <= x.last)?.s ?? 0;
+      if (!bySec.has(sec)) bySec.set(sec, []);
+      bySec.get(sec)!.push({ n: h.hadithnumber, an: h.arabicnumber, t: h.text });
+    }
+    mkdirSync(`${out}/hadith/${key}`, { recursive: true });
+    const sections = [...bySec.keys()].sort((a, b) => a - b).map((s) => {
+      writeFileSync(`${out}/hadith/${key}/${s}.json`, JSON.stringify(bySec.get(s)));
+      const meta = secs.find((x) => x.s === s);
+      return { s, en: meta?.en ?? 'Unassigned', count: bySec.get(s)!.length };
+    });
+    const count = sections.reduce((t, x) => t + x.count, 0); total += count;
+    books.push({ key, en: raw.metadata.name, count, empty, sections, doc: docs[key] });
+  }
+  writeFileSync(`${out}/hadith/books.json`, JSON.stringify(books));
+  console.log(`Hadith books generated: ${books.length} books, ${total} hadith with text`);
+}

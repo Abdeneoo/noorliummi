@@ -40,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/">الرئيسية</Link>
               <Link href="/quran">القرآن</Link>
               <Link href="/tafsir">التفسير</Link>
+              <Link href="/hadith">الحديث</Link>
               <Link href="/adhkar">الأذكار</Link>
               <Link href="/times">المواقيت</Link>
               <Link href="/adhan">الأذان</Link>

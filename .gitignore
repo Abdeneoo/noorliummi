@@ -11,3 +11,4 @@ src/generated/
 next-env.d.ts
 *.tsbuildinfo
 apps/web/public/audio/adhkar/
+database/sources/hadith-fawazahmed0/files/

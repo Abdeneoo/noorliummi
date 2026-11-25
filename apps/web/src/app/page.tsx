@@ -17,9 +17,9 @@ export default function Home() {
             <Link className="btn" href="/quran">افتح المصحف</Link>
           </section>
           <section className="card">
-            <h2>الأربعون النووية</h2>
-            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>اثنان وأربعون حديثًا جمعها الإمام النووي (نسخة تجريبية).</p>
-            <Link className="btn" href="/hadith/nawawi">اقرأ الأحاديث</Link>
+            <h2>الحديث الشريف</h2>
+            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>الكتب الستة والموطأ والأربعينات، مع بحث في النص (نسخة تجريبية).</p>
+            <Link className="btn" href="/hadith">افتح كتب الحديث</Link>
           </section>
           <section className="card">
             <h2>صفحة أثر</h2>

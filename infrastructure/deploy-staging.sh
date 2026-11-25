@@ -28,6 +28,8 @@ as_noor sh -c "cd $APP && $PNPM install --frozen-lockfile --silent"
 
 echo "== 2b adhkar audio (OpenDua, CC BY 4.0, checksum-verified)"
 as_noor bash "$APP/infrastructure/fetch-opendua-audio.sh"
+echo "== 2c hadith sources (fawazahmed0, pinned + checksum-verified)"
+as_noor bash "$APP/infrastructure/fetch-hadith.sh"
 
 echo "== 3/6 Quran integrity gate"
 as_noor sh -c "cd $APP && $PNPM predeploy" | grep -E "Tests|passed|failed"
@@ -55,6 +57,8 @@ WorkingDirectory=$APP/apps/web
 Environment=NODE_ENV=production
 Environment=HOME=$APP_HOME
 EnvironmentFile=-$APP_HOME/secrets/db.env
+# Optional app secrets, e.g. SUNNAH_API_KEY=... (create the file as noor, mode 600; never commit it)
+EnvironmentFile=-$APP_HOME/secrets/app.env
 ExecStart=/usr/bin/env node node_modules/next/dist/bin/next start -p $PORT -H 127.0.0.1
 Restart=on-failure
 RestartSec=3
