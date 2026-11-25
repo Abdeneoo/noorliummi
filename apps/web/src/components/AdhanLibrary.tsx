@@ -15,7 +15,7 @@ const L = {
     g: { all: 'الكل', fav: 'المفضلة', fajr: 'أذان الفجر', haramain: 'الحرمان الشريفان', aqsa: 'المسجد الأقصى', egyptian: 'القراء المصريون', famous: 'أصوات مشهورة', places: 'مساجد وبلدان', device: 'من جهازي' } as Record<Group, string>,
     search: 'ابحث باسم المؤذن أو البلد', none: 'لا توجد تسجيلات هنا بعد.', play: 'استماع', stop: 'إيقاف', fav: 'أضف للمفضلة', unfav: 'أزل من المفضلة',
     use: 'استخدمه لـ', all: 'كل الصلوات', remove: 'حذف من الجهاز', offline: 'حفظ دون إنترنت', offlineOn: 'محفوظ دون إنترنت ✓',
-    site: 'على الموقع', stream: 'بث من المصدر', device: 'على جهازك', more: 'اعرض المزيد', fajrOnly: 'هذا أذان فجر (فيه «الصلاة خير من النوم») فيُختار للفجر فقط.', fajrAll: 'هذا أذان فجر، فاخترناه للفجر وحده.', count: (n: number) => `${n} تسجيلًا`, import: 'أضف تسجيلات من جهازك', importNote: 'اختر ملفًا أو عدة ملفات صوتية (حتى 40 ميغابايت للملف). تُحفظ على هذا الجهاز وحده ولا تُرفع إلى أي خادم، وتعمل دون إنترنت.',
+    site: 'على الموقع', stream: 'بث من المصدر', device: 'على جهازك', more: 'اعرض المزيد', fajrOnly: 'هذا أذان فجر (فيه «الصلاة خير من النوم») فيُختار للفجر فقط.', fajrAll: 'هذا أذان فجر، فاخترناه للفجر وحده.', count: (n: number) => (n === 1 ? 'تسجيل واحد' : n === 2 ? 'تسجيلان' : n <= 10 ? `${n} تسجيلات` : `${n} تسجيلًا`), import: 'أضف تسجيلات من جهازك', importNote: 'اختر ملفًا أو عدة ملفات صوتية (حتى 40 ميغابايت للملف). تُحفظ على هذا الجهاز وحده ولا تُرفع إلى أي خادم، وتعمل دون إنترنت.',
     progress: (d: number, t: number) => `جارٍ الإضافة ${d} من ${t}…`,
     result: (a: number, m: number, s: number) => `أُضيف ${a} تسجيلًا${m ? `، تعرّفنا على ${m} منها من المكتبات المعروفة` : ''}${s ? `، وتُرك ${s} (ليس صوتًا أو أكبر من الحد)` : ''}.`,
     quota: 'امتلأت مساحة التخزين المتاحة للموقع في هذا المتصفح؛ احذف بعض التسجيلات أو أضف عددًا أقل.',
@@ -58,7 +58,7 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
       return { id: s.id, title, sub: [s.country?.[lang], s.by].filter(Boolean).join(' · '), dur: s.duration, groups: [...new Set([...(s.groups ?? []), ...(s.kind === 'fajr' ? ['fajr'] : []), ...places])], kind: 'site' as const, file: s.file, search: norm(`${s.title} ${s.titleEn ?? ''} ${s.by} ${s.country?.ar ?? ''} ${s.country?.en ?? ''}`) }; });
     const stream: Item[] = cat.filter((c) => c.s === 'stream' && c.u).map((c) => {
       const title = lang === 'en' ? c.t.en : c.t.ar ?? c.t.en;
-      const place = [c.p?.[lang] ?? c.p?.en, c.co?.[lang]].filter(Boolean).join(' · ');
+      const place = [...new Set([c.p?.[lang] ?? c.p?.en, c.co?.[lang]].filter(Boolean))].join(' · ');
       return { id: 'st:' + c.id, title, sub: place || (c.c === 'aladhan' ? 'AlAdhan' : 'Kiwifu/adhan-mp3'), dur: c.d, groups: c.g, kind: 'stream' as const, search: norm(`${c.t.ar ?? ''} ${c.t.en} ${c.p?.ar ?? ''} ${c.p?.en ?? ''} ${c.co?.ar ?? ''} ${c.co?.en ?? ''}`) };
     });
     const dev: Item[] = local.map((x) => {
