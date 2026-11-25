@@ -52,3 +52,24 @@ describe('tafsir data equals the source', () => {
     expect(n).toBe(6010);
   });
 });
+
+describe('mutashabihat data', () => {
+  it('every source group appears, symmetric, with valid refs', () => {
+    const raw = JSON.parse(readFileSync(resolve(__dirname, '../../../database/sources/mutashabihat/mutashabiha_data.json'), 'utf8')) as Record<string, { src: { ayah: number | number[] }; muts: { ayah: number | number[] }[] }[]>;
+    const gen: Record<number, Record<string, number[][][]>> = {};
+    for (let i = 1; i <= 114; i++) gen[i] = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/mutashabihat/${i}.json`), 'utf8'));
+    const counts = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/surahs.json'), 'utf8')) as { ayas: number }[];
+    let groups = 0;
+    for (const e of Object.values(raw).flat()) groups++;
+    expect(groups).toBe(1348);
+    for (let i = 1; i <= 114; i++) for (const [ay, lists] of Object.entries(gen[i])) {
+      expect(Number(ay)).toBeGreaterThanOrEqual(1); expect(Number(ay)).toBeLessThanOrEqual(counts[i - 1].ayas);
+      for (const rng of lists) for (const [su, a] of rng) { expect(su).toBeGreaterThanOrEqual(1); expect(a).toBeLessThanOrEqual(counts[su - 1].ayas); }
+    }
+    // symmetry: if A lists B, then B lists A
+    for (let i = 1; i <= 114; i++) for (const [ay, lists] of Object.entries(gen[i])) for (const rng of lists) for (const [su, a] of rng) {
+      const back = gen[su][String(a)] ?? [];
+      expect(back.some((r) => r.some(([s2, a2]) => s2 === i && a2 === Number(ay)))).toBe(true);
+    }
+  });
+});

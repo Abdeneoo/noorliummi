@@ -135,3 +135,8 @@
 | الأذان | Azan.ogg — Andrewler — Commons | CC BY-SA 4.0 | محلي (MP3 محوَّل) + SHA-1 للأصل | **ينتظر الاستماع الكامل** |
 | المواقيت والقبلة | Adhan JS | MIT | حساب محلي | مقارَن بمصدرين |
 | الخطوط | Amiri Quran، Noto Kufi Arabic | OFL 1.1 | محلي | — |
+
+## مستخدم في الموقع: متشابهات القرآن (2026-11-25)
+| المصدر | الاستخدام | الترخيص | الحالة |
+|---|---|---|---|
+| Waqar144/Quran_Mutashabihat_Data (commit 7b259fc) | صفحة `/mutashabihat/N` تعرض الآيات المتشابهة مع نصها من Tanzil | CC0 1.0 | Approved. نسخة حرفية في `database/sources/mutashabihat` مع SHA256؛ بانتظار مراجعة معلم قرآن؛ القائمة للمواضع الشائعة وليست حصرًا |

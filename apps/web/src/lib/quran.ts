@@ -11,3 +11,8 @@ export const arDigits = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣
 export async function loadJalalayn(n: number): Promise<Record<string, string>> {
   return (await import(`@/generated/tafsir/jalalayn/${n}.json`)).default as Record<string, string>;
 }
+
+/** Related ayat (mutashabihat) for each ayah of a surah: ayah -> list of ranges of [sura, ayah]. */
+export async function loadMutashabihat(n: number): Promise<Record<string, [number, number][][]>> {
+  return (await import(`@/generated/mutashabihat/${n}.json`)).default as Record<string, [number, number][][]>;
+}

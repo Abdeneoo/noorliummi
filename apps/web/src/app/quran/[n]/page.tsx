@@ -31,6 +31,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
       <nav className="pager" aria-label="التنقل بين السور">
         {n > 1 ? <Link className="btn ghost" href={`/quran/${n - 1}`}>السورة السابقة</Link> : <span />}
         <Link className="btn ghost" href={`/tafsir/${n}`}>التفسير</Link>
+        <Link className="btn ghost" href={`/mutashabihat/${n}`}>المتشابهات</Link>
         <Link className="btn ghost" href="/quran">الفهرس</Link>
         {n < 114 ? <Link className="btn ghost" href={`/quran/${n + 1}`}>السورة التالية</Link> : <span />}
       </nav>

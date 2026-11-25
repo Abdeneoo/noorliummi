@@ -69,3 +69,25 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   }
   console.log(`Tafsir al-Jalalayn generated: ${n} entries`);
 }
+
+// ---- Mutashabihat (CC0): verified by checksum, absolute ayah numbers re-keyed to sura:ayah ----
+{
+  const dir = resolve(here, '../../../database/sources/mutashabihat');
+  if (sha256File(`${dir}/mutashabiha_data.json`) !== readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for mutashabiha_data.json — refusing to build');
+  const raw = JSON.parse(readFileSync(`${dir}/mutashabiha_data.json`, 'utf8')) as Record<string, { src: { ayah: number | number[] }; muts: { ayah: number | number[] }[] }[]>;
+  const ref = (abs: number) => { const a = ayat[abs - 1]; if (!a) throw new Error(`Bad absolute ayah ${abs}`); return [a.sura, a.aya] as [number, number]; };
+  const group = (v: number | number[]) => (Array.isArray(v) ? v : [v]).map(ref);
+  type Ref = [number, number][];
+  const bySura: Record<number, Record<number, Ref[]>> = {};
+  let groups = 0;
+  for (const list of Object.values(raw)) for (const e of list) {
+    const members: Ref[] = [group(e.src.ayah), ...e.muts.map((m) => group(m.ayah))]; groups++;
+    members.forEach((mem, i) => {
+      const others = members.filter((_, j) => j !== i);
+      for (const [su, ay] of mem) { ((bySura[su] ??= {})[ay] ??= []).push(...others); }
+    });
+  }
+  mkdirSync(`${out}/mutashabihat`, { recursive: true });
+  for (let i = 1; i <= 114; i++) writeFileSync(`${out}/mutashabihat/${i}.json`, JSON.stringify(bySura[i] ?? {}));
+  console.log(`Mutashabihat generated: ${groups} groups`);
+}
