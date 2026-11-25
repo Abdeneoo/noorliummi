@@ -39,7 +39,7 @@ const CASES: { name: string; s: PrayerSettings; ref: Record<string, string>; tol
     name: 'London / MWL (high latitude, middle of the night)',
     s: { latitude: 51.5074, longitude: -0.1278, timezone: 'Europe/London', method: 'MuslimWorldLeague', highLatitudeRule: 'middleOfTheNight' },
     ref: { fajr: '04:23', sunrise: '06:15', dhuhr: '12:09', asr: '15:18', maghrib: '18:05', isha: '19:51' },
-    // Asr differs by 3 min at the equinox between Adhan JS and AlAdhan (algorithmic variance, see docs/KNOWN_ISSUES.md)
+    // Asr differs by 3 min at the equinox between Adhan JS and AlAdhan (algorithmic variance, see docs/PROGRESS.md)
     tol: 3,
   },
 ];

@@ -6,7 +6,7 @@
 
 - الخطة الكاملة: [`docs/MASTER_PLAN.md`](docs/MASTER_PLAN.md)
 - تعليمات العمل على المستودع: [`CLAUDE.md`](CLAUDE.md)
-- التقدم: [`docs/PROGRESS.md`](docs/PROGRESS.md) · المهام: [`docs/TASKS.md`](docs/TASKS.md)
+- التقدم: [`docs/PROGRESS.md`](docs/PROGRESS.md)
 
 ```bash
 pnpm install && pnpm test
