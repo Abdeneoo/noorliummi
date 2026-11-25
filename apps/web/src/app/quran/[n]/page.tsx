@@ -26,7 +26,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
         <Link className="btn ghost" href={`/mutashabihat/${n}`}>المتشابهات</Link>
       </div>
       <p className="note" style={{ textAlign: 'center' }}>اضغط على رقم أي آية لقراءة تفسيرها.</p>
-      <Recitation surah={n} surahName={meta.name} />
+      <Recitation surah={n} surahName={meta.name} start={SURAHS.slice(0, n - 1).reduce((t, x) => t + x.ayas, 0) + 1} count={meta.ayas} />
       {bismillah && <p className="bismillah" lang="ar">{bismillah}</p>}
       <div className="ayat" lang="ar">
         {ayat.map((a) => (

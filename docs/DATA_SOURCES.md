@@ -145,3 +145,22 @@
 | المصدر | الاستخدام | الترخيص | الحالة |
 |---|---|---|---|
 | fawazahmed0/hadith-api `editions/ara-nawawi.json` (commit df57907) | صفحة `/hadith/nawawi` (42 حديثًا حرفيًا) | Unlicense للمستودع؛ المتن تراثي | Approved (conditions). حقل المصدر في المستودع فارغ فلا تُعرف الطبعة؛ **تجريبي** حتى تُقابَل بنسخة مطبوعة موثوقة ويراجعها طالب علم. لم تُعرض درجات (لا توجد في هذا الملف) |
+
+## مراجعة ملفَّي القرّاء والأذكار والأحاديث (2026-11-25)
+| المصدر | الحكم | السبب / ما فُعل |
+|---|---|---|
+| OpenDua v0.0.4 + صوت v0.0.2 | **Approved — مستخدم** | تحقّقت من صفحتي الترخيص: CC BY 4.0 للبيانات وللتسجيلات، مع السماح بالاستضافة الذاتية وإعادة الترميز. 183 ذكرًا صار لها صوت بمطابقة نصية تامة. الإسناد في صفحة الأذكار و`/sources` |
+| Islamic Network (قائمة القرّاء) | Approved (conditions) — بث فقط | وُسّع المشغّل إلى 20 قارئًا: 4 بالسورة كاملة و16 آية بآية مع تتبّع الآية. تحقّقت من توفر كل ملف على CDN. الملف المرسل يذكر «إذنًا كتابيًا بإعادة التوزيع غير التجاري»، ولم أجده في الشروط التي قرأتها، فلا تنزيل ولا وضع دون اتصال للتلاوات حتى نرى النص نفسه |
+| MP3Quran، EveryAyah، GlobalQuran | Unclear — بث فقط إن استُخدمت | لا ترخيص منشور. لم تُضَف بعد |
+| QuranicAudio | **Rejected** | شروطه للاستخدام الشخصي فقط |
+| Quran.com API v4 | Unclear | شروطه تمنع إعادة التوزيع، ويحتاج تسجيل تطبيق |
+| QuranLab (quran-audio / hadith) | Not verified | يُفحص ترخيص كل جزء قبل الاستيراد |
+| AhmedBaset/hadith-json، Hadith-Data-Sets | **Rejected** | بلا ترخيص، ومسحوبة من sunnah.com |
+| mhashim6/Open-Hadith-Data | مرشّح (ODbL) | ODbL تُلزم بالإسناد وبمشاركة قاعدة البيانات المشتقة بالترخيص نفسه. يُدرس قبل الاستيراد |
+| fawazahmed0 (بقية الكتب العشرة) | مرشّح | الطبعة غير مذكورة؛ يحتاج مقابلة بعينة مطبوعة قبل النشر، والدرجات تُعرض بأسماء من حكم بها فقط |
+| sunnah.com API | يحتاج مفتاحًا | يطلبه صاحب المشروع عبر GitHub issue |
+| HadeethEnc API | Approved (conditions) — لم يُستورد | دون تعديل، مع الإسناد ورقم الإصدار |
+| Seen-Arabic/Morning-And-Evening-Adhkar-DB | مرشّح (MIT) | فيه تخريج؛ يُفحص قبل الاستيراد |
+| osamayy/azkar-db، quranify-dua-api، all-dua.json، fitrahive، sheikhhanif، rn0x/Adhkar-json، muslimKit، DeenOne | Not verified | لم تُفحص تراخيصها بعد؛ لا تُستورد قبل ذلك |
+| Shamela4_Full_DB، canonical-islamic-corpus، LK-Hadith-Corpus | Not verified | مرحلة لاحقة |
+| isnady-data | مرفوض لهذه المنصة إلا القسم السني | — |

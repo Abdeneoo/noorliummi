@@ -98,3 +98,4 @@ a.ayah-end:hover, a.ayah-end:focus-visible { color: var(--accent-strong); }
 .athar-items { list-style: none; padding: 0; display: grid; gap: 8px; }
 .athar-items li { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .btn.small { font-size: .85rem; padding: 6px 12px; }
+.ayat .reciting { background: color-mix(in srgb, var(--accent) 16%, transparent); border-radius: 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
