@@ -10,6 +10,6 @@ export async function POST(req: Request) {
   if (b.website) return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
   const path = clean(b.path, 200).replace(/[?#].*$/, ''); const wrong = clean(b.wrong, 1000); const correct = clean(b.correct, 1000); const source = clean(b.source, 300);
   if (!path.startsWith('/') || wrong.length < 5) return NextResponse.json({ error: 'اكتب موضع الخطأ ووصفه.' }, { status: 400 });
-  try { await db().query('INSERT INTO content_reports (path, wrong, correct, source) VALUES ($1,$2,$3,$4)', [path, wrong, correct, source]); return NextResponse.json({ ok: true }, { status: 201 }); }
-  catch { return NextResponse.json({ error: 'تعذّر الحفظ الآن.' }, { status: 503 }); }
+  try { await db().query('INSERT INTO text_reports (path, wrong, correct, source) VALUES ($1,$2,$3,$4)', [path, wrong, correct, source]); return NextResponse.json({ ok: true }, { status: 201 }); }
+  catch (e) { console.error('report save failed', e); return NextResponse.json({ error: 'تعذّر الحفظ الآن.' }, { status: 503 }); }
 }
