@@ -55,3 +55,12 @@ export function nearestCity(lat: number, lng: number): City | undefined {
   }
   return bd <= 60 ? best : undefined;
 }
+
+/** Language-neutral place label for saved prayer settings (older data has only the Arabic label). */
+export function placeLabel(v: { label: string; cid?: string; near?: boolean; src?: string }, lang: 'ar' | 'en'): string {
+  const city = v.cid ? CITIES.find((c) => c.id === v.cid) : CITIES.find((c) => v.label === c.ar || v.label === `قرب ${c.ar}` || v.label === `${c.ar} (موقعك)`);
+  const near = v.cid ? !!v.near : !!city && v.label.startsWith('قرب ');
+  if (!city) return lang === 'ar' ? (v.label || 'موقعك الحالي') : 'Your location';
+  const name = lang === 'ar' ? city.ar : city.en;
+  return near ? (lang === 'ar' ? `قرب ${name}` : `near ${name}`) : name;
+}

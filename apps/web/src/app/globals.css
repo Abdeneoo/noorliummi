@@ -107,3 +107,4 @@ html[dir='ltr'] .tafsir-ayah, html[dir='ltr'] .dhikr-text, html[dir='ltr'] .bism
 .en-tr { margin: 8px 0 0; line-height: 1.8; font-size: 1.02rem; } .en-tr .num { color: var(--muted); font-size: .85rem; margin-inline-end: 6px; }
 .en-fn { margin: 6px 0 0; font-size: .85rem; color: var(--muted); white-space: pre-line; border-inline-start: 3px solid var(--line); padding-inline-start: 10px; }
 .dhikr-tl { font-style: italic; color: var(--muted); margin: 8px 0 0; } .dhikr-en { margin: 6px 0 10px; line-height: 1.8; }
+details.jumuah { margin-top: 10px; font-size: .9rem; } details.jumuah summary { cursor: pointer; color: var(--muted); }

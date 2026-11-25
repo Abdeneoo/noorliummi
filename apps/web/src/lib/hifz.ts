@@ -32,8 +32,8 @@ export function queue(st: HifzState, now = new Date()): string[] {
   return [...due, ...fresh];
 }
 
-export const GRADES: { g: Grade; ar: string }[] = [
-  { g: Rating.Again, ar: 'نسيتها' }, { g: Rating.Hard, ar: 'صعبة' }, { g: Rating.Good, ar: 'جيدة' }, { g: Rating.Easy, ar: 'سهلة' },
+export const GRADES: { g: Grade; ar: string; en: string }[] = [
+  { g: Rating.Again, ar: 'نسيتها', en: 'Forgot' }, { g: Rating.Hard, ar: 'صعبة', en: 'Hard' }, { g: Rating.Good, ar: 'جيدة', en: 'Good' }, { g: Rating.Easy, ar: 'سهلة', en: 'Easy' },
 ];
 /** Next due date for each grade, for showing on the buttons. */
 export function preview(st: HifzState, k: string, now = new Date()): Record<number, Date> {

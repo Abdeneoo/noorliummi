@@ -6,6 +6,7 @@ import { CITIES, cityForTimezone, methodForTimezone, nearestCity, nearestCityDis
 type Lang = 'ar' | 'en';
 const ORDER: PrayerName[] = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
 const KEY = 'noor.prayer.v1';
+const JUMUAH = 'noor.jumuah'; // optional HH:MM set by the user for their mosque
 const ASKED = 'noor.geo.asked'; // set once the visitor has answered (or dismissed) the location prompt
 /** label: Arabic label (kept for older saved data); cid/near: language-neutral place, rendered per language. */
 interface Saved { label: string; s: PrayerSettings; src?: 'auto' | 'city' | 'gps'; acc?: number; cid?: string; near?: boolean }
@@ -13,6 +14,7 @@ interface Saved { label: string; s: PrayerSettings; src?: 'auto' | 'city' | 'gps
 const T = {
   ar: {
     names: { fajr: 'الفجر', sunrise: 'الشروق', dhuhr: 'الظهر', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' } as Record<PrayerName, string>,
+    jumuah: 'الجمعة', jumuahNote: 'يوم الجمعة: وقت الظهر المحسوب هو أول وقت الجمعة، وموعد الخطبة والصلاة يحدده مسجدك.', myJumuah: 'موعد الجمعة في مسجدي', clear: 'مسح',
     title: 'مواقيت الصلاة', next: 'الصلاة القادمة', current: 'الصلاة الحالية', city: 'المدينة', method: 'طريقة الحساب',
     here: 'موقعك الحالي', near: (c: string) => `قرب ${c}`,
     gpsOn: (l: string, isHere: boolean) => `📍 المواقيت لموقعك الحالي${isHere ? '' : ` (${l})`}، وتُحدَّث تلقائيًا عند كل زيارة.`,
@@ -28,6 +30,7 @@ const T = {
   },
   en: {
     names: { fajr: 'Fajr', sunrise: 'Sunrise', dhuhr: 'Dhuhr', asr: 'Asr', maghrib: 'Maghrib', isha: 'Isha' } as Record<PrayerName, string>,
+    jumuah: 'Jumuah', jumuahNote: 'Friday: the calculated Dhuhr time is the start of the Jumuah time; the khutbah and prayer time is set by your mosque.', myJumuah: 'Jumuah at my mosque', clear: 'Clear',
     title: 'Prayer times', next: 'Next prayer', current: 'Current prayer', city: 'City', method: 'Calculation method',
     here: 'Your location', near: (c: string) => `near ${c}`,
     gpsOn: (l: string, isHere: boolean) => `📍 Times for your current location${isHere ? '' : ` (${l})`}, refreshed on each visit.`,
@@ -57,6 +60,9 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   const [saved, setSaved] = useState<Saved | null>(null);
   const [now, setNow] = useState<Date | null>(null);
   const [geoMsg, setGeoMsg] = useState('');
+  const [jumuah, setJumuah] = useState('');
+  useEffect(() => { try { setJumuah(localStorage.getItem(JUMUAH) ?? ''); } catch { /* ignore */ } }, []);
+  const saveJumuah = (v: string) => { setJumuah(v); try { if (v) localStorage.setItem(JUMUAH, v); else localStorage.removeItem(JUMUAH); } catch { /* ignore */ } };
 
   useEffect(() => {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -128,6 +134,8 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   const placeLabel = place.city ? (place.near ? t.near(cityName(place.city, lang)) : cityName(place.city, lang)) : t.here;
   const cityId = saved.src === 'gps' ? '' : place.city?.id ?? '';
   const hijri = new Intl.DateTimeFormat(t.hijri, { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
+  const isFriday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: tz }).format(now) === 'Fri';
+  const pname = (p: PrayerName) => (p === 'dhuhr' && isFriday ? t.jumuah : t.names[p]);
   const greg = new Intl.DateTimeFormat(t.greg, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
 
   return (
@@ -146,17 +154,17 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
       )}
       <div className="next" aria-live="off">
         <span className="label">{t.next}</span>
-        <span className="name">{t.names[status.next.name]}</span>
+        <span className="name">{pname(status.next.name)}</span>
         <span className="count" role="timer">{formatCountdown(status.remainingMs)}</span>
         {!(status.current.name === 'fajr' && now.getTime() >= day.times.sunrise.getTime() && status.next.name === 'dhuhr') && (
-          <span className="label">{t.current}: {t.names[status.current.name]}</span>
+          <span className="label">{t.current}: {pname(status.current.name)}</span>
         )}
       </div>
       <ul className="times">
         {ORDER.map((p) => (
           <li key={p} aria-current={p === status.next.name && status.next.time.getTime() === day.times[p].getTime() ? 'true' : undefined}>
-            <span className="n">{t.names[p]}</span>
-            <span className="t">{formatTime(day.times[p], tz)}</span>
+            <span className="n">{pname(p)}</span>
+            <span className="t">{formatTime(day.times[p], tz)}{p === 'dhuhr' && isFriday && jumuah ? <small> · {jumuah}</small> : null}</span>
           </li>
         ))}
       </ul>
@@ -171,6 +179,13 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
           {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m[lang]}</option>)}
         </select></div>
       </div>
+      {isFriday && <p className="note">{t.jumuahNote}</p>}
+      <details className="jumuah"><summary>{t.myJumuah}{jumuah ? `: ${jumuah}` : ''}</summary>
+        <div className="row">
+          <input id="jum" aria-label={t.myJumuah} type="time" value={jumuah} onChange={(e) => saveJumuah(e.target.value)} />
+          {jumuah && <button type="button" className="btn ghost small" onClick={() => saveJumuah('')}>{t.clear}</button>}
+        </div>
+      </details>
       {geoMsg && <p className="note" role="status">{geoMsg}</p>}
       <p className="note">{nearKaaba ? '' : t.qibla(qibla.toFixed(1))}{t.note}</p>
     </section>
