@@ -12,10 +12,10 @@ export const CITIES: City[] = [
   { id: 'dubai', ar: 'دبي', en: 'Dubai', lat: 25.2048, lng: 55.2708, tz: 'Asia/Dubai', method: 'Dubai' },
   { id: 'kuwait', ar: 'الكويت', en: 'Kuwait City', lat: 29.3759, lng: 47.9774, tz: 'Asia/Kuwait', method: 'Kuwait' },
   { id: 'doha', ar: 'الدوحة', en: 'Doha', lat: 25.2854, lng: 51.531, tz: 'Asia/Qatar', method: 'Qatar' },
-  { id: 'amman', ar: 'عمّان', en: 'Amman', lat: 31.9539, lng: 35.9106, tz: 'Asia/Amman', method: 'MuslimWorldLeague' },
+  { id: 'amman', ar: 'عمّان', en: 'Amman', lat: 31.9539, lng: 35.9106, tz: 'Asia/Amman', method: 'Jordan' },
   { id: 'jerusalem', ar: 'القدس', en: 'Jerusalem', lat: 31.7683, lng: 35.2137, tz: 'Asia/Jerusalem', method: 'MuslimWorldLeague' },
   { id: 'istanbul', ar: 'إسطنبول', en: 'Istanbul', lat: 41.0082, lng: 28.9784, tz: 'Europe/Istanbul', method: 'Turkey' },
-  { id: 'casablanca', ar: 'الدار البيضاء', en: 'Casablanca', lat: 33.5731, lng: -7.5898, tz: 'Africa/Casablanca', method: 'MuslimWorldLeague' },
+  { id: 'casablanca', ar: 'الدار البيضاء', en: 'Casablanca', lat: 33.5731, lng: -7.5898, tz: 'Africa/Casablanca', method: 'Morocco' },
   { id: 'karachi', ar: 'كراتشي', en: 'Karachi', lat: 24.8607, lng: 67.0011, tz: 'Asia/Karachi', method: 'Karachi' },
   { id: 'jakarta', ar: 'جاكرتا', en: 'Jakarta', lat: -6.2088, lng: 106.8456, tz: 'Asia/Jakarta', method: 'Singapore' },
   { id: 'kualalumpur', ar: 'كوالالمبور', en: 'Kuala Lumpur', lat: 3.139, lng: 101.6869, tz: 'Asia/Kuala_Lumpur', method: 'Singapore' },
@@ -27,7 +27,7 @@ export const CITIES: City[] = [
 /** Calculation method conventionally used in a region, chosen from the device timezone (no location needed). */
 const TZ_METHOD: [RegExp, MethodId][] = [
   [/^Asia\/Riyadh$/, 'UmmAlQura'], [/^Africa\/Cairo$/, 'Egyptian'], [/^Asia\/Dubai$/, 'Dubai'], [/^Asia\/Kuwait$/, 'Kuwait'], [/^Asia\/Qatar$/, 'Qatar'],
-  [/^Europe\/Istanbul$/, 'Turkey'], [/^Asia\/Tehran$/, 'Tehran'], [/^Asia\/(Karachi|Kolkata|Dhaka|Kabul)$/, 'Karachi'],
+  [/^Europe\/Istanbul$/, 'Turkey'], [/^Africa\/(Casablanca|El_Aaiun)$/, 'Morocco'], [/^Asia\/Amman$/, 'Jordan'], [/^Asia\/Tehran$/, 'Tehran'], [/^Asia\/(Karachi|Kolkata|Dhaka|Kabul)$/, 'Karachi'],
   [/^Asia\/(Singapore|Kuala_Lumpur|Jakarta|Makassar|Jayapura|Brunei)$/, 'Singapore'], [/^America\//, 'NorthAmerica'], [/^Europe\/London$/, 'MoonsightingCommittee'],
 ];
 export function methodForTimezone(tz: string): MethodId {

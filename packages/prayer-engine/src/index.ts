@@ -33,7 +33,20 @@ export const METHODS = {
   Tehran: { ar: 'معهد الجيوفيزياء، طهران', en: 'Institute of Geophysics, Tehran' },
   NorthAmerica: { ar: 'الجمعية الإسلامية لأمريكا الشمالية (ISNA)', en: 'ISNA, North America' },
   MoonsightingCommittee: { ar: 'لجنة رؤية الهلال', en: 'Moonsighting Committee Worldwide' },
+  Morocco: { ar: 'وزارة الأوقاف المغربية', en: 'Ministry of Habous, Morocco' },
+  Jordan: { ar: 'وزارة الأوقاف الأردنية', en: 'Ministry of Awqaf, Jordan' },
 } as const;
+
+/**
+ * Methods Adhan JS does not ship. Angles and minute offsets reproduce the ministries' published tables
+ * (checked in test/engine.test.ts against dated official tables).
+ * Morocco: Fajr 19°, Isha 17°, sunrise −3, dhuhr +5, maghrib +5 (Habous tables).
+ * Jordan: Fajr 18°, Isha 18°, maghrib +5 (Ministry of Awqaf tables).
+ */
+const CUSTOM: Record<string, () => CalculationParameters> = {
+  Morocco: () => { const p = new CalculationParameters('Other', 19, 17); p.methodAdjustments = { ...p.methodAdjustments, sunrise: -3, dhuhr: 5, maghrib: 5 }; return p; },
+  Jordan: () => { const p = new CalculationParameters('Other', 18, 18); p.methodAdjustments = { ...p.methodAdjustments, maghrib: 5 }; return p; },
+};
 export type MethodId = keyof typeof METHODS;
 
 export type AsrMadhab = 'shafi' | 'hanafi';
@@ -85,7 +98,7 @@ function assertTimezone(tz: string): void {
 }
 
 export function buildParameters(s: PrayerSettings): CalculationParameters {
-  const factory = (CalculationMethod as unknown as Record<string, () => CalculationParameters>)[s.method];
+  const factory = CUSTOM[s.method] ?? (CalculationMethod as unknown as Record<string, () => CalculationParameters>)[s.method];
   if (!factory) throw new RangeError(`Unknown method: ${s.method}`);
   const params = factory();
   params.madhab = s.asr === 'hanafi' ? Madhab.Hanafi : Madhab.Shafi;

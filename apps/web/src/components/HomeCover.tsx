@@ -13,8 +13,15 @@ const MOTES = [
 ];
 type Lang = 'ar' | 'en';
 const C = {
-  ar: { alt: 'شعار نور لأمي', title: 'نور لأمي', tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', lead: 'منصة إسلامية مجانية، تيسّر الوصول إلى القرآن والأذكار والصلاة والعلم النافع — صدقة جارية.', a: 'افتح المصحف', b: 'الصلاة والأذان', ha: '/quran', hb: '/prayer' },
-  en: { alt: 'Noor Li Ummi logo', title: 'Noor Li Ummi', tag: 'A light that never fades, a legacy that never ends', lead: 'A free Islamic platform dedicated to the memory of my beloved mother: the Quran, daily worship and beneficial knowledge.', a: 'Open the Quran', b: 'Prayer & Adhan', ha: '/en/quran', hb: '/en/prayer' },
+  ar: { alt: 'شعار نور لأمي', title: 'نور لأمي', tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', ded: 'إهداء',
+    // Official dedication text (brand guide) + the owner's dua, shown in full.
+    lines: ['إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.', 'أُنشئ هذا المشروع ابتغاء وجه الله، ورجاء أن يكون صدقة جارية عنها. نسألكم الدعاء لها بالرحمة والمغفرة.'],
+    dua: 'اللهم اغفر لها وارحمها، وآنس وحشتها، ونوّر قبرها، واجعلها من أهل الفردوس الأعلى، واجمعنا بها في جنتك لقاءً لا فراق بعده.',
+    a: 'افتح المصحف', b: 'الصلاة والأذان', ha: '/quran', hb: '/prayer' },
+  en: { alt: 'Noor Li Ummi logo', title: 'Noor Li Ummi', tag: 'A light that never fades, a legacy that never ends', ded: 'Dedication',
+    lines: ['To my beloved mother, who has left my sight but never my heart.', 'This project was made seeking the Face of Allah, in the hope that it will be an ongoing charity on her behalf. Please remember her in your prayers, asking Allah for His mercy and forgiveness for her.'],
+    dua: '',
+    a: 'Open the Quran', b: 'Prayer & Adhan', ha: '/en/quran', hb: '/en/prayer' },
 };
 export default function HomeCover({ lang = 'ar' }: { lang?: Lang }) {
   const c = C[lang];
@@ -45,7 +52,12 @@ export default function HomeCover({ lang = 'ar' }: { lang?: Lang }) {
         <div className="cover-text">
           <h1 id="cover-title" className="rise" style={{ ['--i' as string]: 1 }}>{c.title}</h1>
           <p className="tagline rise" style={{ ['--i' as string]: 2 }}>{c.tag}</p>
-          <p className="lead rise" style={{ ['--i' as string]: 3 }}>{c.lead}</p>
+          <div className="cover-dedication rise" style={{ ['--i' as string]: 3 }}>
+            <p className="eyebrow">{c.ded}</p>
+            <p className="ded-first">{c.lines[0]}</p>
+            <p>{c.lines[1]}</p>
+            {c.dua && <p className="ded-dua">{c.dua}</p>}
+          </div>
           <div className="actions rise" style={{ ['--i' as string]: 4 }}>
             <Link className="btn light" href={c.ha}><Icon name="quran" />{c.a}</Link>
             <Link className="btn outline-light" href={c.hb}><Icon name="prayer" />{c.b}</Link>

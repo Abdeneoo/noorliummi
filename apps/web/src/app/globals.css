@@ -292,3 +292,11 @@ main > .wrap > * { animation: fadeIn .5s ease both; }
 @media (prefers-reduced-motion: reduce) { .js .reveal, .js .lift.reveal { opacity: 1; transform: none; } .mote, .arch-shine { display: none; } }
 @media print { header.site, .tabbar, footer.site, .recitation, .cover-bg { display: none !important; } body { background: #fff; } }
 @media (max-width: 479px) { .brand .latin { display: none; } header.site .wrap { gap: var(--s2); } }
+
+/* dedication inside the cover */
+.cover-dedication { position: relative; max-width: 56ch; margin: var(--s2) auto 0; padding: var(--s5) var(--s6); border-radius: 22px; background: rgba(248, 246, 240, .06); border: 1px solid rgba(198, 166, 107, .35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); text-align: center; }
+.cover-dedication .eyebrow { color: #C6A66B; margin-bottom: var(--s2); }
+.cover-dedication p { margin: 0 0 var(--s2); color: #DCE6E0; font-size: 1rem; line-height: 1.95; font-weight: 300; }
+.cover-dedication .ded-first { font-family: var(--font-calligraphic); font-size: clamp(1.35rem, 2.6vw, 1.7rem); color: #F8F6F0; font-weight: 400; line-height: 1.7; }
+.cover-dedication .ded-dua { margin: var(--s3) 0 0; padding-top: var(--s3); border-top: 1px solid rgba(198, 166, 107, .25); font-family: var(--font-calligraphic); font-size: 1.15rem; color: #E9D9B4; font-weight: 400; }
+@media (min-width: 900px) { .cover-dedication { margin: var(--s2) 0 0; text-align: start; } }

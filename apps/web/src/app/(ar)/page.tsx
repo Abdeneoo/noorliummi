@@ -24,19 +24,10 @@ export default function Home() {
           { href: '/names', icon: 'names', title: 'أسماء الله الحسنى', desc: 'مع الآيات الدالة عليها.' },
           { href: '/hifz', icon: 'hifz', title: 'الحفظ', desc: 'مراجعة متباعدة على جهازك.' },
           { href: '/adhan', icon: 'bell', title: 'الأذان', desc: 'اختر الصوت والتنبيه.' },
-          { href: '/mosques', icon: 'mosque', title: 'المساجد القريبة', desc: 'من OpenStreetMap.' },
+          { href: '/athar', icon: 'sadaqah', title: 'صفحة أثر', desc: 'صفحة مُهداة لمن تحب.' },
         ]} />
       </section>
 
-      <section className="section memorial-band reveal" aria-labelledby="ded-title">
-        <div className="arch-frame" aria-hidden="true" />
-        <div className="band-text">
-          <p className="eyebrow" id="ded-title">إهداء</p>
-          <p className="band-quote">إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>
-          <p>أُنشئ هذا المشروع ابتغاء وجه الله، ورجاء أن يكون صدقة جارية عنها. نسألكم الدعاء لها بالرحمة والمغفرة.</p>
-          <div className="row"><Link className="btn light" href="/dedication">اقرأ الإهداء</Link><Link className="btn outline-light" href="/athar">اصنع صفحة أثر</Link></div>
-        </div>
-      </section>
       <Reveal />
     </>
   );

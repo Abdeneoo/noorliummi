@@ -23,14 +23,6 @@ export default function Home() {
           { href: '/hadith', icon: 'hadith', title: 'Hadith (Arabic)', desc: 'Eleven collections.', lang: 'ar' },
         ]} />
       </section>
-      <section className="section memorial-band reveal" aria-labelledby="ded-title">
-        <div className="arch-frame" aria-hidden="true" />
-        <div className="band-text">
-          <p className="eyebrow" id="ded-title">Dedication</p>
-          <p className="band-quote">To my beloved mother, who has left my sight but never my heart.</p>
-          <div className="row"><Link className="btn light" href="/en/dedication">Read the dedication</Link></div>
-        </div>
-      </section>
       <Reveal />
     </>
   );
