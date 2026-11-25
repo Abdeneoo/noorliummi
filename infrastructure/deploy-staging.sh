@@ -108,3 +108,9 @@ fi
 sleep 4
 echo "public: https://$DOMAIN -> $(curl -s -o /dev/null -m 20 -w '%{http_code}' https://$DOMAIN/ || true)"
 echo "DONE"
+
+# Owner's other sites (list kept on the server only, one URL per line): show their status after every deploy.
+if [ -f "$APP_HOME/secrets/existing-sites.txt" ]; then
+  echo "== existing sites (should be unchanged)"
+  while read -r u; do [ -n "$u" ] && echo "$(curl -s -o /dev/null -m 15 -w '%{http_code}' "$u") $u"; done < "$APP_HOME/secrets/existing-sites.txt"
+fi
