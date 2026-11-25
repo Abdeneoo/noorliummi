@@ -2,28 +2,29 @@ import 'server-only';
 import { db } from './db';
 import { hashToken, newSlug, newToken } from './athar';
 export { validateKhatma, cleanReader } from './khatma-rules';
+import type { KhatmaInput } from './khatma-rules';
 
 export interface Juz { juz: number; reader: string; done: boolean; mine?: boolean }
-export interface Khatma { slug: string; display_name: string; feminine: boolean; athar_slug: string | null; round: number; status: string; juz: Juz[]; rounds_done: number }
+export interface Khatma { slug: string; display_name: string; feminine: boolean; athar_slug: string | null; round: number; status: string; juz: Juz[]; rounds_done: number; kind: 'quran' | 'dhikr' | 'dua'; phrase: number; target: number; count: number }
 
-export async function createKhatma(v: { display_name: string; feminine: boolean; athar_slug: string | null }) {
+export async function createKhatma(v: KhatmaInput) {
   const token = newToken();
   for (let i = 0; i < 5; i++) {
     const slug = newSlug();
-    const r = await db().query('INSERT INTO khatma_groups (slug, display_name, feminine, athar_slug, admin_token_hash) VALUES ($1,$2,$3,$4,$5) ON CONFLICT (slug) DO NOTHING RETURNING id', [slug, v.display_name, v.feminine, v.athar_slug, hashToken(token)]);
+    const r = await db().query('INSERT INTO khatma_groups (slug, display_name, feminine, athar_slug, admin_token_hash, kind, phrase, target) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT (slug) DO NOTHING RETURNING id', [slug, v.display_name, v.feminine, v.athar_slug, hashToken(token), v.kind, v.phrase, v.target]);
     if (r.rowCount) return { slug, token };
   }
   throw new Error('slug collision');
 }
 
 export async function getKhatma(slug: string, claimTokens: string[] = []): Promise<Khatma | null> {
-  const g = await db().query("SELECT id, slug, display_name, feminine, athar_slug, round, status FROM khatma_groups WHERE slug = $1 AND status <> 'removed'", [slug]);
+  const g = await db().query("SELECT id, slug, display_name, feminine, athar_slug, round, status, kind, phrase, target, count FROM khatma_groups WHERE slug = $1 AND status <> 'removed'", [slug]);
   if (!g.rowCount) return null;
   const row = g.rows[0];
   const mine = new Set(claimTokens.slice(0, 30).map(hashToken));
   const j = await db().query<{ juz: number; reader: string; done: boolean; claim_token_hash: string }>('SELECT juz, reader, done, claim_token_hash FROM khatma_juz WHERE group_id = $1 AND round = $2', [row.id, row.round]);
   const juz: Juz[] = j.rows.map((r) => ({ juz: r.juz, reader: r.reader, done: r.done, mine: mine.has(r.claim_token_hash) }));
-  return { slug: row.slug, display_name: row.display_name, feminine: row.feminine, athar_slug: row.athar_slug, round: row.round, status: row.status, juz, rounds_done: row.round - 1 };
+  return { slug: row.slug, display_name: row.display_name, feminine: row.feminine, athar_slug: row.athar_slug, round: row.round, status: row.status, juz, rounds_done: row.round - 1, kind: row.kind, phrase: row.phrase, target: row.target, count: Number(row.count) };
 }
 
 /** Take a free juz'. Returns a claim token (kept on the reader's device) or null if already taken. */
@@ -60,4 +61,10 @@ export async function adminAction(slug: string, token: string, action: 'free' | 
   if (action === 'delete') { await db().query("UPDATE khatma_groups SET status = 'removed' WHERE id = $1", [g.rows[0].id]); return true; }
   await db().query('DELETE FROM khatma_juz WHERE group_id = $1 AND round = $2 AND juz = $3', [g.rows[0].id, g.rows[0].round, juz]);
   return true;
+}
+
+/** Adds n (1–100) to a dhikr or dua page's shared count. */
+export async function addCount(slug: string, n: number): Promise<number | null> {
+  const r = await db().query<{ count: string }>("UPDATE khatma_groups SET count = count + $2 WHERE slug = $1 AND status = 'active' AND kind <> 'quran' RETURNING count", [slug, n]);
+  return r.rowCount ? Number(r.rows[0].count) : null;
 }

@@ -490,3 +490,9 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .listen-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
 .listen-grid a { display: grid; gap: 6px; min-height: 120px; align-content: center; justify-items: center; text-align: center; padding: 18px; border-radius: 24px; background: var(--primary); color: var(--on-primary); text-decoration: none; box-shadow: var(--shadow); }
 .listen-grid strong { font-size: 1.5rem; } .listen-grid small { opacity: .85; }
+.wird-plans { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.wird-today h2 { margin: 4px 0 8px; } .wird-today.done { border-color: color-mix(in srgb, var(--secondary) 50%, var(--line)); }
+.wird-hadith { line-height: 2; font-size: .98rem; }
+.tasmee { width: 100%; display: grid; justify-items: center; gap: 8px; }
+.tw.miss { background: color-mix(in srgb, #c96f5a 22%, transparent); border-radius: 6px; text-decoration: underline wavy #c96f5a; text-underline-offset: 8px; }
+.tw.ok { color: color-mix(in srgb, var(--secondary) 55%, var(--text)); }

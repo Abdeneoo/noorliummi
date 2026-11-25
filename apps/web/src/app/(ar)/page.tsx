@@ -28,6 +28,8 @@ export default function Home() {
           { href: '/names', icon: 'names', title: 'أسماء الله الحسنى', desc: 'مع الآيات الدالة عليها.' },
           { href: '/hifz', icon: 'hifz', title: 'الحفظ', desc: 'مراجعة متباعدة على جهازك.' },
           { href: '/adhan', icon: 'bell', title: 'الأذان', desc: 'اختر الصوت والتنبيه.' },
+          { href: '/wird', icon: 'quran', title: 'وِردي اليومي', desc: 'خطة ختمة، وأذكار وقتك، وحديث اليوم.' },
+          { href: '/khatma', icon: 'heart', title: 'أهدِ ختمة أو ذكرًا', desc: 'صفحة باسم من تحب، يشارك فيها الأهل.' },
           { href: '/athar', icon: 'sadaqah', title: 'صفحة أثر', desc: 'صفحة مُهداة لمن تحب.' },
         ]} />
       </section>

@@ -6,7 +6,7 @@ import { loadAdhkar } from '@/lib/adhkar';
 import { feminine } from '@/lib/dua';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'ختمة جماعية', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'صفحة مُهداة', robots: { index: false, follow: false } };
 export default async function KhatmaPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; if (!isSlug(slug)) notFound();
   const d = (await loadAdhkar(56)).items[0];

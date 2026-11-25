@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Grade } from 'ts-fsrs';
 import surahs from '@/generated/surahs.json';
 import { ayat } from '@/lib/arnum';
+import Tasmee from './Tasmee';
 import { GRADES, addRange, emptyState, parseBackup, parseKey, preview, queue, removeSurah, review, stats, type HifzState } from '@/lib/hifz';
 
 const KEY = 'noor.hifz.v1';
@@ -101,6 +102,7 @@ export default function Hifz({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
               <p style={{ width: '100%', textAlign: 'center' }}>{t.recite}</p>
               <button type="button" className="btn" onClick={() => setShow(true)}>{t.reveal}</button>
               <button type="button" className="btn ghost" onClick={listen}>{t.listen}</button>
+              {words?.[ca - 1] && <Tasmee ayah={words[ca - 1]} lang={lang} />}
             </div>
           ) : (
             <>

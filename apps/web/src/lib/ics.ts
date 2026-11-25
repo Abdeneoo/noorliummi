@@ -19,3 +19,13 @@ export function downloadIcs(body: string, name = 'friday-reminder.ics') {
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], { type: 'text/calendar;charset=utf-8' })); a.download = name; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
+
+/** A daily reminder event at the given local hour, starting today. */
+export function dailyIcs({ title, url, hour }: { title: string; url: string; hour: number }): string {
+  const now = new Date(); const p = (n: number) => String(n).padStart(2, '0');
+  const day = `${now.getFullYear()}${p(now.getMonth() + 1)}${p(now.getDate())}`;
+  const esc = (x: string) => x.replace(/[\\;,]/g, (m) => `\\${m}`);
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Noor Li Ummi//Daily wird//AR', 'BEGIN:VEVENT', `UID:wird-${day}-${Math.random().toString(36).slice(2)}@noorliummi`,
+    `DTSTAMP:${now.toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '')}`, `DTSTART:${day}T${p(hour)}0000`, `DTEND:${day}T${p(hour)}1500`, 'RRULE:FREQ=DAILY',
+    `SUMMARY:${esc(title)}`, `DESCRIPTION:${url}`, `URL:${url}`, 'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(title)}`, 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
+}

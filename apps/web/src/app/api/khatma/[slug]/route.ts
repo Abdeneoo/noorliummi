@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isSlug } from '@/lib/athar';
 import { rateLimited } from '@/lib/db';
-import { adminAction, claimJuz, cleanReader, getKhatma, newRound, updateJuz } from '@/lib/khatma';
+import { addCount, adminAction, claimJuz, cleanReader, getKhatma, newRound, updateJuz } from '@/lib/khatma';
 export const dynamic = 'force-dynamic';
 const bad = (error = 'طلب غير صالح.', status = 400) => NextResponse.json({ error }, { status });
 
@@ -23,6 +23,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     switch (b.action) {
       case 'claim': { if (!okJuz) return bad(); const t = await claimJuz(slug, juz, cleanReader(b.reader)); return t ? NextResponse.json({ token: t }) : bad('سبقك أحد إلى هذا الجزء؛ اختر جزءًا آخر.', 409); }
       case 'done': case 'release': if (!okJuz || !token) return bad(); return (await updateJuz(slug, juz, token, b.action)) ? NextResponse.json({ ok: true }) : bad('لا يمكن تعديل هذا الجزء من هذا الجهاز.', 403);
+      case 'add': { const n = Number(b.n); if (!Number.isInteger(n) || n < 1 || n > 100) return bad(); const c = await addCount(slug, n); return c == null ? bad() : NextResponse.json({ count: c }); }
       case 'round': return (await newRound(slug)) ? NextResponse.json({ ok: true }) : bad('لم تكتمل الختمة بعد.', 409);
       case 'free': case 'delete': if (!token || (b.action === 'free' && !okJuz)) return bad(); return (await adminAction(slug, token, b.action, juz)) ? NextResponse.json({ ok: true }) : bad('رابط الإدارة غير صحيح.', 403);
       default: return bad();

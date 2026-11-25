@@ -2,17 +2,10 @@
 import { logDay } from '@/lib/daylog';
 import { useEffect, useState } from 'react';
 import { recordActivity } from './Lantern';
+import { PHRASES } from '@/lib/dhikr-phrases';
 
 /** Tasbeeh counter. Counts dhikr only (no reward figures); kept on this device. */
 type Lang = 'ar' | 'en';
-const PHRASES = [
-  { ar: 'سُبْحَانَ اللَّهِ', en: 'SubhanAllah' },
-  { ar: 'الْحَمْدُ لِلَّهِ', en: 'Alhamdulillah' },
-  { ar: 'اللَّهُ أَكْبَرُ', en: 'Allahu akbar' },
-  { ar: 'لَا إِلَهَ إِلَّا اللَّهُ', en: 'La ilaha illallah' },
-  { ar: 'أَسْتَغْفِرُ اللَّهَ', en: 'Astaghfirullah' },
-  { ar: 'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ', en: 'Allahumma salli ʿala Muhammad' },
-];
 const TARGETS = [33, 100, 0];
 const T = {
   ar: { title: 'عدّاد التسبيح', tap: 'اضغط للتسبيح', reset: 'تصفير', target: 'الهدف', open: 'بلا حد', done: 'اكتمل العدد', of: 'من', note: 'يُحفظ العدد على جهازك فقط.', full: 'شاشة كاملة', exit: 'خروج', anywhere: 'المس أي مكان في الشاشة للتسبيح', record: 'سجّل تسبيحك في صفحة أثر', none: 'لا تسجيل', recorded: 'يُسجَّل كل ٣٣ تسبيحة في قنديل الصفحة.' },

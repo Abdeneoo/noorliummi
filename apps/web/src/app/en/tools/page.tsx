@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Hub } from '@/components/Tiles';
 import MyData from '@/components/MyData';
+import OfflineKit from '@/components/OfflineKit';
 export const metadata: Metadata = { title: 'Tools' };
 export default function Tools() {
   return (
@@ -13,7 +14,7 @@ export default function Tools() {
         { href: '/en/mosques', icon: 'mosque', title: 'Nearby mosques', desc: 'Find the closest mosque.' },
         { href: '/en/sources', icon: 'hadith', title: 'Sources & licences', desc: 'Where every text and recording comes from.' },
       ]}>
-      <div className="section"><MyData lang="en" /></div>
+      <div className="section"><OfflineKit lang="en" /></div><div className="section"><MyData lang="en" /></div>
     </Hub>
   );
 }

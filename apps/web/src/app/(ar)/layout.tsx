@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: { default: 'نور لأمي', template: '%s | نور لأمي' },
   description: 'نور لأمي منصة إسلامية عالمية مجانية، تيسر الوصول إلى القرآن والأذكار والصلاة والعلم النافع، صدقة جارية عن روح والدتي رحمها الله.',
   openGraph: { type: 'website', locale: 'ar', siteName: 'نور لأمي | Noor Li Ummi', images: [{ url: '/brand/og-cover.jpg', width: 1200, height: 630, alt: 'شعار نور لأمي' }] },
-  manifest: '/manifest.webmanifest',
+  manifest: '/manifest.webmanifest', icons: { apple: '/apple-touch-icon.png', icon: [{ url: '/icon.svg', type: 'image/svg+xml' }, { url: '/icon-192.png', sizes: '192x192', type: 'image/png' }] },
   robots: { index: false, follow: false }, // staging: not public until the owner approves launch
 };
 export const viewport: Viewport = { themeColor: [{ media: '(prefers-color-scheme: light)', color: '#F8F6F0' }, { media: '(prefers-color-scheme: dark)', color: '#141C19' }], width: 'device-width', initialScale: 1 };

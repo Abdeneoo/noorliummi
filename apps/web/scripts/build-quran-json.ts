@@ -31,6 +31,10 @@ writeFileSync(`${out}/surahs.json`, JSON.stringify(meta));
 const juz = [...readFileSync(`${src}/quran-data.xml`, 'utf8').matchAll(/<juz index="(\d+)" sura="(\d+)" aya="(\d+)"/g)].map((m) => [Number(m[2]), Number(m[3])]);
 if (juz.length !== 30) throw new Error('juz table check failed');
 writeFileSync(`${out}/juz.json`, JSON.stringify(juz));
+// Mushaf page starts [surah, ayah] (Tanzil metadata, Madinah mushaf: 604 pages), used by the daily wird.
+const pages = [...readFileSync(`${src}/quran-data.xml`, 'utf8').matchAll(/<page index="(\d+)" sura="(\d+)" aya="(\d+)"/g)].map((m) => [Number(m[2]), Number(m[3])]);
+if (pages.length !== 604) throw new Error('page table check failed');
+writeFileSync(`${out}/pages.json`, JSON.stringify(pages));
 for (const m of meta) {
   const rows = ayat.filter((a) => a.sura === m.index);
   if (rows.length !== m.ayas) throw new Error(`Ayah count mismatch in sura ${m.index}`);

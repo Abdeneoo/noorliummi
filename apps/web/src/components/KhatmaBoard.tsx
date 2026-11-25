@@ -4,9 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import juzStart from '@/generated/juz.json';
 import { SURAHS } from '@/lib/quran';
 import { arDigitsN as ar } from '@/lib/arnum';
+import GroupDhikr from './GroupDhikr';
 
 type Juz = { juz: number; reader: string; done: boolean; mine?: boolean };
-type K = { slug: string; display_name: string; feminine: boolean; athar_slug: string | null; round: number; juz: Juz[] };
+type K = { slug: string; display_name: string; feminine: boolean; athar_slug: string | null; round: number; juz: Juz[]; kind: 'quran' | 'dhikr' | 'dua'; phrase: number; target: number; count: number };
 const J = juzStart as [number, number][];
 const TOK = (slug: string) => `noor.khatma.claims.${slug}`;
 const ADMIN = (slug: string) => `noor.khatma.admin.${slug}`;
@@ -42,12 +43,13 @@ export default function KhatmaBoard({ slug, dua }: { slug: string; dua: { masc: 
   };
   const round = async () => { const r = await post(slug, { action: 'round' }); if (r.ok) void refresh(); };
   const share = async () => {
-    const url = `${location.origin}/khatma/${slug}`; const text = `ختمة قرآن جماعية لـ${k?.display_name}. اختر جزءًا واقرأه:`;
+    const url = `${location.origin}/khatma/${slug}`; const text = k?.kind === 'dhikr' ? `ذكر جماعي مُهدى إلى ${k.display_name}. شارك معنا:` : k?.kind === 'dua' ? `ادعُ لـ${k.display_name}:` : `ختمة قرآن مُهداة إلى ${k?.display_name}. اختر جزءًا واقرأه:`;
     if (navigator.share) { try { await navigator.share({ title: 'ختمة جماعية', text, url }); return; } catch { /* cancelled */ } }
     await navigator.clipboard?.writeText(`${text} ${url}`); setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
 
   if (!k) return <p className="note" role="status">{err || 'جارٍ التحميل…'}</p>;
+  if (k.kind !== 'quran') return <GroupDhikr g={{ ...k, kind: k.kind }} dua={dua} onShare={share} copied={copied} />;
   const by = new Map(k.juz.map((j) => [j.juz, j]));
   const done = k.juz.filter((j) => j.done).length; const taken = k.juz.length;
   const complete = done === 30;
@@ -56,7 +58,7 @@ export default function KhatmaBoard({ slug, dua }: { slug: string; dua: { masc: 
     <div className="khatma-group">
       <section className="card kg-head">
         <p className="eyebrow">ختمة جماعية{k.round > 1 ? ` · الختمة ${ar(k.round)}` : ''}</p>
-        <h1>ختمة لـ{k.display_name}</h1>
+        <h1>ختمة مُهداة إلى {k.display_name}</h1>
         <div className="khatma-bar" role="progressbar" aria-valuemin={0} aria-valuemax={30} aria-valuenow={done} aria-label="الأجزاء المقروءة"><span style={{ width: `${pct}%` }} /></div>
         <p className="note">قُرئ {ar(done)} من ٣٠ جزءًا · محجوز {ar(taken - done)} · متاح {ar(30 - taken)}</p>
         <div className="row"><button type="button" className="btn" onClick={share}>{copied ? 'نُسخ الرابط ✓' : 'شارك الرابط مع العائلة'}</button>
