@@ -1,0 +1,12 @@
+:root {
+  --brand-primary: #103D32;
+  --brand-secondary: #236B54;
+  --brand-gold: #C6A66B;
+  --brand-bg: #F8F6F0;
+  --brand-surface: #FFFFFF;
+  --brand-text: #24352F;
+  --brand-gold-text: #80652E;
+  --brand-radius: 12px;
+  --brand-space: 4px;
+}
+[data-theme="dark"] { --brand-bg: #141C19; --brand-surface: #202C26; --brand-text: #F8F6F0; --brand-gold-text: #C6A66B; }

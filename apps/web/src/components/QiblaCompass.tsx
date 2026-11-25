@@ -55,9 +55,9 @@ export default function QiblaCompass({ qibla, lang = 'ar' }: { qibla: number; la
         <circle r="6" fill="currentColor" />
         <g style={{ transform: `rotate(${rot}deg)`, transition: 'transform .25s linear' }}>
           {Array.from({ length: 36 }, (_, i) => <line key={i} x1="0" y1="-100" x2="0" y2={i % 9 === 0 ? -86 : -93} stroke="currentColor" strokeOpacity=".45" strokeWidth={i % 9 === 0 ? 3 : 1.5} transform={`rotate(${i * 10})`} />)}
-          <text y="-70" textAnchor="middle" fontSize="16" fontWeight="700" fill="#b23b3b">{t.north}</text>
+          <text y="-70" textAnchor="middle" fontSize="16" fontWeight="700" fill="var(--danger)">{t.north}</text>
           <g transform={`rotate(${qibla})`}>
-            <line x1="0" y1="0" x2="0" y2="-78" stroke={facing ? '#1f8a5b' : 'var(--accent-strong, #103d32)'} strokeWidth="6" strokeLinecap="round" />
+            <line x1="0" y1="0" x2="0" y2="-78" stroke={facing ? 'var(--success)' : 'var(--accent-strong, #103d32)'} strokeWidth="6" strokeLinecap="round" />
             <rect x="-9" y="-98" width="18" height="18" rx="2" fill="#111" stroke="#c6a66b" strokeWidth="2" />
           </g>
         </g>

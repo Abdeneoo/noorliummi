@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Recitation from '@/components/Recitation';
+import { LastRead } from '@/components/HomeWidgets';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
 
 export const dynamicParams = false;
@@ -20,6 +21,7 @@ export default async function Surah({ params }: { params: Promise<{ n: string }>
         <h1>Surah {meta.tname} <span lang="ar" dir="rtl">({meta.name})</span></h1>
         <div className="meta"><span>{meta.ename}</span><span>{meta.type === 'Meccan' ? 'Meccan' : 'Medinan'}</span><span>{meta.ayas} ayat</span></div>
       </header>
+      <LastRead surah={n} />
       <Recitation surah={n} surahName={meta.tname} start={SURAHS.slice(0, n - 1).reduce((t, x) => t + x.ayas, 0) + 1} count={meta.ayas} lang="en" />
       <p className="note">English translation of the meanings: Noor International Center (Saheeh International), from QuranEnc.com, version {en.v}. A translation of the meanings is not the Quran itself.</p>
       {bismillah && <p className="bismillah" lang="ar" dir="rtl">{bismillah}</p>}

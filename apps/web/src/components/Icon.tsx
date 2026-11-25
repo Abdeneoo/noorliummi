@@ -1,0 +1,29 @@
+/** Line icons drawn for Noor Li Ummi (original, 24px grid, stroke = currentColor). */
+const P: Record<string, React.ReactNode> = {
+  home: <><path d="M3.5 11 12 4l8.5 7" /><path d="M5.5 9.5V20h13V9.5" /><path d="M10 20v-5.5h4V20" /></>,
+  quran: <><path d="M12 6.5C9.5 4.8 6.5 4.5 3.5 5v13c3-.5 6-.2 8.5 1.5 2.5-1.7 5.5-2 8.5-1.5V5c-3-.5-6-.2-8.5 1.5Z" /><path d="M12 6.5v13" /></>,
+  prayer: <><path d="M12 3c-2.6 2.3-4.5 4.4-4.5 7.2V12h9v-1.8C16.5 7.4 14.6 5.3 12 3Z" /><path d="M5 21v-7.5h14V21" /><path d="M3 21h18" /><path d="M10 21v-3.5a2 2 0 0 1 4 0V21" /></>,
+  adhkar: <><circle cx="12" cy="4.5" r="1.5" /><circle cx="17.3" cy="7" r="1.5" /><circle cx="19" cy="12.5" r="1.5" /><circle cx="6.7" cy="7" r="1.5" /><circle cx="5" cy="12.5" r="1.5" /><path d="M6.5 16.5c1.2 2.2 3.2 3.5 5.5 3.5s4.3-1.3 5.5-3.5" /></>,
+  knowledge: <><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5Z" /><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5Z" /><path d="M6.5 8h2M6.5 11h2M15.5 8h2M15.5 11h2" /></>,
+  sadaqah: <><path d="M12 3.5 13.6 8 18 8.3l-3.4 2.9 1.1 4.3L12 13.1l-3.7 2.4 1.1-4.3L6 8.3 10.4 8Z" /><path d="M5 20.5c2-1.6 4.4-2.5 7-2.5s5 .9 7 2.5" /></>,
+  tools: <><circle cx="12" cy="12" r="8.5" /><path d="m14.8 9.2-1.9 3.7-3.7 1.9 1.9-3.7Z" /></>,
+  more: <><circle cx="5.5" cy="12" r="1.3" /><circle cx="12" cy="12" r="1.3" /><circle cx="18.5" cy="12" r="1.3" /></>,
+  bell: <><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15Z" /><path d="M10 20.5a2 2 0 0 0 4 0" /></>,
+  clock: <><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></>,
+  compass: <><circle cx="12" cy="12" r="8.5" /><path d="m14.8 9.2-1.9 3.7-3.7 1.9 1.9-3.7Z" /></>,
+  mosque: <><path d="M12 4c-2.4 2-4 3.9-4 6.3V12h8v-1.7C16 7.9 14.4 6 12 4Z" /><path d="M4.5 20v-8M19.5 20v-8M4.5 12V9.5M19.5 12V9.5" /><path d="M7 20v-5h10v5M3 20h18" /></>,
+  hifz: <><path d="M5 4.5h10.5L19 8v11.5H5Z" /><path d="m9 12.5 2 2 4-4.5" /></>,
+  names: <><path d="M12 3.5 14 9l5.5.5-4.2 3.6 1.3 5.4L12 15.6l-4.6 2.9 1.3-5.4L4.5 9.5 10 9Z" /></>,
+  hadith: <><path d="M6 3.5h9l3 3v14H6Z" /><path d="M14.5 3.5v3.5H18M9 11h6M9 14h6M9 17h4" /></>,
+  tafsir: <><path d="M4.5 5.5h7v13h-7ZM12.5 5.5h7v13h-7Z" /><path d="M14.5 9h3M14.5 12h3M14.5 15h2" /></>,
+  heart: <><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4Z" /></>,
+  play: <><path d="M8 5.5v13l10-6.5Z" /></>,
+  globe: <><circle cx="12" cy="12" r="8.5" /><path d="M3.5 12h17M12 3.5c2.3 2.4 3.5 5.2 3.5 8.5s-1.2 6.1-3.5 8.5c-2.3-2.4-3.5-5.2-3.5-8.5S9.7 5.9 12 3.5Z" /></>,
+  calendar: <><rect x="4" y="5.5" width="16" height="14.5" rx="2" /><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" /></>,
+  words: <><path d="M4 7h16M4 12h10M4 17h7" /><path d="M17 14.5v5M14.5 17h5" /></>,
+  similar: <><path d="M5 8h10M5 12h14M5 16h10" /><path d="m17 6 2 2-2 2" /></>,
+};
+export type IconName = keyof typeof P;
+export default function Icon({ name, className = 'ico' }: { name: string; className?: string }) {
+  return <svg viewBox="0 0 24 24" className={className} aria-hidden="true" focusable="false">{P[name] ?? P.more}</svg>;
+}

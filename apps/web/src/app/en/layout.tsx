@@ -1,19 +1,23 @@
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
-import '@fontsource-variable/noto-kufi-arabic';
+import '@fontsource-variable/noto-sans-arabic';
+import '@fontsource-variable/noto-naskh-arabic';
+import '@fontsource-variable/inter';
 import '@fontsource/amiri-quran';
+import '../tokens.css';
+import '../design-system.css';
 import '../globals.css';
-import ThemeToggle from '@/components/ThemeToggle';
 import AdhanController from '@/components/AdhanController';
-import Mark from '@/components/Mark';
+import { SiteHeader, TabBar } from '@/components/SiteChrome';
 
 export const metadata: Metadata = {
   title: { default: 'Noor Li Ummi', template: '%s | Noor Li Ummi' },
-  description: 'A free, non-commercial Islamic platform, built as sadaqah jariyah. A light that never fades, a legacy that never ends.',
+  description: 'Noor Li Ummi is a free Islamic digital platform dedicated to the memory of my beloved mother, offering access to the Quran, daily worship tools and beneficial knowledge.',
+  openGraph: { type: 'website', locale: 'en', siteName: 'Noor Li Ummi | نور لأمي', images: [{ url: '/brand/og-cover.jpg', width: 1200, height: 630, alt: 'Noor Li Ummi logo' }] },
   manifest: '/manifest.webmanifest',
   robots: { index: false, follow: false }, // staging: not public until the owner approves launch
 };
-export const viewport: Viewport = { themeColor: '#103d32', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: [{ media: '(prefers-color-scheme: light)', color: '#F8F6F0' }, { media: '(prefers-color-scheme: dark)', color: '#141C19' }], width: 'device-width', initialScale: 1 };
 
 export default function EnglishLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -23,27 +27,13 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
         <AdhanController />
         <script dangerouslySetInnerHTML={{ __html: "if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}" }} />
         <a className="skip" href="#main">Skip to content</a>
-        <header className="site">
-          <div className="wrap">
-            <Link href="/en" className="brand"><Mark />Noor Li Ummi</Link>
-            <nav className="main" aria-label="Main">
-              <Link href="/en">Home</Link>
-              <Link href="/en/quran">Quran</Link>
-              <Link href="/en/adhkar">Adhkar</Link>
-              <Link href="/en/times">Times</Link>
-              <Link href="/en/adhan">Adhan</Link>
-              <Link href="/en/hifz">Memorise</Link>
-              <Link href="/en/names">Names</Link>
-              <Link href="/en/sources">Sources</Link>
-              <Link href="/" lang="ar" hrefLang="ar">العربية</Link>
-            </nav>
-            <ThemeToggle lang="en" />
-          </div>
-        </header>
+        <SiteHeader lang="en" />
         <main id="main"><div className="wrap">{children}</div></main>
+        <TabBar lang="en" />
         <footer className="site">
           <div className="wrap">
-            <p>A light that never fades, a legacy that never ends. — Sadaqah jariyah; please remember the mother of the project&apos;s founder in your prayers, asking Allah for her mercy and forgiveness.</p>
+            <p className="tagline">A light that never fades, a legacy that never ends</p>
+            <p>Sadaqah jariyah — please remember the mother of the project&apos;s founder in your prayers, asking Allah for her mercy and forgiveness.</p>
             <p>Quran text from the <a href="https://tanzil.net" rel="noopener">Tanzil project</a>, unmodified. English translation of the meanings from <a href="https://quranenc.com" rel="noopener">QuranEnc.com</a>. <Link href="/en/sources">Sources and licences</Link> · <Link href="/en/privacy">Privacy and terms</Link></p>
           </div>
         </footer>

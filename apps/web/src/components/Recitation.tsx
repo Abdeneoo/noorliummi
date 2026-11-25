@@ -87,7 +87,7 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
   };
 
   return (
-    <section className="card recitation" aria-label={t.aria}>
+    <section className={`card recitation${playing ? ' is-playing' : ''}`} aria-label={t.aria}>
       <div className="row" style={{ marginTop: 0 }}>
         <div className="field"><label htmlFor="reciter">{t.reciter}</label>
           <select id="reciter" value={rid} onChange={(e) => choose(e.target.value)}>
@@ -96,7 +96,7 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
           </select></div>
       </div>
       {r.mode === 'surah' ? (
-        <audio key={rid} controls preload="none" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)}
+        <audio key={rid} controls preload="none" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)}
           src={`https://cdn.islamic.network/quran/audio-surah/${r.br}/${r.id}/${surah}.mp3`} />
       ) : (
         <div className="row" style={{ marginTop: 12, alignItems: 'center' }}>

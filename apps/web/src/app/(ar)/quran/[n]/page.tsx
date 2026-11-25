@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import AyatText from '@/components/AyatText';
 import Recitation from '@/components/Recitation';
+import { LastRead } from '@/components/HomeWidgets';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
 
 export const dynamicParams = false;
@@ -28,6 +29,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
         <Link className="btn ghost" href={`/quran/${n}/words`}>الكلمات وجذورها</Link>
       </div>
       <p className="note" style={{ textAlign: 'center' }}>اضغط على رقم أي آية لقراءة تفسيرها.</p>
+      <LastRead surah={n} />
       <Recitation surah={n} surahName={meta.name} start={SURAHS.slice(0, n - 1).reduce((t, x) => t + x.ayas, 0) + 1} count={meta.ayas} />
       {bismillah && <p className="bismillah" lang="ar">{bismillah}</p>}
       <AyatText surah={n} ayat={ayat} />

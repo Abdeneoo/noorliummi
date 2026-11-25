@@ -11,7 +11,10 @@
     "test": "pnpm gen && vitest run"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/noto-kufi-arabic": "^5.0.0",
+    "@fontsource-variable/noto-naskh-arabic": "^5.3.0",
+    "@fontsource-variable/noto-sans-arabic": "^5.3.0",
     "@fontsource/amiri-quran": "^5.0.0",
     "@noor/islamic-core": "workspace:*",
     "@noor/prayer-engine": "workspace:*",

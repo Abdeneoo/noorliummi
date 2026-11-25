@@ -1,21 +1,48 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
+import BrandLogo from '@/components/BrandLogo';
+import Tiles from '@/components/Tiles';
+import Icon from '@/components/Icon';
+import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 export const metadata: Metadata = { title: 'Home' };
 export default function Home() {
   return (
     <>
-      <section className="hero"><h1>Noor Li Ummi</h1><p>A light that never fades, a legacy that never ends.</p></section>
-      <PrayerCard lang="en" />
-      <div className="grid" style={{ marginTop: 20 }}>
-        <section className="card"><h2>The Holy Quran</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>The Arabic text in Uthmani script with an English translation of the meanings and its footnotes.</p><Link className="btn" href="/en/quran">Open the Quran</Link></section>
-        <section className="card"><h2>Adhkar</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>Hisn al-Muslim in Arabic, with English and transliteration where a licensed translation exists.</p><Link className="btn" href="/en/adhkar">Open adhkar</Link></section>
-        <section className="card"><h2>Memorise and review</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>Spaced review of the ayat you memorise. Your progress stays on your device.</p><Link className="btn" href="/en/hifz">Start memorising</Link></section>
-        <section className="card"><h2>Timetable and qibla</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>Monthly prayer timetable and a qibla compass.</p><Link className="btn" href="/en/times">Open</Link></section>
-        <section className="card"><h2>The Names of Allah</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>The 99 names with the verses that mention them.</p><Link className="btn" href="/en/names">Open</Link></section>
-        <section className="card"><h2>Nearby mosques</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>Find the closest mosques from OpenStreetMap.</p><Link className="btn" href="/en/mosques">Search</Link></section>
-        <section className="card"><h2>More (in Arabic)</h2><p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>Tafsir, hadith, word analysis and athar pages are in the Arabic interface for now.</p><Link className="btn ghost" href="/" lang="ar">العربية</Link></section>
+      <section className="cover" aria-labelledby="cover-title">
+        <BrandLogo alt="Noor Li Ummi logo" priority />
+        <div className="cover-text">
+          <h1 id="cover-title">Noor Li Ummi</h1>
+          <p className="tagline">A light that never fades, a legacy that never ends</p>
+          <p className="lead">A free Islamic digital platform dedicated to the memory of my beloved mother, offering access to the Quran, daily worship tools and beneficial knowledge.</p>
+          <div className="actions" style={{ marginTop: 20 }}>
+            <Link className="btn" href="/en/quran"><Icon name="quran" />Open the Quran</Link>
+            <Link className="btn ghost" href="/en/prayer"><Icon name="prayer" />Prayer times</Link>
+          </div>
+        </div>
+      </section>
+      <div className="grid two section">
+        <PrayerCard lang="en" />
+        <div className="grid"><ContinueReading lang="en" /><TodayAdhkar lang="en" /></div>
       </div>
+      <section className="section" aria-labelledby="sections-title">
+        <h2 id="sections-title">Sections</h2>
+        <Tiles items={[
+          { href: '/en/quran', icon: 'quran', title: 'The Holy Quran', desc: 'Arabic text with the translation of the meanings.' },
+          { href: '/en/adhkar', icon: 'adhkar', title: 'Adhkar', desc: 'Hisn al-Muslim with a counter.' },
+          { href: '/en/names', icon: 'names', title: 'Names of Allah', desc: 'With the verses that mention them.' },
+          { href: '/en/hifz', icon: 'hifz', title: 'Memorise', desc: 'Spaced review on your device.' },
+          { href: '/en/adhan', icon: 'bell', title: 'Adhan', desc: 'Choose the adhan and alerts.' },
+          { href: '/en/mosques', icon: 'mosque', title: 'Nearby mosques', desc: 'From OpenStreetMap.' },
+          { href: '/tafsir', icon: 'tafsir', title: 'Tafsir (Arabic)', desc: 'Tafsir al-Jalalayn.', lang: 'ar' },
+          { href: '/hadith', icon: 'hadith', title: 'Hadith (Arabic)', desc: 'Eleven collections with search.', lang: 'ar' },
+        ]} />
+      </section>
+      <section className="section card dedication">
+        <p className="eyebrow">Dedication</p>
+        <p>To my beloved mother, who has left my sight but never my heart.</p>
+        <div className="row" style={{ justifyContent: 'center' }}><Link className="btn ghost" href="/en/dedication">Read the dedication</Link></div>
+      </section>
     </>
   );
 }

@@ -72,9 +72,9 @@ export default function AtharForm({ initial, slug, onDone }: { initial?: AtharIn
           <button type="button" className="btn ghost" onClick={() => add({ kind: 'dhikr', ref: pickA })}>أضف الذكر</button>
         </div>
       </fieldset>
-      <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }} />
+      <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp" />
       <p className="note">لا تُقبل الروابط ولا أرقام الهواتف. لا تكتب بيانات شخصية لا تريد أن يراها من يصله الرابط.</p>
-      {err && <p className="note" role="alert" style={{ color: '#b23b3b' }}>{err}</p>}
+      {err && <p className="note" role="alert" style={{ color: 'var(--danger)' }}>{err}</p>}
       <button className="btn" disabled={busy}>{busy ? 'جارٍ الحفظ…' : slug ? 'حفظ التعديل' : 'أنشئ الصفحة'}</button>
     </form>
   );
