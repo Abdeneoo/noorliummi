@@ -1,0 +1,11 @@
+{
+  "name": "noor-li-ummi",
+  "private": true,
+  "description": "نور لأمي — منصة إسلامية عالمية مجانية، صدقة جارية",
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "engines": { "node": ">=20" }
+}
