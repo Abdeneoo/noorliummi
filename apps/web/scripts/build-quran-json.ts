@@ -5,6 +5,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normDhikr } from '../src/lib/dhikr-norm';
 import { parseTanzilMetadata, parseTanzilText, sha256File } from '../../../packages/islamic-core/src/index';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -34,11 +35,24 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   const [sum] = readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/);
   if (sha256File(`${dir}/hisn.json`) !== sum) throw new Error('Checksum mismatch for hisn.json — refusing to build');
   const raw = JSON.parse(readFileSync(`${dir}/hisn.json`, 'utf8')) as Record<string, { Adhkar: { Text: string; Count: number; Reference?: string }[] }>;
+  // OpenDua recordings (CC BY 4.0) attached only on an exact match of the Arabic text after removing diacritics/punctuation.
+  const od = resolve(here, '../../../database/sources/opendua');
+  if (sha256File(`${od}/catalogue.json`) !== readFileSync(`${od}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for opendua catalogue.json — refusing to build');
+  const cat = JSON.parse(readFileSync(`${od}/catalogue.json`, 'utf8')) as { entries: { variations?: { steps: { items?: { dua?: { arabic: string } }[]; recordings?: { url: string }[] }[] }[] }[] };
+  const audio = new Map<string, string>();
+  for (const e of cat.entries) for (const v of e.variations ?? []) for (const st of v.steps) {
+    if (st.items?.length === 1 && st.items[0].dua && st.recordings?.length === 1) audio.set(normDhikr(st.items[0].dua.arabic), st.recordings[0].url.split('/').pop()!);
+  }
+  let withAudio = 0;
   const cats = Object.entries(raw).map(([title, v], i) => ({
     id: i + 1,
     title,
-    items: v.Adhkar.map((d, j) => ({ n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '' })),
+    items: v.Adhkar.map((d, j) => {
+      const a = audio.get(normDhikr(d.Text)); if (a) withAudio++;
+      return { n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '', ...(a ? { a } : {}) };
+    }),
   }));
+  console.log(`Adhkar with OpenDua audio: ${withAudio}`);
   mkdirSync(`${out}/adhkar`, { recursive: true });
   writeFileSync(`${out}/adhkar/index.json`, JSON.stringify(cats.map((c) => ({ id: c.id, title: c.title, count: c.items.length }))));
   for (const c of cats) writeFileSync(`${out}/adhkar/${c.id}.json`, JSON.stringify(c));

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Dhikr } from '@/lib/adhkar';
 
 export default function DhikrList({ catId, items }: { catId: number; items: Dhikr[] }) {
@@ -15,6 +15,15 @@ export default function DhikrList({ catId, items }: { catId: number; items: Dhik
     if (cur + 1 === d.c && 'vibrate' in navigator) navigator.vibrate?.(30);
     save({ ...done, [d.n]: cur + 1 });
   };
+  const audio = useRef<HTMLAudioElement | null>(null);
+  const [playing, setPlaying] = useState<number | null>(null);
+  useEffect(() => () => audio.current?.pause(), []);
+  const play = (d: Dhikr) => {
+    if (!audio.current) { audio.current = new Audio(); audio.current.onended = () => setPlaying(null); audio.current.onerror = () => setPlaying(null); }
+    if (playing === d.n) { audio.current.pause(); setPlaying(null); return; }
+    audio.current.src = `/audio/adhkar/${d.a}`; audio.current.play().then(() => setPlaying(d.n)).catch(() => setPlaying(null));
+  };
+  const hasAudio = items.some((d) => d.a);
   const finished = items.filter((d) => (done[d.n] ?? 0) >= d.c).length;
   return (
     <>
@@ -29,6 +38,7 @@ export default function DhikrList({ catId, items }: { catId: number; items: Dhik
             <li key={d.n} className={`card dhikr${complete ? ' complete' : ''}`}>
               <p className="dhikr-text" lang="ar">{d.t}</p>
               {d.r && <p className="dhikr-ref">{d.r}</p>}
+              {d.a && <button type="button" className="btn ghost small" onClick={() => play(d)} aria-pressed={playing === d.n}>{playing === d.n ? 'إيقاف' : 'استمع'}</button>}
               <button type="button" className="btn counter" onClick={() => tap(d)} disabled={complete} aria-label={`عدّ: ${cur} من ${d.c}`}>
                 {complete ? 'تمّ' : d.c === 1 ? 'مرة واحدة — اضغط عند الانتهاء' : `${cur} / ${d.c}`}
               </button>
@@ -36,6 +46,7 @@ export default function DhikrList({ catId, items }: { catId: number; items: Dhik
           );
         })}
       </ol>
+      {hasAudio && <p className="note">التسجيلات بصوت محمد جمعة لمشروع OpenDua، بترخيص <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>. تظهر فقط حيث يطابق نصُّ التسجيل نصَّ الذكر هنا.</p>}
     </>
   );
 }

@@ -82,3 +82,21 @@ describe('Nawawi 40 equals the source', () => {
     g.forEach((h, i) => { expect(h.n).toBe(raw.hadiths[i].hadithnumber); expect(h.t).toBe(raw.hadiths[i].text); });
   });
 });
+
+describe('OpenDua audio mapping', () => {
+  it('each attached recording belongs to a dua whose text matches the dhikr exactly (after removing diacritics)', async () => {
+    const { normDhikr } = await import('../src/lib/dhikr-norm');
+    const cat = JSON.parse(readFileSync(resolve(__dirname, '../../../database/sources/opendua/catalogue.json'), 'utf8'));
+    const byFile = new Map<string, string>();
+    for (const e of cat.entries) for (const v of e.variations ?? []) for (const st of v.steps) {
+      if (st.items?.length === 1 && st.items[0].dua && st.recordings?.length === 1) byFile.set(st.recordings[0].url.split('/').pop(), normDhikr(st.items[0].dua.arabic));
+    }
+    const idx = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/adhkar/index.json'), 'utf8')) as { id: number }[];
+    let n = 0;
+    for (const c of idx) {
+      const g = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/adhkar/${c.id}.json`), 'utf8'));
+      for (const it of g.items) if (it.a) { n++; expect(byFile.get(it.a)).toBe(normDhikr(it.t)); }
+    }
+    expect(n).toBe(183);
+  });
+});

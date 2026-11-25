@@ -25,6 +25,9 @@ echo "at commit $(as_noor git -C "$APP" rev-parse --short HEAD)"
 echo "== 2/6 install"
 as_noor sh -c "cd $APP && $PNPM install --frozen-lockfile --silent"
 
+echo "== 2b adhkar audio (OpenDua, CC BY 4.0, checksum-verified)"
+as_noor bash "$APP/infrastructure/fetch-opendua-audio.sh"
+
 echo "== 3/6 Quran integrity gate"
 as_noor sh -c "cd $APP && $PNPM predeploy" | grep -E "Tests|passed|failed"
 
