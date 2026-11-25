@@ -16,7 +16,7 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/quran', label: 'القرآن', icon: 'quran', match: ['/quran'] },
     { href: '/prayer', label: 'الصلاة والأذان', icon: 'prayer', match: ['/prayer', '/times', '/adhan', '/mosques'] },
     { href: '/adhkar', label: 'الأذكار', icon: 'adhkar', match: ['/adhkar'] },
-    { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat'] },
+    { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat', '/library', '/topics', '/prophets'] },
     { href: '/sadaqah', label: 'الصدقة الجارية', icon: 'sadaqah', match: ['/sadaqah', '/dedication', '/athar'] },
     { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz', '/tasbeeh'] },
   ],

@@ -56,6 +56,8 @@ export const GROUPS: Group[] = [
     id: 'tools', title: { ar: 'الأدوات والتقنيات', en: 'Tools and technology' }, items: [
       { what: { ar: 'مواقيت الصلاة والقبلة', en: 'Prayer times and qibla' }, source: 'Adhan JS (Batoul Apps)', url: 'https://github.com/batoulapps/adhan-js', license: 'MIT',
         how: { ar: 'تُحسب على جهازك، وموقعك لا يُرسل إلى أي خادم. قوبلت بجداول رسمية.', en: 'Calculated on your device; checked against official tables.' } },
+      { what: { ar: 'المكتبة: رياض الصالحين والأذكار للنووي', en: 'Library: Riyad as-Salihin and al-Adhkar (Arabic)' }, source: 'OpenITI RELEASE 2025.1.9', url: 'https://github.com/OpenITI/RELEASE', license: 'CC BY-NC-SA 4.0',
+        how: { ar: 'النص الكامل لطبعة محددة (مذكورة في صفحة كل كتاب) مع ترقيم صفحاتها؛ تُزال علامات الترميز التقنية فقط، ويُتحقق آليًا أن حرفًا عربيًا لم يُحذف. للاستخدام غير التجاري.', en: 'Full text of a named edition with its page numbers; only technical markup is removed, verified letter by letter. Non-commercial.' } },
       { what: { ar: 'سعر الذهب والفضة (حاسبة الزكاة)', en: 'Gold and silver price (zakat calculator)' }, source: 'gold-api.com', url: 'https://gold-api.com', license: 'واجهة مجانية عامة بلا مفتاح',
         how: { ar: 'السعر العالمي بالدولار يُجلب من خادمنا مرة كل ساعة ويُعرض استرشادًا؛ والمستخدم يكتب سعر بلده.', en: 'World spot price in USD, fetched by our server hourly and shown as guidance; users enter their local price.' } },
       { what: { ar: 'المساجد القريبة', en: 'Nearby mosques' }, source: '© مساهمو OpenStreetMap', url: 'https://www.openstreetmap.org/copyright', license: 'ODbL',

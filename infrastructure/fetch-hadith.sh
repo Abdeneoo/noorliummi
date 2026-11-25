@@ -14,4 +14,6 @@ D="$ROOT/database/sources/hadith-fawazahmed0"; C=$(cat "$D/SOURCE_COMMIT"); mkdi
 while read -r sum f; do get "https://raw.githubusercontent.com/fawazahmed0/hadith-api/$C/editions/$f" "$sum" "$D/files/$f"; done < "$D/SHA256SUMS"
 O="$ROOT/database/sources/hadith-openiti"; OC=$(cat "$O/SOURCE_COMMIT"); mkdir -p "$O/files"
 while read -r sum key path; do get "https://raw.githubusercontent.com/OpenITI/RELEASE/$OC/$path" "$sum" "$O/files/$key.txt"; done < "$O/FILES"
+B="$ROOT/database/sources/library-openiti"; BC=$(cat "$B/SOURCE_COMMIT"); mkdir -p "$B/files"
+while read -r sum key path; do get "https://raw.githubusercontent.com/OpenITI/RELEASE/$BC/$path" "$sum" "$B/files/$key.txt"; done < "$B/FILES"
 echo "hadith sources: verified $(wc -l < "$D/SHA256SUMS") + $(wc -l < "$O/FILES") files"

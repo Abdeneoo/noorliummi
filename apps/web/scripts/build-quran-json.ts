@@ -7,6 +7,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dhikrKey, normDhikr } from '../src/lib/dhikr-norm';
 import { parseOpenITI } from '../src/lib/openiti';
+import { parseBook, letters as bookLetters } from '../src/lib/openiti-book';
 import { parseTanzilMetadata, parseTanzilText, sha256File } from '../../../packages/islamic-core/src/index';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -207,6 +208,29 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   }
   writeFileSync(`${out}/hadith/books.json`, JSON.stringify(books));
   console.log(`Hadith books generated: ${books.length} books, ${total} hadith with text`);
+}
+
+// ---- Library: whole books from OpenITI (CC BY-NC-SA 4.0), sectioned for reading ----
+{
+  const dir = resolve(here, '../../../database/sources/library-openiti');
+  const AR: Record<string, { ar: string; author: string }> = { riyad: { ar: 'رياض الصالحين', author: 'الإمام النووي (ت 676هـ)' }, 'adhkar-nawawi': { ar: 'الأذكار', author: 'الإمام النووي (ت 676هـ)' } };
+  const index: unknown[] = [];
+  for (const line of readFileSync(`${dir}/FILES`, 'utf8').trim().split('\n')) {
+    const [sum, key, path] = line.split(/\s+/); const f = `${dir}/files/${key}.txt`;
+    if (!existsSync(f)) throw new Error(`Missing ${key} — run infrastructure/fetch-hadith.sh`);
+    if (sha256File(f) !== sum) throw new Error(`Checksum mismatch for library ${key} — refusing to build`);
+    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi');
+    const got = bookLetters(b.sections.map((s) => s.blocks.map((x) => ('p' in x ? x.p : 'h' in x ? x.h : 'v' in x ? x.v : '')).join('')).join(''));
+    const want = bookLetters(b.body.split(/\r?\n/).filter((l) => !/^### \|{1,3} /.test(l)).join(' ').replace(/\bms\d+[A-Za-z]?\b/g, ''));
+    if (got !== want) throw new Error(`Library ${key}: Arabic letters changed in processing — refusing to build`);
+    mkdirSync(`${out}/library/${key}`, { recursive: true });
+    b.sections.forEach((s, i) => writeFileSync(`${out}/library/${key}/${i + 1}.json`, JSON.stringify(s)));
+    const m = b.meta;
+    index.push({ key, ...AR[key], title_full: m.BookTITLE, edition: [m.EdEDITOR && `تحقيق ${m.EdEDITOR}`, m.EdPUBLISHER, m.EdPLACE, m.EdNUMBER && `الطبعة ${m.EdNUMBER}`, m.EdYEAR].filter(Boolean).join('، '),
+      source_uri: path.split('/').pop(), license: 'CC BY-NC-SA 4.0', sections: b.sections.map((s, i) => ({ i: i + 1, title: s.title, group: s.group, n: s.blocks.filter((x) => 'n' in x).length })) });
+    console.log(`Library ${key}: ${b.sections.length} sections`);
+  }
+  writeFileSync(`${out}/library/index.json`, JSON.stringify(index));
 }
 
 // ---- Names of Allah: names + Quran refs verified against Tanzil (explanations are not used) ----

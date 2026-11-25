@@ -516,3 +516,4 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 @media (min-width: 900px) and (max-width: 1039px) { html[dir='ltr'] .brand .wordmark { display: none; } }
 @media (max-width: 520px) { html[dir='ltr'] .brand .wordmark { font-size: 1.05rem; } html[dir='ltr'] .brand .mark { width: 22px; } .font-size button { min-width: 30px; } }
 @media (max-width: 380px) { html[dir='ltr'] .brand .wordmark { display: none; } header.site .wrap { padding-inline: 12px; } }
+.lib-pg { text-align: center; color: var(--muted); font-size: .78rem; margin: 6px 0; }

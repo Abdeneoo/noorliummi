@@ -4,6 +4,7 @@ import type { Grade } from 'ts-fsrs';
 import surahs from '@/generated/surahs.json';
 import { ayat } from '@/lib/arnum';
 import Tasmee from './Tasmee';
+import HifzSync, { queueHifzSync } from './HifzSync';
 import { GRADES, addRange, emptyState, parseBackup, parseKey, preview, queue, removeSurah, review, stats, type HifzState } from '@/lib/hifz';
 
 const KEY = 'noor.hifz.v1';
@@ -60,7 +61,7 @@ export default function Hifz({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
   const audio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => { let v = emptyState(); try { const r = localStorage.getItem(KEY); if (r) v = parseBackup(r); } catch { /* fresh */ } setSt(v); }, []);
-  const save = (v: HifzState) => { const c = structuredClone(v); setSt(c); try { localStorage.setItem(KEY, JSON.stringify(c)); } catch { setMsg(t.storeFail); } };
+  const save = (v: HifzState) => { const c = structuredClone(v); setSt(c); try { localStorage.setItem(KEY, JSON.stringify(c)); queueHifzSync(); } catch { setMsg(t.storeFail); } };
 
   const q = useMemo(() => (st ? queue(st, now) : []), [st, now]);
   const cur = q[0];
@@ -158,6 +159,7 @@ export default function Hifz({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
           <label className="btn ghost">{t.restore}<input type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></label>
         </div>
       </section>
+      <div className="section"><HifzSync lang={lang} /></div>
     </div>
   );
 }
