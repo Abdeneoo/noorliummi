@@ -31,6 +31,13 @@ as_noor sh -c "cd $APP && $PNPM predeploy" | grep -E "Tests|passed|failed"
 echo "== 4/6 build"
 as_noor sh -c "cd $APP && $PNPM --filter @noor/web build" | tail -4
 
+echo "== 4b database migrations"
+if [ -f "$APP_HOME/secrets/db.env" ]; then
+  as_noor sh -c "set -a; . $APP_HOME/secrets/db.env; set +a; bash $APP/infrastructure/migrate.sh"
+else
+  echo "no $APP_HOME/secrets/db.env — athar pages will be unavailable (run infrastructure/create-db.sh)"
+fi
+
 echo "== 5/6 service"
 cat > "$UNIT" <<UNITEOF
 [Unit]
@@ -43,6 +50,7 @@ Group=noor
 WorkingDirectory=$APP/apps/web
 Environment=NODE_ENV=production
 Environment=HOME=$APP_HOME
+EnvironmentFile=-$APP_HOME/secrets/db.env
 ExecStart=/usr/bin/env node node_modules/next/dist/bin/next start -p $PORT -H 127.0.0.1
 Restart=on-failure
 RestartSec=3

@@ -11,16 +11,19 @@
     "test": "pnpm gen && vitest run"
   },
   "dependencies": {
+    "@fontsource-variable/noto-kufi-arabic": "^5.0.0",
+    "@fontsource/amiri-quran": "^5.0.0",
     "@noor/islamic-core": "workspace:*",
     "@noor/prayer-engine": "workspace:*",
-    "@fontsource/amiri-quran": "^5.0.0",
-    "@fontsource-variable/noto-kufi-arabic": "^5.0.0",
     "next": "^15.0.0",
+    "pg": "^8.23.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "tsx": "^4.19.0",

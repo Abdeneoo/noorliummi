@@ -93,3 +93,8 @@ table.month thead th{position:sticky;top:0;background:var(--surface,inherit)}
 a.ayah-end { text-decoration: none; }
 a.ayah-end:hover, a.ayah-end:focus-visible { color: var(--accent-strong); }
 .tafsir-list li:target { outline: 2px solid var(--accent); }
+.athar-form textarea, .athar-form input:not([name=website]), .athar-tools textarea { width: 100%; box-sizing: border-box; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid color-mix(in srgb, currentColor 25%, transparent); background: transparent; color: inherit; }
+.athar-form .field { display: grid; gap: 6px; margin-bottom: 14px; border: 0; padding: 0; }
+.athar-items { list-style: none; padding: 0; display: grid; gap: 8px; }
+.athar-items li { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.btn.small { font-size: .85rem; padding: 6px 12px; }

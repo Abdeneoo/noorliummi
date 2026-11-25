@@ -21,6 +21,11 @@ export default function Home() {
             <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>اثنان وأربعون حديثًا جمعها الإمام النووي (نسخة تجريبية).</p>
             <Link className="btn" href="/hadith/nawawi">اقرأ الأحاديث</Link>
           </section>
+          <section className="card">
+            <h2>صفحة أثر</h2>
+            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>اصنع صفحة تُهديها لمن تحب، تختار فيها سورًا وأذكارًا وتكتب دعاءك، وتشارك رابطها.</p>
+            <Link className="btn" href="/athar">اصنع صفحة</Link>
+          </section>
           <section className="card dedication">
             <h2>إهداء</h2>
             <p>إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>
