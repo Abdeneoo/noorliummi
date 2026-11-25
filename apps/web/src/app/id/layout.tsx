@@ -1,0 +1,20 @@
+import type { Metadata } from 'next';
+import '@fontsource/ibm-plex-sans-arabic/300.css';
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/500.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/amiri/400.css';
+import '@fontsource/amiri/700.css';
+import '@fontsource/el-messiri/500.css';
+import '@fontsource/el-messiri/600.css';
+import '@fontsource/el-messiri/700.css';
+import '@fontsource-variable/noto-naskh-arabic';
+import '@fontsource-variable/inter';
+import '@fontsource/amiri-quran';
+import '../tokens.css';
+import '../design-system.css';
+import '../globals.css';
+import { IntlLayout } from '@/components/IntlPages';
+import { INTL } from '@/lib/intl';
+export const metadata: Metadata = { metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'), title: { default: `${INTL.id.quran} — ${INTL.id.site}`, template: `%s | ${INTL.id.site}` }, description: INTL.id.tagline, robots: { index: false, follow: false } };
+export default function Layout({ children }: { children: React.ReactNode }) { return <IntlLayout lang="id">{children}</IntlLayout>; }

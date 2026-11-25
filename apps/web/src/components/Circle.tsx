@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import surahs from '@/generated/surahs.json';
+import Recitations from './Recitations';
 type M = { id: number; display_name: string; total: number | null; learned: number | null; due: number | null; surahs: number[] | null; updated_at: string | null };
 type V = { name: string; kind: string; owner: boolean; member: boolean; signedIn: boolean; members: M[]; notes: { note: string; created_at: string }[] };
 const H = { 'content-type': 'application/json', 'x-noor': '1' }; const S = surahs as { name: string }[];
@@ -22,7 +23,7 @@ export default function Circle({ slug }: { slug: string }) {
       {!v.signedIn && <section className="card"><p>للانضمام سجّل الدخول ببريدك أولًا (بلا كلمة مرور)، ثم ارجع إلى هذا الرابط.</p><Link className="btn" href="/account">تسجيل الدخول</Link></section>}
       {v.signedIn && !v.owner && !v.member && (
         <section className="card"><h2 style={{ marginTop: 0 }}>الانضمام</h2>
-          <p className="note">بانضمامك يرى {fam ? 'وليّ الأمر' : 'المعلّم'} المشرف على هذه المجموعة: الاسم الذي تكتبه هنا، وملخص تقدّمك في الحفظ فقط (عدد الآيات في خطتك، ما ثبت منها، المستحق للمراجعة، أسماء السور، وتاريخ آخر مزامنة). لا يرى بريدك ولا أي شيء آخر، ويمكنك المغادرة في أي وقت.</p>
+          <p className="note">بانضمامك يرى {fam ? 'وليّ الأمر' : 'المعلّم'} المشرف على هذه المجموعة: الاسم الذي تكتبه هنا، وملخص تقدّمك في الحفظ (عدد الآيات في خطتك، ما ثبت منها، المستحق للمراجعة، أسماء السور، وتاريخ آخر مزامنة)، وما ترسله أنت من تسجيلات التسميع. لا يرى بريدك ولا أي شيء آخر، ويمكنك المغادرة في أي وقت.</p>
           <form className="row" onSubmit={(e) => { e.preventDefault(); void act({ action: 'join', display_name: name }); }}><input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} required placeholder="اسمك كما يظهر للمشرف" aria-label="اسمك" style={{ flex: '1 1 220px' }} /><button className="btn">موافق، انضم</button></form></section>)}
       {v.member && (
         <section className="card"><p>أنت عضو في هذه المجموعة. فعّل «مزامنة الحفظ مع حسابي» من <Link href="/hifz">صفحة الحفظ</Link> ليظهر تقدمك للمشرف.</p>
@@ -39,6 +40,7 @@ export default function Circle({ slug }: { slug: string }) {
                 <td><div className="row" style={{ margin: 0, gap: 6 }}><button type="button" className="btn ghost small" onClick={() => { const t = prompt(`ملاحظة إلى ${m.display_name} (تظهر له بتاريخها):`); if (t?.trim()) void act({ action: 'note', user: m.id, note: t }); }}>ملاحظة</button><button type="button" className="btn ghost small" onClick={() => act({ action: 'remove', user: m.id }, 'إزالة العضو؟')}>إزالة</button></div></td></tr>)}</tbody></table></div>}
             <p className="note">ترى ملخص الحفظ فقط لمن فعّل المزامنة. لا يُعرض بريد الأعضاء ولا موقعهم ولا أي بيانات أخرى.</p></section>
         </>)}
+      {(v.member || v.owner) && <Recitations slug={slug} canRecord={v.member} fam={fam} />}
     </>
   );
 }

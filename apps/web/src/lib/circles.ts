@@ -1,6 +1,7 @@
 import 'server-only';
 import { db } from './db';
 import { newSlug } from './athar';
+import { deleteFilesOf } from './recitations';
 // eslint-disable-next-line no-control-regex
 export const cleanName = (s: unknown, max = 60) => (typeof s === 'string' ? s.replace(/[\u0000-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max) : '');
 export async function createCircle(owner: number, name: string, kind: 'halaqa' | 'family') {
@@ -31,10 +32,10 @@ export async function circleAction(slug: string, user: number, b: Record<string,
   switch (b.action) {
     case 'join': { const name = cleanName(b.display_name); if (!name || owner) return false; const n = await db().query<{ n: number }>('SELECT count(*)::int AS n FROM circle_members WHERE circle_id = $1', [id]); if (n.rows[0].n >= 100) return false;
       await db().query('INSERT INTO circle_members (circle_id, user_id, display_name) VALUES ($1,$2,$3) ON CONFLICT (circle_id, user_id) DO UPDATE SET display_name = EXCLUDED.display_name', [id, user, name]); return true; }
-    case 'leave': await db().query('DELETE FROM circle_members WHERE circle_id = $1 AND user_id = $2', [id, user]); await db().query('DELETE FROM circle_notes WHERE circle_id = $1 AND user_id = $2', [id, user]); return true;
-    case 'remove': if (!owner || !Number.isInteger(target)) return false; await db().query('DELETE FROM circle_members WHERE circle_id = $1 AND user_id = $2', [id, target]); return true;
+    case 'leave': await deleteFilesOf(user, slug); await db().query('DELETE FROM circle_members WHERE circle_id = $1 AND user_id = $2', [id, user]); await db().query('DELETE FROM circle_notes WHERE circle_id = $1 AND user_id = $2', [id, user]); return true;
+    case 'remove': if (!owner || !Number.isInteger(target)) return false; await deleteFilesOf(target, slug); await db().query('DELETE FROM circle_members WHERE circle_id = $1 AND user_id = $2', [id, target]); return true;
     case 'note': { const note = cleanName(b.note, 500); if (!owner || !note || !Number.isInteger(target)) return false; const r = await db().query('INSERT INTO circle_notes (circle_id, user_id, note) SELECT $1, $2, $3 WHERE EXISTS (SELECT 1 FROM circle_members WHERE circle_id = $1 AND user_id = $2)', [id, target, note]); return (r.rowCount ?? 0) > 0; }
-    case 'delete': if (!owner) return false; await db().query('DELETE FROM circles WHERE id = $1', [id]); return true;
+    case 'delete': { if (!owner) return false; const f = await db().query<{ user_id: string }>('SELECT DISTINCT user_id FROM recitations WHERE circle_id = $1', [id]); for (const x of f.rows) await deleteFilesOf(Number(x.user_id), slug); await db().query('DELETE FROM circles WHERE id = $1', [id]); return true; }
     default: return false;
   }
 }

@@ -1,5 +1,7 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+const RIYAD: [number, string][] = [[218, 'وجوب صوم رمضان وبيان فضل الصيام'], [214, 'استحباب قيام رمضان'], [215, 'فضل قيام ليلة القدر'], [219, 'الجود والإكثار من الخير في رمضان والعشر الأواخر'], [222, 'فضل السحور وتأخيره'], [223, 'فضل تعجيل الفطر وما يقوله بعد الإفطار'], [226, 'فضل صوم المحرم وشعبان والأشهر الحرم'], [227, 'فضل الصوم وغيره في العشر الأول من ذي الحجة'], [228, 'فضل صوم يوم عرفة وعاشوراء وتاسوعاء'], [229, 'استحباب صوم ستة أيام من شوال'], [230, 'استحباب صوم الإثنين والخميس'], [231, 'استحباب صوم ثلاثة أيام من كل شهر'], [211, 'فضل يوم الجمعة'], [234, 'وجوب الحج وفضله']];
 import { daysUntil, upcoming, type Occasion } from '@/lib/hijri';
 import { arCount } from '@/lib/arnum';
 import { downloadIcs } from '@/lib/ics';
@@ -31,7 +33,10 @@ export default function Occasions() {
         <ul className="occ-list">{white.slice(0, 4).map((o, i) => <li key={i} className="card"><strong>١٣–١٥ {new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { month: 'long' }).format(o.date)}</strong><span>تبدأ {gfmt.format(o.date)}</span><small>{left(o)}</small></li>)}</ul>
         <div className="row"><button type="button" className="btn ghost" onClick={() => downloadIcs(ics(white), 'white-days.ics')}>أضف تذكير الأيام البيض إلى تقويمي</button></div>
       </section>
-      <p className="note">التواريخ محسوبة فلكيًا بتقويم أم القرى وقد تختلف يومًا حسب رؤية الهلال. التذكير اختياري ويُضاف إلى تقويم هاتفك أنت؛ الموقع لا يرسل إشعارات. فضائل هذه الأيام وأحكامها تُؤخذ من أهل العلم، وسنضيف نصوصها بمصادرها بعد المراجعة.</p>
+      <p className="note">التواريخ محسوبة فلكيًا بتقويم أم القرى وقد تختلف يومًا حسب رؤية الهلال. التذكير اختياري ويُضاف إلى تقويم هاتفك أنت؛ الموقع لا يرسل إشعارات. فضائل هذه الأيام وأحكامها تُؤخذ من أهل العلم.</p>
+      <section className="section"><h2>أحاديث الباب من «رياض الصالحين»</h2>
+        <ul className="athar-dir">{RIYAD.map(([i, t]) => <li key={i}><Link href={`/library/riyad/${i}`}><strong>{t}</strong></Link></li>)}</ul>
+        <p className="note">نص الكتاب كما هو بطبعته (نسخة تجريبية لم تُراجع بعد). ومن «حصن المسلم»: <Link href="/adhkar/68">دعاء رؤية الهلال</Link> · <Link href="/adhkar/69">الدعاء عند إفطار الصائم</Link> · <Link href="/adhkar/120">الدعاء يوم عرفة</Link></p></section>
     </>
   );
 }

@@ -10,6 +10,8 @@ export const GROUPS: Group[] = [
         how: { ar: 'يُعرض كما هو حرفيًا دون أي تعديل، ويُتحقَّق من مطابقته للمصدر ببصمة SHA-256 في كل بناء للموقع.', en: 'Shown verbatim and checked against the source (SHA-256) on every build.' } },
       { what: { ar: 'ترجمة معاني القرآن بالإنجليزية', en: 'English translation of the meanings' }, source: 'Saheeh International — Noor International Center, via QuranEnc.com (v1.1.2)', url: 'https://quranenc.com', license: 'QuranEnc terms',
         how: { ar: 'كاملة بحواشيها دون تعديل، مع اسم الناشر والمصدر ورقم الإصدار، وتُحدَّث بآخر إصدار.', en: 'Complete with footnotes, unmodified, with publisher, source and version; kept up to date.' } },
+      { what: { ar: 'ترجمات المعاني: الأردية والتركية والإندونيسية', en: 'Urdu, Turkish and Indonesian translations of the meanings' }, source: 'QuranEnc.com — Muhammad Junagarhi (ur 1.1.3) · Rowwad Translation Center (tr 1.0.4) · Indonesian Ministry of Religious Affairs (id 1.0.1)', url: 'https://quranenc.com', license: 'شروط QuranEnc (دون تعديل، مع ذكر المصدر والإصدار)',
+        how: { ar: 'كاملة بحواشيها دون تعديل، مع اسم الترجمة والمصدر ورقم الإصدار. ليست ترجمة آلية.', en: 'Complete with footnotes, unmodified, with title, source and version. Not machine translation.' } },
       { what: { ar: 'تفسير الجلالين', en: 'Tafsir al-Jalalayn (Arabic)' }, source: 'spa5k/tafsir_api', url: 'https://github.com/spa5k/tafsir_api', license: 'MIT (data); classical text',
         how: { ar: 'يُعرض كما هو لكل آية.', en: 'Shown as published for each ayah.' } },
       { what: { ar: 'ألوان أحكام التجويد', en: 'Tajweed colours' }, source: 'cpfair/quran-tajweed — Collin Fair', url: 'https://github.com/cpfair/quran-tajweed', license: 'CC BY 4.0',

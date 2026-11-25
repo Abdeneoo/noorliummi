@@ -58,6 +58,7 @@ Group=noor
 WorkingDirectory=$APP/apps/web
 Environment=NODE_ENV=production
 Environment=HOME=$APP_HOME
+Environment=NOOR_HOME=$APP_HOME
 EnvironmentFile=-$APP_HOME/secrets/db.env
 # Optional app secrets, e.g. SUNNAH_API_KEY=... (create the file as noor, mode 600; never commit it)
 EnvironmentFile=-$APP_HOME/secrets/app.env
@@ -156,6 +157,8 @@ Persistent=true
 WantedBy=timers.target
 BEOF
 install -d -m 755 -o noor -g noor "$APP_HOME/reports"
+# Student recitations: private, outside the web root, readable by the app user only.
+install -d -m 700 -o noor -g noor "$APP_HOME/recordings"
 install -d -m 700 -o noor -g noor "$APP_HOME/backups"
 systemctl daemon-reload
 systemctl enable --now --quiet noorliummi-backup.timer noorliummi-health.timer noorliummi-adhanlinks.timer

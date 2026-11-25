@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isAdmin, sameOrigin } from '@/lib/admin';
 import { db } from '@/lib/db';
+import { deleteFilesOf } from '@/lib/recitations';
 export const dynamic = 'force-dynamic';
 const deny = () => NextResponse.json({ error: 'غير مسموح.' }, { status: 401 });
 /** Accounts list for the moderator: email, dates, status and how many athar pages each owns. */
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
     // Freezes the account's pages (they stop showing) without deleting anything; the moderator reviews them in the athar tab.
     case 'freeze_pages': await d.query("UPDATE memorial_pages SET status = 'frozen' WHERE owner_id = $1 AND status = 'active'", [id]); break;
     // Deletes the account only. Its pages stay (ownership is cleared by the database) and remain editable by their edit links.
-    case 'delete': await d.query('DELETE FROM users WHERE id = $1', [id]); break;
+    case 'delete': await deleteFilesOf(id); await d.query('DELETE FROM users WHERE id = $1', [id]); break;
     default: return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
   }
   return NextResponse.json({ ok: true });

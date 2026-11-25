@@ -11,7 +11,7 @@ export default function InheritanceCalc() {
   const r = inherit(h);
   return (
     <>
-      <p className="review-banner"><strong>حسابات استرشادية للتعلم — والفتوى في الميراث تُؤخذ من عالم أو محكمة شرعية.</strong> الحاسبة تغطي أبسط الحالات المتفق عليها فقط: الزوج أو الزوجة، والأب، والأم، والأبناء والبنات. وتُقسم التركة بعد تجهيز الميت وسداد ديونه وتنفيذ وصيته، وهذه لا تحسبها الحاسبة.</p>
+      <p className="review-banner"><strong>غير معتمدة: لم يراجعها متخصص في الفرائض بعد. حسابات استرشادية للتعلم — والفتوى في الميراث تُؤخذ من عالم أو محكمة شرعية.</strong> الحاسبة تغطي أبسط الحالات المتفق عليها فقط: الزوج أو الزوجة، والأب، والأم، والأبناء والبنات. وتُقسم التركة بعد تجهيز الميت وسداد ديونه وتنفيذ وصيته، وهذه لا تحسبها الحاسبة.</p>
       <section className="card"><h2 style={{ marginTop: 0 }}>الورثة الأحياء</h2>
         <div className="row"><div className="field"><label htmlFor="i-sp">الزوج / الزوجة</label><select id="i-sp" value={sp} onChange={(e) => { const v = e.target.value as typeof sp; setSp(v); setH({ ...h, husband: v === 'husband', wives: v === 'wives' ? Math.max(1, h.wives) : 0 }); }}><option value="none">لا يوجد</option><option value="husband">زوج (المتوفاة امرأة)</option><option value="wives">زوجة أو أكثر (المتوفى رجل)</option></select></div>
           {sp === 'wives' && num('wives', 'عدد الزوجات', 4)}</div>

@@ -313,6 +313,29 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   console.log(`Quranic Arabic Corpus: ${aligned} ayat aligned, not aligned: ${skipped.join(' ')}`);
 }
 
+// ---- QuranEnc translations of the meanings for Urdu, Turkish and Indonesian (verbatim, with footnotes) ----
+{
+  const LANGS: Record<string, string> = { ur: 'urdu_junagarhi', tr: 'turkish_rwwad', id: 'indonesian_affairs' };
+  const info: Record<string, unknown> = {};
+  for (const [lang, key] of Object.entries(LANGS)) {
+    const dir = resolve(here, `../../../database/sources/quranenc-${key}`);
+    const sums = Object.fromEntries(readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse() as [string, string]));
+    const version = readFileSync(`${dir}/VERSION`, 'utf8').trim();
+    const t = (JSON.parse(readFileSync(`${dir}/list.json`, 'utf8')) as { translations: { key: string; title: string; description: string; direction: string }[] }).translations.find((x) => x.key === key)!;
+    mkdirSync(`${out}/tr/${lang}`, { recursive: true });
+    for (const m of meta) {
+      const f = `${dir}/s${m.index}.json`;
+      if (sha256File(f) !== sums[`s${m.index}.json`]) throw new Error(`Checksum mismatch for QuranEnc ${key} s${m.index}.json — refusing to build`);
+      const rows = (JSON.parse(readFileSync(f, 'utf8')) as { result: { sura: string; aya: string; translation: string; footnotes: string | null }[] }).result;
+      if (rows.length !== m.ayas || rows.some((r, i) => Number(r.sura) !== m.index || Number(r.aya) !== i + 1)) throw new Error(`QuranEnc ${key} structure mismatch in sura ${m.index}`);
+      writeFileSync(`${out}/tr/${lang}/${m.index}.json`, JSON.stringify(rows.map((r) => ({ tr: r.translation, fn: r.footnotes ?? '' }))));
+    }
+    info[lang] = { key, version, title: t.title, description: t.description, dir: t.direction };
+  }
+  writeFileSync(`${out}/tr/index.json`, JSON.stringify(info));
+  console.log('QuranEnc ur/tr/id: 3 × 6236 ayat');
+}
+
 // ---- QuranEnc English (Noor International Center), verbatim translation + footnotes; Arabic stays Tanzil ----
 {
   const dir = resolve(here, '../../../database/sources/quranenc-english-saheeh');
