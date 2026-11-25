@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { SURAHS, arDigits } from '@/lib/quran';
 import Icon from './Icon';
+import { ayat } from '@/lib/arnum';
 
 type Lang = 'ar' | 'en';
 const KEY = 'noor.lastRead';
@@ -26,7 +27,7 @@ export function ContinueReading({ lang = 'ar' }: { lang?: Lang }) {
         <>
           <h2>{ar ? 'تابع القراءة' : 'Continue reading'}</h2>
           <p className="feature-title">{ar ? <>سورة {m.name}</> : <>{m.tname} <span className="muted">· {m.ename}</span></>}</p>
-          <p className="note">{ar ? `السورة ${arDigits(m.index)} · ${arDigits(m.ayas)} آية` : `Surah ${m.index} · ${m.ayas} ayat`}</p>
+          <p className="note">{ar ? `السورة ${arDigits(m.index)} · ${ayat(m.ayas)}` : `Surah ${m.index} · ${m.ayas} ayat`}</p>
           <div className="row"><Link className="btn" href={`${base}/${m.index}`}><Icon name="quran" />{ar ? 'أكمل' : 'Continue'}</Link><Link className="btn ghost" href={base}>{ar ? 'فهرس السور' : 'All surahs'}</Link></div>
         </>
       ) : (

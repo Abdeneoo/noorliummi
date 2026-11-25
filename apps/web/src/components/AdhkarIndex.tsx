@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { stripMarks, type AdhkarCat } from '@/lib/adhkar';
+import { arCount, DHIKR } from '@/lib/arnum';
 
 export default function AdhkarIndex({ cats }: { cats: AdhkarCat[] }) {
   const [q, setQ] = useState('');
@@ -14,7 +15,7 @@ export default function AdhkarIndex({ cats }: { cats: AdhkarCat[] }) {
       {list.length === 0 ? <p className="note" role="status">لا يوجد باب بهذا الاسم.</p> : (
         <ul className="surah-list">
           {list.map((c) => (
-            <li key={c.id}><Link href={`/adhkar/${c.id}`}><span className="num">{c.id}</span><span><span className="nm">{c.title}</span><span className="sub">{c.count} {c.count > 10 ? 'ذكرًا' : c.count > 2 ? 'أذكار' : c.count === 2 ? 'ذكران' : 'ذكر'}</span></span></Link></li>
+            <li key={c.id}><Link href={`/adhkar/${c.id}`}><span className="num">{c.id}</span><span><span className="nm">{c.title}</span><span className="sub">{arCount(c.count, DHIKR)}</span></span></Link></li>
           ))}
         </ul>
       )}

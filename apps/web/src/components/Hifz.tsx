@@ -2,13 +2,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Grade } from 'ts-fsrs';
 import surahs from '@/generated/surahs.json';
+import { ayat } from '@/lib/arnum';
 import { GRADES, addRange, emptyState, parseBackup, parseKey, preview, queue, removeSurah, review, stats, type HifzState } from '@/lib/hifz';
 
 const KEY = 'noor.hifz.v1';
 const S = surahs as { index: number; name: string; tname: string; ayas: number }[];
 const ar = (n: number) => n.toLocaleString('ar-EG');
-/** «٣ آيات» / «١١ آية» — Arabic count agreement for ayah. */
-const ayat = (n: number) => (n === 1 ? 'آية واحدة' : n === 2 ? 'آيتان' : n <= 10 ? `${ar(n)} آيات` : `${ar(n)} آية`);
 const startOf = (s: number) => S.slice(0, s - 1).reduce((t, x) => t + x.ayas, 0) + 1;
 const when = (d: Date, now: Date, lang: 'ar' | 'en') => {
   const m = Math.round((d.getTime() - now.getTime()) / 60000);

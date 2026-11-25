@@ -7,7 +7,10 @@ export default function Reveal() {
     if (!('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('in')); return; }
     const io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
     els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
+    // Safety net: never leave content hidden (print, screenshots, background tabs).
+    const t = window.setTimeout(() => els.forEach((e) => e.classList.add('in')), 2500);
+    window.addEventListener('beforeprint', () => els.forEach((e) => e.classList.add('in')));
+    return () => { io.disconnect(); clearTimeout(t); };
   });
   return null;
 }

@@ -5,6 +5,7 @@ import AyatText from '@/components/AyatText';
 import Recitation from '@/components/Recitation';
 import { LastRead } from '@/components/HomeWidgets';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
+import { ayat as ayahCount } from '@/lib/arnum';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return SURAHS.map((s) => ({ n: String(s.index) })); }
@@ -21,7 +22,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
     <article className="reader">
       <header>
         <h1>سورة {meta.name}</h1>
-        <div className="meta"><span>{meta.type === 'Meccan' ? 'مكية' : 'مدنية'}</span><span>{arDigits(meta.ayas)} آية</span><span>ترتيبها في المصحف {arDigits(meta.index)}</span></div>
+        <div className="meta"><span>{meta.type === 'Meccan' ? 'مكية' : 'مدنية'}</span><span>{ayahCount(meta.ayas)}</span><span>ترتيبها في المصحف {arDigits(meta.index)}</span></div>
       </header>
       <div className="row" style={{ justifyContent: 'center', margin: '8px 0 4px' }}>
         <Link className="btn ghost" href={`/tafsir/${n}`}>تفسير السورة</Link>

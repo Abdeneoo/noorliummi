@@ -43,7 +43,7 @@ nav.main > a[aria-current='page'], .nav-more > summary[aria-current='page'] { co
 .nav-menu a:hover, .nav-menu a[aria-current='page'] { background: var(--tint); color: var(--primary); }
 .nav-menu .ico { color: var(--secondary); }
 .theme-toggle { flex: none; min-height: 40px; min-width: 40px; padding: 0 var(--s3); border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: .85rem; cursor: pointer; }
-.lang-switch { font-size: .85rem; padding: var(--s2) var(--s3); border-radius: var(--radius-pill); border: 1px solid var(--line); white-space: nowrap; }
+.lang-switch { display: inline-flex; align-items: center; justify-content: center; line-height: 1; font-size: .85rem; padding: var(--s2) var(--s3); border-radius: var(--radius-pill); border: 1px solid var(--line); white-space: nowrap; }
 @media (max-width: 899px) { nav.main { display: none; } .lang-switch { margin-inline-start: auto; } }
 
 /* ---------- mobile tab bar ---------- */
@@ -97,13 +97,15 @@ html[dir='rtl'] .page-head::after { background: linear-gradient(270deg, var(--go
 .arch-outer { stroke: #C6A66B; stroke-width: 1.4; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 2.6s var(--ease) .2s backwards; }
 .arch-inner { stroke: rgba(198, 166, 107, .38); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 3s var(--ease) .6s backwards; }
 .arch-shine { stroke: #FFF4D6; stroke-width: 2.2; stroke-dasharray: .06 .94; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 6px rgba(255, 236, 190, .9)); animation: shine 6s ease-in-out 3s infinite; }
-.cover .logo { position: relative; width: 78%; aspect-ratio: 1; margin-bottom: 9%; border-radius: 28px; animation: bloom 1.6s var(--ease) both; }
+.cover .logo { position: relative; width: 78%; aspect-ratio: 1; margin-bottom: 9%; border-radius: 28px; }
+@media (prefers-reduced-motion: no-preference) { .cover .logo { animation: bloom 1.6s var(--ease) backwards; } }
 .cover h1 { color: #F8F6F0; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.1rem, 5vw, 3rem); margin: 0; line-height: 1.2; }
 .cover .tagline { color: #E9D9B4; font-family: var(--font-calligraphic); font-size: clamp(1.1rem, 2.2vw, 1.35rem); margin: 0; }
 .cover .lead { color: #CFDCD5; max-width: 46ch; margin: 0 auto; font-size: 1.02rem; font-weight: 300; }
 .cover-text { display: grid; gap: var(--s3); }
 .cover .actions { display: flex; flex-wrap: wrap; gap: var(--s3); justify-content: center; margin-top: var(--s3); }
-.rise { animation: fadeUp .9s var(--ease) backwards; animation-delay: calc(.35s + var(--i, 0) * .14s); }
+/* Hero text is never hidden: only a small slide, so it is readable at first paint even if animations are paused. */
+@media (prefers-reduced-motion: no-preference) { .rise { animation: slideUp .8s var(--ease) backwards; animation-delay: calc(.15s + var(--i, 0) * .1s); } }
 @media (min-width: 900px) {
   .cover { padding: 56px var(--s8) 140px; }
   .cover-inner { grid-template-columns: auto 1fr; text-align: start; justify-items: start; align-items: center; gap: 56px; }
@@ -290,11 +292,12 @@ footer.site .brand { color: #F8F6F0; } footer.site .brand .wordmark { font-size:
 .tj-legend { margin: var(--s2) 0 var(--s4); font-size: .9rem; } .tj-legend ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; } .tj-legend summary { color: var(--muted); }
 
 /* ---------- motion ---------- */
-.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.js .reveal { opacity: .001; transform: translateY(22px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
 .js .reveal.in { opacity: 1; transform: none; }
 .js .lift.reveal { transform: translateY(40px); } .js .lift.reveal.in { transform: none; }
 @keyframes fadeIn { from { opacity: 0; } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } }
+@keyframes slideUp { from { transform: translateY(12px); } }
 @keyframes pop { from { opacity: 0; transform: scale(.96); } }
 @keyframes sheet { from { opacity: 0; transform: translateY(14px); } }
 @keyframes bloom { from { opacity: 0; transform: scale(.94); filter: blur(6px); } }

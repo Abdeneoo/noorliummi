@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { SurahMeta } from '@/lib/quran';
+import { ayat } from '@/lib/arnum';
 
 const strip = (s: string) => s.replace(/[ً-ٰٟ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').toLowerCase();
 
@@ -19,7 +20,7 @@ export default function SurahIndex({ surahs, base = '/quran' }: { surahs: SurahM
             <li key={s.index}>
               <Link href={`${base}/${s.index}`}>
                 <span className="num">{s.index}</span>
-                <span><span className="nm">سورة {s.name}</span><span className="sub">{s.type === 'Meccan' ? 'مكية' : 'مدنية'} · {s.ayas} آية</span></span>
+                <span><span className="nm">سورة {s.name}</span><span className="sub">{s.type === 'Meccan' ? 'مكية' : 'مدنية'} · {ayat(s.ayas)}</span></span>
               </Link>
             </li>
           ))}

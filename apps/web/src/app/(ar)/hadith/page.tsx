@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { arCount, BOOK } from '@/lib/arnum';
 import HadithSearch from '@/components/HadithSearch';
 import { sortedBooks } from '@/lib/hadith';
 export const metadata: Metadata = { title: 'الحديث الشريف' };
@@ -10,7 +11,7 @@ export default function HadithIndex() {
     <article style={{ maxWidth: 860, margin: '24px auto' }}>
       <h1>الحديث الشريف</h1>
       <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم، دون درجات الأحاديث أو حواشي المحققين.</p>
-      <p className="meta"><span>{ar(books.length + 1)} كتب</span><span>{ar(total + 42)} حديثًا</span></p>
+      <p className="meta"><span>{arCount(books.length + 1, BOOK)}</span><span>{ar(total + 42)} حديثًا</span></p>
       <HadithSearch />
       <ul className="grid" style={{ listStyle: 'none', padding: 0 }}>
         <li className="card"><h2 style={{ marginTop: 0, fontSize: '1.1rem' }}><Link href="/hadith/nawawi">الأربعون النووية</Link></h2><p className="note">٤٢ حديثًا</p></li>

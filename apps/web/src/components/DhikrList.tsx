@@ -7,6 +7,8 @@ const L = {
   en: { done: (f: number, n: number) => `Completed ${f} of ${n}`, reset: 'Reset counts', stop: 'Stop', listen: 'Listen', count: (c: number, n: number) => `Count: ${c} of ${n}`, complete: 'Done', once: 'Once — tap when finished', credit: 'Recitation by Muhammad Jumah for OpenDua, licensed', creditTail: '. Shown only where the recording’s text matches this dhikr exactly.' },
 };
 
+/** Display-only: adds the missing space after a closing quotation mark in references (e.g. «أربعة"أبو داود»). */
+function spaceQuotes(r: string) { let open = false; return r.replace(/"(?=(\S)?)/g, (q, next) => { open = !open; return !open && next && /[\p{L}(]/u.test(next) ? '" ' : q; }); }
 export default function DhikrList({ catId, items, lang = 'ar' }: { catId: number; items: Dhikr[]; lang?: 'ar' | 'en' }) {
   const t = L[lang];
   const key = `noor.adhkar.${catId}`;
@@ -45,7 +47,7 @@ export default function DhikrList({ catId, items, lang = 'ar' }: { catId: number
               <p className="dhikr-text" lang="ar">{d.t}</p>
               {lang === 'en' && d.tl && <p className="dhikr-tl" lang="en">{d.tl}</p>}
               {lang === 'en' && (d.en ? <p className="dhikr-en" lang="en">{d.en}</p> : <p className="note" lang="en">No English translation from a licensed source is available for this entry yet.</p>)}
-              {d.r && <p className="dhikr-ref" lang="ar" dir="rtl">{d.r}</p>}
+              {d.r && <p className="dhikr-ref" lang="ar" dir="rtl">{spaceQuotes(d.r)}</p>}
               {d.a && <button type="button" className="btn ghost small" onClick={() => play(d)} aria-pressed={playing === d.n}>{playing === d.n ? t.stop : t.listen}</button>}
               <button type="button" className="btn counter" onClick={() => tap(d)} disabled={complete} aria-label={t.count(cur, d.c)}>
                 {complete ? t.complete : d.c === 1 ? t.once : `${cur} / ${d.c}`}

@@ -60,7 +60,7 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
   return (
     <>
       <div className="row" style={{ justifyContent: 'center', margin: '4px 0' }}>
-        <button type="button" className={on ? 'btn' : 'btn ghost'} aria-pressed={on} onClick={toggle}>{lang === 'ar' ? (on ? 'إخفاء ألوان التجويد' : 'تلوين أحكام التجويد') : (on ? 'Hide tajweed colours' : 'Show tajweed colours')}</button>
+        <button type="button" className={on ? 'btn' : 'btn ghost'} aria-pressed={on ? 'true' : 'false'} onClick={toggle}>{lang === 'ar' ? (on ? 'إخفاء ألوان التجويد' : 'تلوين أحكام التجويد') : (on ? 'Hide tajweed colours' : 'Show tajweed colours')}</button>
       </div>
       {on && data && (
         <details className="tj-legend" open>

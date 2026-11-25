@@ -6,7 +6,7 @@ import Tiles from '@/components/Tiles';
 import Reveal from '@/components/Reveal';
 import Tasbeeh from '@/components/Tasbeeh';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
-export const metadata: Metadata = { title: 'Home' };
+export const metadata: Metadata = { title: { absolute: 'Noor Li Ummi — Quran, prayer times and adhkar' } };
 export default function Home() {
   return (
     <>
@@ -17,6 +17,9 @@ export default function Home() {
       <section className="section reveal" aria-labelledby="sections-title">
         <div className="section-head"><h2 id="sections-title">Explore</h2><Link href="/en/knowledge">All sections</Link></div>
         <Tiles items={[
+          { href: '/en/quran', icon: 'quran', title: 'Quran', desc: 'Arabic text with the translation of the meanings.' },
+          { href: '/en/adhkar', icon: 'adhkar', title: 'Adhkar', desc: 'Hisn al-Muslim with translation.' },
+          { href: '/en/athar', icon: 'sadaqah', title: 'Athar pages', desc: 'Pages dedicated to loved ones.' },
           { href: '/en/names', icon: 'names', title: 'Names of Allah', desc: 'With the verses that mention them.' },
           { href: '/en/hifz', icon: 'hifz', title: 'Memorise', desc: 'Spaced review on your device.' },
           { href: '/en/adhan', icon: 'bell', title: 'Adhan', desc: 'Choose the sound and alerts.' },

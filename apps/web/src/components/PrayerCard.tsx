@@ -195,7 +195,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
         <div className="row">
           <div className="field"><label htmlFor="city">{t.city}</label>
           <select id="city" value={cityId} onChange={(e) => e.target.value && update(fromCity(e.target.value))}>
-            {!cityId && <option value="">{placeLabel}</option>}
+            {!cityId && <option value="">{lang === 'ar' ? `موقعك الحالي (${placeLabel})` : `Your location (${placeLabel})`}</option>}
             {CITIES.map((c) => <option key={c.id} value={c.id}>{cityName(c, lang)}</option>)}
           </select></div>
           <div className="field"><label htmlFor="method">{t.method}</label>

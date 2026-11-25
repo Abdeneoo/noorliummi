@@ -70,7 +70,7 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
           </select></div>
       </div>
       {r.mode === 'surah' ? (
-        <audio key={rid} controls preload="none" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)}
+        <audio key={rid} controls preload="metadata" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)}
           src={`https://cdn.islamic.network/quran/audio-surah/${r.br}/${r.id}/${surah}.mp3`} />
       ) : (
         <div className="row" style={{ marginTop: 12, alignItems: 'center' }}>

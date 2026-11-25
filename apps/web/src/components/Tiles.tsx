@@ -5,7 +5,7 @@ export default function Tiles({ items, label }: { items: Tile[]; label?: string 
   return (
     <ul className="tiles" aria-label={label}>
       {items.map((t) => (
-        <li key={t.href}><Link href={t.href} lang={t.lang}><Icon name={t.icon} /><strong>{t.title}</strong><small>{t.desc}</small></Link></li>
+        <li key={t.href}><Link href={t.href} hrefLang={t.lang}><Icon name={t.icon} /><strong>{t.title}</strong><small>{t.desc}</small></Link></li>
       ))}
     </ul>
   );
