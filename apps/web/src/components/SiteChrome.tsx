@@ -31,8 +31,8 @@ export const NAV: Record<Lang, Item[]> = {
   ],
 };
 const SHORT: Record<Lang, Record<string, string>> = {
-  ar: { '/prayer': 'الصلاة', more: 'المزيد' },
-  en: { '/en/prayer': 'Prayer', more: 'More' },
+  ar: { '/prayer': 'الصلاة', '/sadaqah': 'الصدقة', more: 'المزيد' },
+  en: { '/en/prayer': 'Prayer', '/en/sadaqah': 'Sadaqah', more: 'More' },
 };
 
 /** Closes an open <details> menu on a click/tap outside it, on Escape, or when the page scrolls. */
@@ -54,9 +54,6 @@ function isActive(path: string, it: Item) {
 export function SiteHeader({ lang }: { lang: Lang }) {
   const path = usePathname() || '/';
   const ar = lang === 'ar';
-  const more = useRef<HTMLDetailsElement>(null);
-  useEffect(() => { if (more.current) more.current.open = false; }, [path]);
-  useCloseOnOutside(more);
   return (
     <header className="site">
       <div className="wrap">
@@ -69,19 +66,16 @@ export function SiteHeader({ lang }: { lang: Lang }) {
           <span className="wordmark">{ar ? 'نور لأمي' : 'Noor Li Ummi'}</span>
         </Link>
         <nav className="main" aria-label={ar ? 'التنقل الرئيسي' : 'Main'}>
-          {NAV[lang].slice(1, 5).map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}>{it.label}</Link>)}
-          <details className="nav-more" ref={more}>
-            <summary aria-current={NAV[lang].slice(5).some((it) => isActive(path, it)) ? 'page' : undefined}>{SHORT[lang].more}</summary>
-            <div className="nav-menu">
-              {NAV[lang].slice(5).map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}><Icon name={it.icon} />{it.label}</Link>)}
-              <Link href={ar ? '/sources' : '/en/sources'}><Icon name="hadith" />{ar ? 'المصادر والتراخيص' : 'Sources & licences'}</Link>
-              <Link href="/account"><Icon name="heart" />{ar ? 'حسابي' : 'My account (Arabic)'}</Link>
-            </div>
-          </details>
+          {NAV[lang].slice(1).map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}><span className="full">{it.label}</span><span className="short">{SHORT[lang][it.href] ?? it.label}</span></Link>)}
         </nav>
-        <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'}>{ar ? 'English' : 'العربية'}</Link>
-        <FontSize lang={lang} />
-        <ThemeToggle lang={lang} />
+        <div className="utils">
+          <Link className="util-btn" href="/account" aria-label={ar ? 'حسابي' : 'My account'} title={ar ? 'حسابي' : 'My account'} aria-current={path.startsWith('/account') ? 'page' : undefined}>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6" /><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4" /></svg>
+          </Link>
+          <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'}>{ar ? 'English' : 'العربية'}</Link>
+          <FontSize lang={lang} />
+          <ThemeToggle lang={lang} />
+        </div>
       </div>
     </header>
   );
