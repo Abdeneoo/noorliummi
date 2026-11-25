@@ -23,3 +23,26 @@ export const CITIES: City[] = [
   { id: 'paris', ar: 'باريس', en: 'Paris', lat: 48.8566, lng: 2.3522, tz: 'Europe/Paris', method: 'MuslimWorldLeague' },
   { id: 'newyork', ar: 'نيويورك', en: 'New York', lat: 40.7128, lng: -74.006, tz: 'America/New_York', method: 'NorthAmerica' },
 ];
+
+/** Calculation method conventionally used in a region, chosen from the device timezone (no location needed). */
+const TZ_METHOD: [RegExp, MethodId][] = [
+  [/^Asia\/Riyadh$/, 'UmmAlQura'], [/^Africa\/Cairo$/, 'Egyptian'], [/^Asia\/Dubai$/, 'Dubai'], [/^Asia\/Kuwait$/, 'Kuwait'], [/^Asia\/Qatar$/, 'Qatar'],
+  [/^Europe\/Istanbul$/, 'Turkey'], [/^Asia\/Tehran$/, 'Tehran'], [/^Asia\/(Karachi|Kolkata|Dhaka|Kabul)$/, 'Karachi'],
+  [/^Asia\/(Singapore|Kuala_Lumpur|Jakarta|Makassar|Jayapura|Brunei)$/, 'Singapore'], [/^America\//, 'NorthAmerica'], [/^Europe\/London$/, 'MoonsightingCommittee'],
+];
+export function methodForTimezone(tz: string): MethodId {
+  return TZ_METHOD.find(([re]) => re.test(tz))?.[1] ?? 'MuslimWorldLeague';
+}
+/** A sensible starting city for the device timezone, before any location permission. */
+export function cityForTimezone(tz: string): City | undefined {
+  return CITIES.find((c) => c.tz === tz && c.id !== 'makkah' && c.id !== 'madinah' && c.id !== 'jeddah' && c.id !== 'dammam' && c.id !== 'alexandria') ?? CITIES.find((c) => c.tz === tz);
+}
+/** Nearest listed city within ~60 km, for a friendly label only. */
+export function nearestCity(lat: number, lng: number): City | undefined {
+  let best: City | undefined; let bd = Infinity;
+  for (const c of CITIES) {
+    const dLat = (c.lat - lat) * 111; const dLng = (c.lng - lng) * 111 * Math.cos((lat * Math.PI) / 180);
+    const d = Math.hypot(dLat, dLng); if (d < bd) { bd = d; best = c; }
+  }
+  return bd <= 60 ? best : undefined;
+}
