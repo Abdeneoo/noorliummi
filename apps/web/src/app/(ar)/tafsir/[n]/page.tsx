@@ -27,7 +27,7 @@ export default async function TafsirPage({ params }: { params: Promise<{ n: stri
             <p className="tafsir-ayah" lang="ar">{a.t} <span className="ayah-end">﴿{arDigits(a.n)}﴾</span></p>
             {tafsir[a.n]
               ? <p className="tafsir-text">{tafsir[a.n]}</p>
-              : <p className="tafsir-text missing">لا يوجد في المصدر نص مستقل لهذه الآية؛ قد يكون تفسيرها مدمجًا مع آية مجاورة.</p>}
+              : (() => { const prev = [...Array(a.n - 1).keys()].map((k) => a.n - 1 - k).find((k) => tafsir[k]); return <p className="tafsir-text missing">فُسِّرت هذه الآية في المصدر مع ما قبلها.{prev ? <> <a href={`#a${prev}`}>انظر تفسير الآية {arDigits(prev)}</a></> : null}</p>; })()}
           </li>
         ))}
       </ol>

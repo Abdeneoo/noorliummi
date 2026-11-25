@@ -50,7 +50,7 @@ export default function QiblaCompass({ qibla, lang = 'ar' }: { qibla: number; la
   const facing = rel != null && Math.abs(rel) < 6;
   return (
     <div className="qibla">
-      <svg viewBox="-110 -110 220 220" width="220" height="220" role="img" aria-label={t.aria(qibla.toFixed(0))}>
+      <svg viewBox="-110 -110 220 220" width="220" height="220" role="img" aria-label={t.aria(qibla.toFixed(1))}>
         <circle r="100" fill="none" stroke="currentColor" strokeOpacity=".25" strokeWidth="2" />
         <circle r="6" fill="currentColor" />
         <g style={{ transform: `rotate(${rot}deg)`, transition: 'transform .25s linear' }}>

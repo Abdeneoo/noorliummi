@@ -22,7 +22,7 @@ export default function Home() {
         <div className="section-head"><h2 id="sections-title">استكشف</h2><Link href="/knowledge">كل الأقسام</Link></div>
         <Tiles items={[
           { href: '/tafsir', icon: 'tafsir', title: 'التفسير', desc: 'تفسير الجلالين لكل آية.' },
-          { href: '/hadith', icon: 'hadith', title: 'الحديث', desc: 'أحد عشر كتابًا مع البحث.' },
+          { href: '/hadith', icon: 'hadith', title: 'الحديث', desc: 'كتب الحديث مع البحث في نصوصها.' },
           { href: '/names', icon: 'names', title: 'أسماء الله الحسنى', desc: 'مع الآيات الدالة عليها.' },
           { href: '/hifz', icon: 'hifz', title: 'الحفظ', desc: 'مراجعة متباعدة على جهازك.' },
           { href: '/adhan', icon: 'bell', title: 'الأذان', desc: 'اختر الصوت والتنبيه.' },

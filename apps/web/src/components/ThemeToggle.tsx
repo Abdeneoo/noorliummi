@@ -5,7 +5,16 @@ const LABELS = { ar: { auto: 'تلقائي', light: 'فاتح', dark: 'داكن'
 export default function ThemeToggle({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
   const LABEL: Record<Mode, string> = LABELS[lang];
   const [mode, setMode] = useState<Mode>('auto');
-  useEffect(() => { try { setMode((localStorage.getItem('noor.theme') as Mode) || 'auto'); } catch { /* ignore */ } }, []);
+  useEffect(() => {
+    try { setMode((localStorage.getItem('noor.theme') as Mode) || 'auto'); } catch { /* ignore */ }
+    // Keep other open tabs in step when the theme changes in one of them.
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== 'noor.theme') return;
+      const m = (e.newValue as Mode) || 'auto'; setMode(m);
+      if (m === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', m);
+    };
+    window.addEventListener('storage', onStorage); return () => window.removeEventListener('storage', onStorage);
+  }, []);
   const next = () => {
     const m: Mode = mode === 'auto' ? 'dark' : mode === 'dark' ? 'light' : 'auto';
     setMode(m);

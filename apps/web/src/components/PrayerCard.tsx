@@ -186,7 +186,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
           </li>
         ))}
       </ul>
-      {saved.src !== 'gps' && <p className="pp-hint">{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)} {t.exact} <button type="button" className="linkish" onClick={() => locate()}>{t.locate}</button></p>}
+      {saved.src !== 'gps' && <p className="pp-hint">{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)}{' '}{t.exact}{' '}<button type="button" className="linkish" onClick={() => locate()}>{t.locate}</button></p>}
       {geoMsg && <p className="note" role="status">{geoMsg}</p>}
       {!adhanOn && <p className="pp-hint">{t.adhanOff} <a href={lang === 'en' ? '/en/adhan' : '/adhan'}>{t.adhanOn}</a></p>}
       {isFriday && <p className="note">{t.jumuahNote}</p>}
@@ -208,7 +208,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
             {jumuah && <button type="button" className="btn ghost small" onClick={() => saveJumuah('')}>{t.clear}</button>}
           </div></div>
         </div>
-        <p className="note">{nearKaaba ? '' : t.qibla(qibla.toFixed(1))}{t.note}</p>
+        <p className="note">{nearKaaba ? '' : t.qibla(qibla.toFixed(1))}{' '}{t.note}</p>
       </details>
     </section>
   );

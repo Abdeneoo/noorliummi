@@ -7,7 +7,7 @@ type N = { id: number; name: string; refs: [number, number][]; page: number | nu
 type En = { v: string; ayat: { tr: string; fn: string }[] };
 
 export default async function Names() {
-  const list = names as N[];
+  const list = names as unknown as N[];
   const need = [...new Set(list.flatMap((n) => n.refs.slice(0, 2).map(([s]) => s)))];
   const ar = new Map(await Promise.all(need.map(async (s) => [s, await loadSurah(s)] as const)));
   const en = new Map(await Promise.all(need.map(async (s) => [s, (await import(`@/generated/en/quran/${s}.json`)).default as En] as const)));
@@ -27,7 +27,7 @@ export default async function Names() {
                 {en.get(s)!.ayat[a - 1].fn && <p className="en-fn">{en.get(s)!.ayat[a - 1].fn}</p>}
               </div>
             ))}
-            {n.url && <p className="note"><a href={n.url} rel="noopener">Explanation in the book (Arabic){n.page ? `, p. ${n.page}` : ''}</a></p>}
+            {n.url && <p className="note"><a href={n.url} target="_blank" rel="noopener">Explanation in the book (Arabic) ↗</a></p>}
           </li>
         ))}
       </ol>

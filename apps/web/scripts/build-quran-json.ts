@@ -22,6 +22,10 @@ const meta = parseTanzilMetadata(readFileSync(`${src}/quran-data.xml`, 'utf8'));
 const ayat = parseTanzilText(readFileSync(`${src}/uthmani.xml`, 'utf8'));
 if (meta.length !== 114 || ayat.length !== 6236) throw new Error('Quran structure check failed — refusing to build');
 
+// Surah names are Tanzil metadata (not Quran text). Spelling fixes for display: hamzat al-qat' in إبراهيم/الإنسان,
+// hamzat al-wasl in الانفطار/الانشقاق (as in the mushaf headings).
+const NAME_FIX: Record<number, string> = { 14: 'إبراهيم', 76: 'الإنسان', 82: 'الانفطار', 84: 'الانشقاق' };
+for (const m of meta) if (NAME_FIX[m.index]) m.name = NAME_FIX[m.index];
 writeFileSync(`${out}/surahs.json`, JSON.stringify(meta));
 for (const m of meta) {
   const rows = ayat.filter((a) => a.sura === m.index);
@@ -207,21 +211,39 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   const sura = new Map(meta.map((m) => [key(m.name), m.index]));
   if (sha256File(`${src}/simple-clean.xml`) !== sums['simple-clean.xml']) throw new Error('Checksum mismatch for simple-clean.xml — refusing to build');
   const simple = parseTanzilText(readFileSync(`${src}/simple-clean.xml`, 'utf8')); // matching only; display stays Uthmani
-  let kept = 0, dropped = 0;
+  let kept = 0, dropped = 0, noName = 0;
+  // The verse must actually contain the name (without the article), not only be the place the book cites:
+  // the source groups related names under shared evidence, which would show verses that do not mention the name.
+  const bare = (x: string) => normDhikr(x).replace(/[ءأإآؤئٱ]/g, '').replace(/ى/g, 'ي').replace(/\s+/g, '');
   const names = raw.map((n) => {
+    const nm = bare(n.name_arabic).replace(/^ال/, '');
     const refs: [number, number][] = [];
     for (const q of n.quran_evidence ?? []) {
       const m = (q.source ?? '').match(/سورة\s+(.+?)[،,]?\s*(?:ال)?[آا]ي(?:ة|تان|ات)\s*:?\s*([٠-٩0-9]+)/);
       const su = m ? sura.get(key(m[1])) : undefined; const ay = m ? digits(m[2]) : 0;
       const row = su ? simple.find((a) => a.sura === su && a.aya === ay) : undefined;
       const snippet = normDhikr(q.text ?? '').replace(/ /g, ''); const verse = row ? normDhikr(row.text).replace(/ /g, '') : '';
-      if (row && snippet.length > 3 && verse.includes(snippet.slice(0, Math.min(25, snippet.length)))) { if (!refs.some(([a, b]) => a === su && b === ay)) refs.push([su!, ay]); kept++; } else dropped++;
+      // Word-level match (prefix و/ف/ب/ل/ك, article, accusative alif or a suffix pronoun) — never across word boundaries.
+      const re = new RegExp(`^(?:[وفبلك])?(?:ال|لل)?${nm}(?:ا|ه|ك|نا|هم)?$`);
+      const mentions = row ? row.text.split(' ').some((w) => re.test(bare(w))) : false;
+      if (row && snippet.length > 3 && verse.includes(snippet.slice(0, Math.min(25, snippet.length))) && mentions) { if (!refs.some(([a, b]) => a === su && b === ay)) refs.push([su!, ay]); kept++; }
+      else { dropped++; if (row && !mentions) noName++; }
     }
-    return { id: n.id, name: n.name_arabic, refs, page: n.book_reference?.page ?? null, url: n.book_reference?.url ?? null };
+    // No cited verse mentions the name: fall back only to verses that are themselves lists of Allah's names
+    // (al-Fatihah 1 and 3, al-Hashr 22–24, al-Ikhlas 1–2, al-'Alaq 3, Ayat al-Kursi, al-Hadid 3), by exact word match.
+    let found = false;
+    const NAME_VERSES = new Set(['1:1', '1:3', '59:22', '59:23', '59:24', '112:1', '112:2', '96:3', '2:255', '57:3']);
+    if (!refs.length) {
+      const full = bare(n.name_arabic);
+      for (const a of simple.filter((x) => NAME_VERSES.has(`${x.sura}:${x.aya}`))) {
+        if (a.text.split(' ').some((w) => { const b = bare(w); return b === full || b === 'و' + full || b === 'ف' + full; })) { refs.push([a.sura, a.aya]); found = true; if (refs.length >= 3) break; }
+      }
+    }
+    return { id: n.id, name: n.name_arabic, refs, found, page: n.book_reference?.page ?? null, url: n.book_reference?.url ?? null };
   });
   if (names.length !== 99) throw new Error('Names of Allah: expected 99');
   writeFileSync(`${out}/names-of-allah.json`, JSON.stringify(names));
-  console.log(`Names of Allah generated: 99 names, ${kept} verified Quran refs, ${dropped} unverified refs dropped`);
+  console.log(`Names of Allah generated: 99 names, ${kept} verified Quran refs, ${dropped} dropped (${noName} because the verse does not contain the name), ${names.filter((x) => !x.refs.length).length} names without a verse`);
 }
 
 // ---- Quranic Arabic Corpus v0.4 (GPL, verbatim file): per-word POS, root, features aligned to our Tanzil words ----

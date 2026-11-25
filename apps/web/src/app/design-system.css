@@ -28,14 +28,14 @@
 }
 /* Dark: brand kit values for bg/surface/text/gold; the rest derived and contrast-tested (docs/DESIGN_SYSTEM.md). */
 :root[data-theme='dark'] {
-  --primary: #C6A66B; --secondary: #8CCBB0; --muted: #A7B5AE; --line: #2E3D36; --line-strong: #3C4E46; --tint: #1A2621; --sand: #26332D; --on-primary: #141C19;
+  --primary: #C6A66B; --secondary: #8CCBB0; --muted: #B8C5BF; --line: #2E3D36; --line-strong: #3C4E46; --tint: #1A2621; --sand: #26332D; --on-primary: #141C19;
   --danger: #F0A396; --success: #8FD3B3; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.6);
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     --brand-bg: #141C19; --brand-surface: #202C26; --brand-text: #F8F6F0; --brand-gold-text: #C6A66B;
-    --primary: #C6A66B; --secondary: #8CCBB0; --muted: #A7B5AE; --line: #2E3D36; --line-strong: #3C4E46; --tint: #1A2621; --sand: #26332D; --on-primary: #141C19;
+    --primary: #C6A66B; --secondary: #8CCBB0; --muted: #B8C5BF; --line: #2E3D36; --line-strong: #3C4E46; --tint: #1A2621; --sand: #26332D; --on-primary: #141C19;
     --danger: #F0A396; --success: #8FD3B3; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.6);
     color-scheme: dark;
   }

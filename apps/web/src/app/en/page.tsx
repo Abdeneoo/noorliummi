@@ -22,7 +22,7 @@ export default function Home() {
           { href: '/en/adhan', icon: 'bell', title: 'Adhan', desc: 'Choose the sound and alerts.' },
           { href: '/en/mosques', icon: 'mosque', title: 'Nearby mosques', desc: 'From OpenStreetMap.' },
           { href: '/tafsir', icon: 'tafsir', title: 'Tafsir (Arabic)', desc: 'Tafsir al-Jalalayn.', lang: 'ar' },
-          { href: '/hadith', icon: 'hadith', title: 'Hadith (Arabic)', desc: 'Eleven collections.', lang: 'ar' },
+          { href: '/hadith', icon: 'hadith', title: 'Hadith (Arabic)', desc: 'Hadith collections with search (Arabic).', lang: 'ar' },
         ]} />
       </section>
       <Reveal />

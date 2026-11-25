@@ -16,10 +16,16 @@ export async function GET(req: Request) {
   if (q.length < 3) return NextResponse.json({ error: 'اكتب ثلاثة أحرف على الأقل.' }, { status: 400 });
   const terms = q.split(' ').filter(Boolean).slice(0, 6);
   const rows = await (index ??= build());
-  const hits: Omit<Row, 'k'>[] = [];
+  const from = Math.max(0, Math.min(5000, Number(u.searchParams.get('from')) || 0));
+  const per = 30;
+  const hits: Omit<Row, 'k'>[] = []; const byBook: Record<string, number> = {}; let total = 0;
   for (const r of rows) {
+    if (!terms.every((t) => r.k.includes(t))) continue;
+    byBook[r.book] = (byBook[r.book] ?? 0) + 1;
     if (book && r.book !== book) continue;
-    if (terms.every((t) => r.k.includes(t))) { hits.push({ book: r.book, ar: r.ar, s: r.s, n: r.n, t: r.t }); if (hits.length >= 50) break; }
+    if (total >= from && hits.length < per) hits.push({ book: r.book, ar: r.ar, s: r.s, n: r.n, t: r.t });
+    total++;
   }
-  return NextResponse.json({ hits }, { headers: { 'cache-control': 'public, max-age=300' } });
+  const books = BOOKS.filter((b) => byBook[b.key]).map((b) => ({ key: b.key, ar: b.doc.ar, n: byBook[b.key] }));
+  return NextResponse.json({ hits, total, from, per, books }, { headers: { 'cache-control': 'public, max-age=300' } });
 }

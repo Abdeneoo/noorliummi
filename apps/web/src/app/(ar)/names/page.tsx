@@ -3,10 +3,10 @@ import Link from 'next/link';
 import names from '@/generated/names-of-allah.json';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
 export const metadata: Metadata = { title: 'أسماء الله الحسنى' };
-type N = { id: number; name: string; refs: [number, number][]; page: number | null; url: string | null };
+type N = { id: number; name: string; refs: [number, number][]; found?: boolean; page: number | null; url: string | null };
 
 export default async function Names() {
-  const list = names as N[];
+  const list = names as unknown as N[];
   const need = [...new Set(list.flatMap((n) => n.refs.map(([s]) => s)))];
   const surahs = new Map(await Promise.all(need.map(async (s) => [s, await loadSurah(s)] as const)));
   return (
@@ -23,12 +23,14 @@ export default async function Names() {
                 {surahs.get(s)!.ayat[a - 1].t} <Link className="ayah-end" href={`/quran/${s}#a${a}`}>﴿{SURAHS[s - 1].name}: {arDigits(a)}﴾</Link>
               </p>
             ))}
-            {n.refs.length > 3 && <p className="note">و{arDigits(n.refs.length - 3)} مواضع أخرى يذكرها الكتاب.</p>}
-            {n.url && <p className="note"><a href={n.url} rel="noopener">الشرح في الكتاب{n.page ? ` (ص ${arDigits(n.page)})` : ''}</a></p>}
+            {n.refs.length === 0 && <p className="note">لا تُعرض آية هنا: الآيات التي يحيل إليها الكتاب لهذا الاسم لا تذكره بلفظه، فهي بانتظار مراجعة أهل العلم.</p>}
+            {n.found && <p className="note">من آيات تجمع أسماء الله، لأن آيات الكتاب لهذا الاسم لا تذكره بلفظه.</p>}
+            {n.refs.length > 3 && <p className="note">و{arDigits(n.refs.length - 3)} مواضع أخرى.</p>}
+            {n.url && <p className="note"><a href={n.url} target="_blank" rel="noopener">الشرح في الكتاب ↗</a></p>}
           </li>
         ))}
       </ol>
-      <p className="note">قائمة الأسماء وإحالات الآيات من <a href="https://github.com/rn0x/Names_Of_Allah_Json" rel="noopener">rn0x/Names_Of_Allah_Json</a> (MIT لبنية البيانات). تحقّقنا آليًا من أن كل آية معروضة هي الموضع المذكور في الكتاب.</p>
+      <p className="note">تُعرض الآية فقط إذا ورد فيها الاسم بلفظه.</p>
     </article>
   );
 }

@@ -10,7 +10,7 @@ export default function Knowledge() {
         { href: '/hadith/nawawi', icon: 'hadith', title: 'الأربعون النووية', desc: 'الأحاديث الأربعون للإمام النووي.' },
         { href: '/names', icon: 'names', title: 'أسماء الله الحسنى', desc: 'الأسماء مع الآيات الدالة عليها.' },
         { href: '/mutashabihat', icon: 'similar', title: 'المتشابهات', desc: 'الآيات المتشابهة في اللفظ، عونًا على الحفظ.' },
-        { href: '/quran', icon: 'words', title: 'إعراب الكلمات', desc: 'من صفحة أي سورة: تحليل صرفي لكل كلمة.' },
+        { href: '/quran/1/words', icon: 'words', title: 'الكلمات وجذورها', desc: 'نوع كل كلمة وجذرها (تحليل آلي). من أي سورة: زر «الكلمات وجذورها».' },
       ]} />
   );
 }

@@ -84,6 +84,8 @@ for i in 1 2 3 4 5 6 7 8 9 10; do
   [ "$code" = "200" ] && break; sleep 1
 done
 echo "local health: $code"
+# Warm the hadith search index so the first visitor does not wait for it.
+curl -s -o /dev/null -m 60 "http://127.0.0.1:$PORT/api/hadith/search?q=%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9" || true
 [ "$code" = "200" ] || { echo "Service is not healthy; Caddy left untouched."; systemctl status noorliummi-web.service --no-pager | tail -8; exit 1; }
 
 echo "== 5b backup + health timers (our units only)"

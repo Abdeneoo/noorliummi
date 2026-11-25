@@ -32,7 +32,7 @@ export function ContinueReading({ lang = 'ar' }: { lang?: Lang }) {
       ) : (
         <>
           <h2>{ar ? 'ابدأ القراءة' : 'Start reading'}</h2>
-          <p className="note">{ar ? 'المصحف كاملًا بالرسم العثماني، مع التلاوة والتفسير الميسّر وألوان التجويد.' : 'The full Quran in Uthmani script with recitation and an English translation of the meanings.'}</p>
+          <p className="note">{ar ? 'المصحف كاملًا بالرسم العثماني، مع التلاوة وتفسير الجلالين وألوان التجويد.' : 'The full Quran in Uthmani script with recitation and an English translation of the meanings.'}</p>
           <div className="row"><Link className="btn" href={`${base}/1`}><Icon name="quran" />{ar ? 'الفاتحة' : 'Al-Fatihah'}</Link><Link className="btn ghost" href={base}>{ar ? 'فهرس السور' : 'All surahs'}</Link></div>
         </>
       )}

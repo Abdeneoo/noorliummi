@@ -27,7 +27,7 @@ export default function SiteFooter({ lang = 'ar' }: { lang?: Lang }) {
           ))}
         </nav>
       </div>
-      <div className="wrap foot-bottom"><span>{c.bottom}</span><span>© {new Date().getFullYear()} {lang === 'ar' ? 'نور لأمي' : 'Noor Li Ummi'}</span></div>
+      <div className="wrap foot-bottom"><span>{c.bottom}</span><span>{`© ${new Date().getFullYear()} ${lang === 'ar' ? 'نور لأمي' : 'Noor Li Ummi'}`}</span></div>
     </footer>
   );
 }

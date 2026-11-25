@@ -153,7 +153,7 @@ export default function Hifz({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>{t.backupTitle}</h2>
         <p className="note">{t.backupNote}</p>
         <div className="row">
-          <button type="button" className="btn ghost" onClick={backup} disabled={!info.total}>{t.download}</button>
+          <button type="button" className="btn ghost" onClick={backup} disabled={!info.total} title={!info.total ? (lang === 'en' ? 'Add ayat to your plan first' : 'أضف آيات إلى خطتك أولًا') : undefined}>{t.download}</button>
           <label className="btn ghost">{t.restore}<input type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></label>
         </div>
       </section>

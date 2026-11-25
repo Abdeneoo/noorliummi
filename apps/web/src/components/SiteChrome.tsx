@@ -34,6 +34,17 @@ const SHORT: Record<Lang, Record<string, string>> = {
   en: { '/en/prayer': 'Prayer', more: 'More' },
 };
 
+/** Closes an open <details> menu on a click/tap outside it, on Escape, or when the page scrolls. */
+function useCloseOnOutside(ref: React.RefObject<HTMLDetailsElement | null>) {
+  useEffect(() => {
+    const close = () => { if (ref.current?.open) ref.current.open = false; };
+    const onDown = (e: PointerEvent) => { if (ref.current?.open && !ref.current.contains(e.target as Node)) close(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+    document.addEventListener('pointerdown', onDown); document.addEventListener('keydown', onKey); window.addEventListener('scroll', close, { passive: true });
+    return () => { document.removeEventListener('pointerdown', onDown); document.removeEventListener('keydown', onKey); window.removeEventListener('scroll', close); };
+  }, [ref]);
+}
+
 function isActive(path: string, it: Item) {
   if (!it.match) return path === it.href;
   return it.match.some((m) => path === m || path.startsWith(m + '/'));
@@ -44,6 +55,7 @@ export function SiteHeader({ lang }: { lang: Lang }) {
   const ar = lang === 'ar';
   const more = useRef<HTMLDetailsElement>(null);
   useEffect(() => { if (more.current) more.current.open = false; }, [path]);
+  useCloseOnOutside(more);
   return (
     <header className="site">
       <div className="wrap">
@@ -78,6 +90,7 @@ export function TabBar({ lang }: { lang: Lang }) {
   const path = usePathname() || '/';
   const more = useRef<HTMLDetailsElement>(null);
   useEffect(() => { if (more.current) more.current.open = false; }, [path]);
+  useCloseOnOutside(more);
   const items = NAV[lang];
   const main = items.slice(0, 4), rest = items.slice(4);
   return (

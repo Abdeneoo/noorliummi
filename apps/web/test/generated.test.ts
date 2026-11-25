@@ -116,8 +116,16 @@ describe('Names of Allah', () => {
     const meta = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/surahs.json'), 'utf8')) as { ayas: number }[];
     expect(g).toHaveLength(99);
     g.forEach((n, i) => { expect(n.id).toBe(raw[i].id); expect(n.name).toBe(raw[i].name_arabic); for (const [s, a] of n.refs) { expect(a).toBeGreaterThanOrEqual(1); expect(a).toBeLessThanOrEqual(meta[s - 1].ayas); } });
-    expect(g.flatMap((n) => n.refs).length).toBe(315); // 317 verified, 2 duplicates merged
-    for (const n of g) expect(Object.keys(n).sort()).toEqual(['id', 'name', 'page', 'refs', 'url']);
+    for (const n of g) expect(Object.keys(n).sort()).toEqual(['found', 'id', 'name', 'page', 'refs', 'url']);
+  });
+  it('every verse shown for a name contains that name (review fix: no shared evidence for other names)', () => {
+    const g = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/names-of-allah.json'), 'utf8')) as { name: string; refs: [number, number][] }[];
+    const xml = readFileSync(resolve(__dirname, '../../../database/sources/tanzil/simple-clean.xml'), 'utf8');
+    const text = new Map([...xml.matchAll(/<sura index="(\d+)"[\s\S]*?<\/sura>/g)].flatMap((m) => [...m[0].matchAll(/<aya index="(\d+)" text="([^"]*)"/g)].map((a) => [`${m[1]}:${a[1]}`, a[2]] as [string, string])));
+    const bare = (x: string) => x.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '').replace(/[ءأإآؤئٱ]/g, '').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/\s+/g, '');
+    let n = 0;
+    for (const x of g) { const nm = bare(x.name).replace(/^ال/, ''); const re = new RegExp(`^(?:[وفبلك])?(?:ال|لل)?${nm}(?:ا|ه|ك|نا|هم)?$`); for (const [s, a] of x.refs) { expect((text.get(`${s}:${a}`) ?? '').split(' ').some((w) => re.test(bare(w))), `${x.name} ${s}:${a}`).toBe(true); n++; } }
+    expect(n).toBeGreaterThan(80);
   });
 });
 
