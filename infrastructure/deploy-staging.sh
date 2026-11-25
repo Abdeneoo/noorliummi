@@ -15,6 +15,7 @@ PORT=3040
 DOMAIN=staging.noorliummi.io
 CADDY_SITE=/etc/caddy/sites/40-noorliummi.caddy
 UNIT=/etc/systemd/system/noorliummi-web.service
+cd "$APP_HOME"  # run every step from a directory the app user can enter
 as_noor() { runuser -u noor -- env HOME=$APP_HOME PATH="$APP_HOME/.local/node_modules/.bin:/usr/local/bin:/usr/bin:/bin" CI=1 "$@"; }
 
 echo "== 1/6 update code"
