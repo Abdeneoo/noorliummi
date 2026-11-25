@@ -73,3 +73,11 @@ input[type='range'] { accent-color: var(--accent); padding: 0; min-height: 32px;
   header.site .brand { order: 1; flex: 1; } header.site .theme-toggle { order: 2; }
   nav.main { order: 3; flex: 0 0 100%; justify-content: space-between; overflow: visible; } nav.main a { padding: 6px 4px; }
 }
+
+.tafsir-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+.tafsir-ayah { font-family: var(--font-quran); font-size: 1.55rem; line-height: 2.4; margin: 0 0 10px; }
+.tafsir-text { margin: 0; line-height: 2.1; font-size: 1.02rem; border-inline-start: 3px solid var(--gold); padding-inline-start: 14px; }
+.tafsir-text.missing { color: var(--muted); font-size: .9rem; border-color: var(--line); }
+.pager { flex-wrap: wrap; }
+
+.recitation { margin-bottom: 22px; padding: 16px 18px; }

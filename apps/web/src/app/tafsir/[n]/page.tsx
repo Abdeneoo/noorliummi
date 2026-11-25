@@ -1,0 +1,42 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { SURAHS, arDigits, loadJalalayn, loadSurah } from '@/lib/quran';
+
+export const dynamicParams = false;
+export function generateStaticParams() { return SURAHS.map((s) => ({ n: String(s.index) })); }
+export async function generateMetadata({ params }: { params: Promise<{ n: string }> }): Promise<Metadata> {
+  const { n } = await params; const s = SURAHS[Number(n) - 1];
+  return { title: s ? `تفسير سورة ${s.name} — الجلالين` : 'التفسير' };
+}
+
+export default async function TafsirPage({ params }: { params: Promise<{ n: string }> }) {
+  const n = Number((await params).n);
+  if (!Number.isInteger(n) || n < 1 || n > 114) notFound();
+  const [{ meta, ayat }, tafsir] = await Promise.all([loadSurah(n), loadJalalayn(n)]);
+  return (
+    <article className="reader">
+      <header>
+        <h1>سورة {meta.name}</h1>
+        <div className="meta"><span>تفسير الجلالين</span><span>جلال الدين المحلّي وجلال الدين السيوطي</span></div>
+      </header>
+      <p className="review-banner" role="note">نسخة تجريبية: نص التفسير مستورد من مصدر مفتوح ولم تكتمل مراجعته بعد.</p>
+      <ol className="tafsir-list">
+        {ayat.map((a) => (
+          <li key={a.n} id={`a${a.n}`} className="card">
+            <p className="tafsir-ayah" lang="ar">{a.t} <span className="ayah-end">﴿{arDigits(a.n)}﴾</span></p>
+            {tafsir[a.n]
+              ? <p className="tafsir-text">{tafsir[a.n]}</p>
+              : <p className="tafsir-text missing">لا يوجد في المصدر نص مستقل لهذه الآية؛ قد يكون تفسيرها مدمجًا مع آية مجاورة.</p>}
+          </li>
+        ))}
+      </ol>
+      <p className="note">نص القرآن من Tanzil. التفسير: «تفسير الجلالين»، بيانات مشروع tafsir_api المفتوح.</p>
+      <nav className="pager" aria-label="التنقل">
+        {n > 1 ? <Link className="btn ghost" href={`/tafsir/${n - 1}`}>السورة السابقة</Link> : <span />}
+        <Link className="btn ghost" href={`/quran/${n}`}>نص السورة</Link>
+        {n < 114 ? <Link className="btn ghost" href={`/tafsir/${n + 1}`}>السورة التالية</Link> : <span />}
+      </nav>
+    </article>
+  );
+}

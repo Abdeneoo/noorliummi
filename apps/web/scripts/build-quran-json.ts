@@ -53,3 +53,19 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   writeFileSync(`${out}/adhan-registry.json`, JSON.stringify(pub));
   console.log(`Adhan registry: ${pub.length} published of ${reg.length} registered`);
 }
+
+// ---- Tafsir al-Jalalayn: verified by checksum, re-keyed by ayah, text untouched ----
+{
+  const dir = resolve(here, '../../../database/sources/tafsir-jalalayn');
+  const sums = Object.fromEntries(readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse() as [string, string]));
+  mkdirSync(`${out}/tafsir/jalalayn`, { recursive: true });
+  let n = 0;
+  for (let i = 1; i <= 114; i++) {
+    if (sha256File(`${dir}/${i}.json`) !== sums[`${i}.json`]) throw new Error(`Checksum mismatch for tafsir ${i}.json — refusing to build`);
+    const rows = JSON.parse(readFileSync(`${dir}/${i}.json`, 'utf8')) as { text: string; ayah: number; surah: number }[];
+    const map: Record<number, string> = {};
+    for (const r of rows) { if (r.surah !== i) throw new Error(`Tafsir surah mismatch in ${i}.json`); map[r.ayah] = r.text; n++; }
+    writeFileSync(`${out}/tafsir/jalalayn/${i}.json`, JSON.stringify(map));
+  }
+  console.log(`Tafsir al-Jalalayn generated: ${n} entries`);
+}

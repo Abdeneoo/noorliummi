@@ -7,3 +7,7 @@ export async function loadSurah(n: number): Promise<SurahData> {
 }
 /** Display-only: ayah number in Arabic-Indic digits. */
 export const arDigits = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
+
+export async function loadJalalayn(n: number): Promise<Record<string, string>> {
+  return (await import(`@/generated/tafsir/jalalayn/${n}.json`)).default as Record<string, string>;
+}

@@ -39,3 +39,16 @@ describe('adhan registry', () => {
     for (const s of pub) { expect(s.license).toMatch(/^CC/); expect(s.source).toMatch(/^https:\/\/commons\.wikimedia\.org\//); expect(s.by.length).toBeGreaterThan(0); }
   });
 });
+
+describe('tafsir data equals the source', () => {
+  it('every Jalalayn entry is identical to the source file and attached to the right ayah', () => {
+    let n = 0;
+    for (let i = 1; i <= 114; i++) {
+      const src = JSON.parse(readFileSync(resolve(__dirname, `../../../database/sources/tafsir-jalalayn/${i}.json`), 'utf8')) as { text: string; ayah: number }[];
+      const gen = JSON.parse(readFileSync(resolve(__dirname, `../src/generated/tafsir/jalalayn/${i}.json`), 'utf8'));
+      expect(Object.keys(gen).length).toBe(src.length);
+      for (const r of src) { expect(gen[r.ayah]).toBe(r.text); n++; }
+    }
+    expect(n).toBe(6010);
+  });
+});
