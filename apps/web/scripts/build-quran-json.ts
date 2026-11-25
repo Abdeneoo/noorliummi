@@ -151,3 +151,30 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   writeFileSync(`${out}/hadith/books.json`, JSON.stringify(books));
   console.log(`Hadith books generated: ${books.length} books, ${total} hadith with text`);
 }
+
+// ---- Names of Allah: names + Quran refs verified against Tanzil (explanations are not used) ----
+{
+  const dir = resolve(here, '../../../database/sources/names-of-allah');
+  if (sha256File(`${dir}/asma_allah_alhusna_saeed_alqahtani.json`) !== readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for names of Allah — refusing to build');
+  const raw = JSON.parse(readFileSync(`${dir}/asma_allah_alhusna_saeed_alqahtani.json`, 'utf8')) as { id: number; name_arabic: string; quran_evidence: { text: string; source: string }[]; book_reference?: { page: number; url: string } }[];
+  const digits = (x: string) => Number(x.replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))));
+  const key = (x: string) => normDhikr(x).replace(/ال/g, '');
+  const sura = new Map(meta.map((m) => [key(m.name), m.index]));
+  if (sha256File(`${src}/simple-clean.xml`) !== sums['simple-clean.xml']) throw new Error('Checksum mismatch for simple-clean.xml — refusing to build');
+  const simple = parseTanzilText(readFileSync(`${src}/simple-clean.xml`, 'utf8')); // matching only; display stays Uthmani
+  let kept = 0, dropped = 0;
+  const names = raw.map((n) => {
+    const refs: [number, number][] = [];
+    for (const q of n.quran_evidence ?? []) {
+      const m = (q.source ?? '').match(/سورة\s+(.+?)[،,]?\s*(?:ال)?[آا]ي(?:ة|تان|ات)\s*:?\s*([٠-٩0-9]+)/);
+      const su = m ? sura.get(key(m[1])) : undefined; const ay = m ? digits(m[2]) : 0;
+      const row = su ? simple.find((a) => a.sura === su && a.aya === ay) : undefined;
+      const snippet = normDhikr(q.text ?? '').replace(/ /g, ''); const verse = row ? normDhikr(row.text).replace(/ /g, '') : '';
+      if (row && snippet.length > 3 && verse.includes(snippet.slice(0, Math.min(25, snippet.length)))) { if (!refs.some(([a, b]) => a === su && b === ay)) refs.push([su!, ay]); kept++; } else dropped++;
+    }
+    return { id: n.id, name: n.name_arabic, refs, page: n.book_reference?.page ?? null, url: n.book_reference?.url ?? null };
+  });
+  if (names.length !== 99) throw new Error('Names of Allah: expected 99');
+  writeFileSync(`${out}/names-of-allah.json`, JSON.stringify(names));
+  console.log(`Names of Allah generated: 99 names, ${kept} verified Quran refs, ${dropped} unverified refs dropped`);
+}

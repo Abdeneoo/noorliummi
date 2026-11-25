@@ -100,3 +100,15 @@ describe('OpenDua audio mapping', () => {
     expect(n).toBe(183);
   });
 });
+
+describe('Names of Allah', () => {
+  it('99 names in source order, every ref is a real ayah, names equal the source', () => {
+    const raw = JSON.parse(readFileSync(resolve(__dirname, '../../../database/sources/names-of-allah/asma_allah_alhusna_saeed_alqahtani.json'), 'utf8')) as { id: number; name_arabic: string }[];
+    const g = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/names-of-allah.json'), 'utf8')) as { id: number; name: string; refs: [number, number][] }[];
+    const meta = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/surahs.json'), 'utf8')) as { ayas: number }[];
+    expect(g).toHaveLength(99);
+    g.forEach((n, i) => { expect(n.id).toBe(raw[i].id); expect(n.name).toBe(raw[i].name_arabic); for (const [s, a] of n.refs) { expect(a).toBeGreaterThanOrEqual(1); expect(a).toBeLessThanOrEqual(meta[s - 1].ayas); } });
+    expect(g.flatMap((n) => n.refs).length).toBe(315); // 317 verified, 2 duplicates merged
+    for (const n of g) expect(Object.keys(n).sort()).toEqual(['id', 'name', 'page', 'refs', 'url']);
+  });
+});
