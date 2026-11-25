@@ -6,7 +6,7 @@
  */
 import { useEffect } from 'react';
 import { getPrayerStatus } from '@noor/prayer-engine';
-import { PRAYER_AR, loadPrayerSettings, loadPrefs, playSound, type Prayer } from '@/lib/adhan';
+import { PRAYER_AR, loadPrayerSettings, loadPrefs, notify, playSound, primeAudio, type Prayer } from '@/lib/adhan';
 
 const FIRED = 'noor.adhan.fired';
 
@@ -31,19 +31,21 @@ export default function AdhanController() {
         const prefs = loadPrefs();
         let blocked = false;
         try { await playSound(prefs.sound[name], prefs.volume); } catch { blocked = true; }
-        if ('Notification' in window && Notification.permission === 'granted' && (blocked || prefs.sound[name] === 'silent' || document.hidden)) {
-          new Notification(`حان الآن وقت صلاة ${PRAYER_AR[name]}`, { tag: `noor-adhan-${at}`, lang: 'ar', dir: 'rtl' });
-        }
+        if (blocked || prefs.sound[name] === 'silent' || document.hidden) { const en = document.documentElement.lang === 'en'; await notify(en ? `It is time for ${({ fajr: 'Fajr', dhuhr: 'Dhuhr', asr: 'Asr', maghrib: 'Maghrib', isha: 'Isha' } as Record<Prayer, string>)[name]} prayer` : `حان الآن وقت صلاة ${PRAYER_AR[name]}`, `noor-adhan-${at}`, en ? 'en' : 'ar'); }
       };
       if ('locks' in navigator) await navigator.locks.request(`noor-adhan-${at}`, { ifAvailable: true }, async (lock) => { if (lock) await run(); });
       else await run();
     };
+    // Unlock audio on the first tap/key of the visit so the adhan can play later without another tap.
+    const prime = () => { if (loadPrefs().enabled) primeAudio(); };
+    window.addEventListener('pointerdown', prime, { capture: true });
+    window.addEventListener('keydown', prime, { capture: true });
     schedule();
     const onChange = () => schedule();
     window.addEventListener('noor:adhan-prefs', onChange);
     window.addEventListener('storage', onChange);
     document.addEventListener('visibilitychange', onChange);
-    return () => { if (timer) clearTimeout(timer); window.removeEventListener('noor:adhan-prefs', onChange); window.removeEventListener('storage', onChange); document.removeEventListener('visibilitychange', onChange); };
+    return () => { if (timer) clearTimeout(timer); window.removeEventListener('pointerdown', prime, { capture: true }); window.removeEventListener('keydown', prime, { capture: true }); window.removeEventListener('noor:adhan-prefs', onChange); window.removeEventListener('storage', onChange); document.removeEventListener('visibilitychange', onChange); };
   }, []);
   return null;
 }

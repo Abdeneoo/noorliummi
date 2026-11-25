@@ -31,6 +31,7 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
               <Link href="/en/quran">Quran</Link>
               <Link href="/en/adhkar">Adhkar</Link>
               <Link href="/en/times">Times</Link>
+              <Link href="/en/adhan">Adhan</Link>
               <Link href="/en/hifz">Memorise</Link>
               <Link href="/en/names">Names</Link>
               <Link href="/en/sources">Sources</Link>

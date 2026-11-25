@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { METHODS, formatCountdown, formatTime, getPrayerStatus, getScheduleForInstant, qiblaDirection, type MethodId, type PrayerName, type PrayerSettings } from '@noor/prayer-engine';
+import { loadPrefs } from '@/lib/adhan';
 import { CITIES, cityForTimezone, methodForTimezone, nearestCity, nearestCityDist, type City } from '@/lib/cities';
 
 type Lang = 'ar' | 'en';
@@ -14,7 +15,7 @@ interface Saved { label: string; s: PrayerSettings; src?: 'auto' | 'city' | 'gps
 const T = {
   ar: {
     names: { fajr: 'الفجر', sunrise: 'الشروق', dhuhr: 'الظهر', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' } as Record<PrayerName, string>,
-    jumuah: 'الجمعة', jumuahNote: 'يوم الجمعة: وقت الظهر المحسوب هو أول وقت الجمعة، وموعد الخطبة والصلاة يحدده مسجدك.', myJumuah: 'موعد الجمعة في مسجدي', clear: 'مسح',
+    adhanOff: 'صوت الأذان غير مفعّل على هذا الجهاز.', adhanOn: 'فعّل الأذان', jumuah: 'الجمعة', jumuahNote: 'يوم الجمعة: وقت الظهر المحسوب هو أول وقت الجمعة، وموعد الخطبة والصلاة يحدده مسجدك.', myJumuah: 'موعد الجمعة في مسجدي', clear: 'مسح',
     title: 'مواقيت الصلاة', next: 'الصلاة القادمة', current: 'الصلاة الحالية', city: 'المدينة', method: 'طريقة الحساب',
     here: 'موقعك الحالي', near: (c: string) => `قرب ${c}`,
     gpsOn: (l: string, isHere: boolean) => `📍 المواقيت لموقعك الحالي${isHere ? '' : ` (${l})`}، وتُحدَّث تلقائيًا عند كل زيارة.`,
@@ -30,7 +31,7 @@ const T = {
   },
   en: {
     names: { fajr: 'Fajr', sunrise: 'Sunrise', dhuhr: 'Dhuhr', asr: 'Asr', maghrib: 'Maghrib', isha: 'Isha' } as Record<PrayerName, string>,
-    jumuah: 'Jumuah', jumuahNote: 'Friday: the calculated Dhuhr time is the start of the Jumuah time; the khutbah and prayer time is set by your mosque.', myJumuah: 'Jumuah at my mosque', clear: 'Clear',
+    adhanOff: 'The adhan sound is not enabled on this device.', adhanOn: 'Enable the adhan', jumuah: 'Jumuah', jumuahNote: 'Friday: the calculated Dhuhr time is the start of the Jumuah time; the khutbah and prayer time is set by your mosque.', myJumuah: 'Jumuah at my mosque', clear: 'Clear',
     title: 'Prayer times', next: 'Next prayer', current: 'Current prayer', city: 'City', method: 'Calculation method',
     here: 'Your location', near: (c: string) => `near ${c}`,
     gpsOn: (l: string, isHere: boolean) => `📍 Times for your current location${isHere ? '' : ` (${l})`}, refreshed on each visit.`,
@@ -61,6 +62,8 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   const [now, setNow] = useState<Date | null>(null);
   const [geoMsg, setGeoMsg] = useState('');
   const [jumuah, setJumuah] = useState('');
+  const [adhanOn, setAdhanOn] = useState(true);
+  useEffect(() => { setAdhanOn(loadPrefs().enabled); }, []);
   useEffect(() => { try { setJumuah(localStorage.getItem(JUMUAH) ?? ''); } catch { /* ignore */ } }, []);
   const saveJumuah = (v: string) => { setJumuah(v); try { if (v) localStorage.setItem(JUMUAH, v); else localStorage.removeItem(JUMUAH); } catch { /* ignore */ } };
 
@@ -179,6 +182,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
           {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m[lang]}</option>)}
         </select></div>
       </div>
+      {!adhanOn && <div className="locate-banner"><span>{t.adhanOff}</span><a className="btn" href={lang === 'en' ? '/en/adhan' : '/adhan'}>{t.adhanOn}</a></div>}
       {isFriday && <p className="note">{t.jumuahNote}</p>}
       <details className="jumuah"><summary>{t.myJumuah}{jumuah ? `: ${jumuah}` : ''}</summary>
         <div className="row">
