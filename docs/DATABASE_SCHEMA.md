@@ -47,10 +47,11 @@ dhikr_translations(entry_id, language, text)
 ```
 site_settings(key PK, value jsonb, updated_at)                                   -- نص الإهداء، الهوية
 memorial_pages(id, slug UNIQUE, display_name, dedication, dua_text, template, visibility[public|unlisted|private],
-               noindex bool, edit_token_hash, created_at, updated_at, deleted_at)
+               noindex bool DEFAULT true, status[active|frozen|removed], report_count, edit_token_hash, created_at, updated_at, deleted_at)
 memorial_page_content(page_id, kind[surah|ayah_range|dhikr_category|recitation], ref, sort)
 content_reports(id, target_type, target_id, reason, created_at, status)
 ```
+قيود: `dedication` و`dua_text` نص عادي يُرفض إن احتوى رابطًا؛ الصفحة تُجمَّد تلقائيًا عند تكرار البلاغات حتى المراجعة؛ الإنشاء محدود المعدل لكل IP.
 لا عدادات حسنات. إحصاءات الصفحة (عدد الزيارات فقط) مجمّعة دون بيانات زوار.
 
 ## لاحقًا (عند شرائحها)
