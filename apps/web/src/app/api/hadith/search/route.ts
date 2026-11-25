@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { BOOKS, loadSection, normHadith } from '@/lib/hadith';
+import { BOOKS, isHadith, loadSection, normHadith } from '@/lib/hadith';
 import { rateLimited } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -7,7 +7,7 @@ type Row = { book: string; ar: string; s: number; n: number; t: string; k: strin
 let index: Promise<Row[]> | null = null;
 const build = async () => {
   const rows: Row[] = [];
-  for (const b of BOOKS) for (const sec of b.sections) for (const h of await loadSection(b.key, sec.s)) rows.push({ book: b.key, ar: b.doc.ar, s: sec.s, n: h.n, t: h.t, k: normHadith(h.t) });
+  for (const b of BOOKS) for (const sec of b.sections) for (const h of (await loadSection(b.key, sec.s)).filter(isHadith)) rows.push({ book: b.key, ar: b.doc.ar, s: sec.s, n: h.n, t: h.t, k: normHadith(h.t) });
   return rows;
 };
 export async function GET(req: Request) {

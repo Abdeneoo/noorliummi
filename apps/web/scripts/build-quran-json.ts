@@ -6,6 +6,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { normDhikr } from '../src/lib/dhikr-norm';
+import { parseOpenITI } from '../src/lib/openiti';
 import { parseTanzilMetadata, parseTanzilText, sha256File } from '../../../packages/islamic-core/src/index';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -147,6 +148,39 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
     });
     const count = sections.reduce((t, x) => t + x.count, 0); total += count;
     books.push({ key, en: raw.metadata.name, count, empty, sections, doc: docs[key] });
+  }
+  // OpenITI (CC BY-NC-SA 4.0): Musnad Ahmad, Sunan al-Darimi — edition read from each file's own #META# header.
+  const odir = resolve(here, '../../../database/sources/hadith-openiti');
+  const AR: Record<string, { ar: string; author: string }> = { ahmad: { ar: 'مسند الإمام أحمد', author: 'أحمد بن حنبل (ت 241هـ)' }, darimi: { ar: 'سنن الدارمي', author: 'عبد الله بن عبد الرحمن الدارمي (ت 255هـ)' } };
+  for (const line of readFileSync(`${odir}/FILES`, 'utf8').trim().split('\n')) {
+    const [sum, key, path] = line.split(/\s+/);
+    const f = `${odir}/files/${key}.txt`;
+    if (!existsSync(f)) throw new Error(`Missing ${key} — run infrastructure/fetch-hadith.sh`);
+    if (sha256File(f) !== sum) throw new Error(`Checksum mismatch for OpenITI ${key} — refusing to build`);
+    const p = parseOpenITI(readFileSync(f, 'utf8'), key as 'ahmad' | 'darimi');
+    const m = p.meta;
+    const edition = [m.EdEDITOR && `تحقيق ${m.EdEDITOR}`, m.EdPUBLISHER, m.EdPLACE, m.EdNUMBER && `الطبعة ${m.EdNUMBER}`, m.EdYEAR && `${m.EdYEAR}هـ`].filter(Boolean).join('، ');
+    mkdirSync(`${out}/hadith/${key}`, { recursive: true });
+    const sections: { s: number; en: string; count: number; from: number; to: number }[] = [];
+    let chunk: unknown[] = []; let pending: unknown[] = []; let n = 0; let first = 0; let last = 0;
+    const flushChunk = () => {
+      if (!n) return; const s = sections.length + 1;
+      writeFileSync(`${out}/hadith/${key}/${s}.json`, JSON.stringify(chunk));
+      sections.push({ s, en: '', count: n, from: first, to: last }); chunk = []; n = 0;
+    };
+    for (const it of p.items) {
+      if (!('n' in it)) { pending.push(it); continue; }
+      if (n === 0) first = it.n;
+      chunk.push(...pending, { n: it.n, an: it.n, t: it.t, ...(it.l ? { l: it.l } : {}), ...(it.m ? { m: it.m } : {}) }); pending = []; n++; last = it.n;
+      if (n >= 200) flushChunk();
+    }
+    flushChunk();
+    const count = sections.reduce((t, x) => t + x.count, 0); total += count;
+    books.push({ key, en: m.BookTITLE ?? key, count, empty: p.empty.length, sections, doc: {
+      ...AR[key], source: 'openiti', source_uri: path.split('/').pop(), license: 'CC BY-NC-SA 4.0', edition,
+      numbering: 'ترقيم الطبعة المذكورة', collated: null, agreement: null, report: null,
+      ...(key === 'ahmad' ? { marks: '• زيادات عبد الله ابن الإمام أحمد، ° وجاداته، * روايته عن أبيه أو شيخ أبيه (رموز طبعة الرسالة، كما شرحها توثيق open-hadith-data)' } : {}),
+    } });
   }
   writeFileSync(`${out}/hadith/books.json`, JSON.stringify(books));
   console.log(`Hadith books generated: ${books.length} books, ${total} hadith with text`);

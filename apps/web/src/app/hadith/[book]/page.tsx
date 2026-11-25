@@ -17,6 +17,16 @@ export default async function Book({ params }: { params: Promise<{ book: string 
       {b.doc.author && <p className="meta"><span>{b.doc.author}</span><span>{ar(b.count)} حديثًا</span></p>}
       <section className="card">
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>مصدر النص وطبعته</h2>
+        {b.doc.source === 'openiti' ? (
+          <ul>
+            <li>النص: OpenITI (النسخة الأساسية {b.doc.source_uri})، بترخيص {b.doc.license}، ثابت ببصمة SHA-256.</li>
+            <li>الطبعة كما في رأس الملف نفسه: {b.doc.edition}.</li>
+            <li>الترقيم: {b.doc.numbering}.</li>
+            {b.doc.marks && <li>رموز قبل بعض الأرقام: {b.doc.marks}.</li>}
+            {b.empty > 0 && <li>{ar(b.empty)} رقمًا بلا نص في المصدر لا تُعرض.</li>}
+            <li>حُذفت العلامات التقنية وحدها (أرقام الصفحات، وعلامات المخطوط، وأرقام الإحالة إلى حواشٍ غير موجودة في الملف). لا تُعرض درجات ولا حواشٍ.</li>
+          </ul>
+        ) : (
         <ul>
           <li>النص: fawazahmed0/hadith-api (مجال عام)، ثابت ببصمة SHA-256. المصدر لا يذكر الطبعة التي نُقل عنها.</li>
           <li>الترقيم: {b.doc.numbering}.</li>
@@ -24,14 +34,15 @@ export default async function Book({ params }: { params: Promise<{ book: string 
           {b.empty > 0 && <li>{ar(b.empty)} سجلًا فارغ النص في المصدر لا تُعرض.</li>}
           <li>لا تُعرض درجات الأحاديث ولا الحواشي.</li>
         </ul>
+        )}
       </section>
       <HadithSearch book={b.key} />
       <ol className="surah-list">
         {b.sections.map((s) => (
-          <li key={s.s}><Link href={`/hadith/${b.key}/${s.s}`}><span>{sectionLabel(s)}</span> <small dir="ltr" lang="en">{s.s ? s.en : ''}</small> <small>· {ar(s.count)}</small></Link></li>
+          <li key={s.s}><Link href={`/hadith/${b.key}/${s.s}`}><span>{sectionLabel(s)}</span> <small dir="ltr" lang="en">{s.s && s.en ? s.en : ''}</small> <small>· {ar(s.count)}</small></Link></li>
         ))}
       </ol>
-      <p className="note">أسماء الكتب في المصدر بالإنجليزية فقط، فنعرضها كما هي حتى نجد عناوينها العربية من مصدر موثوق.</p>
+      {b.doc.source !== 'openiti' && <p className="note">أسماء الكتب في المصدر بالإنجليزية فقط، فنعرضها كما هي حتى نجد عناوينها العربية من مصدر موثوق.</p>}
     </article>
   );
 }

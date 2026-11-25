@@ -18,7 +18,7 @@ export default function Home() {
           </section>
           <section className="card">
             <h2>الحديث الشريف</h2>
-            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>الكتب الستة والموطأ والأربعينات، مع بحث في النص (نسخة تجريبية).</p>
+            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>الكتب الستة والموطأ ومسند أحمد والدارمي والأربعينات، مع بحث في النص (نسخة تجريبية).</p>
             <Link className="btn" href="/hadith">افتح كتب الحديث</Link>
           </section>
           <section className="card">
