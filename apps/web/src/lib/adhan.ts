@@ -12,8 +12,11 @@ export const BUILTIN = [{ id: 'chime', title: 'نغمة تنبيه هادئة' }
 
 export interface AdhanPrefs { enabled: boolean; sound: Record<Prayer, string>; volume: number; v?: number }
 /** Default sound for every prayer: the first published adhan recording, or the chime if none is available. */
-const DEFAULT_SOUND = SOUNDS.find((s) => s.kind === 'regular')?.id ?? 'chime';
-export const DEFAULT_PREFS: AdhanPrefs = { enabled: false, volume: 0.9, v: 2, sound: { fajr: DEFAULT_SOUND, dhuhr: DEFAULT_SOUND, asr: DEFAULT_SOUND, maghrib: DEFAULT_SOUND, isha: DEFAULT_SOUND } };
+// The most famous voice is the main one: the adhan of Masjid al-Haram by Sheikh Ali Ahmed Mulla, and the Haram's Fajr adhan for Fajr.
+const pick = (...ids: string[]) => ids.find((id) => SOUNDS.some((s) => s.id === id));
+const DEFAULT_SOUND = pick('ia-makkah-isha-mulla') ?? SOUNDS.find((s) => s.kind === 'regular')?.id ?? 'chime';
+const DEFAULT_FAJR = pick('ia-makkah-fajr-2009', 'iw-3f556c76c7') ?? DEFAULT_SOUND;
+export const DEFAULT_PREFS: AdhanPrefs = { enabled: false, volume: 0.9, v: 3, sound: { fajr: DEFAULT_FAJR, dhuhr: DEFAULT_SOUND, asr: DEFAULT_SOUND, maghrib: DEFAULT_SOUND, isha: DEFAULT_SOUND } };
 const KEY = 'noor.adhan.v1';
 export function loadPrefs(): AdhanPrefs {
   try {
@@ -23,7 +26,13 @@ export function loadPrefs(): AdhanPrefs {
       let sound = { ...DEFAULT_PREFS.sound, ...(p.sound ?? {}) };
       // v1 saved the chime for every prayer only because it was the default then: move those to the adhan.
       if (!p.v && PRAYER_LIST.every((k) => sound[k] === 'chime')) sound = { ...DEFAULT_PREFS.sound };
-      return { ...DEFAULT_PREFS, ...p, v: 2, sound };
+      // Recordings withdrawn from the library (amateur takes, duplicate takes) fall back to the main voice.
+      for (const k of PRAYER_LIST) {
+        const id = sound[k];
+        const known = id === 'chime' || id === 'silent' || id === LOCAL_ID || id.startsWith('local:') || id.startsWith('st:') || SOUNDS.some((s) => s.id === id);
+        if (!known || (p.v ?? 0) < 3 && ['azan-andrewler', 'aishatu98-calling', 'adam-synagda'].includes(id)) sound[k] = DEFAULT_PREFS.sound[k];
+      }
+      return { ...DEFAULT_PREFS, ...p, v: 3, sound };
     }
   } catch { /* ignore */ }
   return DEFAULT_PREFS;

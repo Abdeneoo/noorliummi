@@ -348,3 +348,12 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .khatma.is-playing { position: sticky; bottom: 16px; z-index: 20; box-shadow: var(--shadow); }
 @media (max-width: 899px) { .khatma.is-playing { bottom: calc(90px + env(safe-area-inset-bottom)); } }
 .tas-home .tasbeeh { max-width: 640px; margin: 0 auto; }
+
+/* dua for the deceased inside the cover */
+.mother-dua { margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid rgba(198, 166, 107, .25); }
+.mother-dua .eyebrow { color: #C6A66B; }
+.mother-dua .dua-text { font-family: var(--font-quran); font-size: 1.2rem; line-height: 2.1; color: #F8F6F0; margin: 0 0 var(--s2); font-weight: 400; }
+.mother-dua .dua-ref { font-size: .78rem; color: #AFC3B9; margin: 0 0 var(--s3); }
+.dua-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+.cover-dedication .dua-controls { justify-content: center; } @media (min-width: 900px) { .cover-dedication .dua-controls { justify-content: flex-start; } }
+.dua-auto { font-size: .82rem; color: #CFDCD5; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; } .dua-auto input { accent-color: #C6A66B; width: 18px; height: 18px; }

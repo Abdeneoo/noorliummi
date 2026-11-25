@@ -67,7 +67,9 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
       const place = m ? [m.p?.[lang] ?? m.p?.en, m.co?.[lang]].filter(Boolean).join(' · ') : '';
       return { id: x.id, title, sub: place || x.name, dur: x.duration ?? m?.d ?? null, groups: [...(m?.g ?? []), 'device'], kind: 'device', search: norm(`${title} ${x.name} ${m?.t.en ?? ''} ${m?.t.ar ?? ''} ${place}`) };
     });
-    return [...site, ...stream, ...dev];
+    // Most famous first: the Haramain and well-known voices, then Fajr, then the rest; the main voice at the very top.
+    const rank = (i: Item) => (i.id === 'ia-makkah-isha-mulla' ? -1 : i.groups.includes('haramain') ? 0 : i.groups.includes('famous') ? 1 : i.groups.includes('egyptian') ? 2 : i.groups.includes('aqsa') ? 3 : 4);
+    return [...dev, ...[...site, ...stream].sort((a, b) => rank(a) - rank(b))];
   }, [local, byId, lang]);
   const [limit, setLimit] = useState(40);
   useEffect(() => setLimit(40), [group, q]);

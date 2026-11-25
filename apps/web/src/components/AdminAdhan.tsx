@@ -4,8 +4,8 @@ import { SOUNDS, fmtDur, loadCatalogue, type CatalogueItem } from '@/lib/adhan';
 
 type Decision = { item_id: string; status: string; note: string; updated_at: string };
 const H = { 'content-type': 'application/json', 'x-noor-admin': '1' };
-const ST: Record<string, string> = { published: 'مستضاف على الموقع', stream: 'بث من المصدر', approved: 'مقبول (بانتظار الرفع)', permission_requested: 'طُلب الإذن', pending: 'معلّق للمراجعة', rejected: 'مرفوض' };
-const REASON: Record<string, string> = { no_licence: 'المستودع بلا ترخيص', third_party_origin: 'منقول من موقع آخر', personal_use_only: 'للاستخدام الشخصي فقط', duplicate: 'ملف مكرر', not_an_adhan_recording: 'ليس تسجيل أذان (عمل موسيقي)', stream_only: 'يُبث من مصدره ولا يُستضاف', islamweb_noncommercial_attribution: 'إسلام ويب: غير تجاري مع ذكر المصدر', needs_listening_first: 'أقصر من دقيقة: يُسمع أولًا', needs_review: 'قد يكون ناقصًا أو نسبته مشكوك فيها' };
+const ST: Record<string, string> = { published: 'مستضاف على الموقع', stream: 'بث من المصدر', variant: 'نسخة مكررة (أُبقي الأصل)', approved: 'مقبول (بانتظار الرفع)', permission_requested: 'طُلب الإذن', pending: 'معلّق للمراجعة', rejected: 'مرفوض' };
+const REASON: Record<string, string> = { no_licence: 'المستودع بلا ترخيص', third_party_origin: 'منقول من موقع آخر', personal_use_only: 'للاستخدام الشخصي فقط', duplicate: 'ملف مكرر', not_an_adhan_recording: 'ليس تسجيل أذان (عمل موسيقي)', stream_only: 'يُبث من مصدره ولا يُستضاف', islamweb_noncommercial_attribution: 'إسلام ويب: غير تجاري مع ذكر المصدر', needs_listening_first: 'أقصر من دقيقة: يُسمع أولًا', needs_review: 'قد يكون ناقصًا أو نسبته مشكوك فيها', variant: 'تسجيل آخر للصوت نفسه' };
 const FLAG: Record<string, string> = { needs_listening: 'يحتاج استماعًا', attribution_unverified: 'نسبة المؤذن غير متحقق منها', possibly_incomplete: 'قد يكون ناقصًا', attribution_doubtful: 'نسبة مشكوك فيها', near_duplicate_of: 'نسخة أخرى من', duplicate_of: 'مكرر من', link_failed: 'رابط البث متعطل' };
 
 /** Adhan review report: accepted / pending / rejected, with reasons, and the moderator's decisions. */

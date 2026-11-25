@@ -43,7 +43,8 @@ describe('adhan registry', () => {
       else if (/archive\.org/.test(s.source)) expect(s.license).toMatch(/^(CC0|Public Domain)/);
       else expect(s.source).toMatch(/^https:\/\/www\.islamweb\.net\//);
     }
-    expect(pub.length).toBeGreaterThanOrEqual(40);
+    expect(pub.length).toBeGreaterThanOrEqual(30);
+    expect(pub.some((s: { id: string }) => s.id === 'ia-makkah-isha-mulla')).toBe(true);
   });
 });
 

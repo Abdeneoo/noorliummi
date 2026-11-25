@@ -18,9 +18,9 @@
   "original_sha1": "ada13592b01c12b0128af40035ed7a803e08b563",
   "local_file_path": "/audio/adhan/azan-andrewler.mp3",
   "duration": 183,
-  "verification_status": "license_verified_awaiting_listening",
+  "verification_status": "withdrawn_by_owner: amateur field recording; replaced by professional masters (2026-11-25)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "adhan-aishatu98",
@@ -64,9 +64,9 @@
   "original_sha1": "4c4ebb5edec15558ccb58288401498410c4dd936",
   "local_file_path": "/audio/adhan/aishatu98-calling.mp3",
   "duration": 102,
-  "verification_status": "license_verified_awaiting_listening",
+  "verification_status": "withdrawn_by_owner: amateur field recording; replaced by professional masters (2026-11-25)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "adam-synagda",
@@ -87,9 +87,9 @@
   "original_sha1": "a1fa4fd942401922c5c3301816384aae86956522",
   "local_file_path": "/audio/adhan/adam-synagda.mp3",
   "duration": 154,
-  "verification_status": "license_verified_awaiting_listening",
+  "verification_status": "withdrawn_by_owner: amateur field recording; replaced by professional masters (2026-11-25)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "iw-49c648d7e8",
@@ -223,9 +223,9 @@
   "local_file_path": "/audio/adhan/iw-e5563f36f3.mp3",
   "duration": 206,
   "catalogue_id": "kiwifu-e5563f36f337",
-  "verification_status": "source_policy_noncommercial_attribution; awaiting_listening",
+  "verification_status": "variant_of:iw-ff433530b0 (kept the master recording only)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "iw-dcb18b24e4",
@@ -256,9 +256,9 @@
   "local_file_path": "/audio/adhan/iw-dcb18b24e4.mp3",
   "duration": 188,
   "catalogue_id": "kiwifu-dcb18b24e4e8",
-  "verification_status": "source_policy_noncommercial_attribution; awaiting_listening",
+  "verification_status": "variant_of:iw-ff433530b0 (kept the master recording only)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "iw-ff433530b0",
@@ -534,9 +534,9 @@
   "local_file_path": "/audio/adhan/iw-3adf87eb4c.mp3",
   "duration": 188,
   "catalogue_id": "kiwifu-3adf87eb4c0a",
-  "verification_status": "source_policy_noncommercial_attribution; awaiting_listening",
+  "verification_status": "variant_of:iw-630e6d1a6f (kept the master recording only)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "iw-6b60540a3a",
@@ -767,9 +767,9 @@
   "local_file_path": "/audio/adhan/iw-785c5815c4.mp3",
   "duration": 198,
   "catalogue_id": "kiwifu-785c5815c4b6",
-  "verification_status": "source_policy_noncommercial_attribution; awaiting_listening",
+  "verification_status": "variant_of:iw-fd9ac59ec5 (kept the master recording only)",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": false
  },
  {
   "audio_id": "iw-fd9ac59ec5",
@@ -1195,8 +1195,8 @@
  },
  {
   "audio_id": "ia-makkah-isha-mulla",
-  "title": "أذان العشاء — الحرم المكي (علي أحمد ملا)",
-  "title_en": "Isha — Masjid al-Haram (Ali Ahmed Mulla)",
+  "title": "أذان الحرم المكي — الشيخ علي أحمد ملا",
+  "title_en": "Masjid al-Haram — Sheikh Ali Ahmed Mulla",
   "audio_type": "adhan",
   "muezzin_name": null,
   "adhan_type": "regular",
@@ -1225,7 +1225,8 @@
   "duration": 160,
   "verification_status": "licence_declared_by_uploader; awaiting_listening",
   "reviewed_at": "2026-11-25",
-  "publish": true
+  "publish": true,
+  "note_original_title": "تسجيل أذان العشاء 12 نوفمبر 2009"
  },
  {
   "audio_id": "ia-makkah-fajr-2009",

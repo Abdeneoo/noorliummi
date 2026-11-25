@@ -11,7 +11,7 @@ describe('adhan collections catalogue (rights)', () => {
     expect(cat.items.filter((x: { collection: string }) => x.collection === 'kiwifu').length).toBe(231);
   });
   it('hosts only what the registry documents, streams the rest from source', () => {
-    for (const x of cat.items) expect(['hosted', 'stream', 'pending', 'rejected']).toContain(x.status);
+    for (const x of cat.items) expect(['hosted', 'stream', 'variant', 'pending', 'rejected']).toContain(x.status);
     const hostedIds = new Set(reg.filter((r) => r.publish).map((r) => (r as { catalogue_id?: string }).catalogue_id).filter(Boolean));
     for (const x of cat.items.filter((x: { status: string }) => x.status === 'hosted')) expect(hostedIds.has(x.id), `${x.file} hosted without registry entry`).toBe(true);
     for (const x of cat.items.filter((x: { status: string }) => x.status === 'stream')) expect(x.url).toMatch(/^https:\/\/(raw\.githubusercontent\.com\/Kiwifu\/adhan-mp3\/b9180a2|cdn\.aladhan\.com\/)/);

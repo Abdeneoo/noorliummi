@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import BrandLogo from './BrandLogo';
 import Icon from './Icon';
+import MotherDua from './MotherDua';
+import dua from '@/generated/adhkar/56.json';
 
 /**
  * Home cover with its motion layer (pure CSS/SVG, no JS): breathing light, drifting geometric
@@ -57,6 +59,7 @@ export default function HomeCover({ lang = 'ar' }: { lang?: Lang }) {
             <p className="ded-first">{c.lines[0]}</p>
             <p>{c.lines[1]}</p>
             {c.dua && <p className="ded-dua">{c.dua}</p>}
+            {lang === 'ar' && dua.items[0]?.a && <MotherDua text={dua.items[0].t} reference={dua.items[0].r} audio={`/audio/adhkar/${dua.items[0].a}`} />}
           </div>
           <div className="actions rise" style={{ ['--i' as string]: 4 }}>
             <Link className="btn light" href={c.ha}><Icon name="quran" />{c.a}</Link>

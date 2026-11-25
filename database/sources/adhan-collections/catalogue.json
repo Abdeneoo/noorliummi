@@ -12,9 +12,10 @@
   }
  },
  "counts": {
-  "stream": 205,
+  "stream": 146,
+  "variant": 63,
   "pending": 3,
-  "hosted": 28,
+  "hosted": 24,
   "rejected": 2
  },
  "items": [
@@ -152,8 +153,9 @@
    ],
    "origin": "haii3alslah.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-921ba3e5cf1f",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to haii3alslah.com"
    ],
@@ -257,8 +259,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "عبدالرحمن الأركي",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-b16f5f841de9",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -291,8 +294,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Abdou El Rahmane El Araki",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-b16f5f841de9",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -359,8 +363,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "عبدالرحمن كساب",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-624f3a1b18a8",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -614,8 +619,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ���� ����� ��������� ����",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-ae1483e79764",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -657,8 +663,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ���� ����� ��������� ����",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-ae1483e79764",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -700,8 +707,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "عبد الباسط  عبد الصمد",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-ae1483e79764",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -788,8 +796,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "عبد الباسط  عبد الصمد",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-ae1483e79764",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -878,8 +887,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "عبد الباسط  عبد الصمد",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-4da254fe3d44",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -1172,8 +1182,9 @@
    ],
    "origin": null,
    "id3_artist": "����� ������ - 2",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = iw-487d60878f",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -1247,8 +1258,9 @@
    ],
    "origin": "islamweb.net",
    "id3_artist": "www.islamweb.net  ÇáÔÈßÉ ÇáÅÓáÇãíÉ",
-   "status": "hosted",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = iw-ff433530b0",
     "islamweb_noncommercial_attribution: islamweb allows non-commercial use with the source named"
    ],
    "flags": [
@@ -1282,8 +1294,9 @@
    ],
    "origin": "islamweb.net",
    "id3_artist": "www.islamweb.net  ÇáÔÈßÉ ÇáÅÓáÇãíÉ",
-   "status": "hosted",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = iw-ff433530b0",
     "islamweb_noncommercial_attribution: islamweb allows non-commercial use with the source named"
    ],
    "flags": [
@@ -1570,8 +1583,9 @@
    ],
    "origin": "islamweb.net",
    "id3_artist": "www.islamweb.net  ÇáÔÈßÉ ÇáÅÓáÇãíÉ",
-   "status": "hosted",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = iw-630e6d1a6f",
     "islamweb_noncommercial_attribution: islamweb allows non-commercial use with the source named"
    ],
    "flags": [
@@ -1816,8 +1830,9 @@
    ],
    "origin": "islamweb.net",
    "id3_artist": "www.islamweb.net  ÇáÔÈßÉ ÇáÅÓáÇãíÉ",
-   "status": "hosted",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = iw-fd9ac59ec5",
     "islamweb_noncommercial_attribution: islamweb allows non-commercial use with the source named"
    ],
    "flags": [
@@ -1957,8 +1972,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ���� ������� ������� (1)�",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-96f3fe8ace05",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -1993,8 +2009,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ���� ������� ������� (2)�",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-96f3fe8ace05",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -2349,8 +2366,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ������� - ���",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-imadi",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -2391,8 +2409,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Ahmed El Amadi",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-imadi",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -2527,8 +2546,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "أحمد علي",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-9204b19ffce0",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -2796,8 +2816,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Ahmd At-Trablsy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-f563d91da9e1",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -2868,8 +2889,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Ahmd At-Trablsy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-f563d91da9e1",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -2904,8 +2926,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Ahmd At-Trablsy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-f563d91da9e1",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -3048,8 +3071,9 @@
    ],
    "origin": null,
    "id3_artist": "���� �����  ���� ���� �����",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-98877b9a7d3f",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -3192,8 +3216,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "البهلول أبوعرقوب",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-a4af6024da54",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -3405,8 +3430,9 @@
    ],
    "origin": "haii3alslah.com",
    "id3_artist": "علي بن أحمد ملا",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to haii3alslah.com"
    ],
@@ -3449,8 +3475,9 @@
    ],
    "origin": null,
    "id3_artist": "��� ����� ����� - 3",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -3492,8 +3519,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ����� ����� - 2",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -3535,8 +3563,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ����� ����� - 1",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -3578,8 +3607,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ����� �����5",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -3621,8 +3651,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Ali Ibn Ahmed Mala",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -3665,8 +3696,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Ali Ibn Ahmed Mala",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -3701,8 +3733,9 @@
    ],
    "origin": null,
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-makkah-isha-mulla",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -3851,8 +3884,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "بديع جادو",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-618460ec699e",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -3919,8 +3953,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Badii Jadou",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-618460ec699e",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -4021,8 +4056,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Ibnou Sawana",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-c896c9683ec8",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -4379,8 +4415,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "حاج سليمان مختار",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-hadj-slimane",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -4413,8 +4450,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Hamad Al Daghriri",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-fd06889cde10",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -4835,8 +4873,9 @@
    "groups": [],
    "origin": null,
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-c3a6a1a79861",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -5185,8 +5224,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Kamel Mouhammed El Marouch",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-2c44a07b9dba",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5446,8 +5486,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "محمود الطوخي",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-7ee3e7e5cd81",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5595,8 +5636,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "منصور الزهراني",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-aeb83a5b2673",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5710,8 +5752,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Mishary Rashid Alafasy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-2196ad8cf1d7",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5753,8 +5796,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Mishary Rashid Alafasy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-2196ad8cf1d7",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5797,8 +5841,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Mishary Rashid Alafasy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-afasy-fajr",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5841,8 +5886,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Mishary Rashid Alafasy",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-afasy-fajr",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5885,8 +5931,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "محمد صديق المنشاوي",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-c3f91aa3fb93",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -5929,8 +5976,9 @@
    ],
    "origin": null,
    "id3_artist": "���� ���� ����� ���� ���� ����",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-c3f91aa3fb93",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source"
    ],
    "flags": [
@@ -6073,8 +6121,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Mohammed Salahuddin Kabbara",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-f0baa1635090",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -6317,8 +6366,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Mohammed El Kourayni El Malouki",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-77680b290ee3",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -6562,8 +6612,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "محمد حمود",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-66b0f7ea94ed",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -6673,8 +6724,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "محمد ناجى",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-29effc7bedc6",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -6741,8 +6793,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Mohammed Naji",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-29effc7bedc6",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -7203,8 +7256,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Nasser Al Obaid",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-828d74868f18",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -7237,8 +7291,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Nasser Al Obaid",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-828d74868f18",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -7273,8 +7328,9 @@
    ],
    "origin": "haii3alslah.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-qatami",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to haii3alslah.com"
    ],
@@ -7317,8 +7373,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Nasser Al Qatami",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-qatami",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -7360,8 +7417,9 @@
    ],
    "origin": "assabile.com",
    "id3_artist": "Nasser Al Qatami",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = ia-qatami",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -8233,8 +8291,9 @@
    "groups": [],
    "origin": "assabile.com",
    "id3_artist": "Walide Mahsasse",
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-37d83006fa18",
     "stream_only: repository states \"Free for Islamic apps, prayer-time software\" but has no licence to re-host; played from the source",
     "third_party_origin: ID3 tags point to assabile.com"
    ],
@@ -8534,8 +8593,9 @@
    ],
    "origin": "aladhan.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-2196ad8cf1d7",
     "stream_only: offered on the AlAdhan page \"for personal use\"; played from cdn.aladhan.com for each listener, never copied"
    ],
    "flags": [
@@ -8568,8 +8628,9 @@
    ],
    "origin": "aladhan.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-eca0ad96a759",
     "stream_only: offered on the AlAdhan page \"for personal use\"; played from cdn.aladhan.com for each listener, never copied"
    ],
    "flags": [
@@ -8663,8 +8724,9 @@
    ],
    "origin": "aladhan.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-2196ad8cf1d7",
     "stream_only: offered on the AlAdhan page \"for personal use\"; played from cdn.aladhan.com for each listener, never copied"
    ],
    "flags": [
@@ -8697,8 +8759,9 @@
    ],
    "origin": "aladhan.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-2196ad8cf1d7",
     "stream_only: offered on the AlAdhan page \"for personal use\"; played from cdn.aladhan.com for each listener, never copied"
    ],
    "flags": [
@@ -8731,8 +8794,9 @@
    ],
    "origin": "aladhan.com",
    "id3_artist": null,
-   "status": "stream",
+   "status": "variant",
    "reasons": [
+    "variant: another take of the same voice; master = st:kiwifu-aeb83a5b2673",
     "stream_only: offered on the AlAdhan page \"for personal use\"; played from cdn.aladhan.com for each listener, never copied"
    ],
    "flags": [
