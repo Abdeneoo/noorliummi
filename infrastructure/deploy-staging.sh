@@ -85,6 +85,53 @@ done
 echo "local health: $code"
 [ "$code" = "200" ] || { echo "Service is not healthy; Caddy left untouched."; systemctl status noorliummi-web.service --no-pager | tail -8; exit 1; }
 
+echo "== 5b backup + health timers (our units only)"
+cat > /etc/systemd/system/noorliummi-backup.service <<BEOF
+[Unit]
+Description=Noor Li Ummi database backup (noorliummi DB only)
+[Service]
+Type=oneshot
+User=noor
+Group=noor
+Environment=HOME=$APP_HOME
+ExecStart=/usr/bin/env bash $APP/infrastructure/backup-db.sh
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=$APP_HOME/backups
+BEOF
+cat > /etc/systemd/system/noorliummi-backup.timer <<BEOF
+[Unit]
+Description=Daily Noor Li Ummi database backup
+[Timer]
+OnCalendar=*-*-* 03:17:00
+RandomizedDelaySec=10m
+Persistent=true
+[Install]
+WantedBy=timers.target
+BEOF
+cat > /etc/systemd/system/noorliummi-health.service <<BEOF
+[Unit]
+Description=Noor Li Ummi health check (restarts only our web service if it stops answering)
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash -c 'for i in 1 2 3; do c=\$(curl -s -o /dev/null -m 10 -w "%%{http_code}" http://127.0.0.1:$PORT/ || true); [ "\$c" = 200 ] && exit 0; sleep 10; done; echo "noorliummi health: no 200 after 3 tries (last \$c) — restarting noorliummi-web"; systemctl restart noorliummi-web.service'
+BEOF
+cat > /etc/systemd/system/noorliummi-health.timer <<BEOF
+[Unit]
+Description=Noor Li Ummi health check every 5 minutes
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=5min
+[Install]
+WantedBy=timers.target
+BEOF
+install -d -m 700 -o noor -g noor "$APP_HOME/backups"
+systemctl daemon-reload
+systemctl enable --now --quiet noorliummi-backup.timer noorliummi-health.timer
+if [ -f "$APP_HOME/secrets/db.env" ]; then systemctl start noorliummi-backup.service && journalctl -u noorliummi-backup.service -n 3 --no-pager -o cat | grep -E "backup ok|rror" || true; fi
+
 echo "== 6/6 caddy"
 if ! grep -Eq '^\s*import\s+.*sites/' /etc/caddy/Caddyfile; then
   echo "Caddyfile does not import sites/*; not changing Caddy. Showing its import lines:"; grep -n import /etc/caddy/Caddyfile || true; exit 1

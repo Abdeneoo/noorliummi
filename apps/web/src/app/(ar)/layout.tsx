@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="site">
           <div className="wrap">
             <p>نورٌ لا ينطفئ، وأثرٌ لا ينقطع. — صدقة جارية، نسألكم الدعاء لوالدة صاحب المشروع بالرحمة والمغفرة.</p>
-            <p>نص القرآن الكريم من <a href="https://tanzil.net" rel="noopener">مشروع تنزيل (Tanzil)</a> دون أي تعديل. حساب المواقيت بمكتبة Adhan (Batoul Apps). <Link href="/sources">المصادر والتراخيص</Link></p>
+            <p>نص القرآن الكريم من <a href="https://tanzil.net" rel="noopener">مشروع تنزيل (Tanzil)</a> دون أي تعديل. حساب المواقيت بمكتبة Adhan (Batoul Apps). <Link href="/sources">المصادر والتراخيص</Link> · <Link href="/privacy">الخصوصية والشروط</Link></p>
           </div>
         </footer>
       </body>

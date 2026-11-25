@@ -40,7 +40,7 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
         <footer className="site">
           <div className="wrap">
             <p>A light that never fades, a legacy that never ends. — Sadaqah jariyah; please remember the mother of the project&apos;s founder in your prayers, asking Allah for her mercy and forgiveness.</p>
-            <p>Quran text from the <a href="https://tanzil.net" rel="noopener">Tanzil project</a>, unmodified. English translation of the meanings from <a href="https://quranenc.com" rel="noopener">QuranEnc.com</a>. <Link href="/en/sources">Sources and licences</Link></p>
+            <p>Quran text from the <a href="https://tanzil.net" rel="noopener">Tanzil project</a>, unmodified. English translation of the meanings from <a href="https://quranenc.com" rel="noopener">QuranEnc.com</a>. <Link href="/en/sources">Sources and licences</Link> · <Link href="/en/privacy">Privacy and terms</Link></p>
           </div>
         </footer>
       </body>
