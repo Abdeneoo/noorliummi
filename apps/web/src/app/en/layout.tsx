@@ -11,6 +11,7 @@ import AdhanController from '@/components/AdhanController';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'),
   title: { default: 'Noor Li Ummi', template: '%s | Noor Li Ummi' },
   description: 'Noor Li Ummi is a free Islamic digital platform dedicated to the memory of my beloved mother, offering access to the Quran, daily worship tools and beneficial knowledge.',
   openGraph: { type: 'website', locale: 'en', siteName: 'Noor Li Ummi | نور لأمي', images: [{ url: '/brand/og-cover.jpg', width: 1200, height: 630, alt: 'Noor Li Ummi logo' }] },
