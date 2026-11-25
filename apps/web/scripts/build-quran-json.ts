@@ -91,3 +91,14 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   for (let i = 1; i <= 114; i++) writeFileSync(`${out}/mutashabihat/${i}.json`, JSON.stringify(bySura[i] ?? {}));
   console.log(`Mutashabihat generated: ${groups} groups`);
 }
+
+// ---- Forty Hadith of an-Nawawi (verbatim) ----
+{
+  const dir = resolve(here, '../../../database/sources/hadith-nawawi');
+  if (sha256File(`${dir}/ara-nawawi.json`) !== readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for ara-nawawi.json — refusing to build');
+  const raw = JSON.parse(readFileSync(`${dir}/ara-nawawi.json`, 'utf8')) as { hadiths: { hadithnumber: number; text: string }[] };
+  if (raw.hadiths.length !== 42) throw new Error('Nawawi hadith count check failed');
+  mkdirSync(`${out}/hadith`, { recursive: true });
+  writeFileSync(`${out}/hadith/nawawi.json`, JSON.stringify(raw.hadiths.map((h) => ({ n: h.hadithnumber, t: h.text }))));
+  console.log('Nawawi 40 generated: 42 hadith');
+}

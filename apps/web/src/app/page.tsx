@@ -16,6 +16,11 @@ export default function Home() {
             <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>المصحف كاملًا بالرسم العثماني، ١١٤ سورة.</p>
             <Link className="btn" href="/quran">افتح المصحف</Link>
           </section>
+          <section className="card">
+            <h2>الأربعون النووية</h2>
+            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>اثنان وأربعون حديثًا جمعها الإمام النووي (نسخة تجريبية).</p>
+            <Link className="btn" href="/hadith/nawawi">اقرأ الأحاديث</Link>
+          </section>
           <section className="card dedication">
             <h2>إهداء</h2>
             <p>إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>

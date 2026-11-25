@@ -73,3 +73,12 @@ describe('mutashabihat data', () => {
     }
   });
 });
+
+describe('Nawawi 40 equals the source', () => {
+  it('every hadith text is identical', () => {
+    const raw = JSON.parse(readFileSync(resolve(__dirname, '../../../database/sources/hadith-nawawi/ara-nawawi.json'), 'utf8')) as { hadiths: { hadithnumber: number; text: string }[] };
+    const g = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/hadith/nawawi.json'), 'utf8')) as { n: number; t: string }[];
+    expect(g.length).toBe(42);
+    g.forEach((h, i) => { expect(h.n).toBe(raw.hadiths[i].hadithnumber); expect(h.t).toBe(raw.hadiths[i].text); });
+  });
+});
