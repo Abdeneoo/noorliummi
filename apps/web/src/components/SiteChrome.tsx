@@ -48,9 +48,12 @@ export function SiteHeader({ lang }: { lang: Lang }) {
     <header className="site">
       <div className="wrap">
         <Link href={ar ? '/' : '/en'} className="brand" aria-label={ar ? 'نور لأمي — الرئيسية' : 'Noor Li Ummi — Home'}>
-          <svg className="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14.6 6 19 5l-1 4.4L22 12l-4 2.6 1 4.4-4.4-1L12 22l-2.6-4L5 19l1-4.4L2 12l4-2.6L5 5l4.4 1Z" /></svg>
+          <svg className="mark" viewBox="0 0 28 34" aria-hidden="true">
+            <defs><radialGradient id="noorGlow" cx="50%" cy="55%" r="50%"><stop offset="0" stopColor="#F6E3B4" /><stop offset=".6" stopColor="#C6A66B" /><stop offset="1" stopColor="#A9853F" /></radialGradient></defs>
+            <path className="mark-arch" d="M3 33V15.5C3 8.8 7.8 4 14 1.5 20.2 4 25 8.8 25 15.5V33" />
+            <path className="mark-light" d="M14 11.5c2.6 3.2 3.9 5.6 3.9 7.7a3.9 3.9 0 0 1-7.8 0c0-2.1 1.3-4.5 3.9-7.7Z" fill="url(#noorGlow)" />
+          </svg>
           <span className="wordmark">{ar ? 'نور لأمي' : 'Noor Li Ummi'}</span>
-          <span className="latin" lang={ar ? 'en' : 'ar'}>{ar ? 'Noor Li Ummi' : 'نور لأمي'}</span>
         </Link>
         <nav className="main" aria-label={ar ? 'التنقل الرئيسي' : 'Main'}>
           {NAV[lang].slice(1, 5).map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}>{it.label}</Link>)}

@@ -36,7 +36,14 @@ describe('adhkar data equals the source', () => {
 describe('adhan registry', () => {
   it('publishes only licensed, self-hostable recordings with attribution', () => {
     const pub = JSON.parse(readFileSync(resolve(__dirname, '../src/generated/adhan-registry.json'), 'utf8'));
-    for (const s of pub) { expect(s.license).toMatch(/^CC/); expect(s.source).toMatch(/^https:\/\/commons\.wikimedia\.org\//); expect(s.by.length).toBeGreaterThan(0); }
+    // Allowed hosting bases: free licences on Wikimedia Commons / Internet Archive, or islamweb's non-commercial-with-attribution policy.
+    for (const s of pub) {
+      expect(s.by.length).toBeGreaterThan(0); expect(s.licenseUrl).toMatch(/^https:\/\//);
+      if (/commons\.wikimedia\.org/.test(s.source)) expect(s.license).toMatch(/^CC/);
+      else if (/archive\.org/.test(s.source)) expect(s.license).toMatch(/^(CC0|Public Domain)/);
+      else expect(s.source).toMatch(/^https:\/\/www\.islamweb\.net\//);
+    }
+    expect(pub.length).toBeGreaterThanOrEqual(40);
   });
 });
 

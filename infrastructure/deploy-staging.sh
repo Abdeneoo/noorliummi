@@ -127,9 +127,35 @@ OnUnitActiveSec=5min
 [Install]
 WantedBy=timers.target
 BEOF
+cat > /etc/systemd/system/noorliummi-adhanlinks.service <<BEOF
+[Unit]
+Description=Noor Li Ummi weekly check of streamed adhan links (HEAD requests only)
+[Service]
+Type=oneshot
+User=noor
+Group=noor
+Environment=NOOR_HOME=$APP_HOME
+ExecStart=/usr/bin/env bash $APP/infrastructure/check-adhan-links.sh
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=$APP_HOME/reports
+BEOF
+cat > /etc/systemd/system/noorliummi-adhanlinks.timer <<BEOF
+[Unit]
+Description=Weekly adhan link check
+[Timer]
+OnCalendar=Fri *-*-* 04:41:00
+RandomizedDelaySec=30m
+Persistent=true
+[Install]
+WantedBy=timers.target
+BEOF
+install -d -m 755 -o noor -g noor "$APP_HOME/reports"
 install -d -m 700 -o noor -g noor "$APP_HOME/backups"
 systemctl daemon-reload
-systemctl enable --now --quiet noorliummi-backup.timer noorliummi-health.timer
+systemctl enable --now --quiet noorliummi-backup.timer noorliummi-health.timer noorliummi-adhanlinks.timer
 if [ -f "$APP_HOME/secrets/db.env" ]; then systemctl start noorliummi-backup.service && journalctl -u noorliummi-backup.service -n 3 --no-pager -o cat | grep -E "backup ok|rror" || true; fi
 
 echo "== 6/6 caddy"

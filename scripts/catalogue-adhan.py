@@ -92,14 +92,29 @@ for i, a in enumerate(seen):
     for b in seen[i + 1:]:
         if a['title']['en'] == b['title']['en'] and abs(a['duration'] - b['duration']) <= 1.5 and (a['hq'] or b['hq']):
             (b if b['hq'] else a)['flags'].append('near_duplicate_of:' + (a if b['hq'] else b)['file'])
+RAW = f'https://raw.githubusercontent.com/Kiwifu/adhan-mp3/{commit}/'
+from urllib.parse import quote
 for r in rows:
     if r['status'] == 'rejected': continue
-    r['reasons'].append('no_licence: the repository has no licence file; "free for Islamic apps" is not a licence to re-host')
-    if r['origin']: r['reasons'].append(f"third_party_origin: ID3 tags point to {r['origin']}; permission must come from that publisher or the muezzin")
     r['flags'].append('needs_listening')
     r['flags'].append('attribution_unverified')
     if r['duration'] < 60: r['flags'].append('possibly_incomplete')
     if 'Albane' in r['file']: r['flags'].append('attribution_doubtful')
+    if 'islamweb' in (r['id3_artist'] or ''):
+        # islamweb.net: "benefiting from them is allowed ... not for commercial reasons ... their source must be mentioned"
+        r['origin'] = 'islamweb.net'
+        if 'possibly_incomplete' in r['flags']:
+            r['status'] = 'pending'; r['reasons'].append('needs_listening_first: shorter than a minute, possibly not a complete adhan')
+        else:
+            r['status'] = 'hosted'; r['reasons'].append('islamweb_noncommercial_attribution: islamweb allows non-commercial use with the source named')
+        continue
+    if any(f.startswith(('possibly_incomplete', 'attribution_doubtful')) for f in r['flags']):
+        r['status'] = 'pending'; r['reasons'].append('needs_review: possibly incomplete or doubtful attribution')
+        continue
+    # Not re-hosted: played straight from the repository, whose description reads "Free for Islamic apps, prayer-time software".
+    r['status'] = 'stream'; r['url'] = RAW + quote(r['file'])
+    r['reasons'].append('stream_only: repository states "Free for Islamic apps, prayer-time software" but has no licence to re-host; played from the source')
+    if r['origin']: r['reasons'].append(f"third_party_origin: ID3 tags point to {r['origin']}")
 
 ALADHAN = [  # https://aladhan.com/download-adhans — "for personal use", © Islamic Network
     ('a9.mp3', 'مشاري راشد العفاسي', 'Mishary Rashid Alafasy', ['famous']), ('a1.mp3', 'أحمد النفيس', 'Ahmad al-Nafees', ['famous']),
@@ -110,8 +125,8 @@ ALADHAN = [  # https://aladhan.com/download-adhans — "for personal use", © Is
 for fn, ar, en, g in ALADHAN:
     rows.append(dict(id='aladhan-' + fn.split('.')[0], collection='aladhan', file=fn, url='https://cdn.aladhan.com/audio/adhans/' + fn, sha256=None, bytes=None, duration=None, kbps=None,
                      title={'ar': ar, 'en': en}, muezzin=None if fn == 'a3.mp3' else {'ar': ar, 'en': en}, place=None, country=None, take=None, hq=False, groups=g, origin='aladhan.com',
-                     id3_artist=None, status='rejected' if fn == 'a3.mp3' else 'pending',
-                     reasons=(['not_an_adhan_recording: part of a copyrighted musical work'] if fn == 'a3.mp3' else ['personal_use_only: the download page offers the files "for personal use"; © Islamic Network and contributors']),
+                     id3_artist=None, status='rejected' if fn == 'a3.mp3' else 'stream',
+                     reasons=(['not_an_adhan_recording: part of a copyrighted musical work (Karl Jenkins, The Armed Man)'] if fn == 'a3.mp3' else ['stream_only: offered on the AlAdhan page "for personal use"; played from cdn.aladhan.com for each listener, never copied']),
                      flags=['needs_listening']))
 
 out = dict(generated_from={'kiwifu': {'repo': 'https://github.com/Kiwifu/adhan-mp3', 'commit': commit, 'licence': None},

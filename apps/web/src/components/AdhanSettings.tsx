@@ -107,7 +107,8 @@ export default function AdhanSettings({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
             <div className="field"><label htmlFor={`s-${p}`}>{t.prayer(p)}</label>
               <select id={`s-${p}`} value={prefs.sound[p]} onChange={(e) => update({ ...prefs, sound: { ...prefs.sound, [p]: e.target.value } })}>
                 {mine && <option value={LOCAL_ID}>{t.mineOpt(mine.name)}</option>}
-                {soundsFor(p).map((s) => <option key={s.id} value={s.id}>{lang === 'en' ? `Adhan — ${s.by}` : s.title} ({fmtDur(s.duration)})</option>)}
+                {soundsFor(p).map((s) => <option key={s.id} value={s.id}>{lang === 'en' ? s.titleEn ?? `Adhan — ${s.by}` : s.title} ({fmtDur(s.duration)})</option>)}
+                {PRAYER_LIST && prefs.sound[p].startsWith('st:') && <option value={prefs.sound[p]}>{lang === 'en' ? 'Chosen from the library' : 'مختار من المكتبة'}</option>}
                 {lib.length > 0 && <optgroup label={lang === 'en' ? 'On my device' : 'من جهازي'}>{lib.map((x) => <option key={x.id} value={x.id}>{x.title}{x.duration ? ` (${fmtDur(x.duration)})` : ''}</option>)}</optgroup>}
                 <option value="chime">{t.chime}</option>
                 <option value="silent">{t.silent}</option>

@@ -67,7 +67,7 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
 {
   const reg = JSON.parse(readFileSync(resolve(here, '../../../database/sources/adhan/registry.json'), 'utf8')) as Record<string, any>[];
   const pub = reg.filter((r) => r.publish && r.local_file_path && existsSync(resolve(here, '../public' + r.local_file_path)) && r.redistribution_allowed && r.self_hosting_allowed)
-    .map((r) => ({ id: r.audio_id, title: r.title, by: r.copyright_holder, license: r.license_name, licenseUrl: r.license_url, source: r.source_page_url, kind: r.adhan_type, file: r.local_file_path, duration: r.duration, note: r.modification_notes || undefined }));
+    .map((r) => ({ id: r.audio_id, title: r.title, titleEn: r.title_en, by: r.copyright_holder, license: r.license_name, licenseUrl: r.license_url, source: r.source_page_url, kind: r.adhan_type, file: r.local_file_path, duration: r.duration, note: r.modification_notes || undefined, groups: r.groups ?? [], country: r.country ?? undefined, cat: r.catalogue_id }));
   writeFileSync(`${out}/adhan-registry.json`, JSON.stringify(pub));
   console.log(`Adhan registry: ${pub.length} published of ${reg.length} registered`);
 }
@@ -75,7 +75,7 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
 // ---- Adhan collections catalogue (metadata only, no audio): for the review report and for recognising files users import ----
 {
   const cat = JSON.parse(readFileSync(resolve(here, '../../../database/sources/adhan-collections/catalogue.json'), 'utf8')) as { counts: Record<string, number>; items: Record<string, any>[] };
-  const items = cat.items.map((r) => ({ id: r.id, c: r.collection, f: r.file, sha: r.sha256, d: r.duration, t: r.title, m: r.muezzin, p: r.place, co: r.country, g: r.groups, s: r.status, r: (r.reasons as string[]).map((x) => x.split(':')[0]), fl: r.flags, o: r.origin }));
+  const items = cat.items.map((r) => ({ id: r.id, c: r.collection, f: r.file, sha: r.sha256, d: r.duration, t: r.title, m: r.muezzin, p: r.place, co: r.country, g: r.groups, s: r.status, r: (r.reasons as string[]).map((x) => x.split(':')[0]), fl: r.flags, o: r.origin, ...(r.status === 'stream' && r.url ? { u: r.url } : {}) }));
   writeFileSync(`${out}/adhan-catalogue.json`, JSON.stringify(items));
   console.log(`Adhan catalogue: ${items.length} recordings (${JSON.stringify(cat.counts)})`);
 }

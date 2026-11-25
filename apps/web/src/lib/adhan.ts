@@ -5,7 +5,7 @@ export type Prayer = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';
 export const PRAYER_AR: Record<Prayer, string> = { fajr: 'الفجر', dhuhr: 'الظهر', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' };
 export const PRAYER_LIST: Prayer[] = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 
-export interface AdhanSound { id: string; title: string; by: string; license: string; licenseUrl: string; source: string; kind: 'fajr' | 'regular'; file: string; duration: number; note?: string; groups?: string[] }
+export interface AdhanSound { id: string; title: string; by: string; license: string; licenseUrl: string; source: string; kind: 'fajr' | 'regular'; file: string; duration: number; note?: string; groups?: string[]; titleEn?: string; country?: { code: string; ar: string; en: string }; cat?: string }
 export const SOUNDS = registry as AdhanSound[];
 /** Built-in choices that need no audio file. */
 export const BUILTIN = [{ id: 'chime', title: 'نغمة تنبيه هادئة' }, { id: 'silent', title: 'إشعار صامت فقط' }] as const;
@@ -76,7 +76,7 @@ export async function playSound(id: string, volume = 0.9): Promise<void> {
   stopSound();
   if (id === 'silent') return;
   const s = SOUNDS.find((x) => x.id === id);
-  const local = id === LOCAL_ID ? await localAdhanUrl() : id.startsWith('local:') ? await libUrl(id) : null;
+  const local = id === LOCAL_ID ? await localAdhanUrl() : id.startsWith('local:') ? await libUrl(id) : id.startsWith('st:') ? await streamUrl(id) : null;
   const a = getPlayer();
   a.muted = false; a.volume = volume; a.src = local ?? (id === 'chime' || !s ? chime() : s.file); a.currentTime = 0;
   try { await a.play(); primed = true; } catch { throw new Error('audio-blocked'); }
@@ -117,7 +117,7 @@ async function localAdhanUrl(): Promise<string | null> {
 
 // ---- The user's own adhan library (many files): IndexedDB on this device only, never uploaded. ----
 export interface LocalAdhan { id: string; name: string; title: string; size: number; duration: number | null; sha: string; match?: string }
-export interface CatalogueItem { id: string; c: string; f: string; sha: string | null; d: number | null; t: { ar: string | null; en: string }; m: { ar: string | null; en: string } | null; p: { ar: string | null; en: string | null } | null; co: { code: string; ar: string; en: string } | null; g: string[]; s: 'pending' | 'rejected' | 'approved'; r: string[]; fl: string[]; o: string | null }
+export interface CatalogueItem { id: string; c: string; f: string; sha: string | null; d: number | null; t: { ar: string | null; en: string }; m: { ar: string | null; en: string } | null; p: { ar: string | null; en: string | null } | null; co: { code: string; ar: string; en: string } | null; g: string[]; s: 'pending' | 'rejected' | 'hosted' | 'stream'; r: string[]; fl: string[]; o: string | null; u?: string }
 let catalogue: CatalogueItem[] | null = null;
 export async function loadCatalogue(): Promise<CatalogueItem[]> { return (catalogue ??= (await import('@/generated/adhan-catalogue.json')).default as CatalogueItem[]); }
 const hex = (b: ArrayBuffer) => [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, '0')).join('');
@@ -180,3 +180,10 @@ export async function cacheOffline(file: string): Promise<boolean> { try { const
 export async function isOffline(file: string): Promise<boolean> { try { const c = await caches.open(AUDIO_CACHE); return !!(await c.match(file)); } catch { return false; } }
 export async function dropOffline(file: string): Promise<void> { try { const c = await caches.open(AUDIO_CACHE); await c.delete(file); } catch { /* ignore */ } }
 export const fmtDur = (s: number | null | undefined) => (s == null ? '' : `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`);
+
+/** Recordings played from their source (never copied to our server): id = 'st:' + catalogue id. */
+export const STREAM_PREFIX = 'st:';
+async function streamUrl(id: string): Promise<string | null> {
+  const c = await loadCatalogue().catch(() => [] as CatalogueItem[]);
+  return c.find((x) => x.id === id.slice(3) && x.s === 'stream')?.u ?? null;
+}

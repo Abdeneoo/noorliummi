@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isAdmin, sameOrigin } from '@/lib/admin';
 import { db } from '@/lib/db';
+import { readFile } from 'node:fs/promises';
 
 export const dynamic = 'force-dynamic';
 const deny = () => NextResponse.json({ error: 'غير مسموح.' }, { status: 401 });
@@ -10,7 +11,9 @@ const STATUSES = ['pending', 'permission_requested', 'approved', 'rejected'];
 export async function GET(req: Request) {
   if (!isAdmin(req)) return deny();
   const { rows } = await db().query('SELECT item_id, status, note, updated_at FROM adhan_review');
-  return NextResponse.json({ decisions: rows }, { headers: { 'cache-control': 'no-store' } });
+  // Written weekly by infrastructure/check-adhan-links.sh (outside the app folder).
+  const links = await readFile(`${process.env.NOOR_HOME ?? '/opt/noorliummi'}/reports/adhan-links.json`, 'utf8').then(JSON.parse).catch(() => null);
+  return NextResponse.json({ decisions: rows, links }, { headers: { 'cache-control': 'no-store' } });
 }
 export async function POST(req: Request) {
   if (!isAdmin(req) || !sameOrigin(req)) return deny();

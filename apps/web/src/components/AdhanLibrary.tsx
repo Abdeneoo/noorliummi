@@ -6,32 +6,32 @@ import {
 } from '@/lib/adhan';
 
 type Lang = 'ar' | 'en';
-type Item = { id: string; title: string; sub: string; dur: number | null; groups: string[]; kind: 'site' | 'device'; file?: string; search: string };
-const GROUPS = ['all', 'fav', 'fajr', 'haramain', 'egyptian', 'famous', 'device'] as const;
+type Item = { id: string; title: string; sub: string; dur: number | null; groups: string[]; kind: 'site' | 'stream' | 'device'; file?: string; search: string };
+const GROUPS = ['all', 'fav', 'fajr', 'haramain', 'aqsa', 'egyptian', 'famous', 'places', 'device'] as const;
 type Group = (typeof GROUPS)[number];
 const L = {
   ar: {
     title: 'مكتبة الأذان', intro: 'استمع قبل الاختيار، وخصّص صوتًا لكل صلاة أو صوتًا خاصًا للفجر.',
-    g: { all: 'الكل', fav: 'المفضلة', fajr: 'أذان الفجر', haramain: 'الحرمان الشريفان', egyptian: 'القراء المصريون', famous: 'أصوات مشهورة', device: 'من جهازي' } as Record<Group, string>,
+    g: { all: 'الكل', fav: 'المفضلة', fajr: 'أذان الفجر', haramain: 'الحرمان الشريفان', aqsa: 'المسجد الأقصى', egyptian: 'القراء المصريون', famous: 'أصوات مشهورة', places: 'مساجد وبلدان', device: 'من جهازي' } as Record<Group, string>,
     search: 'ابحث باسم المؤذن أو البلد', none: 'لا توجد تسجيلات هنا بعد.', play: 'استماع', stop: 'إيقاف', fav: 'أضف للمفضلة', unfav: 'أزل من المفضلة',
     use: 'استخدمه لـ', all: 'كل الصلوات', remove: 'حذف من الجهاز', offline: 'حفظ دون إنترنت', offlineOn: 'محفوظ دون إنترنت ✓',
-    site: 'على الموقع', device: 'على جهازك', import: 'أضف تسجيلات من جهازك', importNote: 'اختر ملفًا أو عدة ملفات صوتية (حتى 40 ميغابايت للملف). تُحفظ على هذا الجهاز وحده ولا تُرفع إلى أي خادم، وتعمل دون إنترنت.',
+    site: 'على الموقع', stream: 'بث من المصدر', device: 'على جهازك', more: 'اعرض المزيد', fajrOnly: 'هذا أذان فجر (فيه «الصلاة خير من النوم») فيُختار للفجر فقط.', fajrAll: 'هذا أذان فجر، فاخترناه للفجر وحده.', count: (n: number) => `${n} تسجيلًا`, import: 'أضف تسجيلات من جهازك', importNote: 'اختر ملفًا أو عدة ملفات صوتية (حتى 40 ميغابايت للملف). تُحفظ على هذا الجهاز وحده ولا تُرفع إلى أي خادم، وتعمل دون إنترنت.',
     progress: (d: number, t: number) => `جارٍ الإضافة ${d} من ${t}…`,
     result: (a: number, m: number, s: number) => `أُضيف ${a} تسجيلًا${m ? `، تعرّفنا على ${m} منها من المكتبات المعروفة` : ''}${s ? `، وتُرك ${s} (ليس صوتًا أو أكبر من الحد)` : ''}.`,
     quota: 'امتلأت مساحة التخزين المتاحة للموقع في هذا المتصفح؛ احذف بعض التسجيلات أو أضف عددًا أقل.',
-    rights: 'لماذا لا تظهر هنا مكتبات الأذان الكبيرة؟', rightsBody: (n: number) => `راجعنا ${n} تسجيلًا من مكتبتين عامتين، وكلها بانتظار إذن أصحاب الحقوق قبل استضافتها على الموقع: المستودع بلا ترخيص، وأغلب ملفاته منقولة من مواقع أخرى (assabile وislamweb وغيرهما)، وموقع AlAdhan يتيح ملفاته «للاستخدام الشخصي». يمكنك تنزيلها لنفسك من مصدرها ثم إضافتها هنا من جهازك، وسيتعرّف الموقع على اسم المؤذن والتصنيف تلقائيًا.`,
+    rights: 'مصادر التسجيلات وحقوقها', rightsBody: (n: number) => `«على الموقع»: تسجيلات مرخّصة للاستضافة (Wikimedia Commons وInternet Archive بتراخيص حرة، وإسلام ويب الذي يأذن بالاستخدام غير التجاري مع ذكر المصدر). «بث من المصدر»: تُشغَّل مباشرة من مستودع Kiwifu/adhan-mp3 (المعلن مجانيته للتطبيقات الإسلامية) ومن AlAdhan، ولا تُنسخ إلى خادمنا، وحقوقها لأصحابها. راجعنا ${n} تسجيلًا من المكتبات العامة، والتفاصيل في صفحة المصادر.`,
     src1: 'مستودع Kiwifu/adhan-mp3', src2: 'صفحة تنزيل الأذان في AlAdhan', fajr: 'فجر',
   },
   en: {
     title: 'Adhan library', intro: 'Listen before choosing, and set a sound for each prayer or a special one for Fajr.',
-    g: { all: 'All', fav: 'Favourites', fajr: 'Fajr adhan', haramain: 'The Two Holy Mosques', egyptian: 'Egyptian reciters', famous: 'Famous voices', device: 'On my device' } as Record<Group, string>,
+    g: { all: 'All', fav: 'Favourites', fajr: 'Fajr adhan', haramain: 'The Two Holy Mosques', aqsa: 'Al-Aqsa', egyptian: 'Egyptian reciters', famous: 'Famous voices', places: 'Mosques & countries', device: 'On my device' } as Record<Group, string>,
     search: 'Search by muezzin or country', none: 'No recordings here yet.', play: 'Listen', stop: 'Stop', fav: 'Add to favourites', unfav: 'Remove from favourites',
     use: 'Use for', all: 'All prayers', remove: 'Remove from device', offline: 'Save for offline', offlineOn: 'Saved for offline ✓',
-    site: 'On the site', device: 'On your device', import: 'Add recordings from your device', importNote: 'Choose one or more audio files (up to 40 MB each). They are stored on this device only, never uploaded, and work offline.',
+    site: 'On the site', stream: 'Streamed from source', device: 'On your device', more: 'Show more', fajrOnly: 'This is a Fajr adhan (it includes “prayer is better than sleep”), so it can be used for Fajr only.', fajrAll: 'This is a Fajr adhan, so it was set for Fajr only.', count: (n: number) => `${n} recordings`, import: 'Add recordings from your device', importNote: 'Choose one or more audio files (up to 40 MB each). They are stored on this device only, never uploaded, and work offline.',
     progress: (d: number, t: number) => `Adding ${d} of ${t}…`,
     result: (a: number, m: number, s: number) => `Added ${a}${m ? `, ${m} recognised from known collections` : ''}${s ? `, ${s} skipped (not audio or too large)` : ''}.`,
     quota: 'This browser has no storage left for the site; remove some recordings or add fewer.',
-    rights: 'Why aren’t the large adhan collections here?', rightsBody: (n: number) => `We reviewed ${n} recordings from two public collections; all are waiting for the rights holders’ permission before the site can host them: the repository has no licence and most files come from other sites (assabile, islamweb and others), and AlAdhan offers its files “for personal use”. You can download them for yourself from the source and add them here from your device — the site recognises the muezzin and category automatically.`,
+    rights: 'Sources and rights', rightsBody: (n: number) => `“On the site”: recordings licensed for hosting (Wikimedia Commons and Internet Archive under free licences, and islamweb, which allows non-commercial use with the source named). “Streamed from source”: played directly from the Kiwifu/adhan-mp3 repository (declared free for Islamic apps) and AlAdhan, never copied to our server; rights remain with their owners. ${n} recordings from public collections were reviewed.`,
     src1: 'Kiwifu/adhan-mp3 repository', src2: 'AlAdhan adhan downloads page', fajr: 'Fajr',
   },
 };
@@ -54,16 +54,25 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
 
   const byId = useMemo(() => new Map(cat.map((c) => [c.id, c])), [cat]);
   const items: Item[] = useMemo(() => {
-    const site: Item[] = SOUNDS.map((s) => ({ id: s.id, title: lang === 'en' ? `Adhan — ${s.by}` : s.title, sub: `${s.by} · ${s.license}`, dur: s.duration, groups: [...(s.groups ?? []), ...(s.kind === 'fajr' ? ['fajr'] : [])], kind: 'site', file: s.file, search: norm(`${s.title} ${s.by}`) }));
+    const site: Item[] = SOUNDS.map((s) => { const title = lang === 'en' ? s.titleEn ?? `Adhan — ${s.by}` : s.title; const places = s.cat || s.id.startsWith('ia-') ? ['places'] : [];
+      return { id: s.id, title, sub: [s.country?.[lang], s.by].filter(Boolean).join(' · '), dur: s.duration, groups: [...new Set([...(s.groups ?? []), ...(s.kind === 'fajr' ? ['fajr'] : []), ...places])], kind: 'site' as const, file: s.file, search: norm(`${s.title} ${s.titleEn ?? ''} ${s.by} ${s.country?.ar ?? ''} ${s.country?.en ?? ''}`) }; });
+    const stream: Item[] = cat.filter((c) => c.s === 'stream' && c.u).map((c) => {
+      const title = lang === 'en' ? c.t.en : c.t.ar ?? c.t.en;
+      const place = [c.p?.[lang] ?? c.p?.en, c.co?.[lang]].filter(Boolean).join(' · ');
+      return { id: 'st:' + c.id, title, sub: place || (c.c === 'aladhan' ? 'AlAdhan' : 'Kiwifu/adhan-mp3'), dur: c.d, groups: c.g, kind: 'stream' as const, search: norm(`${c.t.ar ?? ''} ${c.t.en} ${c.p?.ar ?? ''} ${c.p?.en ?? ''} ${c.co?.ar ?? ''} ${c.co?.en ?? ''}`) };
+    });
     const dev: Item[] = local.map((x) => {
       const m = x.match ? byId.get(x.match) : undefined;
       const title = m ? (lang === 'en' ? m.t.en : m.t.ar ?? m.t.en) : x.name.replace(/\.[a-z0-9]+$/i, '').replace(/_/g, ' ');
       const place = m ? [m.p?.[lang] ?? m.p?.en, m.co?.[lang]].filter(Boolean).join(' · ') : '';
       return { id: x.id, title, sub: place || x.name, dur: x.duration ?? m?.d ?? null, groups: [...(m?.g ?? []), 'device'], kind: 'device', search: norm(`${title} ${x.name} ${m?.t.en ?? ''} ${m?.t.ar ?? ''} ${place}`) };
     });
-    return [...site, ...dev];
+    return [...site, ...stream, ...dev];
   }, [local, byId, lang]);
-  const shown = items.filter((i) => (group === 'all' ? true : group === 'fav' ? favs.includes(i.id) : i.groups.includes(group))).filter((i) => !q.trim() || i.search.includes(norm(q.trim())));
+  const [limit, setLimit] = useState(40);
+  useEffect(() => setLimit(40), [group, q]);
+  const all = items.filter((i) => (group === 'all' ? true : group === 'fav' ? favs.includes(i.id) : i.groups.includes(group))).filter((i) => !q.trim() || i.search.includes(norm(q.trim())));
+  const shown = all.slice(0, limit);
   const reviewed = cat.length;
 
   const listen = async (id: string) => {
@@ -72,8 +81,11 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
   };
   const assign = (id: string, target: string) => {
     if (!target) return;
+    const isFajr = items.find((x) => x.id === id)?.groups.includes('fajr');
+    if (isFajr && target !== 'all' && target !== 'fajr') { setMsg(t.fajrOnly); return; }
     const sound = { ...prefs.sound };
-    if (target === 'all') PRAYER_LIST.forEach((p) => { sound[p] = id; }); else sound[target as Prayer] = id;
+    if (target === 'all' && !isFajr) PRAYER_LIST.forEach((p) => { sound[p] = id; }); else sound[(target === 'all' ? 'fajr' : target) as Prayer] = id;
+    if (isFajr && target === 'all') setMsg(t.fajrAll); else setMsg('');
     update({ ...prefs, sound });
   };
   const used = (id: string) => PRAYER_LIST.filter((p) => prefs.sound[p] === id);
@@ -97,6 +109,8 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
           {GROUPS.map((g) => <li key={g}><button type="button" role="tab" aria-selected={group === g} className={group === g ? 'on' : ''} onClick={() => setGroup(g)}>{t.g[g]}</button></li>)}
         </ul>
       </div>
+      <p className="note" style={{ margin: '0 0 8px' }}>{t.count(all.length)}</p>
+      {msg && !msg.includes('…') && <p className="note" role="status" style={{ margin: '0 0 8px' }}>{msg}</p>}
       {shown.length === 0 ? <p className="note">{t.none}</p> : (
         <ul className="lib-list">
           {shown.map((i) => (
@@ -106,7 +120,7 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
               </button>
               <div className="lib-meta">
                 <strong>{i.title}</strong>
-                <small>{i.sub}{i.groups.includes('fajr') ? ` · ${t.fajr}` : ''} · {i.kind === 'site' ? t.site : t.device}{used(i.id).length ? ` · ${used(i.id).map((p) => PRAYER_NAME[lang][p]).join('، ')}` : ''}</small>
+                <small>{i.sub}{i.groups.includes('fajr') ? ` · ${t.fajr}` : ''} · {i.kind === 'site' ? t.site : i.kind === 'stream' ? t.stream : t.device}{used(i.id).length ? ` · ${used(i.id).map((p) => PRAYER_NAME[lang][p]).join('، ')}` : ''}</small>
               </div>
               <span className="lib-dur">{fmtDur(i.dur)}</span>
               <button type="button" className={favs.includes(i.id) ? 'lib-fav on' : 'lib-fav'} aria-pressed={favs.includes(i.id)} aria-label={favs.includes(i.id) ? t.unfav : t.fav} onClick={() => setFavs(toggleFav(i.id))}>
@@ -125,6 +139,7 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
           ))}
         </ul>
       )}
+      {all.length > limit && <div className="row" style={{ justifyContent: 'center' }}><button type="button" className="btn ghost" onClick={() => setLimit(limit + 60)}>{t.more} ({all.length - limit})</button></div>}
       <div className="lib-import">
         <h3>{t.import}</h3>
         <p className="note">{t.importNote}</p>
