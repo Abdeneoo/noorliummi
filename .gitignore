@@ -7,3 +7,6 @@ dist/
 .DS_Store
 coverage/
 .next/
+src/generated/
+next-env.d.ts
+*.tsbuildinfo

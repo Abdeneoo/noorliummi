@@ -4,6 +4,9 @@
 | Package | Version | License | Use |
 |---|---|---|---|
 | adhan (batoulapps/adhan-js) | 4.4.6 | MIT | Prayer times & Qibla calculation |
+| next, react, react-dom | 15 / 19 | MIT | Web app |
+| @fontsource/amiri-quran (Amiri Quran) | 5 | OFL-1.1 | Quran typeface |
+| @fontsource-variable/noto-kufi-arabic | 5 | OFL-1.1 | UI typeface |
 
 ## Content
 | Content | Source | License | Notes |
