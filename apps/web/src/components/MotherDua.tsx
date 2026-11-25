@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { feminine, FEMININE_BASIS } from '@/lib/dua';
 
 /**
  * Dua for the deceased (Hisn al-Muslim, from Sahih Muslim) with its OpenDua recording (CC BY 4.0).
@@ -30,14 +31,14 @@ export default function MotherDua({ text, reference, audio }: { text: string; re
   const setAutoPref = (v: boolean) => { setAuto(v); try { localStorage.setItem(KEY, v ? '1' : '0'); } catch { /* ignore */ } };
   return (
     <div className="mother-dua">
-      <p className="eyebrow">دعاء للميت</p>
-      <p className={`dua-text${open ? ' open' : ''}`} lang="ar">{text}</p>
+      <p className="eyebrow">دعاء لها</p>
+      <p className={`dua-text${open ? ' open' : ''}`} lang="ar">{feminine(text)}</p>
       <button type="button" className="dua-more" onClick={() => setOpen(!open)} aria-expanded={open}>{open ? 'إخفاء' : 'اقرأ الدعاء كاملًا'}</button>
-      <p className="dua-ref">{reference} — حصن المسلم</p>
+      <p className="dua-ref">رواه مسلم ({reference}) — حصن المسلم، <a href={FEMININE_BASIS.url} rel="noopener">{FEMININE_BASIS.label}</a>. التسجيل الصوتي بلفظ الحديث كما ورد.</p>
       <div className="dua-controls">
         <button type="button" className="btn light small" onClick={toggle} aria-pressed={playing}>
           <svg viewBox="0 0 24 24" aria-hidden="true" className="ico" style={{ fill: 'currentColor', stroke: 'none' }}>{playing ? <path d="M8 6h3v12H8zM13 6h3v12h-3z" /> : <path d="M8 5.5v13l10-6.5Z" />}</svg>
-          {playing ? 'إيقاف الدعاء' : 'استمع للدعاء'}
+          {playing ? 'إيقاف' : 'استمع للدعاء (بلفظ الحديث)'}
         </button>
         <label className="dua-auto"><input type="checkbox" checked={auto} onChange={(e) => setAutoPref(e.target.checked)} /> تشغيل عند فتح الموقع</label>
       </div>

@@ -363,7 +363,7 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .mother-dua { margin-top: var(--s3); padding-top: var(--s3); border-top: 1px solid rgba(198, 166, 107, .25); }
 .mother-dua .eyebrow { color: #C6A66B; }
 .mother-dua .dua-text { font-family: var(--font-quran); font-size: 1.02rem; line-height: 1.95; color: #F8F6F0; margin: 0 0 var(--s2); font-weight: 400; }
-.mother-dua .dua-ref { font-size: .72rem; color: #AFC3B9; margin: 0 0 var(--s2); }
+.mother-dua .dua-ref { font-size: .72rem; color: #AFC3B9; margin: 0 0 var(--s2); } .mother-dua .dua-ref a { color: #E9D9B4; }
 .dua-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
 .cover-dedication .dua-controls { justify-content: center; } @media (min-width: 900px) { .cover-dedication .dua-controls { justify-content: flex-start; } }
 .dua-auto { font-size: .82rem; color: #CFDCD5; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; } .dua-auto input { accent-color: #C6A66B; width: 18px; height: 18px; }
