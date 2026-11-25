@@ -54,7 +54,6 @@ export default function DhikrList({ catId, items, lang = 'ar' }: { catId: number
           );
         })}
       </ol>
-      {hasAudio && <p className="note">{t.credit} <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>{t.creditTail}</p>}
     </>
   );
 }

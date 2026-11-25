@@ -75,7 +75,7 @@ export default function MosqueFinder({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
           </ul>
         </section>
       )}
-      <p className="note">{t.credit} <a href="https://www.openstreetmap.org/copyright" rel="noopener">openstreetmap.org/copyright</a></p>
+      <p className="note"><a href="https://www.openstreetmap.org/copyright" rel="noopener">© OpenStreetMap</a></p>
     </div>
   );
 }

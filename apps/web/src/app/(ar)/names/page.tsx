@@ -13,7 +13,7 @@ export default async function Names() {
     <article style={{ maxWidth: 860, margin: '24px auto' }}>
       <h1>أسماء الله الحسنى</h1>
       <p className="meta"><span>التسعة والتسعون بترتيب كتاب «شرح أسماء الله الحسنى في ضوء الكتاب والسنة»</span><span>د. سعيد بن علي بن وهف القحطاني</span></p>
-      <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم. نعرض الأسماء والآيات الدالة عليها فقط، ونص الآيات من Tanzil. أما الشرح فحقّه لمؤلفه وناشره، فنحيل إليه في الكتاب.</p>
+      <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم.</p>
       <ol className="grid" style={{ listStyle: 'none', padding: 0, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))' }}>
         {list.map((n) => (
           <li key={n.id} id={`n${n.id}`} className="card">

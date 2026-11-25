@@ -148,11 +148,6 @@ export default function AdhanLibrary({ lang = 'ar', prefs, update }: { lang?: La
         <label className="btn">{t.import}<input ref={input} type="file" accept="audio/*,.mp3,.m4a,.ogg,.oga,.wav,.opus" multiple hidden onChange={(e) => void onFiles(e.target.files)} /></label>
         {msg && <p className="note" role="status">{msg}</p>}
       </div>
-      <details className="lib-rights">
-        <summary>{t.rights}</summary>
-        <p>{t.rightsBody(reviewed)}</p>
-        <p><a href="https://github.com/Kiwifu/adhan-mp3" rel="noopener">{t.src1}</a> · <a href="https://aladhan.com/download-adhans" rel="noopener">{t.src2}</a></p>
-      </details>
     </section>
   );
 }

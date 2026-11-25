@@ -157,7 +157,6 @@ export default function Hifz({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
           <label className="btn ghost">{t.restore}<input type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></label>
         </div>
       </section>
-      <p className="note">{t.credits}</p>
     </div>
   );
 }

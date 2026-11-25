@@ -17,7 +17,7 @@
   --ease: cubic-bezier(.22, .61, .36, 1);
   --font-reading: 'Noto Naskh Arabic Variable', 'Noto Sans Arabic Variable', serif;
   --font-quran: 'Amiri Quran', 'Traditional Arabic', serif;
-  --fs-display: clamp(2.2rem, 5.4vw, 3.4rem); --fs-h2: clamp(1.5rem, 3.2vw, 2rem); --fs-h3: clamp(1.125rem, 2vw, 1.25rem); --fs-body: 1.0625rem; --fs-small: .875rem;
+  --fs-display: clamp(1.9rem, 4.6vw, 2.75rem); --fs-h2: clamp(1.35rem, 2.8vw, 1.75rem); --fs-h3: clamp(1.05rem, 1.8vw, 1.2rem); --fs-body: 1rem; --fs-small: .84rem;
   --quran-size: max(1.5rem, 1.9rem);
   /* space & shape (4px unit) */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s12: 48px;

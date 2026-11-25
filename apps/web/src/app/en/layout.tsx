@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import Link from 'next/link';
 import '@fontsource/ibm-plex-sans-arabic/300.css';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
 import '@fontsource/ibm-plex-sans-arabic/500.css';
@@ -17,6 +16,7 @@ import '../design-system.css';
 import '../globals.css';
 import AdhanController from '@/components/AdhanController';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
+import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'),
@@ -39,13 +39,7 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
         <SiteHeader lang="en" />
         <main id="main"><div className="wrap">{children}</div></main>
         <TabBar lang="en" />
-        <footer className="site">
-          <div className="wrap">
-            <p className="tagline">A light that never fades, a legacy that never ends</p>
-            <p>Sadaqah jariyah — please remember the mother of the project&apos;s founder in your prayers, asking Allah for her mercy and forgiveness.</p>
-            <p>Quran text from the <a href="https://tanzil.net" rel="noopener">Tanzil project</a>, unmodified. English translation of the meanings from <a href="https://quranenc.com" rel="noopener">QuranEnc.com</a>. <Link href="/en/sources">Sources and licences</Link> · <Link href="/en/privacy">Privacy and terms</Link></p>
-          </div>
-        </footer>
+        <SiteFooter lang="en" />
       </body>
     </html>
   );

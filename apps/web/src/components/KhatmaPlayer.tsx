@@ -56,7 +56,7 @@ export default function KhatmaPlayer({ reciter, pageKey }: { reciter: number; pa
           </select></div>
       </div>
       {err && <p className="note" role="alert">تعذّر تشغيل التلاوة الآن؛ تأكد من الاتصال بالإنترنت ثم أعد المحاولة.</p>}
-      <p className="note">يُحفظ موضع استماعك على جهازك. التلاوة تُبث مباشرة من Islamic Network (alquran.cloud)، وحقوقها لأصحابها.</p>
+      <p className="note">يُحفظ موضع استماعك على جهازك.</p>
     </section>
   );
 }

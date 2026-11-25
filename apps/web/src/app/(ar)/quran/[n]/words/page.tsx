@@ -19,7 +19,7 @@ export default async function Words({ params }: { params: Promise<{ n: string }>
   return (
     <article className="reader">
       <header><h1>كلمات سورة {meta.name}</h1><div className="meta"><span>نوع كل كلمة وجذرها وخصائصها</span></div></header>
-      <p className="review-banner">التحليل من <a href="https://corpus.quran.com" rel="noopener">المدوّنة القرآنية (Quranic Arabic Corpus)</a>، وهو تحليل آلي راجع متطوعوه جزءًا منه. للتعلّم والاستئناس، وليس إعرابًا معتمدًا.</p>
+      <p className="review-banner">تحليل آلي للتعلّم والاستئناس، وليس إعرابًا معتمدًا.</p>
       <ol className="tafsir-list">
         {ayat.map((a) => {
           const words = a.t.split(' '); const m = morph[a.n];
@@ -48,7 +48,6 @@ export default async function Words({ params }: { params: Promise<{ n: string }>
           );
         })}
       </ol>
-      <p className="note">Quranic Arabic Corpus (morphology v0.4) — Copyright © Kais Dukes, GNU GPL. الملف محفوظ كما هو دون تعديل. نص الآيات من Tanzil.</p>
       <nav className="pager"><Link className="btn ghost" href={`/quran/${n}`}>رجوع إلى السورة</Link></nav>
     </article>
   );

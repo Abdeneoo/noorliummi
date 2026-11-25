@@ -9,7 +9,7 @@ export default function HadithIndex() {
   return (
     <article style={{ maxWidth: 860, margin: '24px auto' }}>
       <h1>الحديث الشريف</h1>
-      <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم. النص منقول حرفيًا من مصدر مفتوح، ولا نعرض درجات الأحاديث ولا حواشي المحققين حتى تتوفر من مصدر يأذن بها.</p>
+      <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم، دون درجات الأحاديث أو حواشي المحققين.</p>
       <p className="meta"><span>{ar(books.length + 1)} كتب</span><span>{ar(total + 42)} حديثًا</span></p>
       <HadithSearch />
       <ul className="grid" style={{ listStyle: 'none', padding: 0 }}>
@@ -21,7 +21,6 @@ export default function HadithIndex() {
           </li>
         ))}
       </ul>
-      <p className="note">مسند أحمد وسنن الدارمي من <a href="https://github.com/OpenITI/RELEASE" rel="noopener">OpenITI</a> بترخيص CC BY-NC-SA 4.0، مع ذكر طبعتيهما. وبقية النصوص من <a href="https://github.com/fawazahmed0/hadith-api" rel="noopener">fawazahmed0/hadith-api</a> (مجال عام). هذا المصدر لا يذكر الطبعة التي نُقل عنها، فنذكر في صفحة كل كتاب الطبعةَ التي قوبل بها النص نفسه آليًا ونسبة التطابق، من تقارير <a href="https://github.com/samt-qa/open-hadith-data" rel="noopener">open-hadith-data</a> (samt-qa، CC BY 4.0).</p>
     </article>
   );
 }

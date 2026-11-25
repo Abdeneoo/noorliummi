@@ -142,16 +142,6 @@ export default function AdhanSettings({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
         <ul className="plain">{t.limitList.map((x) => <li key={x}>{x}</li>)}</ul>
       </section>
 
-      {SOUNDS.length > 0 && (
-        <section className="card">
-          <h2>{t.credits}</h2>
-          <ul className="plain">
-            {SOUNDS.map((s) => (
-              <li key={s.id}><strong>{lang === 'en' ? `Adhan — ${s.by}` : s.title}</strong> — {s.by}. {t.license}: <a href={s.licenseUrl} rel="noopener license">{s.license}</a>. <a href={s.source} rel="noopener">{t.page}</a>.{lang === 'ar' && s.note ? ` ${s.note}` : ''}</li>
-            ))}
-          </ul>
-        </section>
-      )}
     </div>
   );
 }

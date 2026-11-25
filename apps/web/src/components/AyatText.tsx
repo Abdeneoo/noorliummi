@@ -67,8 +67,8 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
           <summary>{lang === 'ar' ? 'دليل الألوان' : 'Colour key'}</summary>
           <ul>{used.map((r) => <li key={r.id}><span className={`tj tj-${r.id}`} aria-hidden="true">●</span> {r[lang]}</li>)}</ul>
           <p className="note">{lang === 'ar'
-            ? 'تلوين آلي لرواية حفص من مشروع quran-tajweed (Collin Fair، بترخيص CC BY 4.0)، لم يراجعه معلم تجويد بعد. للاستعانة لا للاعتماد، والمرجع التلقي من معلم.'
-            : 'Automatic colouring for the Hafs reading from the quran-tajweed project (Collin Fair, CC BY 4.0), not yet reviewed by a tajweed teacher. A learning aid; learning from a teacher remains the reference.'}</p>
+            ? 'تلوين آلي لرواية حفص، لم يراجعه معلم تجويد بعد. للاستعانة لا للاعتماد، والمرجع التلقي من معلم.'
+            : 'Automatic colouring for the Hafs reading, not yet reviewed by a tajweed teacher. A learning aid; learning from a teacher remains the reference.'}</p>
         </details>
       )}
       <div className="ayat" lang="ar" dir="rtl">

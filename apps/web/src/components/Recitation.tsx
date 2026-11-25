@@ -82,7 +82,6 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
         </div>
       )}
       {error && <p className="note" role="alert">{t.err}</p>}
-      <p className="note">{t.note(rname(r))}</p>
     </section>
   );
 }

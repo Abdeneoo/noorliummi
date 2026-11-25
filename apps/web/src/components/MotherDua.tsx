@@ -11,6 +11,7 @@ export default function MotherDua({ text, reference, audio }: { text: string; re
   const el = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [auto, setAuto] = useState(true);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     let on = true; try { on = localStorage.getItem(KEY) !== '0'; } catch { /* ignore */ }
     setAuto(on);
@@ -30,8 +31,9 @@ export default function MotherDua({ text, reference, audio }: { text: string; re
   return (
     <div className="mother-dua">
       <p className="eyebrow">دعاء للميت</p>
-      <p className="dua-text" lang="ar">{text}</p>
-      <p className="dua-ref">{reference} — حصن المسلم. التسجيل الصوتي: OpenDua (CC BY 4.0).</p>
+      <p className={`dua-text${open ? ' open' : ''}`} lang="ar">{text}</p>
+      <button type="button" className="dua-more" onClick={() => setOpen(!open)} aria-expanded={open}>{open ? 'إخفاء' : 'اقرأ الدعاء كاملًا'}</button>
+      <p className="dua-ref">{reference} — حصن المسلم</p>
       <div className="dua-controls">
         <button type="button" className="btn light small" onClick={toggle} aria-pressed={playing}>
           <svg viewBox="0 0 24 24" aria-hidden="true" className="ico" style={{ fill: 'currentColor', stroke: 'none' }}>{playing ? <path d="M8 6h3v12H8zM13 6h3v12h-3z" /> : <path d="M8 5.5v13l10-6.5Z" />}</svg>

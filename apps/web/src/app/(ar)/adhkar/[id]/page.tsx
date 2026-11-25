@@ -20,7 +20,7 @@ export default async function AdhkarCat({ params }: { params: Promise<{ id: stri
       <header><h1 style={{ fontFamily: 'var(--font-ui)', fontSize: '1.6rem', fontWeight: 700 }}>{cat.title}</h1></header>
       <p className="review-banner" role="note">نسخة تجريبية: النصوص والأعداد والتخريج كما وردت في المصدر، ولم تكتمل مراجعتها بعد.</p>
       <DhikrList catId={id} items={cat.items} />
-      <p className="note">المصدر: «حصن المسلم» — سعيد بن علي بن وهف القحطاني. البيانات من مشروع HisnElMuslim المفتوح (asellam).</p>
+      <p className="note">المصدر: «حصن المسلم» — سعيد بن علي بن وهف القحطاني.</p>
       <nav className="pager"><Link className="btn ghost" href="/adhkar">كل الأبواب</Link></nav>
     </article>
   );

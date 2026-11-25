@@ -31,7 +31,6 @@ export default async function TafsirPage({ params }: { params: Promise<{ n: stri
           </li>
         ))}
       </ol>
-      <p className="note">نص القرآن من Tanzil. التفسير: «تفسير الجلالين»، بيانات مشروع tafsir_api المفتوح.</p>
       <nav className="pager" aria-label="التنقل">
         {n > 1 ? <Link className="btn ghost" href={`/tafsir/${n - 1}`}>السورة السابقة</Link> : <span />}
         <Link className="btn ghost" href={`/quran/${n}`}>نص السورة</Link>

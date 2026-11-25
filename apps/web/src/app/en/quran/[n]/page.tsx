@@ -23,7 +23,6 @@ export default async function Surah({ params }: { params: Promise<{ n: string }>
       </header>
       <LastRead surah={n} />
       <Recitation surah={n} surahName={meta.tname} start={SURAHS.slice(0, n - 1).reduce((t, x) => t + x.ayas, 0) + 1} count={meta.ayas} lang="en" />
-      <p className="note">English translation of the meanings: Noor International Center (Saheeh International), from QuranEnc.com, version {en.v}. A translation of the meanings is not the Quran itself.</p>
       {bismillah && <p className="bismillah" lang="ar" dir="rtl">{bismillah}</p>}
       <ol className="tafsir-list">
         {ayat.map((a, i) => (

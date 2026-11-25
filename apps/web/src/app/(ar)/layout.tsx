@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import Link from 'next/link';
 import '@fontsource/ibm-plex-sans-arabic/300.css';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
 import '@fontsource/ibm-plex-sans-arabic/500.css';
@@ -17,6 +16,7 @@ import '../design-system.css';
 import '../globals.css';
 import AdhanController from '@/components/AdhanController';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
+import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'),
@@ -39,13 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader lang="ar" />
         <main id="main"><div className="wrap">{children}</div></main>
         <TabBar lang="ar" />
-        <footer className="site">
-          <div className="wrap">
-            <p className="tagline">نورٌ لا ينطفئ، وأثرٌ لا ينقطع</p>
-            <p>صدقة جارية — نسألكم الدعاء لوالدة صاحب المشروع بالرحمة والمغفرة.</p>
-            <p>نص القرآن الكريم من <a href="https://tanzil.net" rel="noopener">مشروع تنزيل (Tanzil)</a> دون أي تعديل. حساب المواقيت بمكتبة Adhan (Batoul Apps). <Link href="/sources">المصادر والتراخيص</Link> · <Link href="/privacy">الخصوصية والشروط</Link></p>
-          </div>
-        </footer>
+        <SiteFooter lang="ar" />
       </body>
     </html>
   );
