@@ -17,7 +17,8 @@ free -h
 df -h -x tmpfs -x devtmpfs
 
 section "RUNTIMES (versions only)"
-for c in docker "docker compose" node npm pnpm python3 psql redis-server nginx caddy git; do
+printf '%-16s ' "docker compose"; (docker compose version 2>/dev/null || echo "not installed") | head -1
+for c in docker node npm pnpm python3 psql redis-server nginx caddy git; do
   printf '%-16s ' "$c"; ($c --version 2>/dev/null || $c -v 2>/dev/null || echo "not installed") | head -1
 done
 
