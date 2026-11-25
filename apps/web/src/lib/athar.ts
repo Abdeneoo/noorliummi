@@ -4,7 +4,7 @@ import adhkarIndex from '@/generated/adhkar/index.json';
 import { RECITERS } from '@/lib/reciters';
 
 export interface AtharItem { kind: 'surah' | 'dhikr' | 'reciter'; ref: number }
-export interface AtharInput { display_name: string; dedication: string; dua_text: string; items: AtharItem[] }
+export interface AtharInput { display_name: string; dedication: string; dua_text: string; items: AtharItem[]; listed: boolean }
 export const LIMITS = { name: 80, dedication: 300, dua: 1000, items: 10, reason: 300 } as const;
 const DHIKR_IDS = new Set((adhkarIndex as { id: number }[]).map((c) => c.id));
 
@@ -36,7 +36,7 @@ export function validateAthar(body: unknown): Result<AtharInput> {
     else return { ok: false, error: 'عنصر غير صالح في قائمة القراءة.' };
     const k = `${kind}:${ref}`; if (!seen.has(k)) { seen.add(k); items.push({ kind, ref }); }
   }
-  return { ok: true, value: { display_name, dedication, dua_text, items } };
+  return { ok: true, value: { display_name, dedication, dua_text, items, listed: b.listed === true } };
 }
 
 export function validateReason(body: unknown): Result<string> {
@@ -51,3 +51,6 @@ export function newToken(): string { return randomBytes(32).toString('hex'); }
 export const hashToken = (t: string) => createHash('sha256').update(t).digest('hex');
 export const isSlug = (s: string) => /^[a-z2-9]{12}$/.test(s);
 export const FREEZE_AT = 3;
+
+/** Directory search text: trimmed, bounded, no wildcards from the user. */
+export function cleanQuery(q: unknown): string { return clean(q).replace(/[%_\\]/g, '').slice(0, 60); }

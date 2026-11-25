@@ -5,17 +5,26 @@ import adhkar from '@/generated/adhkar/index.json';
 import { RECITERS } from '@/lib/reciters';
 
 type Item = { kind: 'surah' | 'dhikr' | 'reciter'; ref: number };
-export interface AtharInitial { display_name: string; dedication: string; dua_text: string; items: Item[] }
+export interface AtharInitial { display_name: string; dedication: string; dua_text: string; items: Item[]; listed?: boolean }
 const S = surahs as { index: number; name: string }[];
 const A = adhkar as { id: number; title: string }[];
 export const MINE = 'noor.athar.mine'; // { [slug]: token } kept on this device only
 export function readMine(): Record<string, string> { try { return JSON.parse(localStorage.getItem(MINE) ?? '{}'); } catch { return {}; } }
+export const NAMES = 'noor.athar.names'; // { [slug]: display name } for the "my pages" list
+export function rememberPage(slug: string, name: string, token?: string) {
+  try {
+    if (token) localStorage.setItem(MINE, JSON.stringify({ ...readMine(), [slug]: token }));
+    const n = JSON.parse(localStorage.getItem(NAMES) ?? '{}'); n[slug] = name; localStorage.setItem(NAMES, JSON.stringify(n));
+  } catch { /* ignore */ }
+}
+/** Edit link: the token travels in the URL fragment (#k=…), which browsers never send to the server. */
+export const editLink = (slug: string, token: string) => `${location.origin}/athar/${slug}#k=${token}`;
 const label = (it: Item) => (it.kind === 'surah' ? `سورة ${S[it.ref - 1]?.name}` : it.kind === 'reciter' ? `ختمة كاملة بصوت ${RECITERS[it.ref]?.name ?? ''}` : A.find((a) => a.id === it.ref)?.title ?? '');
 
 export default function AtharForm({ initial, slug, onDone }: { initial?: AtharInitial; slug?: string; onDone?: () => void }) {
-  const [f, setF] = useState<AtharInitial>(initial ?? { display_name: '', dedication: '', dua_text: '', items: [{ kind: 'surah', ref: 1 }, { kind: 'surah', ref: 36 }] });
+  const [f, setF] = useState<AtharInitial>(initial ?? { display_name: '', dedication: '', dua_text: '', items: [{ kind: 'surah', ref: 1 }, { kind: 'surah', ref: 36 }], listed: false });
   const [pickS, setPickS] = useState(112); const [pickA, setPickA] = useState(A[0]?.id ?? 1); const [pickR, setPickR] = useState(0);
-  const [busy, setBusy] = useState(false); const [err, setErr] = useState(''); const [made, setMade] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false); const [err, setErr] = useState(''); const [made, setMade] = useState<string | null>(null); const [tok, setTok] = useState('');
   const add = (it: Item) => setF((p) => (p.items.length >= 10 || p.items.some((x) => x.kind === it.kind && x.ref === it.ref) ? p : { ...p, items: [...p.items, it] }));
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,9 +38,9 @@ export default function AtharForm({ initial, slug, onDone }: { initial?: AtharIn
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) { setErr(j.error ?? 'تعذّر الحفظ.'); return; }
-      if (slug) { onDone?.(); return; }
-      try { localStorage.setItem(MINE, JSON.stringify({ ...mine, [j.slug]: j.token })); } catch { /* ignore */ }
-      setMade(j.slug);
+      if (slug) { rememberPage(slug, f.display_name); onDone?.(); return; }
+      rememberPage(j.slug, f.display_name, j.token);
+      setMade(j.slug); setTok(j.token);
     } catch { setErr('تعذّر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.'); } finally { setBusy(false); }
   };
 
@@ -40,14 +49,18 @@ export default function AtharForm({ initial, slug, onDone }: { initial?: AtharIn
     return (
       <section className="card" role="status">
         <h2 style={{ marginTop: 0 }}>أُنشئت الصفحة</h2>
-        <p>هذا رابطها. لا تظهر في أي قائمة ولا في محركات البحث؛ يصل إليها من تشاركه الرابط فقط.</p>
+        <p>{f.listed ? 'هذا رابطها، وتظهر في دليل صفحات الأثر ليصل إليها من يبحث باسمها.' : 'هذا رابطها. لا تظهر في الدليل ولا في محركات البحث؛ يصل إليها من تشاركه الرابط فقط.'}</p>
         <p dir="ltr" style={{ wordBreak: 'break-all', fontFamily: 'monospace' }}>{url}</p>
         <div className="row">
           <a className="btn" href={`/athar/${made}`}>افتح الصفحة</a>
           <button type="button" className="btn ghost" onClick={() => navigator.clipboard?.writeText(url)}>نسخ الرابط</button>
           {'share' in navigator && <button type="button" className="btn ghost" onClick={() => navigator.share({ url }).catch(() => undefined)}>مشاركة</button>}
         </div>
-        <p className="note">التعديل والحذف متاحان من هذا الجهاز وهذا المتصفح فقط. إن مسحت بيانات المتصفح فلن تستطيع تعديلها.</p>
+        <div className="edit-link">
+          <p><strong>رابط التعديل الخاص بك</strong> — احفظه في مكان آمن ولا تشاركه: من يفتحه يستطيع تعديل الصفحة أو حذفها، من أي جهاز.</p>
+          <p dir="ltr" style={{ wordBreak: 'break-all', fontFamily: 'monospace', fontSize: '.8rem' }}>{editLink(made, tok)}</p>
+          <button type="button" className="btn ghost small" onClick={() => navigator.clipboard?.writeText(editLink(made, tok))}>نسخ رابط التعديل</button>
+        </div>
       </section>
     );
   }
@@ -77,6 +90,7 @@ export default function AtharForm({ initial, slug, onDone }: { initial?: AtharIn
           <button type="button" className="btn ghost" onClick={() => add({ kind: 'dhikr', ref: pickA })}>أضف الذكر</button>
         </div>
       </fieldset>
+      <label className="listed-opt"><input type="checkbox" checked={!!f.listed} onChange={(e) => setF({ ...f, listed: e.target.checked })} /> اعرض الصفحة في دليل صفحات الأثر ليجدها من يبحث بالاسم</label>
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp" />
       <p className="note">لا تُقبل الروابط ولا أرقام الهواتف. لا تكتب بيانات شخصية لا تريد أن يراها من يصله الرابط.</p>
       {err && <p className="note" role="alert" style={{ color: 'var(--danger)' }}>{err}</p>}

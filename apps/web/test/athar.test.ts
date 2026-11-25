@@ -42,3 +42,15 @@ describe('athar reciter item', () => {
     expect(validateAthar({ ...base, items: [{ kind: 'reciter', ref: 0 }, { kind: 'reciter', ref: 1 }] }).ok).toBe(false);
   });
 });
+
+describe('athar directory', () => {
+  it('listing is opt-in and search text is cleaned', async () => {
+    const { validateAthar, cleanQuery } = await import('../src/lib/athar');
+    const base = { display_name: 'والدي', dedication: '', dua_text: '', items: [] };
+    expect((validateAthar(base) as { value: { listed: boolean } }).value.listed).toBe(false);
+    expect((validateAthar({ ...base, listed: true }) as { value: { listed: boolean } }).value.listed).toBe(true);
+    expect((validateAthar({ ...base, listed: 'yes' }) as { value: { listed: boolean } }).value.listed).toBe(false);
+    expect(cleanQuery('  أمي%_\\ ')).toBe('أمي');
+    expect(cleanQuery('x'.repeat(100)).length).toBe(60);
+  });
+});

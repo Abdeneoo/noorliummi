@@ -48,7 +48,7 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
       )}
       <Tasbeeh storeKey={`athar-${slug.slice(0, 12)}`} />
       <p className="note">كتب نصوص هذه الصفحة منشئُها، وليست من موقع نور لأمي. <Link href="/athar">اصنع صفحة لمن تحب</Link></p>
-      <AtharTools slug={slug} initial={{ display_name: p.display_name, dedication: p.dedication, dua_text: p.dua_text, items: p.items }} />
+      <AtharTools slug={slug} initial={{ display_name: p.display_name, dedication: p.dedication, dua_text: p.dua_text, items: p.items, listed: p.listed }} />
     </article>
   );
 }

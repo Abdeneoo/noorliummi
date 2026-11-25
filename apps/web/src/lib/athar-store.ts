@@ -2,7 +2,7 @@ import 'server-only';
 import { db } from './db';
 import { FREEZE_AT, hashToken, newSlug, newToken, type AtharInput, type AtharItem } from './athar';
 
-export interface AtharPage { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: 'active' | 'frozen'; items: AtharItem[] }
+export interface AtharPage { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: 'active' | 'frozen'; listed: boolean; items: AtharItem[] }
 
 export async function createPage(v: AtharInput): Promise<{ slug: string; token: string }> {
   const token = newToken(); const c = await db().connect();
@@ -11,8 +11,8 @@ export async function createPage(v: AtharInput): Promise<{ slug: string; token: 
     for (let attempt = 0; ; attempt++) {
       const slug = newSlug();
       const r = await c.query<{ id: string }>(
-        'INSERT INTO memorial_pages (slug, display_name, dedication, dua_text, edit_token_hash) VALUES ($1,$2,$3,$4,$5) ON CONFLICT (slug) DO NOTHING RETURNING id',
-        [slug, v.display_name, v.dedication, v.dua_text, hashToken(token)]);
+        'INSERT INTO memorial_pages (slug, display_name, dedication, dua_text, edit_token_hash, visibility) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT (slug) DO NOTHING RETURNING id',
+        [slug, v.display_name, v.dedication, v.dua_text, hashToken(token), v.listed ? 'listed' : 'unlisted']);
       if (r.rowCount) { await writeItems(c, Number(r.rows[0].id), v.items); await c.query('COMMIT'); return { slug, token }; }
       if (attempt > 4) throw new Error('slug collision');
     }
@@ -25,7 +25,7 @@ async function writeItems(c: { query: (q: string, p: unknown[]) => Promise<unkno
 }
 
 export async function getPage(slug: string): Promise<AtharPage | null> {
-  const r = await db().query("SELECT id, slug, display_name, dedication, dua_text, status FROM memorial_pages WHERE slug = $1 AND status <> 'removed'", [slug]);
+  const r = await db().query("SELECT id, slug, display_name, dedication, dua_text, status, visibility = 'listed' AS listed FROM memorial_pages WHERE slug = $1 AND status <> 'removed'", [slug]);
   if (!r.rowCount) return null;
   const p = r.rows[0];
   const items = await db().query<{ kind: 'surah' | 'dhikr' | 'reciter'; ref: number }>('SELECT kind, ref FROM memorial_page_content WHERE page_id = $1 ORDER BY sort', [p.id]);
@@ -37,8 +37,8 @@ export async function updatePage(slug: string, token: string, v: AtharInput): Pr
   const c = await db().connect();
   try {
     await c.query('BEGIN');
-    const r = await c.query<{ id: string }>("UPDATE memorial_pages SET display_name=$3, dedication=$4, dua_text=$5, updated_at=now() WHERE slug=$1 AND edit_token_hash=$2 AND status <> 'removed' RETURNING id",
-      [slug, hashToken(token), v.display_name, v.dedication, v.dua_text]);
+    const r = await c.query<{ id: string }>("UPDATE memorial_pages SET display_name=$3, dedication=$4, dua_text=$5, visibility=$6, updated_at=now() WHERE slug=$1 AND edit_token_hash=$2 AND status <> 'removed' RETURNING id",
+      [slug, hashToken(token), v.display_name, v.dedication, v.dua_text, v.listed ? 'listed' : 'unlisted']);
     if (!r.rowCount) { await c.query('ROLLBACK'); return false; }
     await writeItems(c, Number(r.rows[0].id), v.items); await c.query('COMMIT'); return true;
   } catch (e) { await c.query('ROLLBACK'); throw e; } finally { c.release(); }
@@ -89,4 +89,15 @@ export async function modAction(id: number, action: 'approve' | 'remove' | 'dism
     await c.query('COMMIT');
     return !!r.rowCount;
   } catch (e) { await c.query('ROLLBACK'); throw e; } finally { c.release(); }
+}
+
+export interface ListedPage { slug: string; display_name: string; dedication: string; created_at: string }
+/** Public directory: only pages whose creator chose to list them, active, newest first; search by name. */
+export async function listPages(q: string, page = 0): Promise<{ rows: ListedPage[]; more: boolean }> {
+  const per = 30;
+  const r = await db().query<ListedPage>(
+    `SELECT slug, display_name, left(dedication, 140) AS dedication, created_at FROM memorial_pages
+     WHERE visibility = 'listed' AND status = 'active' AND ($1 = '' OR display_name ILIKE '%' || $1 || '%')
+     ORDER BY created_at DESC LIMIT $2 OFFSET $3`, [q, per + 1, page * per]);
+  return { rows: r.rows.slice(0, per), more: r.rows.length > per };
 }
