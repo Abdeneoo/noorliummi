@@ -10,7 +10,7 @@ export default function Privacy() {
       <h2>In short</h2>
       <ul>
         <li>No accounts, no ads, no tracking or visitor analytics.</li>
-        <li>Your location, prayer settings and memorisation progress stay on your device and are not sent to us.</li>
+        <li>Your location, prayer settings and memorisation progress stay on your device and are not sent to us. The one exception is the nearby-mosque search when you ask for it (see “Third parties”).</li>
         <li>We sell nothing and share no data with anyone.</li>
       </ul>
       <h2>Stored on your device only</h2>
@@ -25,6 +25,7 @@ export default function Privacy() {
       </ul>
       <h2>Third parties</h2>
       <p>Recitations are streamed directly from Islamic Network&apos;s servers, which receive your IP address when you play them, as with any website. Fonts, the adhan audio and the adhkar recordings are hosted on our own server.</p>
+      <p>Only on the <a href="/en/mosques">nearby mosques</a> page, and only when you tap search, your location rounded to about 1 km is sent to the public Overpass service to search OpenStreetMap. It is not sent to or stored on our server.</p>
       <h2>Content and responsibility</h2>
       <ul>
         <li>Religious texts are reproduced from their sources unchanged; every source and licence is listed on the <a href="/en/sources">sources page</a>. Content not yet reviewed is marked as a trial version.</li>

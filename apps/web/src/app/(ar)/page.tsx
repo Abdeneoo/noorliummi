@@ -36,6 +36,11 @@ export default function Home() {
             <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>اختر ما تحفظه، ويذكّرك الموقع بكل آية في وقت مراجعتها. بياناتك على جهازك فقط.</p>
             <Link className="btn" href="/hifz">ابدأ الحفظ</Link>
           </section>
+          <section className="card">
+            <h2>المساجد القريبة</h2>
+            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>ابحث عن أقرب المساجد إليك من خرائط OpenStreetMap.</p>
+            <Link className="btn" href="/mosques">ابحث</Link>
+          </section>
           <section className="card dedication">
             <h2>إهداء</h2>
             <p>إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>
