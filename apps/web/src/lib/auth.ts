@@ -24,7 +24,8 @@ export async function useLoginToken(t: string): Promise<string | null> {
   if (!/^[a-f0-9]{64}$/.test(t)) return null;
   const r = await db().query<{ email: string }>("UPDATE login_links SET used_at = now() WHERE token_hash = $1 AND used_at IS NULL AND expires_at > now() RETURNING email", [h(t)]);
   if (!r.rowCount) return null;
-  const u = await db().query<{ id: string }>('INSERT INTO users (email) VALUES ($1) ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email RETURNING id', [r.rows[0].email]);
+  const u = await db().query<{ id: string }>('INSERT INTO users (email, last_login) VALUES ($1, now()) ON CONFLICT (email) DO UPDATE SET last_login = now() RETURNING id, status', [r.rows[0].email]);
+  if ((u.rows[0] as { status?: string }).status === 'blocked') return null;
   const s = randomBytes(32).toString('hex');
   await db().query("INSERT INTO sessions (token_hash, user_id, expires_at) VALUES ($1, $2, now() + interval '60 days')", [h(s), u.rows[0].id]);
   return s;
@@ -35,7 +36,7 @@ export async function currentUser(req: Request): Promise<User | null> {
   const v = c.split(/;\s*/).find((x) => x.startsWith(`${SESSION}=`))?.slice(SESSION.length + 1);
   if (!v || !/^[a-f0-9]{64}$/.test(v)) return null;
   try {
-    const r = await db().query<{ id: string; email: string }>('SELECT u.id, u.email FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = $1 AND s.expires_at > now()', [h(v)]);
+    const r = await db().query<{ id: string; email: string }>('SELECT u.id, u.email FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = $1 AND s.expires_at > now() AND u.status = \'active\'', [h(v)]);
     return r.rowCount ? { id: Number(r.rows[0].id), email: r.rows[0].email } : null;
   } catch { return null; }
 }

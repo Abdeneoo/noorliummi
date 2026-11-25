@@ -16,6 +16,7 @@ import '../design-system.css';
 import '../globals.css';
 import AdhanController from '@/components/AdhanController';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
+import Beacon from '@/components/Beacon';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
         <main id="main"><div className="wrap">{children}</div></main>
         <TabBar lang="en" />
         <SiteFooter lang="en" />
+        <Beacon />
       </body>
     </html>
   );

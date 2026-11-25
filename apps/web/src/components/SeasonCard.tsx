@@ -12,7 +12,7 @@ export function seasonFor(d: Date): Card | null {
   if (hm === 12 && hd === 9) return { eyebrow: 'اليوم التاسع من ذي الحجة', title: 'يوم عرفة', links: [['/adhkar', 'الأذكار والأدعية'], ['/duas', 'أدعية موثّقة']] };
   if (hm === 12 && hd <= 10) return { eyebrow: 'ذو الحجة', title: 'العشر الأوائل من ذي الحجة', links: [['/adhkar', 'الأذكار'], ['/tasbeeh', 'التسبيح والتكبير']] };
   if (hm === 1 && (hd === 9 || hd === 10)) return { eyebrow: 'المحرّم', title: hd === 10 ? 'يوم عاشوراء' : 'تاسوعاء — اليوم التاسع من المحرّم', links: [['/adhkar', 'الأذكار']] };
-  if (hm === 9) return { eyebrow: `رمضان — اليوم ${hd.toLocaleString('ar-EG')}`, title: 'ختمة رمضان', links: [['/khatma', 'ختمة جماعية'], ['/quran', 'المصحف'], ['/adhkar/75', 'دعاء الصائم']] };
+  if (hm === 9) return { eyebrow: `رمضان — اليوم ${hd.toLocaleString('ar-EG')}`, title: 'ختمة رمضان', links: [['/wird', 'خطة ختمة رمضان'], ['/khatma', 'ختمة جماعية'], ['/adhkar/75', 'دعاء الصائم']] };
   if (d.getDay() === 5) return { eyebrow: 'يوم الجمعة', title: 'سورة الكهف', links: [['/quran/18', 'اقرأ واستمع'], ['/sakina?s=18', 'وضع السكينة'], ['/tools', 'تذكير الجمعة']] };
   return null;
 }

@@ -496,3 +496,10 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 .tasmee { width: 100%; display: grid; justify-items: center; gap: 8px; }
 .tw.miss { background: color-mix(in srgb, #c96f5a 22%, transparent); border-radius: 6px; text-decoration: underline wavy #c96f5a; text-underline-offset: 8px; }
 .tw.ok { color: color-mix(in srgb, var(--secondary) 55%, var(--text)); }
+.occ-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.occ-list li { display: grid; gap: 2px; } .occ-list span { color: var(--muted); font-size: .9rem; } .occ-list small { color: var(--accent-strong); font-weight: 600; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: .88rem; } .admin-table th, .admin-table td { text-align: start; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.stat-grid { list-style: none; padding: 0; margin: 0 0 8px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.stat-grid li { background: var(--tint); border-radius: 14px; padding: 12px; display: grid; gap: 2px; } .stat-grid strong { font-size: 1.5rem; } .stat-grid span { font-size: .8rem; color: var(--muted); }
+.stat-bars { display: flex; align-items: flex-end; gap: 3px; height: 140px; } .stat-bars span { flex: 1; background: var(--primary); border-radius: 4px 4px 0 0; min-width: 4px; }
+.stat-row { display: block; height: 10px; border-radius: 6px; background: var(--gold); }
