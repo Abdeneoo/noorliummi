@@ -37,6 +37,9 @@ importers:
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
+      ts-fsrs:
+        specifier: ^6.0.1
+        version: 6.0.1
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
@@ -593,6 +596,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@open-spaced-repetition/srs-kit@1.0.1':
+    resolution: {integrity: sha512-3lByXcLQjnsfoovEQabKLrGQVmjEDjbJMF7f8/d8Zeak/kqCSLtPBKrmYdT8ZxDTqBIZ37lYBbKRcStse57a5Q==}
+    engines: {node: '>=20.0.0'}
+
   '@rollup/rollup-android-arm-eabi@4.68.8':
     resolution: {integrity: sha512-7l9FdeCGjhmMTVePgndK4t9u5tLR+VuTTMoyc0PscqZDdYjS07ZsQ0vQYsWsODu/ZZYPG7WVJwbUZ77n1hVT+w==}
     cpu: [arm]
@@ -1027,6 +1034,10 @@ packages:
     resolution: {integrity: sha512-n1cw8k1k0x4pgA2+9XrOkFydTerNcJ1zWCO5Nn9scWHTD+5tp8dghT2x1uduQePZTZgd3Tupf+x9BxJjeJi77Q==}
     engines: {node: '>=14.0.0'}
 
+  ts-fsrs@6.0.1:
+    resolution: {integrity: sha512-0p24HPUDf1THvanl/pyq2p0jfst111BKl9lB9p7NiByHhwkEPtNOkBUd6YV2jxiucI8cD/X9DnrQs1PbcrOFmQ==}
+    engines: {node: '>=24.0.0'}
+
   tslib@2.9.1:
     resolution: {integrity: sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==}
 
@@ -1405,6 +1416,8 @@ snapshots:
 
   '@next/swc-win32-x64-msvc@15.5.29':
     optional: true
+
+  '@open-spaced-repetition/srs-kit@1.0.1': {}
 
   '@rollup/rollup-android-arm-eabi@4.68.8':
     optional: true
@@ -1846,6 +1859,10 @@ snapshots:
   tinyrainbow@1.2.0: {}
 
   tinyspy@3.0.2: {}
+
+  ts-fsrs@6.0.1:
+    dependencies:
+      '@open-spaced-repetition/srs-kit': 1.0.1
 
   tslib@2.9.1: {}
 

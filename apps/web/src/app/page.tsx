@@ -31,6 +31,11 @@ export default function Home() {
             <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>الأسماء التسعة والتسعون مع الآيات الدالة عليها.</p>
             <Link className="btn" href="/names">اعرض الأسماء</Link>
           </section>
+          <section className="card">
+            <h2>الحفظ والمراجعة</h2>
+            <p style={{ margin: '0 0 14px', color: 'var(--muted)' }}>اختر ما تحفظه، ويذكّرك الموقع بكل آية في وقت مراجعتها. بياناتك على جهازك فقط.</p>
+            <Link className="btn" href="/hifz">ابدأ الحفظ</Link>
+          </section>
           <section className="card dedication">
             <h2>إهداء</h2>
             <p>إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>
