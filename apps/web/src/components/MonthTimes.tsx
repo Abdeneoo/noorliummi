@@ -1,0 +1,75 @@
+'use client';
+import { useEffect, useMemo, useState } from 'react';
+import { formatTime, getMonthSchedule, qiblaDirection, type PrayerName, type PrayerSettings } from '@noor/prayer-engine';
+import { CITIES } from '@/lib/cities';
+
+const COLS: [PrayerName, string][] = [['fajr', 'الفجر'], ['sunrise', 'الشروق'], ['dhuhr', 'الظهر'], ['asr', 'العصر'], ['maghrib', 'المغرب'], ['isha', 'العشاء']];
+const KEY = 'noor.prayer.v1';
+interface Saved { label: string; s: PrayerSettings }
+
+export default function MonthTimes() {
+  const [saved, setSaved] = useState<Saved | null>(null);
+  const [ym, setYm] = useState<{ y: number; m: number } | null>(null);
+  const [heading, setHeading] = useState<number | null>(null);
+
+  useEffect(() => {
+    let init: Saved | null = null;
+    try { const raw = localStorage.getItem(KEY); if (raw) init = JSON.parse(raw) as Saved; } catch { /* ignore */ }
+    if (!init) { const c = CITIES.find((x) => x.tz === Intl.DateTimeFormat().resolvedOptions().timeZone) ?? CITIES[0]; init = { label: c.ar, s: { latitude: c.lat, longitude: c.lng, timezone: c.tz, method: c.method } }; }
+    setSaved(init);
+    const d = new Date(); setYm({ y: d.getFullYear(), m: d.getMonth() + 1 });
+  }, []);
+
+  const rows = useMemo(() => { try { return saved && ym ? getMonthSchedule(saved.s, ym.y, ym.m) : []; } catch { return []; } }, [saved, ym]);
+  const qibla = saved ? qiblaDirection(saved.s.latitude, saved.s.longitude) : null;
+
+  // Optional live compass (needs sensor permission on some phones). Magnetic heading only: shown as a hint.
+  const startCompass = async () => {
+    const DOE = (window as unknown as { DeviceOrientationEvent?: { requestPermission?: () => Promise<string> } }).DeviceOrientationEvent;
+    try { if (DOE?.requestPermission && (await DOE.requestPermission()) !== 'granted') return; } catch { return; }
+    const on = (e: DeviceOrientationEvent & { webkitCompassHeading?: number }) => {
+      const h = e.webkitCompassHeading ?? (e.alpha != null ? (360 - e.alpha) % 360 : null);
+      if (h != null) setHeading(h);
+    };
+    window.addEventListener('deviceorientationabsolute', on as EventListener, true);
+    window.addEventListener('deviceorientation', on as EventListener, true);
+  };
+
+  if (!saved || !ym || !qibla) return <p aria-busy="true">جارٍ التحميل…</p>;
+  const tz = saved.s.timezone;
+  const title = new Intl.DateTimeFormat('ar-EG-u-nu-arab', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(ym.y, ym.m - 1, 1)));
+  const go = (n: number) => setYm((p) => { const t = p!.y * 12 + (p!.m - 1) + n; return { y: Math.floor(t / 12), m: (t % 12) + 1 }; });
+  const rel = heading == null ? null : ((qibla - heading + 540) % 360) - 180; // >0 : turn right
+
+  return (
+    <div>
+      <p className="meta"><span>{saved.label}</span><span>تُغيَّر المدينة وطريقة الحساب من الصفحة الرئيسية</span></p>
+      <section className="card" aria-label="اتجاه القبلة">
+        <h2 style={{ marginTop: 0 }}>اتجاه القبلة</h2>
+        <p>{qibla.toFixed(1)}° من الشمال الحقيقي (مع عقارب الساعة).</p>
+        <button type="button" className="btn ghost" onClick={startCompass}>تشغيل البوصلة (إن دعمها جهازك)</button>
+        {rel != null && <p role="status">{Math.abs(rel) < 5 ? 'أنت تواجه القبلة تقريبًا.' : `أدِر الجهاز نحو ${rel > 0 ? 'اليمين' : 'اليسار'} نحو ${Math.abs(Math.round(rel))}°`}</p>}
+        <p className="note">بوصلة الهاتف تقريبية وتتأثر بالمعادن والمغناطيس القريب؛ تحقق باتجاه المحراب أو تطبيق خرائط عند الحاجة.</p>
+      </section>
+      <div className="row" style={{ margin: '16px 0' }}>
+        <button type="button" className="btn ghost" onClick={() => go(-1)}>الشهر السابق</button>
+        <strong>{title}</strong>
+        <button type="button" className="btn ghost" onClick={() => go(1)}>الشهر التالي</button>
+      </div>
+      <div style={{ overflowX: 'auto' }}>
+        <table className="month">
+          <thead><tr><th>اليوم</th>{COLS.map(([, n]) => <th key={n}>{n}</th>)}</tr></thead>
+          <tbody>
+            {rows.map((d) => (
+              <tr key={d.date}>
+                <th scope="row">{Number(d.date.slice(8))}</th>
+                {COLS.map(([k]) => <td key={k}>{formatTime(d.times[k], tz)}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="note">المواقيت محسوبة فلكيًا على جهازك وقد تختلف دقائق عن الجدول الرسمي في بلدك.</p>
+    </div>
+  );
+}

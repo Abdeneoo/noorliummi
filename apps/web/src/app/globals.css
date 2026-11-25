@@ -83,3 +83,7 @@ input[type='range'] { accent-color: var(--accent); padding: 0; min-height: 32px;
 .recitation { margin-bottom: 22px; padding: 16px 18px; }
 
 .locate-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; background: color-mix(in srgb, var(--accent) 9%, transparent); border-radius: 14px; padding: 10px 14px; margin: 12px 0 0; font-size: .92rem; text-align: center; }
+
+table.month{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;text-align:center}
+table.month th,table.month td{padding:8px 6px;border-bottom:1px solid var(--border,rgba(128,128,128,.25))}
+table.month thead th{position:sticky;top:0;background:var(--surface,inherit)}
