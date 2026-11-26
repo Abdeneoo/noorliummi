@@ -1,0 +1,51 @@
+# Builds the Quran recitation checker off-server (owner's decision 2026-11-26): whisper.cpp's HTTP server (static, generic x86-64 + AVX2)
+# and Tarteel's Arabic-Quran Whisper model (tarteel-ai/whisper-base-ar-quran, Apache-2.0) converted to ggml.
+# The server only downloads these release files into /opt/noorliummi/tarteel and checks their SHA-256 — no packages are installed there.
+name: Tarteel build
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+env:
+  WHISPER_TAG: v1.9.6
+  MODEL_REV: 5c3c53fdf9272c4f6ee0bee09a1e5a4a615ee25c
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - name: Build whisper-server (static)
+        run: |
+          git clone --depth 1 -b "$WHISPER_TAG" https://github.com/ggml-org/whisper.cpp wc
+          cmake -S wc -B wc/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DGGML_NATIVE=OFF -DGGML_AVX=ON -DGGML_AVX2=ON -DGGML_FMA=ON -DGGML_F16C=ON -DWHISPER_SDL2=OFF -DWHISPER_BUILD_TESTS=OFF
+          cmake --build wc/build -j --config Release
+          ls wc/build/bin
+          mkdir -p out && cp wc/build/bin/whisper-server out/ && (cp wc/build/bin/whisper-quantize quantize 2>/dev/null || cp wc/build/bin/quantize quantize)
+          ldd out/whisper-server || true
+          out/whisper-server --help | head -5
+      - name: Convert the Tarteel model
+        run: |
+          python3 -m pip install --quiet torch --index-url https://download.pytorch.org/whl/cpu
+          python3 -m pip install --quiet "transformers<5" huggingface_hub numpy
+          python3 -c "from huggingface_hub import snapshot_download; snapshot_download('tarteel-ai/whisper-base-ar-quran', revision='$MODEL_REV', local_dir='hf', allow_patterns=['*.json','*.txt','pytorch_model.bin','README.md'])"
+          git clone --depth 1 https://github.com/openai/whisper openai-whisper
+          python3 wc/models/convert-h5-to-ggml.py hf openai-whisper conv
+          ls -la conv
+          mv conv/ggml-model.bin out/ggml-tarteel-base-ar-quran-f16.bin
+          ./quantize out/ggml-tarteel-base-ar-quran-f16.bin out/ggml-tarteel-base-ar-quran-q5_0.bin q5_0
+          cp hf/README.md out/MODEL_CARD.md
+          cp wc/LICENSE out/WHISPER_CPP_LICENSE
+      - name: Smoke test (silence must not crash the server)
+        run: |
+          python3 -c "import wave,struct; w=wave.open('s.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000); w.writeframes(b'\0\0'*16000*2); w.close()"
+          out/whisper-server -m out/ggml-tarteel-base-ar-quran-q5_0.bin --host 127.0.0.1 --port 3050 -l ar -t 1 & sleep 5
+          curl -s -F file=@s.wav -F response_format=json http://127.0.0.1:3050/inference; echo
+          kill %1
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd out && sha256sum * > SHA256SUMS && cat SHA256SUMS
+          TAG="tarteel-$(date -u +%Y%m%d)-${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --title "$TAG" \
+            --notes "whisper.cpp $WHISPER_TAG whisper-server (static, AVX2) + tarteel-ai/whisper-base-ar-quran@$MODEL_REV (Apache-2.0) converted to ggml. Built by .github/workflows/tarteel-build.yml." *
