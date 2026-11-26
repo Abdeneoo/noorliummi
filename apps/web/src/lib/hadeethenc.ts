@@ -5,7 +5,7 @@ import 'server-only';
  * with the source named. We show the Arabic record and the chosen translation verbatim, cached six hours, with a link back.
  */
 const BASE = 'https://hadeethenc.com/api/v1';
-export const HE_LANGS = { ur: { name: 'اردو', dir: 'rtl' }, tr: { name: 'Türkçe', dir: 'ltr' }, id: { name: 'Bahasa Indonesia', dir: 'ltr' } } as const;
+export const HE_LANGS = { en: { name: 'English', dir: 'ltr' }, ur: { name: 'اردو', dir: 'rtl' }, tr: { name: 'Türkçe', dir: 'ltr' }, id: { name: 'Bahasa Indonesia', dir: 'ltr' }, fr: { name: 'Français', dir: 'ltr' }, es: { name: 'Español', dir: 'ltr' }, ru: { name: 'Русский', dir: 'ltr' }, bn: { name: 'বাংলা', dir: 'ltr' } } as const;
 export type HeLang = keyof typeof HE_LANGS;
 export const isHeLang = (v: unknown): v is HeLang => typeof v === 'string' && v in HE_LANGS;
 export interface HeCat { id: string; title: string; hadeeths_count: string; parent_id: string | null }

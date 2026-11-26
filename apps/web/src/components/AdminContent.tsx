@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import AdminRights from './AdminRights';
+import AdminRecordings from './AdminRecordings';
 const H = { 'content-type': 'application/json', 'x-noor-admin': '1' };
 type Src = { id: string; name: string; items: number; detail: string; license: string };
 /** Content & imports: inventory, link check, IslamHouse update check, hide/show a dua or recording. */
@@ -24,6 +25,7 @@ export default function AdminContent() {
       <p className="note">المخفي الآن: {d.hidden.length ? d.hidden.join('، ') : 'لا شيء'}. الإخفاء يظهر أثره خلال دقائق. إضافة مصادر جديدة تتم بلقطة موثّقة في المستودع ثم إعادة بناء (حتى تبقى كل مادة بمصدرها وبصمتها).</p>
       {out && <pre style={{ whiteSpace: 'pre-wrap', maxHeight: 300, overflow: 'auto', direction: 'ltr' }}>{out}</pre>}
       <AdminRights />
+      <AdminRecordings />
     </section>
   );
 }

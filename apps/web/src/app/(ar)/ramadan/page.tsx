@@ -29,7 +29,7 @@ export default async function RamadanPage() {
     <article style={{ maxWidth: 980, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow">المواسم</p><h1>رمضان</h1>
         <p>الإمساكية والعد التنازلي وخطة الختمة ومتابعتك، ثم الأحكام والأحاديث والأدعية — كلها في صفحة واحدة.</p></header>
-      <nav className="card no-print" aria-label="أقسام الصفحة"><ul className="chips"><li><a href="#imsakiya">الإمساكية</a></li><li><a href="#khatma">الختمة</a></li><li><a href="#track">متابعتي</a></li><li><a href="#ahkam">الأحكام</a></li><li><a href="#hadith">أحاديث رمضان</a></li><li><a href="#duas">الأدعية</a></li><li><a href="#audio">أدعية صوتية</a></li><li><Link href="/live">بث الحرمين</Link></li><li><Link href="/ramadan/majalis">مجالس رمضان</Link></li></ul></nav>
+      <nav className="card no-print" aria-label="أقسام الصفحة"><ul className="chips"><li><a href="#imsakiya">الإمساكية</a></li><li><a href="#khatma">الختمة</a></li><li><a href="#track">متابعتي</a></li><li><a href="#ahkam">الأحكام</a></li><li><a href="#hadith">أحاديث رمضان</a></li><li><a href="#duas">الأدعية</a></li><li><a href="#audio">أدعية صوتية</a></li><li><Link href="/live">بث الحرمين</Link></li><li><Link href="/ramadan/majalis">مجالس رمضان</Link></li><li><Link href="/ramadan/30">30 مجلسًا</Link></li></ul></nav>
       <RamadanPanel />
       <section className="section no-print" id="ahkam"><h2>فقه الصيام</h2>
         <p className="note">من «الفقه الميسر» (مجمع الملك فهد)، ومعه أقوال الفقهاء وأسباب اختلافهم من «بداية المجتهد» لابن رشد. لا ترجيح من الموقع.</p>
