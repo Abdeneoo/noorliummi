@@ -15,7 +15,7 @@ export default async function Chap({ params }: { params: Promise<{ slug: string;
         <p className="meta"><span>{b.author}</span><span>الفصل {n.toLocaleString('ar-EG')} من {last.toLocaleString('ar-EG')}</span></p></header>
       {b.langs.length > 0 && <BookLangSwitch langs={b.langs} />}
       <div className="book-body">{c.blocks.map((x, i) => {
-        const T = x.tag === 'h2' ? 'h2' : x.tag === 'h3' ? 'h3' : 'p';
+        const T = x.tag === 'h2' ? 'h2' : x.tag === 'h3' ? 'h3' : x.tag === 'h4' ? 'h4' : 'p';
         return <div key={i} className={`blk blk-${T}`}><T lang="ar" className="ar">{x.ar}</T>{(Object.keys(x.tr) as (keyof typeof BOOK_LANGS)[]).map((l) => <div key={l} className="he-tr bk-tr" data-l={l} lang={l} dir={BOOK_LANGS[l].dir} hidden>{x.tr[l]}</div>)}</div>;
       })}</div>
       {c.url && <p className="note">نص الفتوى منقول كما هو من <a href={c.url} target="_blank" rel="noopener">صفحتها في الموقع الرسمي ↗</a> («النقل متاح لكل مسلم بشرط ذكر المصدر»).</p>}

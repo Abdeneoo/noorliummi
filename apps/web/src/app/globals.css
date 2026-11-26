@@ -580,3 +580,11 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 .rail small{opacity:.75;font-size:.82rem}
 .home-promo{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit}
 .home-promo span{opacity:.8}
+.fiqh-abwab{list-style:none;padding:0;display:grid;gap:12px}
+.fiqh-abwab>li>a{font-size:1.05rem}
+.fiqh-abwab ul{margin:8px 0 0;padding-inline-start:20px;display:grid;gap:4px}
+.fiqh-abwab ul a{opacity:.85}
+.fiqh-toc ol{margin:8px 0 0;padding-inline-start:20px;display:grid;gap:4px}
+.fiqh .book-body h3{scroll-margin-top:90px;margin-top:1.6em}
+.fiqh-ref{font-size:.85rem;opacity:.7;margin-top:-.4em}
+.fiqh .book-body p:target,.fiqh .book-body h3:target{background:rgba(201,164,92,.15);border-radius:8px}

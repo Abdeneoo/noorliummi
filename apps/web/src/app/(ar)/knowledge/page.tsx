@@ -7,6 +7,8 @@ export default function Knowledge() {
       items={[
         { href: '/tafsir', icon: 'tafsir', title: 'التفسير', desc: 'تفسير الجلالين لكل آية، مرتبطًا بالمصحف.' },
         { href: '/hadith', icon: 'hadith', title: 'الحديث الشريف', desc: 'الكتب الستة والموطأ ومسند أحمد والدارمي، مع البحث.' },
+        { href: '/fiqh', icon: 'hadith', title: 'فقه العبادات', desc: 'الطهارة والصلاة والزكاة والصيام والحج بالدليل، من «الفقه الميسر» كاملًا، مع البحث.' },
+        { href: '/duas', icon: 'adhkar', title: 'الأدعية', desc: 'أدعية القرآن و«حصن المسلم» مرتبة حسب الحاجة.' },
         { href: '/hadeeth', icon: 'hadith', title: 'موسوعة الأحاديث المترجمة', desc: 'أحاديث مشروحة مع درجتها وترجماتها، مصنّفة حسب الموضوع (HadeethEnc).' },
         { href: '/library/qisas', icon: 'quran', title: 'قصص الأنبياء', desc: 'كتاب الحافظ ابن كثير بنصه الكامل، من آدم إلى عيسى عليهم السلام.' },
         { href: '/library/fusul', icon: 'hadith', title: 'السيرة النبوية', desc: '«الفصول في سيرة الرسول ﷺ» لابن كثير بنصه الكامل.' },

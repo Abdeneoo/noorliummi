@@ -109,6 +109,11 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       { id: 1164, slug: 'sifat-al-hajj', pages: 1, level: 'h2', title: 'صفة الحج', author: 'الشيخ محمد بن صالح العثيمين' },
       { id: 824, slug: 'manhaj-umrah-hajj', pages: 5, level: 'h3', title: 'المنهج لمريد العمرة والحج', author: 'الشيخ محمد بن صالح العثيمين' },
       { id: 1168, slug: 'hajj-mistakes', pages: 1, level: 'h2', title: 'أخطاء يرتكبها بعض الحجاج', author: 'الشيخ محمد بن صالح العثيمين' },
+      // Fiqh section companions (owner's choice, 26 Nov 2026).
+      { id: 12264, slug: 'how-to-pray', pages: 1, level: 'h1', title: 'كيفية صلاة النبي ﷺ', author: 'سماحة الشيخ عبد العزيز بن باز' },
+      { id: 52, slug: 'fusul-siyam', pages: 6, level: 'h1', title: 'فصول في الصيام والتراويح والزكاة', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 1161, slug: 'ahkam-siyam', pages: 10, level: 'h1', title: 'من أحكام الصيام', author: 'لم يُذكر المؤلف في المصدر' },
+      { id: 12274, slug: 'ahkam-fiqhiyya', pages: 8, level: 'h2', title: 'من الأحكام الفقهية في الطهارة والصلاة والجنائز', author: 'الشيخ محمد بن صالح العثيمين' },
     ];
     const books: unknown[] = [];
     for (const b of BOOKS) {
@@ -128,6 +133,7 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
         if (!chs.length) chs.push({ title: 'مقدمة', tr: {}, blocks: [] });
         chs[chs.length - 1].blocks.push({ tag: r.type === 'title' ? r.tag : 'p', ar: r.original_text.trim(), tr });
       }
+      if (chs.length === 1 && chs[0].title === 'مقدمة') chs[0].title = b.title;
       const langs = (['ur', 'tr', 'id'] as const).filter((l) => rows.some((r) => !Array.isArray(r.transes) && r.transes[l]));
       mkdirSync(`${out}/books/${b.slug}`, { recursive: true });
       chs.forEach((c, i) => writeFileSync(`${out}/books/${b.slug}/${i + 1}.json`, JSON.stringify(c)));
@@ -161,6 +167,36 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       console.log(`book ${slug}: ${F.items.length} fatwas`);
     }
     writeFileSync(`${out}/books/index.json`, JSON.stringify(books));
+    // al-Fiqh al-Muyassar (King Fahd Complex): the source has paragraphs only, so books ("أولاً: كتاب الطهارة"), chapters
+    // ("الباب الأول: …، وفيه مسائل:") and issues ("المسألة الأولى: …") are recognised by their wording. Text is kept verbatim;
+    // the integrity check below proves no paragraph was dropped or changed.
+    {
+      const rows = Array.from({ length: 141 }, (_, i) => load(`173-${i + 1}.json`)).flat().map((r) => r.original_text.trim()).filter(Boolean);
+      const SLUG: Record<string, string> = { 'الطهارة': 'taharah', 'الصلاة': 'salah', 'الزكاة': 'zakat', 'الصيام': 'siyam', 'الحج': 'hajj', 'الجهاد': 'jihad', 'المعاملات': 'muamalat', 'المواريث والوصايا والعتق': 'mawarith', 'النكاح والطلاق': 'nikah', 'الجنايات': 'jinayat', 'الحدود': 'hudud', 'الأيمان والنذور': 'ayman', 'الأطعمة، والذبائح، والصيد': 'atimah', 'القضاء والشهادات': 'qada' };
+      const KITAB = /^(?:أولاً|ثانياً|ثالثاً|رابعاً|خامساً|سادساً|سابعاً|ثامناً|تاسعاً|عاشراً|حادي عشر|ثاني عشر|ثالث عشر|رابع عشر): كتاب (.+)$/;
+      const BAB = /^الباب [^:]{2,30}:? .{2,140}(?:مسائل|مسألتان|ومسائل أخرى)?[:.]?$/; const MAS = /^المسألة [^:]{2,20}:/;
+      const firstKitab = rows.findIndex((t, i) => i > 200 && KITAB.test(t));
+      type B = { kitab: string; n: number; title: string; blocks: { tag: string; ar: string }[] };
+      const intro: B = { kitab: 'intro', n: 0, title: 'مقدمة الكتاب والتمهيد', blocks: rows.slice(0, firstKitab).map((ar) => ({ tag: 'p', ar })) };
+      const kitabs: { slug: string; title: string; intro: string[]; abwab: B[] }[] = []; let cur: B | null = null; let n = 0;
+      for (const t of rows.slice(firstKitab)) {
+        const k = KITAB.exec(t);
+        if (k) { const slug = SLUG[k[1].trim()]; if (!slug) throw new Error(`fiqh: unknown kitab ${k[1]}`); kitabs.push({ slug, title: `كتاب ${k[1].trim()}`, intro: [t], abwab: [] }); cur = null; continue; }
+        const K = kitabs[kitabs.length - 1];
+        if (BAB.test(t) && t.length < 150) { cur = { kitab: K.slug, n: ++n, title: t.replace(/[،,]?\s*(?:وفيه (?:عدة )?(?:مسائل|مسألتان)|ومسائل أخرى)[:.]?$/, '').replace(/[:.]$/, '').trim(), blocks: [{ tag: 'h2', ar: t }] }; K.abwab.push(cur); continue; }
+        if (!cur) { K.intro.push(t); continue; }
+        cur.blocks.push({ tag: MAS.test(t) && t.length < 160 ? 'h3' : t.length < 90 && /:$/.test(t) ? 'lead' : /^[^\s:]{2,20}:\s*\d{1,3}(?:\s*[-،,]\s*\d{1,3})?\.?$/.test(t) ? 'ref' : 'p', ar: t });
+      }
+      // Integrity: every source paragraph appears exactly once, in order.
+      const back = [...intro.blocks.map((x) => x.ar), ...kitabs.flatMap((k) => [...k.intro, ...k.abwab.flatMap((b) => b.blocks.map((x) => x.ar))])];
+      if (back.length !== rows.length || back.some((t, i) => t !== rows[i])) throw new Error('fiqh: text integrity check failed');
+      if (kitabs.length !== 14 || kitabs.reduce((t, k) => t + k.abwab.length, 0) !== 102) throw new Error(`fiqh: expected 14 books / 102 chapters, got ${kitabs.length} / ${kitabs.reduce((t, k) => t + k.abwab.length, 0)}`);
+      const fd = `${out}/fiqh/muyassar`; mkdirSync(fd, { recursive: true });
+      for (const b of [intro, ...kitabs.flatMap((k) => k.abwab)]) writeFileSync(`${fd}/${b.n}.json`, JSON.stringify(b));
+      writeFileSync(`${fd}/index.json`, JSON.stringify({ title: 'الفقه الميسر في ضوء الكتاب والسنة', by: 'نخبة من العلماء', publisher: 'مجمع الملك فهد لطباعة المصحف الشريف', source: 'https://islamhouse.com/ar/books/203277/', cnt: 'https://enc.islamhouse.com/ar/books/173/1',
+        kitabs: kitabs.map((k) => ({ slug: k.slug, title: k.title, intro: k.intro, abwab: k.abwab.map((b) => ({ n: b.n, title: b.title, masail: b.blocks.filter((x) => x.tag === 'h3').map((x) => x.ar) })) })) }));
+      console.log(`fiqh muyassar: ${kitabs.length} books, ${n} chapters, ${rows.length} paragraphs`);
+    }
   }
   console.log(`Adhkar JSON generated: ${cats.length} categories, ${cats.reduce((n, c) => n + c.items.length, 0)} entries`);
 }

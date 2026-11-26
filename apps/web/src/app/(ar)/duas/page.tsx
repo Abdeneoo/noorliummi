@@ -4,13 +4,26 @@ import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { loadSurah, SURAHS, arDigits } from '@/lib/quran';
 import ShareImageButton from '@/components/ShareImageButton';
 
-export const metadata: Metadata = { title: 'أدعية موثّقة للإهداء' };
+export const metadata: Metadata = { title: 'الأدعية', description: 'أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها: للمتوفى والوالدين والمريض والهم والكرب والاستخارة والسفر وغيرها.' };
 /**
  * A library of sourced duas grouped by need. Every text comes as-is from Hisn al-Muslim (with its takhrij) or is a
  * Quran ayah quoted by reference. Nothing is composed here.
  */
 const QURAN: { title: string; refs: [number, number][] }[] = [
   { title: 'للوالدين من القرآن', refs: [[17, 24], [14, 41], [71, 28], [46, 15]] },
+];
+/** Every supplication chapter of Hisn al-Muslim, grouped by need (links to the full chapter with its takhrij). */
+const HISN_GROUPS: { id: string; title: string; ids: number[] }[] = [
+  { id: 'hamm', title: 'الهم والكرب والشدائد', ids: [35, 36, 54, 42, 44, 47, 41, 43, 46, 93, 83, 37, 38, 39] },
+  { id: 'marad', title: 'المرض والموت والعزاء', ids: [50, 52, 84, 55, 56, 57, 58, 59, 60, 61] },
+  { id: 'salah', title: 'في الصلاة', ids: [16, 17, 18, 19, 20, 21, 24, 26, 33] },
+  { id: 'bayt', title: 'البيت والمسجد واللباس', ids: [2, 3, 4, 6, 7, 12, 13, 14] },
+  { id: 'taam', title: 'الطعام والصيام', ids: [69, 75, 70, 71, 72, 73, 74, 77] },
+  { id: 'safar', title: 'السفر', ids: [96, 97, 98, 99, 100, 101, 102, 104, 105] },
+  { id: 'nas', title: 'مع الناس', ids: [80, 81, 82, 87, 88, 90, 91, 92, 94, 113] },
+  { id: 'kawn', title: 'المطر والريح والهلال', ids: [62, 63, 65, 68] },
+  { id: 'hajj', title: 'الحج', ids: [118, 119, 120] },
+  { id: 'other', title: 'أحوال أخرى', ids: [30, 31, 78, 95, 111, 112, 123, 126] },
 ];
 const GROUPS: { title: string; ids: number[] }[] = [
   { title: 'للمتوفى', ids: [56, 57, 59, 60, 61, 55] },
@@ -23,11 +36,12 @@ export default async function Duas() {
   const groups = await Promise.all(GROUPS.map(async (g) => ({ ...g, cats: await Promise.all(g.ids.map(async (id) => ({ id, title: ADHKAR.find((c) => c.id === id)!.title, items: (await loadAdhkar(id)).items }))) })));
   return (
     <article style={{ maxWidth: 820, margin: '0 auto' }}>
-      <header className="page-head"><p className="eyebrow">الصدقة الجارية</p><h1>أدعية موثّقة للإهداء</h1>
+      <header className="page-head"><p className="eyebrow">الأدعية</p><h1>الأدعية</h1>
         <p>أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها، مرتبة حسب الحاجة. أضف ما تريد إلى صفحة أثر، أو شاركه كصورة.</p></header>
+      <nav className="card" aria-label="أقسام الأدعية"><ul className="chips even">{[...QURAN.map((g, i) => [`q${i}`, g.title]), ...GROUPS.map((g, i) => [`g${i}`, g.title])].map(([id, t]) => <li key={id}><a href={`#${id}`}>{t}</a></li>)}{HISN_GROUPS.map((g) => <li key={g.id}><a href={`#${g.id}`}>{g.title}</a></li>)}</ul></nav>
       <p className="review-banner">النصوص كما في مصادرها دون تأليف أو تعديل. نسخة تجريبية بانتظار مراجعة أهل العلم.</p>
-      {quran.map((g) => (
-        <section key={g.title} className="section"><h2>{g.title}</h2>
+      {quran.map((g, gi) => (
+        <section key={g.title} id={`q${gi}`} className="section"><h2>{g.title}</h2>
           <ul className="dhikr-list">{g.ayat.map((x) => (
             <li key={`${x.s}:${x.a}`} className="card dhikr">
               <p className="dhikr-text" lang="ar" style={{ fontFamily: 'var(--font-quran)' }}>{x.t} ﴿{arDigits(x.a)}﴾</p>
@@ -38,8 +52,8 @@ export default async function Duas() {
             </li>))}</ul>
         </section>
       ))}
-      {groups.map((g) => (
-        <section key={g.title} className="section"><h2>{g.title}</h2>
+      {groups.map((g, gi) => (
+        <section key={g.title} id={`g${gi}`} className="section"><h2>{g.title}</h2>
           {g.cats.map((c) => (
             <div key={c.id} className="card" style={{ marginBottom: 12 }}>
               <h3 style={{ marginTop: 0 }} lang="ar">{c.title}</h3>
@@ -49,6 +63,12 @@ export default async function Duas() {
               <div className="row"><Link className="btn ghost small" href={`/adhkar/${c.id}`}>في الأذكار</Link><Link className="btn small" href={`/athar?add=dhikr:${c.id}#new`}>أضف إلى صفحة أثر</Link></div>
             </div>
           ))}
+        </section>
+      ))}
+      <h2 className="section">كل أدعية «حصن المسلم» حسب الحاجة</h2>
+      {HISN_GROUPS.map((g) => (
+        <section key={g.id} id={g.id} className="section"><h3>{g.title}</h3>
+          <ul className="athar-dir">{g.ids.map((id) => ADHKAR.find((c) => c.id === id)).filter(Boolean).map((c) => <li key={c!.id}><Link href={`/adhkar/${c!.id}`}><strong lang="ar">{c!.title}</strong><small>{arDigits(c!.count)} {c!.count === 1 ? 'دعاء' : 'من الأدعية'}</small></Link></li>)}</ul>
         </section>
       ))}
     </article>
