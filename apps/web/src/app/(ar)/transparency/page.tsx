@@ -5,6 +5,7 @@ import { ADHKAR } from '@/lib/adhkar';
 import { LIBRARY } from '@/lib/library';
 import { GROUPS } from '@/lib/sources';
 import { db } from '@/lib/db';
+import coverage from '@/generated/hadith-tr/coverage.json';
 import { REVIEW_SECTIONS, REVIEW_STATES, type ReviewRow } from '@/lib/review';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'تقرير الشفافية' };
@@ -32,6 +33,10 @@ export default async function Transparency() {
       <div style={{ overflowX: 'auto' }}><table className="admin-table"><thead><tr><th>القسم</th><th>الحالة</th><th>المراجع والتاريخ</th></tr></thead>
         <tbody>{REVIEW_SECTIONS.map((x) => { const r = review[x.id]; const st = r?.status ?? 'sourced'; return <tr key={x.id}><td>{x.ar}</td><td>{REVIEW_STATES[st]}{x.sensitive && st !== 'reviewed' ? ' — نتائج استرشادية غير معتمدة' : ''}</td><td>{st === 'reviewed' ? `${r.reviewer} — ${r.reviewed_at}` : '—'}</td></tr>; })}</tbody></table></div>
       <p className="note">الفحوص الآلية (مطابقة نص القرآن، أعداد الآيات، سلامة حروف الكتب، مواقيت الصلاة، مسائل الميراث المعروفة) تعمل مع كل تحديث؛ تفاصيلها في <Link href="/verify">كيف نتحقق</Link>.</p>
+      <h2>تغطية ترجمات الحديث</h2>
+      <div style={{ overflowX: 'auto' }}><table className="admin-table"><thead><tr><th>اللغة</th><th>الأحاديث المترجمة</th><th>من</th><th>النسبة</th><th>الكتب</th></tr></thead>
+        <tbody>{(Object.entries(coverage) as [string, Record<string, { translated: number; total: number }>][]).map(([l, v]) => { const t = Object.values(v).reduce((x, y) => x + y.translated, 0); const a = Object.values(v).reduce((x, y) => x + y.total, 0); return <tr key={l}><td>{({ ur: 'الأردية', tr: 'التركية', id: 'الإندونيسية' } as Record<string, string>)[l]}</td><td>{n(t)}</td><td>{n(a)}</td><td>{n(Math.round((t / a) * 100))}٪</td><td>{n(Object.keys(v).length)}</td></tr>; })}</tbody></table></div>
+      <p className="note">المصدر: fawazahmed0/hadith-api، بمطابقة رقم الحديث في الطبعة نفسها. لا ترجمة لمسند أحمد والدارمي والقدسية والدهلوية (ولا للنووية بغير التركية)، ولا ترجمة للأذكار بهذه اللغات بعد؛ ما لا ترجمة موثقة له يُعرض بالعربية فقط.</p>
       <h2>بلاغات الأخطاء</h2>
       {rep ? <ul className="stat-grid"><li><strong>{n(rep.open ?? 0)}</strong><span>بلاغات مفتوحة</span></li><li><strong>{n(rep.fixed ?? 0)}</strong><span>أخطاء صُحّحت ببلاغات الزوار</span></li><li><strong>{n(rep.dismissed ?? 0)}</strong><span>بلاغات لم يثبت فيها خطأ</span></li></ul> : <p className="note">تعذّر تحميل الأرقام الآن.</p>}
       <p className="note"><Link href="/report">بلّغ عن خطأ</Link> · <Link href="/sources">المصادر والتراخيص</Link></p>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageFilter from '@/components/PageFilter';
+import HadithTranslation from '@/components/HadithTranslation';
 import { notFound } from 'next/navigation';
 import { BOOKS, bookOf, isHadith, loadSection, sectionLabel } from '@/lib/hadith';
 
@@ -23,6 +24,7 @@ export default async function Section({ params }: { params: Promise<{ book: stri
       </header>
       <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم. لا تُعرض الدرجات ولا الحواشي. <Link href={`/hadith/${b.key}`}>مصدر النص وطبعته</Link>{b.doc.license ? ` · ${b.doc.license}` : ''}</p>
       <PageFilter target="#hadith-list" />
+      <HadithTranslation book={b.key} s={sec.s} target="#hadith-list" />
       <ol id="hadith-list" className="tafsir-list" style={{ listStyle: 'none', padding: 0 }}>
         {list.map((h, i) => isHadith(h) ? (
           <li key={i} id={list.findIndex((x) => isHadith(x) && x.n === h.n) === i ? `h${h.n}` : `h${h.n}-${i}`} className="card">

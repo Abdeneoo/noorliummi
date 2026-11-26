@@ -149,6 +149,9 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   const sums = readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/) as [string, string]);
   mkdirSync(`${out}/hadith`, { recursive: true });
   const books: unknown[] = []; let total = 0;
+  const TR_LANGS: [string, string][] = [['urd', 'ur'], ['tur', 'tr'], ['ind', 'id']];
+  const trSums = new Map(readFileSync(`${dir}/TRANSLATIONS_SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse() as [string, string]));
+  const coverage: Record<string, Record<string, { translated: number; total: number }>> = {};
   for (const [sum, file] of sums) {
     const key = file.replace(/^ara-|\.json$/g, '');
     const path = `${dir}/files/${file}`;
@@ -163,6 +166,17 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       const sec = secs.find((x) => h.hadithnumber >= x.first && h.hadithnumber <= x.last)?.s ?? 0;
       if (!bySec.has(sec)) bySec.set(sec, []);
       bySec.get(sec)!.push({ n: h.hadithnumber, an: h.arabicnumber, t: h.text });
+    }
+    // Translations (same source and hadith numbering): one file per section and language, keyed by hadith number.
+    for (const [l3, l2] of TR_LANGS) {
+      const tsum = trSums.get(`${l3}-${key}.json`); if (!tsum) continue;
+      const tpath = `${dir}/files/${l3}-${key}.json`;
+      if (!existsSync(tpath)) throw new Error(`Missing ${l3}-${key}.json — run infrastructure/fetch-hadith.sh`);
+      if (sha256File(tpath) !== tsum) throw new Error(`Checksum mismatch for ${l3}-${key}.json — refusing to build`);
+      const tr = new Map((JSON.parse(readFileSync(tpath, 'utf8')) as { hadiths: { hadithnumber: number; text: string }[] }).hadiths.filter((h) => h.text.trim()).map((h) => [h.hadithnumber, h.text.trim()]));
+      mkdirSync(`${out}/hadith-tr/${l2}/${key}`, { recursive: true }); let have = 0; let all = 0;
+      for (const [sec, list] of bySec) { const o: Record<number, string> = {}; for (const h of list) { all++; const t = tr.get(h.n); if (t) { o[h.n] = t; have++; } } writeFileSync(`${out}/hadith-tr/${l2}/${key}/${sec}.json`, JSON.stringify(o)); }
+      (coverage[l2] ??= {})[key] = { translated: have, total: all };
     }
     mkdirSync(`${out}/hadith/${key}`, { recursive: true });
     const sections = [...bySec.keys()].sort((a, b) => a - b).map((s) => {
@@ -206,6 +220,13 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       ...(key === 'ahmad' ? { marks: '• زيادات عبد الله ابن الإمام أحمد، ° وجاداته، * روايته عن أبيه أو شيخ أبيه (رموز طبعة الرسالة، كما شرحها توثيق open-hadith-data)' } : {}),
     } });
   }
+  { // an-Nawawi's forty-two: Turkish only in this source
+    const tsum = trSums.get('tur-nawawi.json'); const tpath = `${dir}/files/tur-nawawi.json`;
+    if (tsum) { if (sha256File(tpath) !== tsum) throw new Error('Checksum mismatch for tur-nawawi.json — refusing to build');
+      const hs = (JSON.parse(readFileSync(tpath, 'utf8')) as { hadiths: { hadithnumber: number; text: string }[] }).hadiths.filter((h) => h.text.trim());
+      mkdirSync(`${out}/hadith-tr/tr/nawawi`, { recursive: true }); writeFileSync(`${out}/hadith-tr/tr/nawawi/0.json`, JSON.stringify(Object.fromEntries(hs.map((h) => [h.hadithnumber, h.text.trim()])))); (coverage.tr ??= {}).nawawi = { translated: hs.length, total: 42 }; }
+  }
+  writeFileSync(`${out}/hadith-tr/coverage.json`, JSON.stringify(coverage));
   writeFileSync(`${out}/hadith/books.json`, JSON.stringify(books));
   console.log(`Hadith books generated: ${books.length} books, ${total} hadith with text`);
 }

@@ -12,6 +12,8 @@ get() { # url sum target
 }
 D="$ROOT/database/sources/hadith-fawazahmed0"; C=$(cat "$D/SOURCE_COMMIT"); mkdir -p "$D/files"
 while read -r sum f; do get "https://raw.githubusercontent.com/fawazahmed0/hadith-api/$C/editions/$f" "$sum" "$D/files/$f"; done < "$D/SHA256SUMS"
+# Urdu, Turkish and Indonesian editions of the same books (same hadith numbering), from the same pinned commit.
+while read -r sum f; do get "https://raw.githubusercontent.com/fawazahmed0/hadith-api/$C/editions/${f%.json}.min.json" "$sum" "$D/files/$f"; done < "$D/TRANSLATIONS_SHA256SUMS"
 O="$ROOT/database/sources/hadith-openiti"; OC=$(cat "$O/SOURCE_COMMIT"); mkdir -p "$O/files"
 while read -r sum key path; do get "https://raw.githubusercontent.com/OpenITI/RELEASE/$OC/$path" "$sum" "$O/files/$key.txt"; done < "$O/FILES"
 B="$ROOT/database/sources/library-openiti"; BC=$(cat "$B/SOURCE_COMMIT"); mkdir -p "$B/files"

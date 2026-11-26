@@ -31,6 +31,7 @@ export function IntlHome({ lang }: { lang: IntlLang }) {
     <article>
       <header className="page-head"><p className="eyebrow">{t.tagline}</p><h1>{t.quran}</h1><p>{TR_INFO[lang].title} — QuranEnc.com</p></header>
       <ul className="surah-list">{SURAHS.map((s) => <li key={s.index}><Link href={`/${lang}/quran/${s.index}`}><span className="num">{s.index}</span><span><span className="nm">{s.tname} <span lang="ar" dir="rtl">{s.name}</span></span><span className="sub">{s.type === 'Meccan' ? t.meccan : t.medinan} · {s.ayas} {t.ayat}</span></span></Link></li>)}</ul>
+      <div className="row"><Link className="btn ghost" href="/hadith" lang="ar">{t.hadith}</Link><a className="btn ghost" href={`https://islamhouse.com/${lang}/`} target="_blank" rel="noopener">{t.adhkarExt} ↗</a></div>
       <p className="note">{t.other} <Link href="/en" lang="en">English</Link> · <Link href="/" lang="ar">العربية</Link>. {t.uiNote}</p>
     </article>
   );

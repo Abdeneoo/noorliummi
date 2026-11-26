@@ -19,6 +19,7 @@ export default function AdhkarIndex({ cats }: { cats: AdhkarCat[] }) {
           ))}
         </ul>
       )}
+      <p className="note">ترجمة «حصن المسلم» إلى لغات أخرى لم نجد لها مصدرًا مرخّصًا للاستيراد بعد، فلا نعرض ترجمة آلية. اقرأه مترجمًا في IslamHouse: <a href="https://islamhouse.com/ur/" target="_blank" rel="noopener" lang="ur">اردو ↗</a> · <a href="https://islamhouse.com/tr/" target="_blank" rel="noopener" lang="tr">Türkçe ↗</a> · <a href="https://islamhouse.com/id/" target="_blank" rel="noopener" lang="id">Indonesia ↗</a>. الترجمة الإنجليزية (OpenDua) في <a href="/en/adhkar">النسخة الإنجليزية</a>.</p>
     </>
   );
 }
