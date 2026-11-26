@@ -537,3 +537,6 @@ html[dir='rtl'] .tas-count { font-family: var(--font-ui); font-weight: 500; }
 html[lang='ur'] { --font-ui: 'Noto Naskh Arabic Variable', 'IBM Plex Sans Arabic', serif; } html[lang='ur'] .en-tr, html[lang='ur'] .en-fn { line-height: 2.2; font-size: 1.1rem; }
 html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-serif; --font-display: 'Inter Variable', sans-serif; }
 @media (max-width: 700px) { .intl-langs { order: 3; width: 100%; margin: 0 0 8px; } header.site .wrap:has(.intl-langs) { flex-wrap: wrap; } }
+.live-frame:fullscreen { border-radius: 0; aspect-ratio: auto; width: 100vw; height: 100vh; }
+.live-frame.big { position: fixed; inset: 0; z-index: 120; border-radius: 0; aspect-ratio: auto; background: #000; }
+.live-close { position: absolute; top: calc(10px + env(safe-area-inset-top)); inset-inline-end: 10px; z-index: 2; border: 0; border-radius: 999px; padding: 8px 14px; background: rgba(0,0,0,.6); color: #fff; cursor: pointer; }
