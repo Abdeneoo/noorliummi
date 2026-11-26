@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { HISN_GROUPS } from '@/lib/duas-groups';
-import { QD, TV, ayatOf, surahName } from '@/lib/duas';
+import { IHA, QD, TV, ayatOf, surahName } from '@/lib/duas';
 import PlayTrack from '@/components/PlayTrack';
 import { DuaReciterBar } from '@/components/DuaAyahPlayer';
 import TvEmbed from '@/components/TvEmbed';
@@ -16,6 +16,16 @@ export default async function Page() {
   }));
   const hisnTotal = groups.reduce((t, g) => t + g.tracks.length, 0);
   const quran = (await Promise.all(QD.duas.filter((d) => d.kind === 'quran').map(ayatOf))).flat().map((x) => ({ ...x, title: `${surahName(x.s)}: ${x.a}` }));
+  // IslamHouse: per-chapter tracks only (the one-file "complete" copy is left out so nothing plays twice).
+  const ih = IHA.map((it) => {
+    const reader = it.by.filter((p) => p.kind !== 'reviewer' && p.kind !== 'source').map((p) => p.title).join('، ');
+    const files = it.attachments.filter((a) => a.type === 'MP3');
+    const parts = files.length > 1 ? files.filter((a) => !/كامل/.test(a.desc ?? '')) : files;
+    return { it, reader, tracks: parts.map((a, k) => ({ id: `ih${it.id}-${k}`, src: a.url, title: a.desc || it.title, by: reader, source: `IslamHouse: ${it.title}`, license: 'سياسة IslamHouse: دون تعديل مع ذكر المصدر', page: '/duas/audio' })) };
+  });
+  const hisnIh = ih.filter((x) => /حصن المسلم/.test(x.it.title));
+  const afasy = ih.filter((x) => x.reader.includes('العفاسي'));
+  const talks = ih.filter((x) => !hisnIh.includes(x) && !afasy.includes(x));
   const byScholar = [...new Set(TV.map((x) => x.scholar))].map((s) => ({ s, items: TV.filter((x) => x.scholar === s) }));
   return (
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -24,9 +34,16 @@ export default async function Page() {
       <section className="section"><h2>أدعية القرآن الكريم بأصوات القراء</h2>
         <p className="note">{quran.length.toLocaleString('ar-EG')} آية من آيات الدعاء، تُتلى كل آية كاملة. اختر القارئ ثم شغّل.</p>
         <DuaReciterBar all={quran} /></section>
+      <section className="section" id="hisn-full"><h2>«حصن المسلم» كاملًا بأصوات القراء</h2>
+        <p className="note">من موسوعة IslamHouse، تُشغَّل من خوادمها دون تعديل، مع ذكر القارئ والمصدر.</p>
+        <ul className="athar-dir">{hisnIh.map((x) => <li key={x.it.id}><div className="card"><strong>{x.reader}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.tracks.length.toLocaleString('ar-EG')} مقطعًا{x.it.by.some((p) => p.kind === 'reviewer') ? ` · مراجعة: ${x.it.by.filter((p) => p.kind === 'reviewer').map((p) => p.title).join('، ')}` : ''}</p><PlayTrack tracks={x.tracks} label="▶ شغّل من البداية" className="btn small" /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
+      <section className="section" id="afasy"><h2>أذكار وأدعية بصوت مشاري العفاسي</h2>
+        <ul className="athar-dir">{afasy.map((x) => <li key={x.it.id}><div className="card"><strong>{x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.tracks.length > 1 ? `${x.tracks.length.toLocaleString('ar-EG')} تسجيلات (إصدارات مختلفة)` : 'تسجيل واحد'}</p><PlayTrack tracks={x.tracks} label="▶ استمع" className="btn small" /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
       <section className="section"><h2>أدعية «حصن المسلم» بصوت محمد جمعة</h2>
         <p className="note">{hisnTotal.toLocaleString('ar-EG')} تسجيلًا من مشروع OpenDua (ترخيص CC BY 4.0: «Recitation by Muhammad Jumah for OpenDua»)، كل تسجيل مربوط بنصه بعد مطابقة حروفه.</p>
         <ul className="athar-dir">{groups.filter((g) => g.tracks.length).map((g) => <li key={g.id}><div className="card"><strong>{g.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{g.tracks.length.toLocaleString('ar-EG')} تسجيلًا</p><PlayTrack tracks={g.tracks} label="▶ شغّل القائمة" className="btn small" /></div></li>)}</ul></section>
+      <section className="section" id="talks"><h2>خطب ودروس عن الدعاء والأذكار</h2>
+        <ul className="athar-dir">{talks.map((x) => <li key={x.it.id}><div className="card"><strong>{x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.reader}</p><PlayTrack tracks={x.tracks} label="▶ استمع" className="btn small" /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
       <section className="section"><h2>دعاء القنوت وختم القرآن — أئمة الحرمين وكبار القراء</h2>
         <p className="note">من موقع TVQuran عبر مشغّله الرسمي للتضمين ({TV.length.toLocaleString('ar-EG')} تسجيلًا). هذه أدعية يُنشئها الإمام في القنوت أو الختم، وليست أحاديث نبوية بلفظها. لا تعمل في الخلفية لأنها داخل مشغّل الموقع المصدر.</p>
         <ul className="athar-dir">{byScholar.map(({ s, items }) => <li key={s}><div className="card"><strong>{s}</strong>{items.map((x) => <div key={x.id} style={{ marginTop: 8 }}><span>{x.title}</span> <TvEmbed id={x.id} title={`${x.title} — ${s}`} /></div>)}</div></li>)}</ul></section>

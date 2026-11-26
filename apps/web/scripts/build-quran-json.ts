@@ -224,6 +224,10 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       writeFileSync(`${out}/duas/qahtani.json`, JSON.stringify({ title: 'الدعاء من الكتاب والسنة', author: 'د. سعيد بن علي بن وهف القحطاني', source: 'https://enc.islamhouse.com/ar/books/19/1', sections, duas, closing }));
       if (sections.length < 3) throw new Error('duas: intro sections missing');
       console.log(`duas qahtani: ${duas.length} (quran ${duas.filter((d) => d.kind === 'quran').length}, sunnah ${duas.filter((d) => d.kind === 'sunnah').length}, with audio ${duas.filter((d) => d.audio).length}), ${sections.length} intro sections`);
+      // IslamHouse dua/adhkar audio (streamed from IslamHouse, unmodified; see database/sources/islamhouse-api/README.md).
+      const iha = resolve(here, '../../../database/sources/islamhouse-api'); const ihSum = readFileSync(`${iha}/SHA256SUMS`, 'utf8').split('\n').find((l) => l.endsWith('dua-audio-items.json'))?.split(/\s+/)[0];
+      if (sha256File(`${iha}/dua-audio-items.json`) !== ihSum) throw new Error('Checksum mismatch for islamhouse-api/dua-audio-items.json');
+      writeFileSync(`${out}/duas/ih-audio.json`, readFileSync(`${iha}/dua-audio-items.json`, 'utf8'));
       // TVQuran: official dua selections (embed only; direct streaming needs permission). Snapshot of the public list.
       const tv = resolve(here, '../../../database/sources/tvquran');
       if (sha256File(`${tv}/selections-category-4.json`) !== readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for tvquran list');
