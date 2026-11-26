@@ -8,7 +8,8 @@ import Tasbeeh from '@/components/Tasbeeh';
 import SeasonCard from '@/components/SeasonCard';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 
-export default function Home() {
+export const revalidate = 3600;
+export default async function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'نور لأمي', alternateName: 'Noor Li Ummi', inLanguage: ['ar', 'en'], url: (process.env.SITE_URL || 'https://staging.noorliummi.io'), potentialAction: { '@type': 'SearchAction', target: `${process.env.SITE_URL || 'https://staging.noorliummi.io'}/search?q={q}`, 'query-input': 'required name=q' } }) }} />

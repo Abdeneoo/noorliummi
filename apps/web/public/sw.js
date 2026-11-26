@@ -1,9 +1,9 @@
-// Offline support (v6: saved Quran audio). Pages: network first, then the saved copy, then /offline. Build assets (/_next/static, fonts):
+// Offline support (v7: saved Quran and dua audio). Pages: network first, then the saved copy, then /offline. Build assets (/_next/static, fonts):
 // cache first (their names change with every build). Recitation audio (third party) is never cached; adhan recordings
 // only when the user taps «حفظ للاستخدام دون إنترنت». «تنزيل للأوفلاين» (lib/offline.ts) fills the PAGES cache.
 const V = 'noor-v5', STATIC = 'noor-static-v1', AUDIO = 'noor-adhan-audio', QURAN = 'noor-quran-audio';
 // Surahs the listener saved on this device («احفظ السورة على جهازي»): served from the device, with byte ranges for seeking.
-const AUDIO_HOSTS = /(^|\.)mp3quran\.net$|^cdn\.islamic\.network$/;
+const AUDIO_HOSTS = /(^|\.)mp3quran\.net$|^cdn\.islamic\.network$|^d1\.islamhouse\.com$/;
 async function savedAudio(r) {
   const m = await (await caches.open(QURAN)).match(r.url); if (!m) return fetch(r);
   const range = r.headers.get('range'); if (!range || m.type === 'opaque') return m;
@@ -21,6 +21,8 @@ self.addEventListener('fetch', (e) => {
   if (r.method !== 'GET' || u.origin !== location.origin) return;
   if (u.pathname.startsWith('/api/') || u.pathname.startsWith('/embed/')) return;
   // Adhan recordings the user saved: network first (Safari needs ranged responses), their saved copy when offline.
+  // Dua recordings (OpenDua, hosted here) the user saved for offline listening.
+  if (u.pathname.startsWith('/audio/adhkar/')) { e.respondWith(savedAudio(r).catch(() => fetch(r))); return; }
   if (u.pathname.startsWith('/audio/')) { if (u.pathname.startsWith('/audio/adhan/')) e.respondWith(fetch(r).catch(() => caches.open(AUDIO).then((c) => c.match(r.url)).then((m) => m || Response.error()))); return; }
   if (u.pathname.startsWith('/_next/static/') || u.pathname.startsWith('/brand/') || /\.(woff2?|png|svg|webp)$/.test(u.pathname)) {
     e.respondWith(caches.match(r).then((m) => m || fetch(r).then((res) => { if (res.ok) { const copy = res.clone(); caches.open(STATIC).then((c) => c.put(r, copy)); } return res; })));

@@ -638,3 +638,6 @@ html[data-contrast=high] *{text-shadow:none!important;background-image:none!impo
 .audio-resume{position:fixed;inset-inline-end:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:60;border-radius:999px;border:1px solid rgba(198,166,107,.5);background:var(--surface,#103D32);color:var(--text,#F8F6F0);padding:8px 14px;font:inherit;cursor:pointer}
 @media (min-width:900px){.audio-resume{bottom:16px}}
 @media print{.audio-dock,.audio-resume{display:none!important}}
+.tf-panel{position:fixed;inset-inline:12px;bottom:calc(150px + env(safe-area-inset-bottom));z-index:61;max-width:640px;margin-inline:auto;max-height:55vh;overflow:auto;background:var(--surface,#103D32);color:var(--text,#F8F6F0);border:1px solid rgba(198,166,107,.45);border-radius:18px;padding:12px 16px;box-shadow:0 12px 36px rgba(0,0,0,.4);line-height:2}
+.tf-head{display:flex;justify-content:space-between;align-items:center}.tf-panel h3{margin:.6em 0 .2em;font-size:1rem;color:#C6A66B}
+@media (min-width:900px){.tf-panel{bottom:100px}}

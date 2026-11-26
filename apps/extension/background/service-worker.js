@@ -16,8 +16,13 @@ function quiet(s, now = new Date()) {
 const notify = (id, title, message, url, silent = false) => chrome.notifications.create(id, { type: 'basic', iconUrl: chrome.runtime.getURL('icons/icon128.png'), title, message, priority: silent ? 0 : 2, silent }, () => { if (url) setState({ [`url:${id}`]: url }); });
 chrome.notifications.onClicked.addListener(async (id) => { const st = await getState(); const url = st[`url:${id}`]; if (url) chrome.tabs.create({ url }); chrome.notifications.clear(id); });
 
+let fxAudio = null; // Firefox: no offscreen documents, but its background page can play audio directly.
 async function playAdhan(prayer) {
   const s = await getSettings();
+  if (!chrome.offscreen) {
+    try { const src = prayer === 'fajr' && s.adhanFajrUrl ? s.adhanFajrUrl : s.adhanUrl; fxAudio ??= new Audio(); fxAudio.volume = Math.min(1, Math.max(0, Number(s.adhanVolume ?? 0.8))); fxAudio.src = src; await fxAudio.play(); } catch { /* blocked */ }
+    return;
+  }
   try {
     if (!(await chrome.offscreen.hasDocument())) await chrome.offscreen.createDocument({ url: 'offscreen/offscreen.html', reasons: ['AUDIO_PLAYBACK'], justification: 'Play the adhan at prayer time.' });
     const src = prayer === 'fajr' && s.adhanFajrUrl ? s.adhanFajrUrl : s.adhanUrl;
@@ -74,7 +79,7 @@ chrome.storage.onChanged.addListener((ch, area) => { if (area === 'local' && ch.
 chrome.runtime.onMessage.addListener((msg, _s, reply) => {
   if (msg?.type === 'TEST_ADHAN') { playAdhan(msg.prayer || 'dhuhr').then(() => reply({ ok: true })); return true; }
   if (msg?.type === 'FOCUS') { chrome.alarms.clear('focus', () => { if (msg.minutes > 0) chrome.alarms.create('focus', { delayInMinutes: msg.minutes }); reply({ ok: true }); }); return true; }
-  if (msg?.type === 'STOP_ADHAN') { chrome.runtime.sendMessage({ type: 'STOP_ADHAN_NOW' }); reply({ ok: true }); }
+  if (msg?.type === 'STOP_ADHAN') { if (fxAudio) { fxAudio.pause(); fxAudio.currentTime = 0; } else chrome.runtime.sendMessage({ type: 'STOP_ADHAN_NOW' }); reply({ ok: true }); }
 });
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {

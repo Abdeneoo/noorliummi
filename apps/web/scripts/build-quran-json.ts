@@ -228,6 +228,19 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       const iha = resolve(here, '../../../database/sources/islamhouse-api'); const ihSum = readFileSync(`${iha}/SHA256SUMS`, 'utf8').split('\n').find((l) => l.endsWith('dua-audio-items.json'))?.split(/\s+/)[0];
       if (sha256File(`${iha}/dua-audio-items.json`) !== ihSum) throw new Error('Checksum mismatch for islamhouse-api/dua-audio-items.json');
       writeFileSync(`${out}/duas/ih-audio.json`, readFileSync(`${iha}/dua-audio-items.json`, 'utf8'));
+      // Prophets' duas in the Quran, each verified by Tafsir al-Muyassar (QuranEnc snapshot).
+      const pm = resolve(here, '../../../database/sources/quranenc-arabic_moyassar');
+      if (sha256File(`${pm}/prophets.json`) !== readFileSync(`${pm}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for prophets.json');
+      const pj = JSON.parse(readFileSync(`${pm}/prophets.json`, 'utf8')) as { items: { verified: boolean }[] };
+      if (pj.items.some((x) => !x.verified)) throw new Error('prophets.json: unverified item');
+      writeFileSync(`${out}/duas/prophets.json`, JSON.stringify(pj.items));
+      // Tafsir al-Muyassar (QuranEnc snapshot, verbatim): one file per surah, { ayah: text }.
+      { const sums = new Map(readFileSync(`${pm}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => { const [h, f] = l.split(/\s+/); return [f, h] as const; }));
+        mkdirSync(`${out}/moyassar`, { recursive: true }); let n = 0;
+        for (let s = 1; s <= 114; s++) { const f = `${pm}/${s}.json`; if (sha256File(f) !== sums.get(`${s}.json`)) throw new Error(`Checksum mismatch for moyassar ${s}`);
+          const rows = (JSON.parse(readFileSync(f, 'utf8')) as { result: { aya: string; translation: string }[] }).result; n += rows.length;
+          writeFileSync(`${out}/moyassar/${s}.json`, JSON.stringify(Object.fromEntries(rows.map((r) => [r.aya, r.translation])))); }
+        if (n !== 6236) throw new Error(`moyassar: ${n} ayat`); console.log(`tafsir al-muyassar: ${n} ayat`); }
       // TVQuran: official dua selections (embed only; direct streaming needs permission). Snapshot of the public list.
       const tv = resolve(here, '../../../database/sources/tvquran');
       if (sha256File(`${tv}/selections-category-4.json`) !== readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for tvquran list');

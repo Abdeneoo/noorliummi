@@ -7,6 +7,7 @@ import AdminUsers from './AdminUsers';
 import AdminReports from './AdminReports';
 import AdminReview from './AdminReview';
 import AdminLessons from './AdminLessons';
+import AdminContent from './AdminContent';
 
 type Row = { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: string; report_count: number; created_at: string; reasons: string[] };
 type Data = { rows: Row[]; counts: Record<string, number>; openReports: number };
@@ -15,7 +16,7 @@ const STATUS: Record<string, string> = { active: 'نشطة', frozen: 'موقوف
 
 export default function AdminPanel() {
   const [data, setData] = useState<Data | null>(null); const [need, setNeed] = useState(false);
-  const [tab, setTab] = useState<'stats' | 'users' | 'reports' | 'review' | 'athar' | 'adhan' | 'errors'>('stats');
+  const [tab, setTab] = useState<'stats' | 'users' | 'reports' | 'review' | 'athar' | 'adhan' | 'errors' | 'content'>('stats');
   const [token, setToken] = useState(''); const [err, setErr] = useState(''); const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     const r = await fetch('/api/admin/athar', { cache: 'no-store' });
@@ -61,10 +62,11 @@ export default function AdminPanel() {
         <li><button type="button" role="tab" aria-selected={tab === 'review'} className={tab === 'review' ? 'on' : ''} onClick={() => setTab('review')}>المراجعة والبث</button></li>
         <li><button type="button" role="tab" aria-selected={tab === 'athar'} className={tab === 'athar' ? 'on' : ''} onClick={() => setTab('athar')}>صفحات الأثر</button></li>
         <li><button type="button" role="tab" aria-selected={tab === 'adhan'} className={tab === 'adhan' ? 'on' : ''} onClick={() => setTab('adhan')}>أصوات الأذان</button></li>
+        <li><button type="button" role="tab" aria-selected={tab === 'content'} className={tab === 'content' ? 'on' : ''} onClick={() => setTab('content')}>المحتوى والاستيراد</button></li>
         <li><button type="button" role="tab" aria-selected={tab === 'errors'} className={tab === 'errors' ? 'on' : ''} onClick={() => setTab('errors')}>سجل الأخطاء</button></li>
       </ul>
       {err && <p className="note" role="alert">{err}</p>}
-      {tab === 'stats' ? <AdminStats /> : tab === 'users' ? <AdminUsers /> : tab === 'reports' ? <AdminReports /> : tab === 'review' ? <><AdminReview /><AdminLessons /></> : tab === 'errors' ? <AdminErrors /> : tab === 'adhan' ? <AdminAdhan /> : data.rows.length === 0 ? <section className="card"><p>لا شيء يحتاج مراجعة الآن.</p></section> : data.rows.map((r) => (
+      {tab === 'content' ? <AdminContent /> : tab === 'stats' ? <AdminStats /> : tab === 'users' ? <AdminUsers /> : tab === 'reports' ? <AdminReports /> : tab === 'review' ? <><AdminReview /><AdminLessons /></> : tab === 'errors' ? <AdminErrors /> : tab === 'adhan' ? <AdminAdhan /> : data.rows.length === 0 ? <section className="card"><p>لا شيء يحتاج مراجعة الآن.</p></section> : data.rows.map((r) => (
         <section key={r.id} className="card">
           <p className="meta"><span>{STATUS[r.status] ?? r.status}</span><span>بلاغات: {r.report_count}</span><span>{r.created_at.slice(0, 10)}</span>
             {r.status !== 'removed' && <span><a href={`/athar/${r.slug}`} target="_blank" rel="noopener">فتح الصفحة</a></span>}</p>

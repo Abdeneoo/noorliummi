@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Ayah text with an optional tajweed colour layer. The text is never changed: colouring only wraps
@@ -47,6 +47,12 @@ function colour(text: string, anns: Ann[], lang: 'ar' | 'en') {
 const arDigits = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
 export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; ayat: { n: number; t: string }[]; lang?: 'ar' | 'en' }) {
+  const [tf, setTf] = useState<{ n: number; j?: string; m?: string } | null>(null);
+  const cacheT = useRef<{ jalalayn: Record<string, string>; moyassar: Record<string, string> } | null>(null);
+  const openTafsir = async (n: number) => {
+    setTf({ n });
+    try { cacheT.current ??= await (await fetch(`/api/tafsir/${surah}`)).json(); const c = cacheT.current!; setTf({ n, j: c.jalalayn[String(n)] ?? c.jalalayn[n as unknown as string], m: c.moyassar[String(n)] }); } catch { setTf({ n, j: '', m: '' }); }
+  };
   const [on, setOn] = useState(false);
   const [data, setData] = useState<Record<string, Ann[]> | null>(null);
   useEffect(() => { try { setOn(localStorage.getItem(KEY) === '1'); } catch { /* ignore */ } }, []);
@@ -58,6 +64,7 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
   const used = on && data ? RULES.filter((r) => Object.values(data).some((v) => v.some(([id]) => id === r.id))) : [];
 
   return (
+    <>
     <>
       <div className="row" style={{ justifyContent: 'center', margin: '4px 0' }}>
         <button type="button" className={on ? 'btn' : 'btn ghost'} aria-pressed={on ? 'true' : 'false'} onClick={toggle}>{lang === 'ar' ? (on ? 'إخفاء ألوان التجويد' : 'تلوين أحكام التجويد') : (on ? 'Hide tajweed colours' : 'Show tajweed colours')}</button>
@@ -73,9 +80,13 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
       )}
       <div className="ayat" lang="ar" dir="rtl">
         {ayat.map((a) => (
-          <span key={a.n} id={`a${a.n}`}>{on && data ? colour(a.t, data[a.n] ?? [], lang) : a.t}<Link className="ayah-end" href={lang === 'ar' ? `/tafsir/${surah}#a${a.n}` : `/en/quran/${surah}#a${a.n}`} aria-label={lang === 'ar' ? `تفسير الآية ${a.n}` : `Ayah ${a.n}`}><span aria-hidden="true">﴿{arDigits(a.n)}﴾</span></Link> </span>
+          <span key={a.n} id={`a${a.n}`}>{on && data ? colour(a.t, data[a.n] ?? [], lang) : a.t}<Link className="ayah-end" href={lang === 'ar' ? `/tafsir/${surah}#a${a.n}` : `/en/quran/${surah}#a${a.n}`} onClick={lang === 'ar' ? (e) => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); void openTafsir(a.n); } : undefined} aria-label={lang === 'ar' ? `تفسير الآية ${a.n}` : `Ayah ${a.n}`}><span aria-hidden="true">﴿{arDigits(a.n)}﴾</span></Link> </span>
         ))}
       </div>
+    </>
+      {tf && <div className="tf-panel" role="dialog" aria-label={`تفسير الآية ${tf.n}`}><div className="tf-head"><strong>تفسير الآية {arDigits(tf.n)}</strong><button type="button" className="btn ghost small" onClick={() => setTf(null)} aria-label="إغلاق">✕</button></div>
+        {tf.j === undefined ? <p className="note">…</p> : <>{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
+        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>افتح صفحة التفسير</Link> · التفسير الميسر: مجمع الملك فهد عبر QuranEnc.com</p></div>}
     </>
   );
 }

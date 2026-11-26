@@ -2,6 +2,7 @@ import 'server-only';
 import data from '@/generated/duas/qahtani.json';
 import tv from '@/generated/duas/tvquran.json';
 import iha from '@/generated/duas/ih-audio.json';
+import prophets from '@/generated/duas/prophets.json';
 import { loadSurah, SURAHS } from './quran';
 /** al-Qahtani, «الدعاء من الكتاب والسنة» (IslamHouse, verbatim) + the site's Quran text for each Quranic dua. */
 export interface Dua { n: number; text: string; notes: string[]; kind: 'quran' | 'sunnah'; refs: [number, number, number][]; tags: string[]; audio?: string }
@@ -22,3 +23,5 @@ export const surahName = (s: number) => SURAHS[s - 1].name;
 export const note = (t: string) => t.replace(/^\[\d+\]\s*/, '');
 export interface IhAudio { id: number; title: string; by: { id: number; title: string; kind: string }[]; attachments: { type: string; size: string; url: string; desc: string | null }[]; url: string }
 export const IHA = iha as IhAudio[];
+export interface ProphetDua { prophet: string; kind: 'said' | 'joint' | 'commanded'; s: number; from: number; to: number; tafsir: { a: number; t: string }[]; context?: { a: number; t: string } }
+export const PROPHETS = prophets as ProphetDua[];

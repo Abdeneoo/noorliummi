@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ n: string
 export default async function TafsirPage({ params }: { params: Promise<{ n: string }> }) {
   const n = Number((await params).n);
   if (!Number.isInteger(n) || n < 1 || n > 114) notFound();
-  const [{ meta, ayat }, tafsir] = await Promise.all([loadSurah(n), loadJalalayn(n)]);
+  const [{ meta, ayat }, tafsir, moy] = await Promise.all([loadSurah(n), loadJalalayn(n), import(`@/generated/moyassar/${n}.json`).then((m) => m.default as Record<string, string>)]);
   return (
     <article className="reader">
       <header>
@@ -28,9 +28,11 @@ export default async function TafsirPage({ params }: { params: Promise<{ n: stri
             {tafsir[a.n]
               ? <p className="tafsir-text">{tafsir[a.n]}</p>
               : (() => { const prev = [...Array(a.n - 1).keys()].map((k) => a.n - 1 - k).find((k) => tafsir[k]); return <p className="tafsir-text missing">فُسِّرت هذه الآية في المصدر مع ما قبلها.{prev ? <> <a href={`#a${prev}`}>انظر تفسير الآية {arDigits(prev)}</a></> : null}</p>; })()}
+            {moy[String(a.n)] && <details className="moyassar"><summary>التفسير الميسر (معاني الآية وكلماتها)</summary><p className="tafsir-text">{moy[String(a.n)]}</p></details>}
           </li>
         ))}
       </ol>
+      <p className="note">«التفسير الميسر»: مجمع الملك فهد لطباعة المصحف الشريف، عبر موسوعة القرآن الكريم QuranEnc.com، دون تعديل.</p>
       <nav className="pager" aria-label="التنقل">
         {n > 1 ? <Link className="btn ghost" href={`/tafsir/${n - 1}`}>السورة السابقة</Link> : <span />}
         <Link className="btn ghost" href={`/quran/${n}`}>نص السورة</Link>

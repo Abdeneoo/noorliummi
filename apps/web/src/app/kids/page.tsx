@@ -18,6 +18,7 @@ export default async function KidsHome() {
       {allows(a, 'adhkar') && a.adhkar.length > 0 && <section><h2>الأذكار</h2><ul className="kid-tiles">{a.adhkar.map((id) => { const c = ADHKAR.find((x) => x.id === id); return c ? <li key={id}><Link href={`/kids/adhkar/${id}`}>{c.title}</Link></li> : null; })}</ul></section>}
       {allows(a, 'book') && a.book.length > 0 && <section><h2>ما لا يسع الطفل جهله</h2><ul className="kid-tiles">{(bookMeta('children')?.chapters ?? []).filter((c) => a.book.includes(c.n)).map((c) => <li key={c.n}><Link href={`/kids/book/${c.n}`}>{c.title}</Link></li>)}</ul></section>}
       {lessons.length > 0 && <section><h2>الدروس</h2><ul className="kid-tiles">{lessons.map((x) => <li key={x.id}><Link href={`/kids/lesson/${x.id}`}>{x.title}</Link></li>)}</ul></section>}
+      <section><h2>الطهارة</h2><ul className="kid-tiles"><li><Link href="/kids/wudu">كيف أتوضأ؟</Link></li></ul></section>
       {allows(a, 'tasbeeh') && <section><h2>المسبحة</h2><ul className="kid-tiles"><li><Link href="/kids/tasbeeh">سبّح</Link></li></ul></section>}
       {!a.sections.length && <p className="note">لم يختر وليّ الأمر محتوى بعد.</p>}
     </>

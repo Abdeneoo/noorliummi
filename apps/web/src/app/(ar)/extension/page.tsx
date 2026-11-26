@@ -18,6 +18,7 @@ export default function Extension() {
         <p className="note">بلا تتبع ولا جمع بيانات: الإعدادات على جهازك فقط. الطلبات الوحيدة إلى موقعنا: قائمة الأذان وملفه عند التشغيل وآية اليوم. الأذان من تسجيلات يستضيفها الموقع بترخيص موثّق (انظر <Link href="/sources">المصادر</Link>).</p></section>
       <section className="card"><h2 style={{ marginTop: 0 }}>التثبيت (نسخة تجريبية)</h2>
         <ol><li><a className="btn" href="/extension/noorliummi-extension.zip" download>نزّل الإضافة (zip)</a> وفكّ ضغطها.</li><li>افتح <code dir="ltr">chrome://extensions</code> وفعّل «وضع المطوّر».</li><li>اضغط «تحميل إضافة غير مُعبّأة» واختر المجلد.</li></ol>
+        <p className="note">لمتصفح Firefox (الإصدار 121 فأحدث): <a href="/extension/noorliummi-extension-firefox.zip" download>نسخة Firefox (zip)</a> — افتح <code dir="ltr">about:debugging</code> ثم «This Firefox» ثم «Load Temporary Add-on» واختر الملف. النسخة الدائمة تأتي بعد نشرها في متجر Firefox.</p>
         <p className="note">بعد اعتماد الإطلاق ستُنشر في متجر Chrome الإلكتروني ويُوضع رابطها هنا.</p></section>
     </article>
   );
