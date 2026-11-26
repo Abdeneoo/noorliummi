@@ -33,7 +33,7 @@ export default function AdminReview() {
           </form>); })}
       </section>
       <section className="card"><h2 style={{ marginTop: 0 }}>بث الحرمين</h2>
-        <p className="note">معرّف القناة (يبدأ بـ UC، يلتقط البث الحالي تلقائيًا) أو معرّف فيديو بث محدد (١١ حرفًا). اتركه فارغًا للعودة إلى القناة الرسمية الافتراضية.</p>
+        <p className="note">معرّف فيديو البث (١١ حرفًا، من رابط البث بعد v=). اتركه فارغًا ليُستخدم البث الافتراضي للقناة الرسمية مع محاولة التقاط البث الحالي تلقائيًا. إن ظهر «الفيديو غير متوفر» فانسخ معرّف البث الحالي من القناة وضعه هنا.</p>
         {([['live.makkah', 'المسجد الحرام'], ['live.madinah', 'المسجد النبوي']] as const).map(([k, l]) => <div key={k} className="row"><label style={{ flex: '0 0 120px' }} htmlFor={k}>{l}</label><input id={k} dir="ltr" value={live[k] ?? ''} onChange={(e) => setLive({ ...live, [k]: e.target.value })} style={{ flex: '1 1 240px' }} /><button type="button" className="btn ghost small" onClick={() => saveLive(k)}>حفظ</button></div>)}
       </section>
     </>
