@@ -2,10 +2,10 @@ import Link from 'next/link';
 import ReportLink from './ReportLink';
 type Lang = 'ar' | 'en';
 const C = {
-  ar: { tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', dua: 'صدقة جارية عن روح والدة صاحب المشروع — نسألكم لها الدعاء بالرحمة والمغفرة.', home: '/',
+  ar: { tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', dua: 'صدقة جارية عن روح والدة صاحب المشروع، أمل مجدي منير — نسألكم لها الدعاء بالرحمة والمغفرة.', help: 'تريد مساعدة في إنشاء مشروع مماثل أو في الكود؟ تواصل مع صاحب المشروع', home: '/',
     cols: [['تصفّح', [['القرآن', '/quran'], ['الصلاة والأذان', '/prayer'], ['الأذكار', '/adhkar'], ['المعرفة', '/knowledge']]], ['المزيد', [['الأدوات', '/tools'], ['الصدقة الجارية', '/sadaqah'], ['الإهداء', '/dedication'], ['English', '/en'], ['اردو', '/ur'], ['Türkçe', '/tr'], ['Indonesia', '/id']]], ['عن الموقع', [['حسابي', '/account'], ['الأسرة والأطفال', '/family'], ['المصادر والتراخيص', '/sources'], ['كيف نتحقق', '/verify'], ['تقرير الشفافية', '/transparency'], ['للمطوّرين', '/developers'], ['الخصوصية والشروط', '/privacy'], ['الكود المفتوح', 'https://github.com/Abdeneoo/noorliummi']]]] as [string, [string, string][]][],
     bottom: 'مجاني بلا إعلانات · الحساب اختياري · مفتوح المصدر' },
-  en: { tag: 'A light that never fades, a legacy that never ends', dua: 'Sadaqah jariyah for the founder’s mother — please remember her in your prayers.', home: '/en',
+  en: { tag: 'A light that never fades, a legacy that never ends', dua: 'Sadaqah jariyah for the founder’s mother, Amal Magdy Mounir — please remember her in your prayers.', help: 'Want help building a similar project or with the code? Contact the founder', home: '/en',
     cols: [['Browse', [['Quran', '/en/quran'], ['Prayer & Adhan', '/en/prayer'], ['Adhkar', '/en/adhkar'], ['Knowledge', '/en/knowledge']]], ['More', [['Tools', '/en/tools'], ['Sadaqah Jariyah', '/en/sadaqah'], ['Athar pages', '/en/athar'], ['Dedication', '/en/dedication'], ['العربية', '/'], ['اردو', '/ur'], ['Türkçe', '/tr'], ['Bahasa Indonesia', '/id']]], ['About', [['My account', '/account'], ['Sources & licences', '/en/sources'], ['Privacy & terms', '/en/privacy'], ['Open source code', 'https://github.com/Abdeneoo/noorliummi']]]] as [string, [string, string][]][],
     bottom: 'Free, no ads · accounts optional · Open source' },
 };
@@ -21,6 +21,7 @@ export default function SiteFooter({ lang = 'ar' }: { lang?: Lang }) {
           </Link>
           <p className="foot-tag">{c.tag}</p>
           <p className="foot-dua">{c.dua}</p>
+          <p className="foot-help"><a href="https://www.facebook.com/3abdeneo" target="_blank" rel="noopener">{c.help} ↗</a></p>
         </div>
         <nav className="foot-cols" aria-label={lang === 'ar' ? 'روابط الموقع' : 'Site links'}>
           {c.cols.map(([h, links]) => (

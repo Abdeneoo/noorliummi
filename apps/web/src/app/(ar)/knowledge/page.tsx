@@ -7,6 +7,7 @@ export default function Knowledge() {
       items={[
         { href: '/tafsir', icon: 'tafsir', title: 'التفسير', desc: 'تفسير الجلالين لكل آية، مرتبطًا بالمصحف.' },
         { href: '/hadith', icon: 'hadith', title: 'الحديث الشريف', desc: 'الكتب الستة والموطأ ومسند أحمد والدارمي، مع البحث.' },
+        { href: '/series', icon: 'knowledge', title: 'سلاسل مرئية', desc: 'السيرة النبوية وأصحاب رسول الله وقصص القرآن والسنة وغيرها — الأستاذ أحمد عامر.' },
         { href: '/books', icon: 'hadith', title: 'كتب مختارة', desc: 'شرح المناسك لابن باز، وفضل عشر ذي الحجة، وما لا يسع أطفال المسلمين جهله — بنصها الكامل وترجماتها.' },
         { href: '/lessons', icon: 'knowledge', title: 'الدروس', desc: 'دروس ومحاضرات وكتب مصنّفة حسب الموضوع، من دار الإسلام.' },
         { href: '/library', icon: 'hadith', title: 'المكتبة', desc: 'رياض الصالحين والأذكار للنووي، نصًا كاملًا بطبعته.' },
