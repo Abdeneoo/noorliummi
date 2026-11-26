@@ -640,8 +640,11 @@ html[data-contrast=high] *{text-shadow:none!important;background-image:none!impo
 .tv-dock{z-index:61}
 body:has(.audio-dock:not(.tv-dock)) .tv-dock{bottom:calc(196px + env(safe-area-inset-bottom))}
 @media (min-width:900px){body:has(.audio-dock:not(.tv-dock)) .tv-dock{bottom:136px}}
-.tv-dock .tv-frame{width:100%;height:110px;border:0;border-radius:12px;display:block;margin-top:6px;background:#fff}
-.tv-dock.small .tv-frame{height:64px}
+.tv-dock .tv-wrap{margin-top:6px;border-radius:12px;overflow:hidden;background:#fff}
+.tv-dock .tv-frame{width:100%;height:230px;border:0;display:block}
+/* Small: only the official player's control row stays visible (the embed itself is not altered). */
+.tv-dock.small .tv-wrap{height:76px}
+.tv-dock.small .tv-frame{margin-top:-146px}
 .tv-dock.small .ad-src{display:none}
 @media print{.audio-dock,.audio-resume{display:none!important}}
 .tf-panel{position:fixed;inset-inline:12px;bottom:calc(150px + env(safe-area-inset-bottom));z-index:61;max-width:640px;margin-inline:auto;max-height:55vh;overflow:auto;background:var(--surface,#103D32);color:var(--text,#F8F6F0);border:1px solid rgba(198,166,107,.45);border-radius:18px;padding:12px 16px;box-shadow:0 12px 36px rgba(0,0,0,.4);line-height:2}

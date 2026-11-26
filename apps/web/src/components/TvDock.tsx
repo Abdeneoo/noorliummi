@@ -20,8 +20,8 @@ export default function TvDock({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
         <div className="note" style={{ padding: '6px 0' }}><p style={{ margin: '0 0 6px' }}>{en ? 'This player is from TVQuran (an outside service that may use analytics). Nothing loads before you agree.' : 'المشغّل من موقع TVQuran (خدمة خارجية قد تستخدم أدوات إحصاء). لا يُحمّل شيء منه قبل موافقتك.'}</p>
           <button type="button" className="btn small" onClick={tvAgree}>{en ? 'Agree and play' : 'موافق، شغّل'}</button></div>
       ) : (
-        <iframe key={s.now.id} src={`https://www.tvquran.com/ar/selection/${s.now.id}/embeddable`} title={s.now.title} className="tv-frame"
-          allow="autoplay" referrerPolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups" />
+        <div className="tv-wrap"><iframe key={s.now.id} src={`https://www.tvquran.com/ar/selection/${s.now.id}/embeddable`} title={s.now.title} className="tv-frame"
+          allow="autoplay" referrerPolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups" /></div>
       )}
       <p className="ad-src" style={{ margin: '4px 0 0' }}>{en ? 'Keeps playing while you move between pages. Stops if you close the tab; some phones stop it when the screen locks (a browser limit).' : <>يستمر أثناء التنقل داخل الموقع. لا يعمل بعد إغلاق الصفحة، وقد يتوقف عند قفل الشاشة أو تصغير المتصفح على بعض الهواتف (قيد من المتصفح). <Link href="/duas/audio#tv-help">التفاصيل</Link></>}</p>
     </div>
