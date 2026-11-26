@@ -15,7 +15,10 @@ export default async function Hajj() {
       <HajjDays />
       <section className="card"><h2 style={{ marginTop: 0 }}>شرح المناسك</h2>
         <p>كتاب «التحقيق والإيضاح لكثير من مسائل الحج والعمرة والزيارة» للشيخ عبد العزيز بن باز، كاملًا بفصوله بالترتيب الأصلي، مع ترجمته الأردية والتركية والإندونيسية من الناشر.</p>
-        <div className="row"><Link className="btn" href="/books/manasik">افتح الكتاب</Link><Link className="btn ghost" href="/books/dhul-hijjah">فضل عشر ذي الحجة</Link></div></section>
+        <div className="row"><Link className="btn" href="/books/manasik">افتح الكتاب</Link><Link className="btn ghost" href="/books/dhul-hijjah">فضل عشر ذي الحجة</Link></div>
+        <p className="note" style={{ marginBottom: 4 }}>مكمّلات للشيخ ابن عثيمين:</p>
+        <div className="row"><Link className="btn ghost small" href="/books/sifat-al-hajj">صفة الحج</Link><Link className="btn ghost small" href="/books/manhaj-umrah-hajj">المنهج لمريد العمرة والحج</Link><Link className="btn ghost small" href="/books/hajj-mistakes">أخطاء يرتكبها بعض الحجاج</Link></div>
+        <p className="note">«دليل الحاج والمعتمر وزائر مسجد الرسول ﷺ» (هيئة التوعية الإسلامية في الحج): <a href="https://islamhouse.com/ar/books/111040/" target="_blank" rel="noopener">على IslamHouse ↗</a> — لم يُنقل نصه لأن آياته في الملف مكتوبة بخط مصحف خاص لا يُستخرج نصًا صحيحًا.</p></section>
       <section className="card"><h2 style={{ marginTop: 0 }}>التصاريح والخدمات الرسمية</h2>
         <p>التصاريح والحجز وكل ما يخص أداء النسك يكون عبر منصة «نسك» الرسمية فقط. هذا الموقع لا يصدر تصاريح ولا يقدّم خدمات حج.</p>
         <div className="row"><a className="btn" href="https://www.nusuk.sa" target="_blank" rel="noopener">منصة نسك الرسمية ↗</a></div></section>

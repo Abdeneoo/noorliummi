@@ -105,6 +105,10 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       { id: 818, slug: 'manasik', pages: 19, level: 'h1', title: 'التحقيق والإيضاح لكثير من مسائل الحج والعمرة والزيارة على ضوء الكتاب والسنة', author: 'الشيخ عبد العزيز بن عبد الله بن باز' },
       { id: 1181, slug: 'dhul-hijjah', pages: 1, level: 'h2', title: 'فضل عشر ذي الحجة', author: 'اللجنة العلمية بجمعية خدمة المحتوى الإسلامي باللغات' },
       { id: 772, slug: 'children', pages: 11, level: 'h1', title: 'ما لا يسع أطفال المسلمين جهله', author: 'الفريق العلمي بجمعية خدمة المحتوى الإسلامي باللغات' },
+      // Ibn 'Uthaymin's Hajj books (complement to Ibn Baz), as published by IslamHouse's content encyclopedia.
+      { id: 1164, slug: 'sifat-al-hajj', pages: 1, level: 'h2', title: 'صفة الحج', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 824, slug: 'manhaj-umrah-hajj', pages: 5, level: 'h3', title: 'المنهج لمريد العمرة والحج', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 1168, slug: 'hajj-mistakes', pages: 1, level: 'h2', title: 'أخطاء يرتكبها بعض الحجاج', author: 'الشيخ محمد بن صالح العثيمين' },
     ];
     const books: unknown[] = [];
     for (const b of BOOKS) {
@@ -130,6 +134,31 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       const meta = { ...b, langs, source: `https://enc.islamhouse.com/ar/books/${b.id}/1`, chapters: chs.map((c, i) => ({ n: i + 1, title: c.title, tr: c.tr, blocks: c.blocks.length })) };
       writeFileSync(`${out}/books/${b.slug}/index.json`, JSON.stringify(meta)); books.push({ slug: b.slug, id: b.id, title: b.title, author: b.author, langs, chapters: chs.length, blocks: rows.length });
       console.log(`book ${b.slug}: ${chs.length} chapters, ${rows.length} blocks, langs ${langs.join(',')}`);
+    }
+    // Books kept as checked JSON snapshots (no phrase-aligned edition exists): chapters stored exactly as converted from the source.
+    const SNAP = [
+      { file: 'islamhouse-docs/fatawa-siyam-tatawwu.json', slug: 'fasting-fatawa', title: 'من فتاوى الصيام [صوم التطوع]', author: 'مجموعة من المؤلفين (ابن باز، ابن عثيمين، الفوزان، ابن جبرين، اللجنة الدائمة)', source: 'https://islamhouse.com/ar/books/420474/' },
+    ];
+    for (const b of SNAP) {
+      const sd = resolve(here, `../../../database/sources/${dirname(b.file)}`); const name = b.file.split('/').pop()!;
+      const sum = readFileSync(`${sd}/SHA256SUMS`, 'utf8').split('\n').find((l) => l.endsWith(name))?.split(/\s+/)[0];
+      if (sha256File(`${sd}/${name}`) !== sum) throw new Error(`Checksum mismatch for ${b.file} — refusing to build`);
+      const chs = JSON.parse(readFileSync(`${sd}/${name}`, 'utf8')) as { title: string; blocks: { tag: string; ar: string; tr: Record<string, string> }[] }[];
+      mkdirSync(`${out}/books/${b.slug}`, { recursive: true }); chs.forEach((c, i) => writeFileSync(`${out}/books/${b.slug}/${i + 1}.json`, JSON.stringify({ title: c.title, tr: {}, blocks: c.blocks })));
+      writeFileSync(`${out}/books/${b.slug}/index.json`, JSON.stringify({ id: 0, slug: b.slug, title: b.title, author: b.author, langs: [], source: b.source, chapters: chs.map((c, i) => ({ n: i + 1, title: c.title, tr: {}, blocks: c.blocks.length })) }));
+      books.push({ slug: b.slug, id: 0, title: b.title, author: b.author, langs: [], chapters: chs.length, blocks: chs.reduce((t, c) => t + c.blocks.length, 0) });
+      console.log(`book ${b.slug}: ${chs.length} chapters`);
+    }
+    // Ibn Baz's fatwas on voluntary fasting (official site; transfer allowed with the source named): one chapter per fatwa, with its link.
+    {
+      const sd = resolve(here, '../../../database/sources/binbaz'); const sum = readFileSync(`${sd}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0];
+      if (sha256File(`${sd}/fatawa-siyam.json`) !== sum) throw new Error('Checksum mismatch for binbaz/fatawa-siyam.json — refusing to build');
+      const F = JSON.parse(readFileSync(`${sd}/fatawa-siyam.json`, 'utf8')) as { items: { topic: string; id: number; title: string; url: string; text: string }[] };
+      const slug = 'binbaz-fasting'; mkdirSync(`${out}/books/${slug}`, { recursive: true });
+      F.items.forEach((f, i) => writeFileSync(`${out}/books/${slug}/${i + 1}.json`, JSON.stringify({ title: f.title, tr: {}, url: f.url, topic: f.topic, blocks: f.text.split('\n').filter((x) => x.trim()).map((x) => ({ tag: 'p', ar: x.trim(), tr: {} })) })));
+      writeFileSync(`${out}/books/${slug}/index.json`, JSON.stringify({ id: 0, slug, title: 'فتاوى صيام التطوع', author: 'سماحة الشيخ عبد العزيز بن باز — الموقع الرسمي', langs: [], source: 'https://binbaz.org.sa/', chapters: F.items.map((f, i) => ({ n: i + 1, title: `${f.topic}: ${f.title}`, tr: {}, blocks: 1 })) }));
+      books.push({ slug, id: 0, title: 'فتاوى صيام التطوع', author: 'سماحة الشيخ عبد العزيز بن باز — الموقع الرسمي', langs: [], chapters: F.items.length, blocks: F.items.length });
+      console.log(`book ${slug}: ${F.items.length} fatwas`);
     }
     writeFileSync(`${out}/books/index.json`, JSON.stringify(books));
   }
@@ -293,14 +322,16 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
 
 // ---- Library: whole books from OpenITI (CC BY-NC-SA 4.0), sectioned for reading ----
 {
-  const dir = resolve(here, '../../../database/sources/library-openiti');
-  const AR: Record<string, { ar: string; author: string }> = { riyad: { ar: 'رياض الصالحين', author: 'الإمام النووي (ت 676هـ)' }, 'adhkar-nawawi': { ar: 'الأذكار', author: 'الإمام النووي (ت 676هـ)' } };
+  const AR: Record<string, { ar: string; author: string }> = { riyad: { ar: 'رياض الصالحين', author: 'الإمام النووي (ت 676هـ)' }, 'adhkar-nawawi': { ar: 'الأذكار', author: 'الإمام النووي (ت 676هـ)' },
+    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' } };
   const index: unknown[] = [];
-  for (const line of readFileSync(`${dir}/FILES`, 'utf8').trim().split('\n')) {
+  // Two pinned OpenITI sources: the RELEASE corpus (Riyad, al-Adhkar) and the 0775AH repository (Qisas al-Anbiya, al-Fusul — chosen by the owner).
+  const libLines = ['library-openiti', 'library-openiti-0775'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
+  for (const { l: line, dir } of libLines) {
     const [sum, key, path] = line.split(/\s+/); const f = `${dir}/files/${key}.txt`;
     if (!existsSync(f)) throw new Error(`Missing ${key} — run infrastructure/fetch-hadith.sh`);
     if (sha256File(f) !== sum) throw new Error(`Checksum mismatch for library ${key} — refusing to build`);
-    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi');
+    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul');
     const got = bookLetters(b.sections.map((s) => s.blocks.map((x) => ('p' in x ? x.p : 'h' in x ? x.h : 'v' in x ? x.v : '')).join('')).join(''));
     const want = bookLetters(b.body.split(/\r?\n/).filter((l) => !/^### \|{1,3} /.test(l)).join(' ').replace(/\bms\d+[A-Za-z]?\b/g, ''));
     if (got !== want) throw new Error(`Library ${key}: Arabic letters changed in processing — refusing to build`);

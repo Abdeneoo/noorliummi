@@ -7,8 +7,13 @@ export interface Section { title: string; group?: string; blocks: Block[] }
 export interface Book { meta: Record<string, string>; sections: Section[]; body: string }
 const clean = (s: string) => s.replace(/\bms\d+[A-Za-z]?\b/g, ' ').replace(/@QB@\s*/g, '﴿').replace(/\s*@QE@/g, '﴾').replace(/\s*%~%\s*/g, '   *   ').replace(/\s+([.،,:؛])/g, '$1').replace(/\s+/g, ' ').trim();
 
-export function parseBook(text: string, kind: 'riyad' | 'adhkar-nawawi'): Book {
-  const [head, body = ''] = text.split('#META#Header#End#');
+export type BookKind = 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul';
+/** Where the author's own text starts (anything before it is the modern editor's introduction, which is not imported). */
+const START: Partial<Record<BookKind, string>> = { qisas: '### | باب ما ورد في خلق آدم' };
+export function parseBook(text: string, kind: BookKind): Book {
+  const [head, full = ''] = text.split('#META#Header#End#');
+  const st = START[kind]; const at = st ? full.indexOf(st) : -1; if (st && at < 0) throw new Error(`${kind}: start of the author's text not found`);
+  const body = at >= 0 ? full.slice(at) : full;
   const meta: Record<string, string> = {};
   for (const l of head.split(/\r?\n/)) { const m = l.match(/^#META# \d+\.(\w+)\s*::\s*(.*)$/); if (m && m[2].trim() && !/^(NODATA|NOTGIVEN|NOCODE)$/.test(m[2].trim())) meta[m[1]] = m[2].trim(); }
   // Join continuation lines; a page mark inside a paragraph stays in place as a token.
@@ -35,12 +40,19 @@ export function parseBook(text: string, kind: 'riyad' | 'adhkar-nawawi'): Book {
       if ((m = p.match(/^### \|\| (.*)$/))) { if (group.startsWith('[')) group = ''; open(clean(m[1].replace(/PageV\d+P\d+/g, ''))); continue; }
       if ((m = p.match(/^### \|\|\| ?(.*)$/))) { if (!cur) open('—'); const num = m[1].match(/(\d+)\s*\/\s*(\d+)/); cur!.blocks.push({ n: num ? num[2] : clean(m[1]) }); const rest = m[1].replace(/^\s*\d+\s*\/\s*\d+\s*-?\s*/, ''); if (rest.trim()) pushText('p', rest); continue; }
     }
+    if (kind === 'qisas' || kind === 'fusul') {
+      if ((m = p.match(/^### \|{1,3} ?(.*)$/))) { open(clean(m[1].replace(/PageV\d+P\d+/g, '')) || '—'); continue; }
+      // In «قصص الأنبياء» several stories begin inside a paragraph ("قصة نوح عليه السلام ..."): that paragraph opens a new section
+      // titled by the book's own words, and stays as the section's first paragraph.
+      if (kind === 'qisas' && (m = p.match(/^# (?:مدين )?(قصة (?:[إا]براهيم الخليل|قوم شعيب عليه السلام|الذبيح|ذي الكفل|قوم يس|عيسى بن مريم))/))) open(clean(m[1]));
+      else if (kind === 'qisas' && (m = p.match(/^# (قصة [^:،.()"«]{2,60}?(?:عليه|عليهما|عليهم) السلام)/))) open(clean(m[1]));
+    }
     if (!cur) open(kind === 'adhkar-nawawi' ? '' : '—');
     if (kind === 'adhkar-nawawi' && (m = p.match(/^# \| (.*)$/))) { pushText('h', m[1]); continue; }
     const t = p.replace(/^#+ ?/, '');
     pushText(t.includes('%~%') ? 'v' : 'p', t);
   }
-  const out = sections.filter((s) => s.blocks.length);
+  const out = sections.filter((s) => s.blocks.some((b) => 'p' in b || 'h' in b || 'v' in b || 'n' in b));
   if (kind === 'adhkar-nawawi') { // title each chunk by its printed pages
     let last = 1;
     for (const s of out) { const pgs = s.blocks.filter((b): b is { pg: string } => 'pg' in b).map((b) => Number(b.pg)); const from = last; const to = pgs.length ? Math.max(...pgs) : last; s.title = `${from}–${to}`; last = to + 1; }
