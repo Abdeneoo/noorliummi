@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: 'القرّاء والمشايخ', de
 export default function RecitersPage() {
   const rows = PEOPLE.map((p) => {
     const tv = TV_ITEMS.filter((x) => x.scholar_id != null && p.tv.includes(x.scholar_id));
-    return { slug: p.slug, ar: p.ar, en: p.en, dua: tv.filter((x) => TV_DUA_CATS.includes(x.cat)).length, clips: tv.filter((x) => !TV_DUA_CATS.includes(x.cat)).length, ih: p.ih.length, quran: p.quran.length > 0, star: isPriority(p) };
+    return { slug: p.slug, ar: p.ar, en: p.en, dua: tv.filter((x) => TV_DUA_CATS.includes(x.cat)).length, clips: tv.filter((x) => !TV_DUA_CATS.includes(x.cat)).length, ih: p.ih.length, quran: p.quran.length > 0 || p.ea.length > 0, star: isPriority(p) };
   }).sort((a, b) => Number(b.star) - Number(a.star));
   return (
     <article style={{ maxWidth: 960, margin: '0 auto' }}>

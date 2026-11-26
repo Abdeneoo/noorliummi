@@ -33,7 +33,8 @@ export default async function Page() {
   const mb = (x: { it: { attachments: { size: string; desc: string | null }[] } }) => { let t = 0; for (const a of x.it.attachments) { if (/كامل/.test(a.desc ?? '') && x.it.attachments.length > 1) continue; const m = /([\d.]+)\s*(MB|KB)/i.exec(a.size); if (m) t += Number(m[1]) / (m[2].toUpperCase() === 'KB' ? 1024 : 1); } return `${Math.round(t)} م.ب`; };
   const hisnIh = ih.filter((x) => /حصن المسلم/.test(x.it.title));
   const afasy = ih.filter((x) => x.reader.includes('العفاسي'));
-  const talks = ih.filter((x) => !hisnIh.includes(x) && !afasy.includes(x));
+  const ruqyaIh = ih.filter((x) => /رقية|الرقى/.test(x.it.title) && !hisnIh.includes(x));
+  const talks = ih.filter((x) => !hisnIh.includes(x) && !afasy.includes(x) && !ruqyaIh.includes(x));
   const tvRows = TV_ITEMS.filter((x) => TV_DUA_CATS.includes(x.cat) && !hid.has(`tv${x.id}`)).map((x) => { const p = personOfTv(x.scholar_id); return { id: x.id, title: x.title, by: p?.ar ?? '', slug: p?.slug, cat: x.cat, plays: x.plays }; });
   return (
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -51,6 +52,9 @@ export default async function Page() {
       <section className="section"><h2>أدعية «حصن المسلم» بصوت محمد جمعة</h2>
         <p className="note">{hisnTotal.toLocaleString('ar-EG')} تسجيلًا من مشروع OpenDua (ترخيص CC BY 4.0: «Recitation by Muhammad Jumah for OpenDua»)، كل تسجيل مربوط بنصه بعد مطابقة حروفه.</p>
         <ul className="athar-dir">{groups.filter((g) => g.tracks.length).map((g) => <li key={g.id}><div className="card"><strong>{g.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{g.tracks.length.toLocaleString('ar-EG')} تسجيلًا</p><PlayTrack tracks={g.tracks} label="▶ شغّل القائمة" className="btn small" /> <SaveOffline srcs={g.tracks.map((t) => t.src)} /></div></li>)}</ul></section>
+      <section className="section" id="ruqyah-ih"><h2>آيات الرقية الشرعية بأصوات القراء</h2>
+        <p className="note">من IslamHouse (سياستهم المنشورة تسمح بالنشر والحفظ دون إنترنت دون تعديل مع ذكر المصدر). تعمل في الخلفية.</p>
+        <ul className="athar-dir">{ruqyaIh.map((x) => <li key={x.it.id}><div className="card"><strong>{x.reader || x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.it.title}</p><PlayTrack tracks={x.tracks} /> <SaveOffline srcs={x.tracks.map((t) => t.src)} /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
       <section className="section" id="talks"><h2>خطب ودروس عن الدعاء والأذكار</h2>
         <ul className="athar-dir">{talks.map((x) => <li key={x.it.id}><div className="card"><strong>{x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.reader}</p><PlayTrack tracks={x.tracks} label="▶ استمع" className="btn small" /> <SaveOffline srcs={x.tracks.map((t) => t.src)} size={mb(x)} /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
       <section className="section" id="tv"><h2>أدعية وأذكار ورقية — أئمة الحرمين وكبار القراء (TVQuran)</h2>

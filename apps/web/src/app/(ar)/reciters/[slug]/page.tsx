@@ -10,6 +10,8 @@ import SaveOffline from '@/components/SaveOffline';
 import ShareLink from '@/components/ShareLink';
 import DuaFav from '@/components/DuaFav';
 import AddToPlaylist from '@/components/AddToPlaylist';
+import { EA, eaUrl } from '@/lib/everyayah';
+import { QD, ayatOf, surahName } from '@/lib/duas';
 
 const S = surahs as { index: number; name: string }[];
 export function generateStaticParams() { return PEOPLE.map((p) => ({ slug: p.slug })); }
@@ -29,6 +31,8 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
   const allIh = ih.flatMap((x) => x.tracks);
   const full = p.quran.map((i) => ({ i, r: RECITERS[i] })).filter((x) => x.r.mode === 'surah');
   const ayahOnly = p.quran.map((i) => RECITERS[i]).filter((r) => r.mode === 'ayah');
+  const duaAyat = p.ea.length ? (await Promise.all(QD.duas.filter((d) => d.kind === 'quran').map(ayatOf))).flat() : [];
+  const eaTracks = p.ea.flatMap((f) => { const e = EA.find((x) => x.f === f)!; return duaAyat.map((x) => ({ id: `q${x.s}:${x.a}:ea-${f}`, src: eaUrl(e, x.s, x.a), title: `${surahName(x.s)}: ${x.a}`, by: e.name, source: 'تلاوة الآية كاملة — EveryAyah.com (بث من موقعهم)', text: x.t, page: `/quran/${x.s}#a${x.a}` })); });
   const catsOf = (rows: { cat: number }[]) => TVC.categories.filter((c) => rows.some((r) => r.cat === c.id));
   return (
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -41,6 +45,10 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
         <p className="note">من IslamHouse، تُشغَّل من خوادمهم دون تعديل وفق سياستهم المنشورة (تسمح بالنشر والحفظ للاستخدام دون إنترنت مع ذكر المصدر).</p>
         <div className="row"><PlayTrack tracks={allIh} label={`▶ شغّل الكل (${allIh.length.toLocaleString('ar-EG')})`} className="btn" /><AddToPlaylist tracks={allIh} name={p.ar} /><SaveOffline srcs={allIh.map((t) => t.src)} /></div>
         <ul className="athar-items">{ih.map(({ it, tracks }) => <li key={it.id}><PlayTrack tracks={tracks} /> {it.title} {tracks.length > 1 && <small className="note">({tracks.length.toLocaleString('ar-EG')} مقطعًا)</small>} <a className="note" href={it.url} target="_blank" rel="noopener">المصدر ↗</a></li>)}</ul></section>}
+
+      {eaTracks.length > 0 && <section className="section"><h2>أدعية القرآن بصوته</h2>
+        <p className="note">{eaTracks.length.toLocaleString('ar-EG')} آية من آيات الدعاء، تُتلى كل آية كاملة (تلاوة لآيات الدعاء، لا تسجيل دعاء قنوت). من EveryAyah.com، بث من موقعهم.</p>
+        <div className="row"><PlayTrack tracks={eaTracks} label="▶ شغّل أدعية القرآن" className="btn" /><AddToPlaylist tracks={eaTracks} name={`أدعية القرآن — ${p.ar}`} /></div></section>}
 
       {duaTv.length > 0 && <section className="section"><h2>الأدعية والأذكار والرقية</h2>
         <p className="note">من TVQuran بمشغّله الرسمي: يُشغَّل تسجيل واحد في كل مرة، ويبقى أسفل الشاشة وأنت تتنقل. لا يُحفظ دون إنترنت.</p>
@@ -55,6 +63,7 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
 
       <section className="section"><h2>المصادر</h2><ul>
         {p.quran.length > 0 && <li>المصحف: Islamic Network، بث من خوادمهم.</li>}
+        {p.ea.length > 0 && <li>آيات الدعاء: EveryAyah.com، بث من موقعهم مع الإسناد (لا شروط إعادة توزيع منشورة؛ لا نحفظه على خوادمنا).</li>}
         {tv.length > 0 && <li>TVQuran: تضمين رسمي ({p.tv.map((id) => <a key={id} href={`https://www.tvquran.com/ar/scholar/${id}/profile`} target="_blank" rel="noopener">صفحة القارئ ↗</a>)})، {tvCat(tv[0].cat) && `حُصرت في ${TVC.fetched}`}. التشغيل المباشر والحفظ دون إنترنت ينتظر إذنهم.</li>}
         {allIh.length > 0 && <li>IslamHouse: <a href="https://github.com/IslamHouse-API/multilingual-quran-hadith-islamic-content-database-api-hub/blob/main/README_AR.md" target="_blank" rel="noopener">سياسة الاستخدام المنشورة ↗</a></li>}
         <li>لا نعرض صورًا للقرّاء ولا سيرًا ذاتية حتى نجد مصدرًا موثقًا يأذن بذلك.</li></ul></section>
