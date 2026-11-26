@@ -59,6 +59,7 @@ function load(i: number, play: boolean) {
 }
 /** Play a track or a list (starting at `start`). Replaces what is playing. */
 export function play(queue: Track | Track[], start = 0) {
+  try { dispatchEvent(new Event('noor:audio-play')); } catch { /* ignore */ }
   const q = Array.isArray(queue) ? queue : [queue];
   if (cur() && q[start] && cur()!.id === q[start].id && el?.src) { set({ queue: q, i: start }); toggle(true); return; }
   set({ queue: q }); load(start, true);

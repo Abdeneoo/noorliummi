@@ -7,7 +7,7 @@ export interface AtharItem { kind: 'surah' | 'dhikr' | 'reciter'; ref: number }
 export type Gender = 'm' | 'f' | 'pl';
 export interface AtharInput { display_name: string; dedication: string; dua_text: string; items: AtharItem[]; listed: boolean; gender: Gender; relation: string; died_on: string | null; audio_set: string }
 /** Recorded dua sets a page may play (all from licensed sources). */
-export const AUDIO_SETS: Record<string, string> = { 'od-dead': 'أدعية المتوفى من «حصن المسلم» — محمد جمعة (OpenDua)', 'quran-duas': 'أدعية القرآن الكريم — بصوت القارئ الذي يختاره الزائر', 'ih-263352': '«حصن المسلم» كاملًا — حمد الدريهم (IslamHouse)', 'ih-2799103': '«حصن المسلم» كاملًا — سليمان الشويهي (IslamHouse)', 'ih-289563': '«حصن المسلم» — فارس عباد (IslamHouse)', none: 'بلا تسجيل صوتي' };
+export const AUDIO_SETS: Record<string, string> = { 'od-dead': 'أدعية المتوفى من «حصن المسلم» — محمد جمعة (OpenDua)', 'quran-duas': 'أدعية القرآن الكريم — بصوت القارئ الذي يختاره الزائر', 'ih-263352': '«حصن المسلم» كاملًا — حمد الدريهم (IslamHouse)', 'ih-2799103': '«حصن المسلم» كاملًا — سليمان الشويهي (IslamHouse)', 'ih-289563': '«حصن المسلم» — فارس عباد (IslamHouse)', 'pl-deceased': 'قائمة «أدعية المتوفين»', 'pl-parents': 'قائمة «أدعية الوالدين» (آيات)', 'pl-mercy': 'قائمة «أدعية الرحمة والمغفرة»', none: 'بلا تسجيل صوتي' };
 export const LIMITS = { name: 80, dedication: 300, dua: 1000, items: 10, reason: 300 } as const;
 const DHIKR_IDS = new Set((adhkarIndex as { id: number }[]).map((c) => c.id));
 

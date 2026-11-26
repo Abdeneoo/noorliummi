@@ -7,6 +7,10 @@ import Tasbeeh from '@/components/Tasbeeh';
 import Lantern from '@/components/Lantern';
 import PlayTrack from '@/components/PlayTrack';
 import { IHA } from '@/lib/duas';
+import { readyPlaylists } from '@/lib/playlists-ready';
+import { RECITERS, ayahUrl } from '@/lib/reciters';
+import { SURAHS } from '@/lib/quran';
+const START = SURAHS.reduce<number[]>((a, s, i) => { a.push(i === 0 ? 1 : a[i - 1] + SURAHS[i - 1].ayas); return a; }, []);
 import { feminine, FEMININE_BASIS } from '@/lib/dua';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import AtharShare from '@/components/AtharShare';
@@ -42,7 +46,7 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
   }
   // The page's recorded duas (chosen by its owner from licensed sources), played in the site-wide player so they continue while browsing.
   const set = p.audio_set || 'od-dead';
-  type T = { id: string; src: string; title: string; by: string; license?: string; source?: string; text?: string; page: string };
+  type T = { id: string; src: string; title: string; by?: string; license?: string; source?: string; text?: string; page: string };
   let duaTracks: T[] = []; let duaNote = '';
   if (set === 'od-dead') {
     duaTracks = (await Promise.all([56, 57, 59, 60, 61].map(async (id) => ({ id, c: await loadAdhkar(id) }))))
@@ -52,6 +56,14 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
     const it = IHA.find((x) => `ih-${x.id}` === set);
     if (it) { const f = it.attachments.filter((a) => a.type === 'MP3'); const all = f.length > 1 ? f.filter((a) => !/كامل/.test(a.desc ?? '')) : f; const dead = all.filter((a) => /الميت|للميت|المحتضر|مصيبة|التعزية|القبر|القبور|الفرط|للفرط|المريض|للمريض/.test(a.desc ?? '')); const parts = dead.length ? dead : all; const reader = it.by.filter((x) => x.kind === 'author').map((x) => x.title).join('، ');
       duaTracks = parts.map((a, k) => ({ id: `ih${it.id}-${k}`, src: a.url, title: a.desc || it.title, by: reader, source: `IslamHouse: ${it.title}`, page: `/athar/${slug}` })); duaNote = `${it.title} — ${reader} (IslamHouse)`; }
+  }
+  if (set.startsWith('pl-')) {
+    const l = (await readyPlaylists()).find((x) => `pl-${x.id}` === set);
+    if (l) {
+      const husary = RECITERS.findIndex((r) => r.id === 'ar.husary');
+      const ay = l.ayat.map((x) => ({ id: `q${x.s}:${x.a}:ar.husary`, src: ayahUrl(RECITERS[husary], START[x.s - 1] + x.a - 1), title: x.title, by: RECITERS[husary].name, source: 'تلاوة الآية كاملة — Islamic Network', text: x.t, page: `/athar/${slug}` }));
+      duaTracks = [...l.tracks.map((t) => ({ ...t, page: `/athar/${slug}` })), ...ay]; duaNote = `قائمة «${l.title}» من مكتبة الموقع`;
+    }
   }
   const dead = (await loadAdhkar(56)).items[0];
   const duaText = p.gender === 'f' ? feminine(dead.t) : dead.t;

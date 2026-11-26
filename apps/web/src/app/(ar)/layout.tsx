@@ -17,6 +17,7 @@ import '../globals.css';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
 import Deferred from '@/components/Deferred';
 import AudioDock from '@/components/AudioDock';
+import TvDock from '@/components/TvDock';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TabBar lang="ar" />
         <SiteFooter lang="ar" />
         <AudioDock />
+        <TvDock />
         <Deferred />
       </body>
     </html>

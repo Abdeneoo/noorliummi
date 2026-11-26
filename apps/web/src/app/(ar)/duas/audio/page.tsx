@@ -5,11 +5,12 @@ import { HISN_GROUPS } from '@/lib/duas-groups';
 import { IHA, QD, TV, ayatOf, surahName } from '@/lib/duas';
 import PlayTrack from '@/components/PlayTrack';
 import { DuaReciterBar } from '@/components/DuaAyahPlayer';
-import TvEmbed from '@/components/TvEmbed';
 import SaveOffline from '@/components/SaveOffline';
 import OfflineManager from '@/components/OfflineManager';
 import { hiddenDuas } from '@/lib/duas-hidden';
 import { tvDirect } from '@/lib/rights';
+import TvLibrary from '@/components/TvLibrary';
+import { TVC, TV_DUA_CATS, TV_ITEMS, personOfTv } from '@/lib/people';
 export const revalidate = 300;
 import DuaNav from '@/components/DuaNav';
 export const metadata: Metadata = { title: 'مكتبة الأدعية الصوتية', description: 'أدعية حصن المسلم بصوت محمد جمعة، وأدعية القرآن بأصوات القراء، ودعاء القنوت وختم القرآن بأصوات أئمة الحرمين.' };
@@ -33,7 +34,7 @@ export default async function Page() {
   const hisnIh = ih.filter((x) => /حصن المسلم/.test(x.it.title));
   const afasy = ih.filter((x) => x.reader.includes('العفاسي'));
   const talks = ih.filter((x) => !hisnIh.includes(x) && !afasy.includes(x));
-  const tv = TV.filter((x) => !hid.has(`tv${x.id}`)); const byScholar = [...new Set(tv.map((x) => x.scholar))].map((s) => ({ s, items: tv.filter((x) => x.scholar === s) }));
+  const tvRows = TV_ITEMS.filter((x) => TV_DUA_CATS.includes(x.cat) && !hid.has(`tv${x.id}`)).map((x) => { const p = personOfTv(x.scholar_id); return { id: x.id, title: x.title, by: p?.ar ?? '', slug: p?.slug, cat: x.cat, plays: x.plays }; });
   return (
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/duas">الأدعية</Link></p><h1>مكتبة الأدعية الصوتية</h1><p>تسجيلات بشرية فقط، بلا موسيقى ولا أصوات مولّدة. ما يُشغَّل هنا يستمر وأنت تتنقل في الموقع.</p></header>
@@ -52,9 +53,13 @@ export default async function Page() {
         <ul className="athar-dir">{groups.filter((g) => g.tracks.length).map((g) => <li key={g.id}><div className="card"><strong>{g.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{g.tracks.length.toLocaleString('ar-EG')} تسجيلًا</p><PlayTrack tracks={g.tracks} label="▶ شغّل القائمة" className="btn small" /> <SaveOffline srcs={g.tracks.map((t) => t.src)} /></div></li>)}</ul></section>
       <section className="section" id="talks"><h2>خطب ودروس عن الدعاء والأذكار</h2>
         <ul className="athar-dir">{talks.map((x) => <li key={x.it.id}><div className="card"><strong>{x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.reader}</p><PlayTrack tracks={x.tracks} label="▶ استمع" className="btn small" /> <SaveOffline srcs={x.tracks.map((t) => t.src)} size={mb(x)} /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
-      <section className="section"><h2>دعاء القنوت وختم القرآن — أئمة الحرمين وكبار القراء</h2>
-        <p className="note">من موقع TVQuran عبر مشغّله الرسمي للتضمين ({TV.length.toLocaleString('ar-EG')} تسجيلًا). هذه أدعية يُنشئها الإمام في القنوت أو الختم، وليست أحاديث نبوية بلفظها. {direct ? 'تُشغَّل في مشغّل المنصة بإذن من الموقع.' : 'لا تعمل في الخلفية لأنها داخل مشغّل الموقع المصدر.'}</p>
-        <ul className="athar-dir">{byScholar.map(({ s, items }) => <li key={s}><div className="card"><strong>{s}</strong>{items.map((x) => <div key={x.id} style={{ marginTop: 8 }}><span>{x.title}</span> {direct ? <PlayTrack tracks={[{ id: `tv${x.id}`, src: x.mp3, title: x.title, by: s, source: 'TVQuran.com (بإذن)', page: '/duas/audio' }]} label="▶ استمع" /> : <TvEmbed id={x.id} title={`${x.title} — ${s}`} />}</div>)}</div></li>)}</ul></section>
+      <section className="section" id="tv"><h2>أدعية وأذكار ورقية — أئمة الحرمين وكبار القراء (TVQuran)</h2>
+        <p className="note">كل ما وجدناه في أقسام الأدعية والأذكار والرقية والأذان والتكبير على موقع TVQuran ({tvRows.length.toLocaleString('ar-EG')} تسجيلًا)، يُشغَّل في مشغّلهم الرسمي للتضمين، ويبقى مفتوحًا أسفل الشاشة وأنت تتنقل في الموقع. أدعية القنوت والختم يُنشئها الإمام، وليست أحاديث نبوية بلفظها.</p>
+        <TvLibrary rows={tvRows} cats={TVC.categories.filter((c) => TV_DUA_CATS.includes(c.id))} />
+        <details id="tv-help" className="card" style={{ marginTop: 12 }}><summary>ماذا يعمل وماذا لا يعمل في مشغّل TVQuran؟</summary>
+          <ul><li>يستمر التشغيل وأنت تنتقل بين صفحات الموقع داخل التبويب نفسه.</li><li>يتوقف إذا أغلقت التبويب أو أعدت تحميل الصفحة.</li><li>على أندرويد (Chrome): غالبًا يستمر مع تصغير المتصفح، وقد يتوقف عند قفل الشاشة.</li><li>على آيفون (Safari): يتوقف غالبًا عند قفل الشاشة أو ترك المتصفح.</li><li>لا تحكم من شاشة القفل ولا حفظ للاستماع دون إنترنت، لأن الصوت داخل مشغّل موقعهم.</li><li>تشغيل مباشر في مشغّل المنصة يحتاج إذنًا من TVQuran (مسجّل في سجل الحقوق).</li></ul></details>
+        {direct && <p className="note">مسجّل إذن تشغيل مباشر: {TV.length.toLocaleString('ar-EG')} تسجيلًا تعمل في مشغّل المنصة: {TV.map((x) => <PlayTrack key={x.id} tracks={[{ id: `tv${x.id}`, src: x.mp3, title: x.title, by: x.scholar, source: 'TVQuran.com (بإذن)', page: '/duas/audio' }]} label={`▶ ${x.scholar}: ${x.title}`} />)}</p>}
+      </section>
     </article>
   );
 }

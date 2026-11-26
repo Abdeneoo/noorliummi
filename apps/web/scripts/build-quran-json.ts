@@ -245,6 +245,10 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       const tv = resolve(here, '../../../database/sources/tvquran');
       if (sha256File(`${tv}/selections-category-4.json`) !== readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for tvquran list');
       writeFileSync(`${out}/duas/tvquran.json`, readFileSync(`${tv}/selections-category-4.json`, 'utf8'));
+      const tvSums = Object.fromEntries(readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse()));
+      if (sha256File(`${tv}/catalog-2026-11-26.json`) !== tvSums['catalog-2026-11-26.json']) throw new Error('Checksum mismatch for tvquran catalog');
+      mkdirSync(`${out}/tvquran`, { recursive: true });
+      writeFileSync(`${out}/tvquran/catalog.json`, readFileSync(`${tv}/catalog-2026-11-26.json`, 'utf8'));
       // Inventory of recordings held for permission (admin panel only; not published).
       for (const k of ['islamweb-dua', 'ourquraan', 'daralbalagh']) writeFileSync(`${out}/duas/${k}.json`, readFileSync(resolve(here, `../../../database/sources/rights/${k}.json`), 'utf8'));
     }

@@ -6,7 +6,7 @@ import { RECITERS } from '@/lib/reciters';
 
 type Item = { kind: 'surah' | 'dhikr' | 'reciter'; ref: number };
 export interface AtharInitial { display_name: string; dedication: string; dua_text: string; items: Item[]; listed?: boolean; gender?: 'm' | 'f' | 'pl'; relation?: string; died_on?: string; audio_set?: string }
-const SETS: [string, string][] = [['od-dead', 'أدعية المتوفى من «حصن المسلم» — محمد جمعة'], ['quran-duas', 'أدعية القرآن الكريم — بصوت قارئ يختاره الزائر'], ['ih-263352', '«حصن المسلم» كاملًا — حمد الدريهم'], ['ih-2799103', '«حصن المسلم» كاملًا — سليمان الشويهي'], ['ih-289563', '«حصن المسلم» — فارس عباد'], ['none', 'بلا تسجيل صوتي']];
+const SETS: [string, string][] = [['od-dead', 'أدعية المتوفى من «حصن المسلم» — محمد جمعة'], ['quran-duas', 'أدعية القرآن الكريم — بصوت قارئ يختاره الزائر'], ['ih-263352', '«حصن المسلم» كاملًا — حمد الدريهم'], ['ih-2799103', '«حصن المسلم» كاملًا — سليمان الشويهي'], ['ih-289563', '«حصن المسلم» — فارس عباد'], ['pl-deceased', 'قائمة «أدعية المتوفين» كاملة'], ['pl-parents', 'قائمة «أدعية الوالدين» (آيات بصوت الحصري)'], ['pl-mercy', 'قائمة «أدعية الرحمة والمغفرة»'], ['none', 'بلا تسجيل صوتي']];
 const DUA_PREVIEW = { m: 'اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ، وَعَافِهِ، وَاعْفُ عَنْهُ…', f: 'اللَّهُمَّ اغْفِرْ لَهَا وَارْحَمْهَا، وَعَافِهَا، وَاعْفُ عَنْهَا…', pl: 'اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ… (يُعرض بلفظ الحديث كما ورد)' } as const;
 const S = surahs as { index: number; name: string }[];
 const A = adhkar as { id: number; title: string }[];
