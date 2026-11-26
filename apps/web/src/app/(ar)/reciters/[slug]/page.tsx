@@ -47,8 +47,8 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
 
       {allIh.length > 0 && <section className="section"><h2>تسجيلات تعمل في الخلفية وتُحفظ دون إنترنت</h2>
         <p className="note">من IslamHouse، تُشغَّل من خوادمهم دون تعديل وفق سياستهم المنشورة (تسمح بالنشر والحفظ للاستخدام دون إنترنت مع ذكر المصدر).</p>
-        <div className="row"><PlayTrack tracks={allIh} label={`▶ شغّل الكل (${allIh.length.toLocaleString('ar-EG')})`} className="btn" /><AddToPlaylist tracks={allIh} name={p.ar} /><SaveOffline srcs={ih.filter(({ it }) => !/رقية|الرقى|المصحف|تلاوة/.test(it.title)).flatMap((x) => x.tracks).map((t) => t.src)} /></div>
-        <ul className="athar-items">{ih.map(({ it, tracks }) => <li key={it.id}><PlayTrack tracks={tracks} /> {it.title} {tracks.length > 1 && <small className="note">({tracks.length.toLocaleString('ar-EG')} مقطعًا)</small>} <a className="note" href={it.url} target="_blank" rel="noopener">المصدر ↗</a></li>)}</ul></section>}
+        <div className="row"><PlayTrack tracks={allIh} label={`▶ شغّل الكل (${allIh.length.toLocaleString('ar-EG')})`} className="btn" /><AddToPlaylist tracks={allIh} name={p.ar} /><SaveOffline srcs={allIh.map((t) => t.src)} /></div>
+        <ul className="athar-items">{ih.map(({ it, tracks }) => <li key={it.id}><PlayTrack tracks={tracks} /> {it.title} {tracks.length > 1 && <small className="note">({tracks.length.toLocaleString('ar-EG')} مقطعًا)</small>}</li>)}</ul></section>}
 
       {eaTracks.length > 0 && <section className="section"><h2>أدعية القرآن بصوته</h2>
         <p className="note">{eaTracks.length.toLocaleString('ar-EG')} آية من آيات الدعاء، تُتلى كل آية كاملة (تلاوة لآيات الدعاء، لا تسجيل دعاء قنوت). من EveryAyah.com، بث من موقعهم.</p>
@@ -67,12 +67,7 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
 
       {clips.length > 0 && <section className="section"><h2>مقاطع تلاوة مختارة</h2><TvLibrary rows={clips} cats={catsOf(clips)} /></section>}
 
-      <section className="section"><h2>المصادر</h2><ul>
-        {p.quran.length > 0 && <li>المصحف: Islamic Network، بث من خوادمهم.</li>}
-        {p.ea.length > 0 && <li>آيات الدعاء: EveryAyah.com، بث من موقعهم مع الإسناد (لا شروط إعادة توزيع منشورة؛ لا نحفظه على خوادمنا).</li>}
-        {tv.length > 0 && <li>TVQuran: تضمين رسمي ({p.tv.map((id) => <a key={id} href={`https://www.tvquran.com/ar/scholar/${id}/profile`} target="_blank" rel="noopener">صفحة القارئ ↗</a>)})، {tvCat(tv[0].cat) && `حُصرت في ${TVC.fetched}`}. التشغيل المباشر والحفظ دون إنترنت ينتظر إذنهم.</li>}
-        {allIh.length > 0 && <li>IslamHouse: <a href="https://github.com/IslamHouse-API/multilingual-quran-hadith-islamic-content-database-api-hub/blob/main/README_AR.md" target="_blank" rel="noopener">سياسة الاستخدام المنشورة ↗</a></li>}
-        <li>لا نعرض صورًا للقرّاء ولا سيرًا ذاتية حتى نجد مصدرًا موثقًا يأذن بذلك.</li></ul></section>
+      <p className="note"><Link href="/sources">المصادر والتراخيص</Link></p>
     </article>
   );
 }

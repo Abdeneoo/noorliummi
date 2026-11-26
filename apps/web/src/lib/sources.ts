@@ -5,6 +5,22 @@ export interface Group { id: string; title: Record<Lang, string>; items: Source[
 
 export const GROUPS: Group[] = [
   {
+    id: 'library2', title: { ar: 'مكتبة الأدعية والمصاحف والغريب (أُضيف نوفمبر 2026)', en: 'Duas, recitations and rare words (added November 2026)' }, items: [
+      { what: { ar: 'محتوى دار الإسلام: الأدعية والأذكار والرقية والدروس والكتب والمصاحف المرتلة', en: 'IslamHouse: duas, adhkar, ruqyah, lessons, books and full Quran recitations' }, source: 'IslamHouse.com', url: 'https://islamhouse.com/', license: 'إذن مكتوب من دار الإسلام (26-11-2026)',
+        how: { ar: 'تُعرض دون تعديل مع اسم القارئ أو المؤلف والجهة المنتجة. تُبث من خوادمهم ويمكن حفظها على جهازك. المصاحف التي يستضيفونها ولم ينشروها منشورة للعامة؛ نبثها ونتيح حفظها على جهاز المستمع فقط.', en: 'Unmodified, with reader/author and producer. Streamed from their servers and can be saved on your device.' } },
+      { what: { ar: 'ترجمات معاني القرآن (كل الترجمات المتاحة)', en: 'All available translations of the meanings' }, source: 'QuranEnc.com', url: 'https://quranenc.com/', license: 'إذن مكتوب من دار الإسلام (26-11-2026)',
+        how: { ar: 'تُجلب من موسوعة القرآن بأحدث إصدار، كاملة مع اسم المترجم والإصدار.', en: 'Fetched at the latest version, complete, with translator and version.' } },
+      { what: { ar: 'الأحاديث المترجمة وشروحها', en: 'Translated hadiths' }, source: 'HadeethEnc.com', url: 'https://hadeethenc.com/', license: 'إذن مكتوب من دار الإسلام (26-11-2026)', how: { ar: 'تُعرض كما هي بثماني لغات.', en: 'Shown as published in eight languages.' } },
+      { what: { ar: 'حصن المسلم بصوت محمد جمعة', en: 'Hisn al-Muslim recited by Muhammad Jumah' }, source: 'OpenDua — Recitation by Muhammad Jumah for OpenDua', url: 'https://opendua.org/licence/audio', license: 'CC BY 4.0', how: { ar: '249 تسجيلًا مستضافة على خادمنا.', en: '249 recordings hosted on our server.' } },
+      { what: { ar: 'أدعية وأذكار ورقية وتلاوات أئمة الحرمين', en: 'Duas, adhkar, ruqyah and recitations of the imams' }, source: 'TVQuran.com', url: 'https://www.tvquran.com/', license: 'تضمين رسمي', how: { ar: 'تُشغَّل في مشغّلهم الرسمي فقط.', en: 'Played only in their official player.' } },
+      { what: { ar: 'آيات الدعاء آية بآية', en: 'Ayat of dua, ayah by ayah' }, source: 'EveryAyah.com', url: 'https://everyayah.com/', license: 'بث مع الإسناد', how: { ar: 'تُبث من موقعهم.', en: 'Streamed from their site.' } },
+      { what: { ar: 'غريب القرآن لابن قتيبة', en: 'Gharib al-Quran — Ibn Qutayba' }, source: 'OpenITI — تحقيق أحمد صقر', url: 'https://github.com/OpenITI', license: 'CC BY-NC-SA 4.0', how: { ar: 'نص المؤلف دون حواشي المحقق.', en: 'Author’s text without the editor’s notes.' } },
+      { what: { ar: 'نزهة القلوب للسجستاني', en: 'Nuzhat al-Qulub — al-Sijistani' }, source: 'OpenITI — تحقيق محمد أديب جمران، دار قتيبة', url: 'https://github.com/OpenITI', license: 'CC BY-NC-SA 4.0', how: { ar: 'ربط آلي بالآيات بمطابقة اللفظ؛ ما لم يثبت تُرك.', en: 'Linked to ayat by exact wording.' } },
+      { what: { ar: 'عمدة الحفاظ للسمين الحلبي', en: '‘Umdat al-Huffaz — al-Samin' }, source: 'OpenITI — تحقيق محمد باسل عيون السود، دار الكتب العلمية', url: 'https://github.com/OpenITI', license: 'CC BY-NC-SA 4.0', how: { ar: 'بالجذر، والجذور من Quranic Arabic Corpus.', en: 'By root.' } },
+      { what: { ar: 'بداية المجتهد لابن رشد', en: 'Bidayat al-Mujtahid — Ibn Rushd' }, source: 'OpenITI — دار الحديث 1425هـ', url: 'https://github.com/OpenITI', license: 'CC BY-NC-SA 4.0', how: { ar: 'أقوال الفقهاء في أبواب الفقه دون ترجيح.', en: 'Views of the schools, no preference given.' } },
+    ],
+  },
+  {
     id: 'quran', title: { ar: 'القرآن الكريم وعلومه', en: 'The Quran' }, items: [
       { what: { ar: 'نص القرآن الكريم', en: 'Quran text' }, source: 'Tanzil Project', url: 'https://tanzil.net', license: 'CC BY 3.0',
         how: { ar: 'يُعرض كما هو حرفيًا دون أي تعديل، ويُتحقَّق من مطابقته للمصدر ببصمة SHA-256 في كل بناء للموقع.', en: 'Shown verbatim and checked against the source (SHA-256) on every build.' } },

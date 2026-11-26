@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: Promise<{ s: string }> 
       {!keys.length && <p className="note">لم يذكر المؤلف في هذه السورة شيئًا من الغريب.</p>}
       <ol className="tafsir-list">{keys.map((a) => (
         <li key={a} id={`a${a}`} className="card"><p className="tafsir-ayah" lang="ar">{ayat[a - 1]?.t} <Link className="ayah-end" href={`/quran/${n}#a${a}`}>﴿{arDigits(a)}﴾</Link></p>
-          {g[String(a)].map((e, k) => <div key={k}><p className="eyebrow" style={{ margin: '8px 0 0' }}>{BOOK[e.b ?? 'q']}{e.r?.length ? <> · {e.r.map((r) => <Link key={r} href={`/gharib?root=${encodeURIComponent(r)}`} style={{ marginInlineEnd: 6 }}>{r}</Link>)}</> : null}</p><p className="tafsir-text" style={{ whiteSpace: 'pre-line', marginTop: 2 }}>{e.t}</p></div>)}</li>))}</ol>
+          {g[String(a)].map((e, k) => <p key={k} className="tafsir-text" style={{ whiteSpace: 'pre-line' }}>{e.t}</p>)}</li>))}</ol>
       <nav className="pager">{n > 1 ? <Link className="btn ghost" href={`/gharib/${n - 1}`}>السورة السابقة</Link> : <span />}<Link className="btn ghost" href={`/quran/${n}`}>السورة في المصحف</Link>{n < 114 ? <Link className="btn ghost" href={`/gharib/${n + 1}`}>السورة التالية</Link> : <span />}</nav>
     </article>
   );

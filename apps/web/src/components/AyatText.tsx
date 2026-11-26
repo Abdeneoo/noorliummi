@@ -100,8 +100,8 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
       </div>
     </>
       {tf && <div className="tf-panel" role="dialog" aria-label={`تفسير الآية ${tf.n}`}><div className="tf-head"><strong>تفسير الآية {arDigits(tf.n)}</strong><button type="button" className="btn ghost small" onClick={() => setTf(null)} aria-label="إغلاق">✕</button></div>
-        {tf.j === undefined ? <p className="note">…</p> : <>{tf.g && tf.g.length > 0 && <><h3>غريب القرآن</h3>{tf.g.map((e, k) => <div key={k} className={k === tf.focus ? 'gw-on' : ''}><p className="eyebrow" style={{ margin: '6px 0 0' }}>{BOOKS[e.b ?? 'q']}{e.r?.length ? <> · <Link href={`/gharib?root=${encodeURIComponent(e.r[e.r.length - 1])}`}>الجذر {e.r[e.r.length - 1]}</Link></> : null}</p><p style={{ whiteSpace: 'pre-line', margin: '2px 0 8px' }}>{e.t}</p></div>)}</>}{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
-        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>افتح صفحة التفسير</Link> · الغريب: «غريب القرآن» لابن قتيبة (تحقيق أحمد صقر) و«نزهة القلوب» للسجستاني (تحقيق محمد أديب جمران)، عبر OpenITI · التفسير الميسر: مجمع الملك فهد عبر QuranEnc.com</p></div>}
+        {tf.j === undefined ? <p className="note">…</p> : <>{tf.g && tf.g.length > 0 && <><h3>غريب القرآن</h3>{tf.g.map((e, k) => <div key={k} className={k === tf.focus ? 'gw-on' : ''}><p style={{ whiteSpace: 'pre-line', margin: '4px 0 8px' }}>{e.t}</p></div>)}</>}{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
+        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>صفحة التفسير</Link> · <Link href={`/gharib/${surah}#a${tf.n}`}>الغريب</Link> · <Link href="/sources">المصادر</Link></p></div>}
     </>
   );
 }

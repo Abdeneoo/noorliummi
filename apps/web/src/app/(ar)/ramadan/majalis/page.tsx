@@ -20,7 +20,7 @@ export default function Majalis() {
   const books = R.filter((x) => x.type === 'books' && x.attachments.some((a) => a.type === 'PDF'));
   const majBooks = books.filter((x) => /مجالس|رمضان/.test(x.title));
   const videos = R.filter((x) => x.type === 'videos');
-  const Row = ({ x }: { x: It }) => { const t = tracks(x); return <li className="card"><strong>{x.title}</strong><p className="note" style={{ margin: '4px 0' }}>{author(x)}{t.length > 1 ? ` · ${t.length.toLocaleString('ar-EG')} مقطعًا` : ''}</p><div className="row">{t.length > 0 && <PlayTrack tracks={t} />}<AddToPlaylist tracks={t} name="دروس رمضان" /><SaveOffline srcs={t.map((y) => y.src)} /><a className="note" href={x.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>; };
+  const Row = ({ x }: { x: It }) => { const t = tracks(x); return <li className="card"><strong>{x.title}</strong><p className="note" style={{ margin: '4px 0' }}>{author(x)}{t.length > 1 ? ` · ${t.length.toLocaleString('ar-EG')} مقطعًا` : ''}</p><div className="row">{t.length > 0 && <PlayTrack tracks={t} />}<AddToPlaylist tracks={t} name="دروس رمضان" /><SaveOffline srcs={t.map((y) => y.src)} /></div></li>; };
   return (
     <article style={{ maxWidth: 960, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/ramadan">رمضان</Link></p><h1>مجالس شهر رمضان والدروس الرمضانية</h1>

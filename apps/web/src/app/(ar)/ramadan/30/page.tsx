@@ -68,7 +68,7 @@ export default async function Thirty() {
           <li key={i} id={`m${i + 1}`} className="card"><p className="eyebrow">المجلس {(i + 1).toLocaleString('ar-EG')}</p><h2 style={{ margin: '4px 0' }}>{m.t}</h2>
             {ay.map((x) => <p key={`${x.s}:${x.a}`} lang="ar" style={{ fontFamily: 'var(--font-quran)', fontSize: '1.15rem', lineHeight: 2.2 }}>{x.t} <Link className="note" href={`/quran/${x.s}#a${x.a}`}>﴿{SURAHS[x.s - 1].name}: {x.a.toLocaleString('ar-EG')}{x.b > x.a ? `–${x.b.toLocaleString('ar-EG')}` : ''}﴾</Link> · <Link className="note" href={`/tafsir/${x.s}#a${x.a}`}>التفسير</Link></p>)}
             {hs.map((x) => <details key={`${x.bk}${x.n}`}><summary>{BOOK[x.bk]} ({x.n.toLocaleString('ar-EG')})</summary><p lang="ar" style={{ lineHeight: 2 }}>{x.t}</p><Link href={x.href}>في سياقه</Link></details>)}
-            {a && <div className="row"><PlayTrack tracks={tr} label={`▶ ${a.title}`} /><small className="note">{tr[0]?.by}</small><AddToPlaylist tracks={tr} name="30 مجلسًا في رمضان" /><a className="note" href={a.url} target="_blank" rel="noopener">المصدر ↗</a></div>}
+            {a && <div className="row"><PlayTrack tracks={tr} label={`▶ ${a.title}`} /><small className="note">{tr[0]?.by}</small><AddToPlaylist tracks={tr} name="30 مجلسًا في رمضان" /></div>}
             {m.f && <p className="note" style={{ margin: 0 }}>الفقه: <Link href={m.f[0]}>{m.f[1]}</Link> (الفقه الميسر، وأقوال الفقهاء من بداية المجتهد)</p>}
           </li>); })}</ol>
       <p className="note">المصادر: نص المصحف من Tanzil؛ الأحاديث من كتب الموقع مع أرقامها؛ الدروس من IslamHouse بسياسته المنشورة. لم يراجعه مراجع المنصة بعد.</p>
