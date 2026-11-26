@@ -1,0 +1,2 @@
+-- Findings of 26 Nov 2026 recorded in the rights register (notes only; publish status unchanged).
+UPDATE content_rights SET notes = 'نسخة IslamHouse (2089): صفحة العنوان «لا يسمح بإعادة نشر هذا الكتاب». usul.ai: نسخة الشاملة (دار العاصمة 1423هـ) و«جميع الحقوق محفوظة» لمؤسسة سيمورج. موقع مكتبة الفوزان: صفحة «إذن النشر والطباعة» بلا نص إذن مقروء. النتيجة: لا إذن واضح بإعادة النشر — رابط خارجي فقط؛ الفقه مكتمل من «الفقه الميسر» و«بداية المجتهد». شرح الشيخ نفسه الصوتي لكتاب الصيام منشور على IslamHouse ويُبث وفق سياستها.', updated_at = now() WHERE key = 'mulakhkhas';

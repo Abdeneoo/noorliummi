@@ -23,12 +23,13 @@ const tracks = (list: A[], rec: RecKey): Track[] => list.map((x) => {
   return { id: `q${x.s}:${x.a}:ea-${e.f}`, src: eaUrl(e, x.s, x.a), title: x.title, by: e.name, source: 'تلاوة الآية كاملة — EveryAyah.com (بث من موقعهم)', text: x.t, page: `/quran/${x.s}#a${x.a}` };
 });
 /** Reciter picker + "play all" for a list of Quranic duas (each ayah recited in full, never cut). */
-export function DuaReciterBar({ all }: { all: A[] }) {
+export function DuaReciterBar({ all, lang = 'ar' }: { all: A[]; lang?: 'ar' | 'en' }) {
+  const en = lang === 'en';
   const [rec, setRec] = useReciter();
   return (
     <div className="row" style={{ alignItems: 'end' }}>
-      <div className="field" style={{ flex: '0 1 260px' }}><label htmlFor="dua-rec">القارئ</label><select id="dua-rec" value={String(rec)} onChange={(e) => setRec(/^\d+$/.test(e.target.value) ? Number(e.target.value) : e.target.value)}><optgroup label="EveryAyah">{EA.map((r) => <option key={r.f} value={`ea:${r.f}`}>{r.name}</option>)}</optgroup><optgroup label="Islamic Network">{AYAH_R.map((r) => <option key={r.i} value={r.i}>{r.name}</option>)}</optgroup></select></div>
-      <button type="button" className="btn" onClick={() => play(tracks(all, rec))}>▶ شغّل الكل ({all.length.toLocaleString('ar-EG')} آية)</button>
+      <div className="field" style={{ flex: '0 1 260px' }}><label htmlFor="dua-rec">{en ? 'Reciter' : 'القارئ'}</label><select id="dua-rec" value={String(rec)} onChange={(e) => setRec(/^\d+$/.test(e.target.value) ? Number(e.target.value) : e.target.value)}><optgroup label="EveryAyah">{EA.map((r) => <option key={r.f} value={`ea:${r.f}`}>{en ? r.en : r.name}</option>)}</optgroup><optgroup label="Islamic Network">{AYAH_R.map((r) => <option key={r.i} value={r.i}>{en ? r.en : r.name}</option>)}</optgroup></select></div>
+      <button type="button" className="btn" onClick={() => play(tracks(all, rec))}>{en ? `▶ Play all (${all.length} ayat)` : `▶ شغّل الكل (${all.length.toLocaleString('ar-EG')} آية)`}</button>
     </div>
   );
 }

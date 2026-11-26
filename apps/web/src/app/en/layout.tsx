@@ -17,6 +17,8 @@ import '../globals.css';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
 import Deferred from '@/components/Deferred';
 import SiteFooter from '@/components/SiteFooter';
+import AudioDock from '@/components/AudioDock';
+import TvDock from '@/components/TvDock';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'),
@@ -39,6 +41,8 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
         <main id="main"><div className="wrap">{children}</div></main>
         <TabBar lang="en" />
         <SiteFooter lang="en" />
+        <AudioDock lang="en" />
+        <TvDock lang="en" />
         <Deferred />
       </body>
     </html>
