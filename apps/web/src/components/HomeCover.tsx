@@ -17,11 +17,11 @@ type Lang = 'ar' | 'en';
 const C = {
   ar: { alt: 'شعار نور لأمي', title: 'نور لأمي', tag: 'نورٌ لا ينطفئ، وأثرٌ لا ينقطع', ded: 'إهداء',
     // Official dedication text (brand guide) + the owner's dua, shown in full.
-    lines: ['إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.', 'أُنشئ هذا المشروع ابتغاء وجه الله، ورجاء أن يكون صدقة جارية عنها. نسألكم الدعاء لها بالرحمة والمغفرة.'],
+    lines: ['إلى أمي الغالية «أمل مجدي منير»، التي رحلت عن عيني ولم ترحل عن قلبي.', 'أُنشئ هذا المشروع ابتغاء وجه الله، ورجاء أن يكون صدقة جارية عنها. نسألكم الدعاء لها بالرحمة والمغفرة.'],
     dua: 'اللهم اغفر لها وارحمها، وآنس وحشتها، ونوّر قبرها، واجعلها من أهل الفردوس الأعلى، واجمعنا بها في جنتك لقاءً لا فراق بعده.',
     a: 'افتح المصحف', b: 'الصلاة والأذان', ha: '/quran', hb: '/prayer' },
   en: { alt: 'Noor Li Ummi logo', title: 'Noor Li Ummi', tag: 'A light that never fades, a legacy that never ends', ded: 'Dedication',
-    lines: ['To my beloved mother, who has left my sight but never my heart.', 'This project was made seeking the Face of Allah, in the hope that it will be an ongoing charity on her behalf. Please remember her in your prayers, asking Allah for His mercy and forgiveness for her.'],
+    lines: ['To my beloved mother, Amal Magdy Mounir, who has left my sight but never my heart.', 'This project was made seeking the Face of Allah, in the hope that it will be an ongoing charity on her behalf. Please remember her in your prayers, asking Allah for His mercy and forgiveness for her.'],
     dua: '',
     a: 'Open the Quran', b: 'Prayer & Adhan', ha: '/en/quran', hb: '/en/prayer' },
 };

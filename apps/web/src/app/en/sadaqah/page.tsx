@@ -12,7 +12,7 @@ export default function Sadaqah() {
         { href: '/en/quran/36', icon: 'quran', title: 'Surah Ya-Sin', desc: 'Read and listen.' },
         { href: '/en/tasbeeh', icon: 'adhkar', title: 'Tasbeeh counter', desc: 'Count with a tap.' },
       ]}>
-      <section className="card dedication"><p>To my beloved mother, who has left my sight but never my heart.</p><Link href="/en/dedication">Read the dedication</Link></section>
+      <section className="card dedication"><p>To my beloved mother, Amal Magdy Mounir, who has left my sight but never my heart. Please remember her in your prayers.</p><Link href="/en/dedication">Read the dedication</Link></section>
     </Hub>
   );
 }

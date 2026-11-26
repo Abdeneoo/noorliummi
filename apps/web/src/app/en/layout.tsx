@@ -21,7 +21,7 @@ import SiteFooter from '@/components/SiteFooter';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'),
   title: { default: 'Noor Li Ummi', template: '%s | Noor Li Ummi' },
-  description: 'Noor Li Ummi is a free Islamic digital platform dedicated to the memory of my beloved mother, offering access to the Quran, daily worship tools and beneficial knowledge.',
+  description: 'Noor Li Ummi is a free Islamic digital platform dedicated to the memory of my beloved mother, Amal Magdy Mounir, offering access to the Quran, daily worship tools and beneficial knowledge.',
   openGraph: { type: 'website', locale: 'en', siteName: 'Noor Li Ummi | نور لأمي', images: [{ url: '/brand/og-cover.jpg', width: 1200, height: 630, alt: 'Noor Li Ummi logo' }] },
   manifest: '/manifest.webmanifest', icons: { apple: '/apple-touch-icon.png', icon: [{ url: '/icon.svg', type: 'image/svg+xml' }, { url: '/icon-192.png', sizes: '192x192', type: 'image/png' }] },
   robots: process.env.NOOR_PUBLIC === '1' ? { index: true, follow: true } : { index: false, follow: false }, // public only on the production build (NOOR_PUBLIC=1)

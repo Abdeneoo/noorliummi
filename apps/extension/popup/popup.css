@@ -150,3 +150,5 @@ body {
   color: var(--muted); text-decoration: none; font-size: 11.5px; font-weight: 600;
 }
 .footer-links a:hover { color: var(--gold); }
+.compass{position:relative;width:64px;height:64px;border-radius:50%;border:2px solid currentColor;opacity:.9;flex:none}.compass .n{position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:11px}.compass .arrow{position:absolute;inset:0;display:grid;place-items:center;font-size:26px;transform-origin:50% 50%;transition:transform .4s}
+.compass .arrow{rotate:-90deg}

@@ -19,7 +19,7 @@ export function IntlLayout({ lang, children }: { lang: IntlLang; children: React
           <div className="utils"><FontSize lang="en" /><ThemeToggle lang="en" /></div>
         </div></header>
         <main id="main"><div className="wrap">{children}</div></main>
-        <footer className="site"><div className="wrap foot-bottom"><span>{t.tagline}</span><span>{t.source}: QuranEnc.com — {TR_INFO[lang].title} (v{TR_INFO[lang].version})</span></div></footer>
+        <footer className="site"><div className="wrap foot-bottom"><span>{t.tagline}</span><span>{t.ded}</span><span>{t.source}: QuranEnc.com — {TR_INFO[lang].title} (v{TR_INFO[lang].version})</span></div></footer>
         <Beacon />
       </body>
     </html>

@@ -1,7 +1,7 @@
 // نور لأمي — ذكّرني: background scheduler (Manifest V3).
 // Everything runs on the device. The only network requests go to the Noor Li Ummi site (BASE): the adhan recording to play,
 // and nothing else from here. No analytics, no identifiers, nothing is sent about the user.
-import { CITIES, NAMES, PRAYERS, timesFor, fastReason } from '../lib/engine.js';
+import { NAMES, PRAYERS, placeOf, timesFor, fastReason } from '../lib/engine.js';
 import { ADHKAR } from '../lib/adhkar.js';
 import { BASE, DEFAULTS, getSettings, getState, setState } from '../lib/config.js';
 
@@ -30,13 +30,16 @@ async function schedule() {
   for (const a of await chrome.alarms.getAll()) if (a.name !== 'daily') await chrome.alarms.clear(a.name);
   const now = Date.now();
   for (const off of [0, 1]) {
-    const t = timesFor(s.cityId, new Date(), off);
+    const t = timesFor(s, new Date(), off);
     for (const p of PRAYERS) {
       if (!s.prayersOn[p]) continue;
       if (t[p] > now) chrome.alarms.create(`adhan:${p}:${t[p]}`, { when: t[p] });
       const pre = t[p] - s.prePrayerMinutes * 60000;
       if (s.prePrayerEnabled && pre > now) chrome.alarms.create(`pre:${p}:${pre}`, { when: pre });
     }
+    // Duha: the chosen number of minutes after sunrise. Qiyam: the start of the last third of the night (from the prayer engine).
+    const duha = t.sunrise + s.duhaAfterSunrise * 60000; if (s.duhaEnabled && duha > now) chrome.alarms.create(`duha:x:${duha}`, { when: duha });
+    if (s.qiyamEnabled && t.lastThird > now) chrome.alarms.create(`qiyam:x:${t.lastThird}`, { when: t.lastThird });
   }
   if (s.dhikrIntervalMinutes > 0) chrome.alarms.create('dhikr', { periodInMinutes: s.dhikrIntervalMinutes });
   if (s.wirdReminderHours > 0) chrome.alarms.create('wird', { periodInMinutes: s.wirdReminderHours * 60 });
@@ -58,7 +61,7 @@ chrome.runtime.onMessage.addListener((msg, _s, reply) => {
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   const s = await getSettings(); const now = new Date(); const lang = s.lang === 'en' ? 'en' : 'ar';
-  const city = CITIES.find((c) => c.id === s.cityId) ?? CITIES[0]; const cityName = lang === 'en' ? city.en : city.ar;
+  const city = placeOf(s); const cityName = lang === 'en' ? city.en : city.ar;
   const [kind, p] = alarm.name.split(':');
   if (kind === 'daily') return schedule();
   if (kind === 'adhan') {
@@ -71,6 +74,8 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     return;
   }
   if (kind === 'pre') { if (!quiet(s, now)) notify(`pre-${p}-${alarm.scheduledTime}`, lang === 'en' ? 'Prayer soon' : 'تذكير بالصلاة', lang === 'en' ? `${s.prePrayerMinutes} min to ${NAMES[p].en}` : `بقي ${s.prePrayerMinutes} دقيقة على صلاة ${NAMES[p].ar}`); return; }
+  if (kind === 'duha') { if (!quiet(s, now)) notify(`duha-${alarm.scheduledTime}`, lang === 'en' ? 'Duha prayer' : 'صلاة الضحى', lang === 'en' ? 'Its time has begun.' : 'دخل وقتها.', `${BASE}/prayer`); return; }
+  if (kind === 'qiyam') { const blocked = s.qiyamIgnoresSleep ? s.muteUntil && Date.now() < s.muteUntil : quiet(s, now); if (!blocked) notify(`qiyam-${alarm.scheduledTime}`, lang === 'en' ? 'Last third of the night' : 'الثلث الأخير من الليل', lang === 'en' ? 'A time for night prayer and dua.' : 'وقت قيام الليل والدعاء.', `${BASE}/prayer`); return; }
   if (kind === 'dhikr') {
     if (quiet(s, now)) return;
     const pool = ADHKAR.filter((x) => s.dhikrChapters.includes(x.ch)); if (!pool.length) return;

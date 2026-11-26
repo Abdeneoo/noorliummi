@@ -52,6 +52,11 @@
         <p id="ayahRef" class="muted small"></p>
       </section>
 
+      <section class="card qibla-card">
+        <div class="card-head"><span>🧭 القبلة</span></div>
+        <div style="display:flex;align-items:center;gap:14px"><div class="compass" aria-hidden="true"><span class="n">ش</span><span id="qiblaArrow" class="arrow">➤</span></div><p id="qiblaDeg" class="muted small" style="margin:0"></p></div>
+      </section>
+
       <!-- Tasbeeh + Wird Row -->
       <div class="two-col">
         <section class="card tasbeeh-card">
@@ -73,7 +78,7 @@
           <div class="progress-bar"><div id="wirdBar" class="progress-fill"></div></div>
           <div class="wird-actions">
             <button id="wirdPlusBtn" class="mini-btn">+ صفحة</button>
-            <a href="https://staging.noorliummi.io/quran" target="_blank" class="mini-link" id="openQuranLink">اقرأ</a>
+            <a href="https://noorliummi.io/quran" target="_blank" class="mini-link" id="openQuranLink">اقرأ</a>
           </div>
         </section>
       </div>
@@ -86,11 +91,11 @@
         </div>
         <div id="atharDisplay">
           <p id="atharDesc" class="muted small">لم تثبّت صفحة أثر بعد — أضف رابطاً لوالدتك أو من تحب.</p>
-          <a id="atharOpenLink" href="https://staging.noorliummi.io/athar" target="_blank" class="primary-link">زيارة أو إنشاء أثر</a>
+          <a id="atharOpenLink" href="https://noorliummi.io/athar" target="_blank" class="primary-link">زيارة أو إنشاء أثر</a>
         </div>
         <form id="atharForm" class="athar-form hidden">
           <input id="atharNameInput" type="text" placeholder="اسم المُهدى إليه (مثلاً: أمي)" maxlength="60" />
-          <input id="atharUrlInput" type="url" placeholder="https://staging.noorliummi.io/athar/..." />
+          <input id="atharUrlInput" type="url" placeholder="https://noorliummi.io/athar/..." />
           <button type="submit" class="primary-btn">حفظ</button>
         </form>
       </section>
@@ -103,6 +108,8 @@
           <span id="lblCity">المدينة</span>
           <select id="citySelect"></select>
         </label>
+        <div class="field"><button id="locateBtn" type="button" class="mini-btn">📍 استخدم موقعي الحالي</button><span id="locateMsg" class="muted small"></span></div>
+        <label class="field"><span>حساب العصر</span><select id="asrSelect"><option value="shafi">الجمهور (ظل المثل)</option><option value="hanafi">الحنفية (ظل المثلين)</option></select></label>
 
         <label class="field row">
           <span id="lblAdhan">تشغيل صوت الأذان</span>
@@ -160,6 +167,10 @@
         <label class="field"><span>تذكير الورد كل (ساعات، ٠ = إيقاف)</span><input id="wirdHoursInput" type="number" min="0" max="12" /></label>
         <label class="field"><span>وقت تذكير الصيام (مساء اليوم السابق)</span><input id="fastAtInput" type="time" /></label>
         <label class="field row"><span>تذكير سورة الكهف يوم الجمعة</span><input id="kahfToggle" type="checkbox" /></label>
+        <label class="field row"><span>تذكير صلاة الضحى</span><input id="duhaToggle" type="checkbox" /></label>
+        <label class="field"><span>بعد الشروق بـ (دقائق)</span><input id="duhaMinInput" type="number" min="10" max="60" /></label>
+        <label class="field row"><span>تذكير قيام الليل (بداية الثلث الأخير)</span><input id="qiyamToggle" type="checkbox" /></label>
+        <label class="field row"><span>يعمل في وضع النوم</span><input id="qiyamSleepToggle" type="checkbox" /></label>
         <label class="field">
           <span id="lblLang">اللغة / Language</span>
           <select id="langSelect">
@@ -169,16 +180,18 @@
         </label>
 
         <div class="two-col"><button id="testAdhanBtn" type="button" class="primary-btn">🔔 تجربة الأذان</button><button id="stopAdhanBtn" type="button" class="mini-btn">إيقاف الصوت</button></div>
+        <p class="muted small">صدقة جارية عن روح أمل مجدي منير — نسألكم لها الدعاء بالرحمة والمغفرة.</p>
         <p class="muted small">المواقيت محسوبة على جهازك (نفس محرك موقع نور لأمي) وقد تختلف دقائق عن التقويم الرسمي المحلي. التاريخ الهجري بتقويم أم القرى. الأذكار من «حصن المسلم» بتخريجها. لا تُرسل الإضافة أي بيانات عنك.</p>
       </section>
     </main>
 
+    <p class="muted small" style="text-align:center;margin:6px 0 0">صدقة جارية عن روح أمل مجدي منير — ادعُ لها بالرحمة 🤍</p>
     <footer class="footer-links">
-      <a href="https://staging.noorliummi.io/quran" target="_blank" data-i18n="quran">القرآن</a>
-      <a href="https://staging.noorliummi.io/adhkar" target="_blank" data-i18n="adhkar">الأذكار</a>
-      <a href="https://staging.noorliummi.io/tafsir" target="_blank" data-i18n="tafsir">التفسير</a>
-      <a href="https://staging.noorliummi.io/prayer" target="_blank" data-i18n="prayer">الصلاة</a>
-      <a href="https://staging.noorliummi.io/athar" target="_blank" data-i18n="athar">أثر</a>
+      <a href="https://noorliummi.io/quran" target="_blank" data-i18n="quran">القرآن</a>
+      <a href="https://noorliummi.io/adhkar" target="_blank" data-i18n="adhkar">الأذكار</a>
+      <a href="https://noorliummi.io/tafsir" target="_blank" data-i18n="tafsir">التفسير</a>
+      <a href="https://noorliummi.io/prayer" target="_blank" data-i18n="prayer">الصلاة</a>
+      <a href="https://noorliummi.io/athar" target="_blank" data-i18n="athar">أثر</a>
     </footer>
 
     <script type="module" src="popup.js"></script>

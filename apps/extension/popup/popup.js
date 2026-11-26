@@ -1,4 +1,4 @@
-import { CITIES, NAMES, PRAYERS, timesFor, clock, hijri } from '../lib/engine.js';
+import { CITIES, NAMES, PRAYERS, timesFor, clock, hijri, placeOf, qibla, nearestMethod } from '../lib/engine.js';
 import { ADHKAR } from '../lib/adhkar.js';
 import { BASE, getSettings, saveSettings, getState, setState, safeAthar } from '../lib/config.js';
 
@@ -9,17 +9,18 @@ const T = {
 };
 let s = {}; let st = {}; let showingSettings = false; let pool = []; let di = 0;
 const today = () => new Date().toISOString().slice(0, 10);
-const city = () => CITIES.find((c) => c.id === s.cityId) ?? CITIES[0];
+const city = () => placeOf(s);
 
 function renderPrayer() {
   const lang = s.lang === 'en' ? 'en' : 'ar'; const c = city(); const now = Date.now();
   $('cityBadge').textContent = lang === 'en' ? c.en : c.ar; $('hijriDate').textContent = hijri().label;
-  const t = timesFor(s.cityId); let nk = PRAYERS.find((p) => t[p] > now); let nt = nk ? t[nk] : timesFor(s.cityId, new Date(), 1).fajr; nk = nk || 'fajr';
+  const t = timesFor(s); let nk = PRAYERS.find((p) => t[p] > now); let nt = nk ? t[nk] : timesFor(s, new Date(), 1).fajr; nk = nk || 'fajr';
   $('nextPrayerName').textContent = NAMES[nk][lang];
   const sec = Math.max(0, Math.floor((nt - now) / 1000)); $('countdown').textContent = [Math.floor(sec / 3600), Math.floor((sec % 3600) / 60), sec % 60].map((x) => String(x).padStart(2, '0')).join(':');
   const grid = $('prayerGrid'); grid.textContent = '';
   for (const p of ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha']) { const d = document.createElement('div'); d.className = `prayer-pill${p === nk ? ' next' : ''}`; const a = document.createElement('span'); a.textContent = NAMES[p][lang]; const b = document.createElement('strong'); b.textContent = clock(t[p], c.tz); d.append(a, b); grid.append(d); }
 }
+function renderQibla() { const q = qibla(s); $('qiblaArrow').style.transform = `rotate(${q}deg)`; $('qiblaDeg').textContent = `${Math.round(q)}° ${s.lang === 'en' ? 'from true north (clockwise)' : 'من الشمال الجغرافي باتجاه عقارب الساعة'}`; }
 function renderDhikr() { const x = pool[di % pool.length]; if (!x) return; $('dhikrText').textContent = x.t; $('dhikrRef').textContent = `${x.r} — حصن المسلم: ${x.title}`; }
 function renderCounters() {
   $('tasbeehCount').textContent = st.tasbeeh ?? 0;
@@ -52,7 +53,8 @@ async function loadAyah() {
   try { const j = await (await fetch(`${BASE}/api/v1/ayah-of-day`)).json(); if (!j.text) return; $('ayahText').textContent = j.text; $('ayahRef').textContent = `${j.surah_name} — ${j.ayah}`; $('ayahLink').href = j.url; $('ayahCard').hidden = false; } catch { /* offline */ }
 }
 function fillSettings() {
-  $('citySelect').textContent = ''; for (const c of CITIES) $('citySelect').append(new Option(s.lang === 'en' ? c.en : c.ar, c.id)); $('citySelect').value = s.cityId;
+  $('citySelect').textContent = ''; if (s.custom) $('citySelect').append(new Option(s.lang === 'en' ? 'My location' : 'موقعي الحالي', 'here')); for (const c of CITIES) $('citySelect').append(new Option(s.lang === 'en' ? c.en : c.ar, c.id)); $('citySelect').value = s.cityId;
+  $('asrSelect').value = s.asr; $('duhaToggle').checked = s.duhaEnabled; $('duhaMinInput').value = s.duhaAfterSunrise; $('qiyamToggle').checked = s.qiyamEnabled; $('qiyamSleepToggle').checked = s.qiyamIgnoresSleep;
   $('adhanToggle').checked = s.adhanEnabled; $('prePrayerToggle').checked = s.prePrayerEnabled; $('preMinutesInput').value = s.prePrayerMinutes;
   $('dhikrIntervalSelect').value = String(s.dhikrIntervalMinutes); $('fastingToggle').checked = s.fastingReminderEnabled; $('fastAtInput').value = s.fastReminderAt; $('kahfToggle').checked = s.kahfReminderEnabled;
   $('sleepToggle').checked = s.sleepModeEnabled; $('sleepStartInput').value = s.sleepStart; $('sleepEndInput').value = s.sleepEnd;
@@ -71,18 +73,28 @@ function bind() {
   $('editAtharBtn').addEventListener('click', () => { $('atharNameInput').value = s.atharName; $('atharUrlInput').value = s.atharUrl; $('atharForm').classList.toggle('hidden'); });
   $('atharForm').addEventListener('submit', async (e) => { e.preventDefault(); const u = safeAthar($('atharUrlInput').value.trim()); s.atharName = $('atharNameInput').value.trim().slice(0, 60); s.atharUrl = u; $('atharForm').classList.add('hidden'); renderAthar(); await saveSettings(s); });
   const bindS = (id, key, prop = 'value', tf = (v) => v) => $(id).addEventListener('change', async (e) => { s[key] = tf(e.target[prop]); await saveSettings(s); applyLang(); renderPrayer(); renderCounters(); });
-  bindS('citySelect', 'cityId'); bindS('adhanToggle', 'adhanEnabled', 'checked'); bindS('prePrayerToggle', 'prePrayerEnabled', 'checked');
+  $('citySelect').addEventListener('change', async (e) => { s.cityId = e.target.value; await saveSettings(s); applyLang(); renderPrayer(); renderQibla(); }); bindS('adhanToggle', 'adhanEnabled', 'checked'); bindS('prePrayerToggle', 'prePrayerEnabled', 'checked');
   bindS('preMinutesInput', 'prePrayerMinutes', 'value', (v) => Math.min(60, Math.max(1, Number(v) || 10))); bindS('dhikrIntervalSelect', 'dhikrIntervalMinutes', 'value', Number);
   bindS('fastingToggle', 'fastingReminderEnabled', 'checked'); bindS('fastAtInput', 'fastReminderAt'); bindS('kahfToggle', 'kahfReminderEnabled', 'checked');
   bindS('sleepToggle', 'sleepModeEnabled', 'checked'); bindS('sleepStartInput', 'sleepStart'); bindS('sleepEndInput', 'sleepEnd');
   bindS('wirdGoalInput', 'wirdGoal', 'value', (v) => Math.min(50, Math.max(1, Number(v) || 4))); bindS('wirdHoursInput', 'wirdReminderHours', 'value', (v) => Math.min(12, Math.max(0, Number(v) || 0)));
-  bindS('langSelect', 'lang'); bindS('adhanSelect', 'adhanUrl'); bindS('adhanFajrSelect', 'adhanFajrUrl');
+  bindS('langSelect', 'lang'); bindS('asrSelect', 'asr'); bindS('duhaToggle', 'duhaEnabled', 'checked'); bindS('duhaMinInput', 'duhaAfterSunrise', 'value', (v) => Math.min(60, Math.max(10, Number(v) || 20)));
+  bindS('qiyamToggle', 'qiyamEnabled', 'checked'); bindS('qiyamSleepToggle', 'qiyamIgnoresSleep', 'checked');
+  $('locateBtn').addEventListener('click', () => {
+    $('locateMsg').textContent = '…';
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      // Rounded to about 1 km and kept on this device only; never sent anywhere.
+      const lat = Math.round(pos.coords.latitude * 100) / 100; const lng = Math.round(pos.coords.longitude * 100) / 100;
+      s.custom = { id: 'here', ar: 'موقعي الحالي', en: 'My location', lat, lng, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, method: nearestMethod(lat, lng) }; s.cityId = 'here';
+      await saveSettings(s); fillSettings(); applyLang(); renderPrayer(); renderQibla(); $('locateMsg').textContent = s.lang === 'en' ? 'Location saved on this device.' : 'حُفظ الموقع على جهازك فقط.';
+    }, () => { $('locateMsg').textContent = s.lang === 'en' ? 'Location not allowed.' : 'لم يُسمح بتحديد الموقع.'; }, { timeout: 15000, maximumAge: 3600000 });
+  }); bindS('adhanSelect', 'adhanUrl'); bindS('adhanFajrSelect', 'adhanFajrUrl');
   $('testAdhanBtn').addEventListener('click', () => chrome.runtime.sendMessage({ type: 'TEST_ADHAN' }));
   $('stopAdhanBtn').addEventListener('click', () => chrome.runtime.sendMessage({ type: 'STOP_ADHAN' }));
 }
 (async function init() {
   s = await getSettings(); st = await getState();
   pool = ADHKAR.filter((x) => s.dhikrChapters.includes(x.ch)); di = Math.floor(Math.random() * Math.max(1, pool.length));
-  fillSettings(); applyLang(); renderPrayer(); renderDhikr(); renderCounters(); bind(); loadAyah();
+  fillSettings(); applyLang(); renderPrayer(); renderQibla(); renderDhikr(); renderCounters(); bind(); loadAyah();
   setInterval(renderPrayer, 1000);
 })();

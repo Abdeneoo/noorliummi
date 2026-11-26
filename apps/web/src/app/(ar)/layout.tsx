@@ -21,7 +21,7 @@ import SiteFooter from '@/components/SiteFooter';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://staging.noorliummi.io'),
   title: { default: 'نور لأمي', template: '%s | نور لأمي' },
-  description: 'نور لأمي منصة إسلامية عالمية مجانية، تيسر الوصول إلى القرآن والأذكار والصلاة والعلم النافع، صدقة جارية عن روح والدتي رحمها الله.',
+  description: 'نور لأمي منصة إسلامية عالمية مجانية، تيسر الوصول إلى القرآن والأذكار والصلاة والعلم النافع، صدقة جارية عن روح والدتي أمل مجدي منير رحمها الله.',
   openGraph: { type: 'website', locale: 'ar', siteName: 'نور لأمي | Noor Li Ummi', images: [{ url: '/brand/og-cover.jpg', width: 1200, height: 630, alt: 'شعار نور لأمي' }] },
   manifest: '/manifest.webmanifest', icons: { apple: '/apple-touch-icon.png', icon: [{ url: '/icon.svg', type: 'image/svg+xml' }, { url: '/icon-192.png', sizes: '192x192', type: 'image/png' }] },
   robots: process.env.NOOR_PUBLIC === '1' ? { index: true, follow: true } : { index: false, follow: false }, // public only on the production build (NOOR_PUBLIC=1)

@@ -20,7 +20,7 @@ export default async function Sadaqah() {
         { href: '/tasbeeh', icon: 'adhkar', title: 'عدّاد التسبيح', desc: 'سبّح بلمسة، وسجّل تسبيحك في صفحة أثر.' },
       ]}>
       <section className="card dedication">
-        <p>إلى أمي الغالية، التي رحلت عن عيني ولم ترحل عن قلبي.</p>
+        <p>إلى أمي الغالية «أمل مجدي منير»، التي رحلت عن عيني ولم ترحل عن قلبي. نسألكم لها الدعاء بالرحمة والمغفرة.</p>
         <Link href="/dedication">اقرأ الإهداء كاملًا</Link>
       </section>
       {latest.length > 0 && (
