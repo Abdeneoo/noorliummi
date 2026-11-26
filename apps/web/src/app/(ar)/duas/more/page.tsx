@@ -28,7 +28,7 @@ export default async function MorePage() {
               <details style={{ marginTop: 12 }}><summary>{list.length.toLocaleString('ar-EG')} مادة</summary>
                 <ul className="athar-items">{list.map((it, k) => (
                   <li key={k}>{l.mode === 'stream' && it.file
-                    ? <><PlayTrack tracks={[{ id: `${l.key}-${k}`, src: it.file, title: it.title, by: l.owner, source: `${l.owner}: ${it.url}`, page: '/duas/more' }]} /> {it.title} <a href={it.url} target="_blank" rel="noopener" className="note">المصدر ↗</a></>
+                    ? <><PlayTrack tracks={[{ id: `${l.key}-${k}`, src: it.file, title: it.title, by: l.owner, source: `${l.owner}: ${it.url}`, page: '/duas/more' }]} /> {it.title}</>
                     : <a href={it.url} target="_blank" rel="noopener">{it.title} ↗</a>}</li>
                 ))}</ul>
               </details>

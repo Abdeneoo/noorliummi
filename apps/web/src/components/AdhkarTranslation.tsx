@@ -19,7 +19,7 @@ export default function AdhkarTranslation({ data }: { data: Partial<Record<L, Tr
       {d && lang && <div className="card">
         <h2 lang={lang} dir={LANGS[lang].dir} style={{ fontSize: '1.1rem' }}>{d.title}</h2>
         <ol className="adhkar-tr">{d.items.map((x, i) => <li key={i}><p className="ar" lang="ar" dir="rtl">{x.ar}</p><p className="he-tr" lang={lang} dir={LANGS[lang].dir} style={{ whiteSpace: 'pre-line' }}>{x.t}</p></li>)}</ol>
-        <p className="note">النص العربي وترجمته كما نشرهما موقع دار الإسلام IslamHouse.com في كتاب «{BOOK[d.book]}» (<a href={`https://cnt.islamhouse.com/`} target="_blank" rel="noopener">المصدر ↗</a>)، دون تعديل. قد يختلف لفظ النص العربي يسيرًا عن نسختنا أعلاه بحسب الطبعة.</p>
+        <p className="note">قد يختلف لفظ النص العربي يسيرًا عن نسختنا بحسب الطبعة.</p>
       </div>}
     </section>
   );
