@@ -14,6 +14,7 @@ export default function HadithIndex() {
       <p className="meta"><span>{arCount(books.length + 1, BOOK)}</span><span>{ar(total + 42)} حديثًا</span></p>
       <HadithSearch />
       <ul className="grid" style={{ listStyle: 'none', padding: 0 }}>
+        <li className="card"><h2 style={{ marginTop: 0, fontSize: '1.1rem' }}><Link href="/hadeeth">أحاديث مترجمة مع الشرح</Link></h2><p className="note">مع الدرجة والشرح والفوائد، وترجمة أردية وتركية وإندونيسية — HadeethEnc</p></li>
         <li className="card"><h2 style={{ marginTop: 0, fontSize: '1.1rem' }}><Link href="/hadith/nawawi">الأربعون النووية</Link></h2><p className="note">٤٢ حديثًا</p></li>
         {books.map((b) => (
           <li key={b.key} className="card">
