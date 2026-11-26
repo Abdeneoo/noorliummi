@@ -100,6 +100,38 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
     for (const [l, v] of Object.entries(res)) for (const [id, ch] of Object.entries(v)) { mkdirSync(`${out}/adhkar-tr/${l}`, { recursive: true }); writeFileSync(`${out}/adhkar-tr/${l}/${id}.json`, JSON.stringify(ch)); }
     writeFileSync(`${out}/adhkar-tr/coverage.json`, JSON.stringify({ chapters: cats.length, ur: Object.keys(res.ur).length, tr: Object.keys(res.tr).length, id: Object.keys(res.id).length }));
     console.log('adhkar translations (chapters):', Object.fromEntries(Object.entries(res).map(([l, v]) => [l, Object.keys(v).length])));
+    // Books chosen by the owner (IslamHouse phrase-aligned, verbatim): one file per chapter, chapters cut at top-level titles.
+    const BOOKS = [
+      { id: 818, slug: 'manasik', pages: 19, level: 'h1', title: 'التحقيق والإيضاح لكثير من مسائل الحج والعمرة والزيارة على ضوء الكتاب والسنة', author: 'الشيخ عبد العزيز بن عبد الله بن باز' },
+      { id: 1181, slug: 'dhul-hijjah', pages: 1, level: 'h2', title: 'فضل عشر ذي الحجة', author: 'اللجنة العلمية بجمعية خدمة المحتوى الإسلامي باللغات' },
+      { id: 772, slug: 'children', pages: 11, level: 'h1', title: 'ما لا يسع أطفال المسلمين جهله', author: 'الفريق العلمي بجمعية خدمة المحتوى الإسلامي باللغات' },
+    ];
+    const books: unknown[] = [];
+    for (const b of BOOKS) {
+      const rows = Array.from({ length: b.pages }, (_, i) => load(`${b.id}-${i + 1}.json`)).flat();
+      type Block = { tag: string; ar: string; tr: Record<string, string> };
+      const chs: { title: string; tr: Record<string, string>; blocks: Block[] }[] = []; let lastWasTitle = false; let skippedBookTitle = false;
+      const trOf = (r: (typeof rows)[number]) => (Array.isArray(r.transes) ? {} : Object.fromEntries(Object.entries(r.transes).filter(([, v]) => v).map(([l, v]) => [l, String(v).trim()])));
+      for (const r of rows) {
+        const isTop = r.type === 'title' && r.tag === b.level; const tr = trOf(r);
+        if (r.type === 'title' && r.tag === 'h1' && !skippedBookTitle) { skippedBookTitle = true; lastWasTitle = false; continue; }
+        if (isTop) {
+          if (lastWasTitle && chs.length) { const c = chs[chs.length - 1]; c.title = `${c.title} ${r.original_text.trim()}`; for (const [l, v] of Object.entries(tr)) c.tr[l] = `${c.tr[l] ?? ''} ${v}`.trim(); }
+          else chs.push({ title: r.original_text.trim(), tr, blocks: [] });
+          lastWasTitle = true; continue;
+        }
+        lastWasTitle = false;
+        if (!chs.length) chs.push({ title: 'مقدمة', tr: {}, blocks: [] });
+        chs[chs.length - 1].blocks.push({ tag: r.type === 'title' ? r.tag : 'p', ar: r.original_text.trim(), tr });
+      }
+      const langs = (['ur', 'tr', 'id'] as const).filter((l) => rows.some((r) => !Array.isArray(r.transes) && r.transes[l]));
+      mkdirSync(`${out}/books/${b.slug}`, { recursive: true });
+      chs.forEach((c, i) => writeFileSync(`${out}/books/${b.slug}/${i + 1}.json`, JSON.stringify(c)));
+      const meta = { ...b, langs, source: `https://enc.islamhouse.com/ar/books/${b.id}/1`, chapters: chs.map((c, i) => ({ n: i + 1, title: c.title, tr: c.tr, blocks: c.blocks.length })) };
+      writeFileSync(`${out}/books/${b.slug}/index.json`, JSON.stringify(meta)); books.push({ slug: b.slug, id: b.id, title: b.title, author: b.author, langs, chapters: chs.length, blocks: rows.length });
+      console.log(`book ${b.slug}: ${chs.length} chapters, ${rows.length} blocks, langs ${langs.join(',')}`);
+    }
+    writeFileSync(`${out}/books/index.json`, JSON.stringify(books));
   }
   console.log(`Adhkar JSON generated: ${cats.length} categories, ${cats.reduce((n, c) => n + c.items.length, 0)} entries`);
 }

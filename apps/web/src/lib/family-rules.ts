@@ -1,19 +1,19 @@
 /** Pure rules of family content management (no database) — tested in test/family.test.ts. */
 export const AGE_BANDS = ['4-6', '7-9', '10-12', '13-15'] as const;
-export const KID_SECTIONS = { quran: 'القرآن', adhkar: 'الأذكار', lessons: 'الدروس', tasbeeh: 'المسبحة' } as const;
+export const KID_SECTIONS = { quran: 'القرآن', adhkar: 'الأذكار', book: 'ما لا يسع الطفل جهله', lessons: 'الدروس', tasbeeh: 'المسبحة' } as const;
 export type KidSection = keyof typeof KID_SECTIONS;
-export interface Allowed { sections: KidSection[]; surahs: number[]; adhkar: number[]; lessons: number[] }
+export interface Allowed { sections: KidSection[]; surahs: number[]; adhkar: number[]; lessons: number[]; book: number[] }
 const ints = (v: unknown, min: number, max: number, cap: number) => [...new Set((Array.isArray(v) ? v : []).map(Number).filter((n) => Number.isInteger(n) && n >= min && n <= max))].slice(0, cap);
 /** Anything the parent did not list is not allowed. Unknown keys and out-of-range values are dropped. */
 export function cleanAllowed(v: unknown): Allowed {
   const o = (v && typeof v === 'object' ? v : {}) as Record<string, unknown>;
-  return { sections: [...new Set((Array.isArray(o.sections) ? o.sections : []).filter((s): s is KidSection => typeof s === 'string' && s in KID_SECTIONS))], surahs: ints(o.surahs, 1, 114, 114), adhkar: ints(o.adhkar, 1, 500, 200), lessons: ints(o.lessons, 1, 99999999, 100) };
+  return { sections: [...new Set((Array.isArray(o.sections) ? o.sections : []).filter((s): s is KidSection => typeof s === 'string' && s in KID_SECTIONS))], surahs: ints(o.surahs, 1, 114, 114), adhkar: ints(o.adhkar, 1, 500, 200), lessons: ints(o.lessons, 1, 99999999, 100), book: ints(o.book, 1, 50, 50) };
 }
 export function allows(a: Allowed, kind: KidSection, id?: number): boolean {
   if (!a.sections.includes(kind)) return false;
   if (kind === 'tasbeeh') return true;
   if (id == null) return true;
-  return (kind === 'quran' ? a.surahs : kind === 'adhkar' ? a.adhkar : a.lessons).includes(id);
+  return (kind === 'quran' ? a.surahs : kind === 'adhkar' ? a.adhkar : kind === 'book' ? a.book : a.lessons).includes(id);
 }
 /** In a child session, only the child area is reachable. Everything else is sent back to it (pages) or refused (API). */
 export function kidGate(path: string): 'ok' | 'redirect' | 'deny' {

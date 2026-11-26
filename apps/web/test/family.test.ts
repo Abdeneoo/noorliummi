@@ -3,8 +3,10 @@ import { allows, cleanAllowed, kidGate, periodKey, timeUp, validPin, weekKey } f
 describe('family content rules', () => {
   it('drops anything the parent could not have chosen', () => {
     const a = cleanAllowed({ sections: ['quran', 'admin', 'adhkar', 'quran'], surahs: [1, 114, 115, 0, 'x', 1], adhkar: [27, -1], lessons: [5, 5], extra: true });
-    expect(a).toEqual({ sections: ['quran', 'adhkar'], surahs: [1, 114], adhkar: [27], lessons: [5] });
-    expect(cleanAllowed(null)).toEqual({ sections: [], surahs: [], adhkar: [], lessons: [] });
+    expect(a).toEqual({ sections: ['quran', 'adhkar'], surahs: [1, 114], adhkar: [27], lessons: [5], book: [] });
+    expect(cleanAllowed(null)).toEqual({ sections: [], surahs: [], adhkar: [], lessons: [], book: [] });
+    expect(cleanAllowed({ sections: ['book'], book: [2, 3, 99] }).book).toEqual([2, 3]);
+    expect(allows(cleanAllowed({ sections: ['book'], book: [2] }), 'book', 2)).toBe(true); expect(allows(cleanAllowed({ sections: ['book'], book: [2] }), 'book', 3)).toBe(false);
   });
   it('allows only listed sections and items', () => {
     const a = cleanAllowed({ sections: ['quran', 'tasbeeh'], surahs: [112, 113] });
