@@ -570,3 +570,13 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 .account-card [role=tablist]+h2{margin-top:12px}
 .tas-targets .chip{min-width:56px;min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--line,#d9d3c4);background:transparent;font:inherit;font-weight:700;cursor:pointer}
 .tas-targets .chip.on{background:var(--green,#103D32);color:#F8F6F0;border-color:transparent}
+.home-block h2 svg{width:1em;height:1em;vertical-align:-0.12em}
+.home-intro{margin:-4px 0 12px}
+.rail{list-style:none;margin:0;padding:2px 2px 10px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.rail li{flex:0 0 auto;scroll-snap-align:start}
+.rail a{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:150px;max-width:240px;min-height:76px;padding:14px 16px;border-radius:16px;border:1px solid var(--line,rgba(128,128,128,.25));background:var(--card,rgba(255,255,255,.04));text-decoration:none;color:inherit}
+.rail a:hover,.rail a:focus-visible{border-color:var(--gold,#C9A45C)}
+.rail strong{font-size:1rem;line-height:1.5}
+.rail small{opacity:.75;font-size:.82rem}
+.home-promo{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit}
+.home-promo span{opacity:.8}
