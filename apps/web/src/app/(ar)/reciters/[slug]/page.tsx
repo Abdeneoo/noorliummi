@@ -47,7 +47,7 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
 
       {allIh.length > 0 && <section className="section"><h2>تسجيلات تعمل في الخلفية وتُحفظ دون إنترنت</h2>
         <p className="note">من IslamHouse، تُشغَّل من خوادمهم دون تعديل وفق سياستهم المنشورة (تسمح بالنشر والحفظ للاستخدام دون إنترنت مع ذكر المصدر).</p>
-        <div className="row"><PlayTrack tracks={allIh} label={`▶ شغّل الكل (${allIh.length.toLocaleString('ar-EG')})`} className="btn" /><AddToPlaylist tracks={allIh} name={p.ar} /><SaveOffline srcs={allIh.map((t) => t.src)} /></div>
+        <div className="row"><PlayTrack tracks={allIh} label={`▶ شغّل الكل (${allIh.length.toLocaleString('ar-EG')})`} className="btn" /><AddToPlaylist tracks={allIh} name={p.ar} /><SaveOffline srcs={ih.filter(({ it }) => !/رقية|الرقى|المصحف|تلاوة/.test(it.title)).flatMap((x) => x.tracks).map((t) => t.src)} /></div>
         <ul className="athar-items">{ih.map(({ it, tracks }) => <li key={it.id}><PlayTrack tracks={tracks} /> {it.title} {tracks.length > 1 && <small className="note">({tracks.length.toLocaleString('ar-EG')} مقطعًا)</small>} <a className="note" href={it.url} target="_blank" rel="noopener">المصدر ↗</a></li>)}</ul></section>}
 
       {eaTracks.length > 0 && <section className="section"><h2>أدعية القرآن بصوته</h2>

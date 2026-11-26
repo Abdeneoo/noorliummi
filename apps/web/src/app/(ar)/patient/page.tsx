@@ -29,7 +29,7 @@ export default async function Patient() {
         {adhkar.map((g) => <details key={g.id}><summary style={{ fontSize: '1.15rem' }}>{g.title}</summary>{g.c.items.map((x) => <p key={x.n} lang="ar" style={{ lineHeight: 2.2, fontSize: '1.2rem' }}>{x.t} <small className="note">({x.r})</small></p>)}</details>)}</section>
       <section className="card"><h2>الرقية الشرعية</h2>
         <div className="big-grid">{ruqyaIh.map((t) => <PlayTrack key={t.id} tracks={[t]} label={`▶ ${t.by}`} className="btn big-btn" />)}</div>
-        <div className="row"><SaveOffline srcs={ruqyaIh.map((t) => t.src)} /><Link className="btn ghost" href="/ruqyah">نصوص الرقية الموثقة</Link></div></section>
+        <div className="row"><Link className="btn ghost" href="/ruqyah">نصوص الرقية الموثقة</Link></div></section>
       <section className="card"><h2>أحكام المريض</h2>
         <ul className="athar-dir">{[['/fiqh/taharah/8', 'التيمم لمن لا يستطيع استعمال الماء'], ['/fiqh/taharah/6', 'المسح على الجبيرة'], ['/fiqh/salah/19', 'صلاة أهل الأعذار (المريض والمسافر)'], ['/fiqh/siyam/33', 'الأعذار المبيحة للفطر'], ['/fiqh/siyam/35', 'القضاء والفدية']].map(([h, t]) => <li key={h}><Link href={h}><strong>{t}</strong></Link></li>)}</ul>
         <p className="note">من «الفقه الميسر» مع أقوال الفقهاء في «بداية المجتهد». للحالات الخاصة اسأل أهل العلم.</p></section>
