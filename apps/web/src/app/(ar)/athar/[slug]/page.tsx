@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (p && p.status === 'active') {
       const title = `${p.display_name} — صفحة أثر`; const d = (p.dedication || 'صدقة جارية: سور وأذكار ودعاء. ادخل واقرأ وادعُ.').slice(0, 160);
       const img = { url: `/api/og/athar/${slug}?v=${ogVersion(p.display_name, p.dedication)}`, width: 1200, height: 630, alt: `صدقة جارية — ${p.display_name} — نور لأمي`, type: 'image/png' };
-      return { title, description: d, robots, alternates: { canonical: `/athar/${slug}` }, openGraph: { type: 'article', title: `${title} — نور لأمي`, description: d, url: `/athar/${slug}`, siteName: 'نور لأمي', locale: 'ar', images: [img] }, twitter: { card: 'summary_large_image', title: `${title} — نور لأمي`, description: d, images: [img.url] } };
+      return { title, description: d, robots, alternates: { canonical: `/athar/${slug}` }, openGraph: { type: 'article', title: `${title} — نور لأمي`, description: d, url: `/athar/${slug}`, siteName: 'نور لأمي', locale: 'ar_AR', images: [img] }, twitter: { card: 'summary_large_image', title: `${title} — نور لأمي`, description: d, images: [img.url] } };
     }
   } catch { /* db unavailable */ }
   return { title: 'صفحة أثر', robots };
