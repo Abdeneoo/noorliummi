@@ -641,3 +641,5 @@ html[data-contrast=high] *{text-shadow:none!important;background-image:none!impo
 .tf-panel{position:fixed;inset-inline:12px;bottom:calc(150px + env(safe-area-inset-bottom));z-index:61;max-width:640px;margin-inline:auto;max-height:55vh;overflow:auto;background:var(--surface,#103D32);color:var(--text,#F8F6F0);border:1px solid rgba(198,166,107,.45);border-radius:18px;padding:12px 16px;box-shadow:0 12px 36px rgba(0,0,0,.4);line-height:2}
 .tf-head{display:flex;justify-content:space-between;align-items:center}.tf-panel h3{margin:.6em 0 .2em;font-size:1rem;color:#C6A66B}
 @media (min-width:900px){.tf-panel{bottom:100px}}
+.gw{all:unset;cursor:pointer;text-decoration:underline dotted rgba(198,166,107,.8);text-underline-offset:.45em;text-decoration-thickness:1px}.gw:hover,.gw:focus-visible{background:rgba(198,166,107,.15);border-radius:4px}
+.gw-on{background:rgba(198,166,107,.18);border-radius:8px;padding:4px 6px}

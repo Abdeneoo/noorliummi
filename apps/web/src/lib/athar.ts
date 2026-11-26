@@ -4,7 +4,10 @@ import adhkarIndex from '@/generated/adhkar/index.json';
 import { RECITERS } from '@/lib/reciters';
 
 export interface AtharItem { kind: 'surah' | 'dhikr' | 'reciter'; ref: number }
-export interface AtharInput { display_name: string; dedication: string; dua_text: string; items: AtharItem[]; listed: boolean }
+export type Gender = 'm' | 'f' | 'pl';
+export interface AtharInput { display_name: string; dedication: string; dua_text: string; items: AtharItem[]; listed: boolean; gender: Gender; relation: string; died_on: string | null; audio_set: string }
+/** Recorded dua sets a page may play (all from licensed sources). */
+export const AUDIO_SETS: Record<string, string> = { 'od-dead': 'أدعية المتوفى من «حصن المسلم» — محمد جمعة (OpenDua)', 'quran-duas': 'أدعية القرآن الكريم — بصوت القارئ الذي يختاره الزائر', 'ih-263352': '«حصن المسلم» كاملًا — حمد الدريهم (IslamHouse)', 'ih-2799103': '«حصن المسلم» كاملًا — سليمان الشويهي (IslamHouse)', 'ih-289563': '«حصن المسلم» — فارس عباد (IslamHouse)', none: 'بلا تسجيل صوتي' };
 export const LIMITS = { name: 80, dedication: 300, dua: 1000, items: 10, reason: 300 } as const;
 const DHIKR_IDS = new Set((adhkarIndex as { id: number }[]).map((c) => c.id));
 
@@ -36,7 +39,12 @@ export function validateAthar(body: unknown): Result<AtharInput> {
     else return { ok: false, error: 'عنصر غير صالح في قائمة القراءة.' };
     const k = `${kind}:${ref}`; if (!seen.has(k)) { seen.add(k); items.push({ kind, ref }); }
   }
-  return { ok: true, value: { display_name, dedication, dua_text, items, listed: b.listed === true } };
+  const gender: Gender = b.gender === 'f' || b.gender === 'pl' ? b.gender : 'm';
+  const relation = clean(b.relation).replace(/\s+/g, ' ').slice(0, 40);
+  if (relation && LINKISH.test(relation)) return { ok: false, error: 'لا تُقبل الروابط أو الأرقام في صلة القرابة.' };
+  const died_on = typeof b.died_on === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(b.died_on) && b.died_on >= '1900-01-01' && b.died_on <= new Date().toISOString().slice(0, 10) ? b.died_on : null;
+  const audio_set = typeof b.audio_set === 'string' && b.audio_set in AUDIO_SETS ? b.audio_set : 'od-dead';
+  return { ok: true, value: { display_name, dedication, dua_text, items, listed: b.listed === true, gender, relation, died_on, audio_set } };
 }
 
 export function validateReason(body: unknown): Result<string> {

@@ -9,12 +9,13 @@ import TvEmbed from '@/components/TvEmbed';
 import SaveOffline from '@/components/SaveOffline';
 import OfflineManager from '@/components/OfflineManager';
 import { hiddenDuas } from '@/lib/duas-hidden';
+import { tvDirect } from '@/lib/rights';
 export const revalidate = 300;
 import DuaNav from '@/components/DuaNav';
 export const metadata: Metadata = { title: 'مكتبة الأدعية الصوتية', description: 'أدعية حصن المسلم بصوت محمد جمعة، وأدعية القرآن بأصوات القراء، ودعاء القنوت وختم القرآن بأصوات أئمة الحرمين.' };
 const MORE: { t: string; ids: number[] }[] = [{ t: 'أذكار الصباح والمساء والنوم', ids: [27, 28, 29] }, { t: 'الاستغفار والتسبيح والصلاة على النبي ﷺ', ids: [130, 131, 108] }];
 export default async function Page() {
-  const hid = await hiddenDuas();
+  const hid = await hiddenDuas(); const direct = await tvDirect();
   const groups = await Promise.all([...MORE.map((g, i) => ({ id: `m${i}`, title: g.t, ids: g.ids })), ...HISN_GROUPS].map(async (g) => {
     const tracks = (await Promise.all(g.ids.map(async (id) => { const c = await loadAdhkar(id); const title = ADHKAR.find((x) => x.id === id)?.title ?? ''; return c.items.filter((x) => x.a).map((x) => ({ id: `h${id}-${x.n}`, src: `/audio/adhkar/${x.a}`, title, by: 'محمد جمعة (OpenDua)', license: 'CC BY 4.0', source: `حصن المسلم: ${x.r}`, text: x.t, page: `/adhkar/${id}` })); }))).flat();
     return { ...g, tracks };
@@ -52,8 +53,8 @@ export default async function Page() {
       <section className="section" id="talks"><h2>خطب ودروس عن الدعاء والأذكار</h2>
         <ul className="athar-dir">{talks.map((x) => <li key={x.it.id}><div className="card"><strong>{x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.reader}</p><PlayTrack tracks={x.tracks} label="▶ استمع" className="btn small" /> <SaveOffline srcs={x.tracks.map((t) => t.src)} size={mb(x)} /> <a className="note" href={x.it.url} target="_blank" rel="noopener">المصدر ↗</a></div></li>)}</ul></section>
       <section className="section"><h2>دعاء القنوت وختم القرآن — أئمة الحرمين وكبار القراء</h2>
-        <p className="note">من موقع TVQuran عبر مشغّله الرسمي للتضمين ({TV.length.toLocaleString('ar-EG')} تسجيلًا). هذه أدعية يُنشئها الإمام في القنوت أو الختم، وليست أحاديث نبوية بلفظها. لا تعمل في الخلفية لأنها داخل مشغّل الموقع المصدر.</p>
-        <ul className="athar-dir">{byScholar.map(({ s, items }) => <li key={s}><div className="card"><strong>{s}</strong>{items.map((x) => <div key={x.id} style={{ marginTop: 8 }}><span>{x.title}</span> <TvEmbed id={x.id} title={`${x.title} — ${s}`} /></div>)}</div></li>)}</ul></section>
+        <p className="note">من موقع TVQuran عبر مشغّله الرسمي للتضمين ({TV.length.toLocaleString('ar-EG')} تسجيلًا). هذه أدعية يُنشئها الإمام في القنوت أو الختم، وليست أحاديث نبوية بلفظها. {direct ? 'تُشغَّل في مشغّل المنصة بإذن من الموقع.' : 'لا تعمل في الخلفية لأنها داخل مشغّل الموقع المصدر.'}</p>
+        <ul className="athar-dir">{byScholar.map(({ s, items }) => <li key={s}><div className="card"><strong>{s}</strong>{items.map((x) => <div key={x.id} style={{ marginTop: 8 }}><span>{x.title}</span> {direct ? <PlayTrack tracks={[{ id: `tv${x.id}`, src: x.mp3, title: x.title, by: s, source: 'TVQuran.com (بإذن)', page: '/duas/audio' }]} label="▶ استمع" /> : <TvEmbed id={x.id} title={`${x.title} — ${s}`} />}</div>)}</div></li>)}</ul></section>
     </article>
   );
 }

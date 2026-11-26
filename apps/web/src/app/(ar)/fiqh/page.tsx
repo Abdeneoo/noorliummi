@@ -23,6 +23,7 @@ export default function Fiqh() {
       <ul className="tiles" style={{ marginTop: 16 }}>
         {ib.map((k) => <li key={k.slug}><Link href={`/fiqh/${k.slug}`}><strong>{k.title}</strong><small>{arDigits(k.abwab.length)} أبواب، {arDigits(k.abwab.reduce((t, b) => t + b.masail.length, 0))} مسألة</small></Link></li>)}
       </ul>
+      <section className="section"><h2>أبواب يكثر السؤال عنها</h2><ul className="chips even"><li><Link href="/fiqh/taharah/5">فقه الوضوء</Link></li><li><Link href="/fiqh/taharah/8">التيمم</Link></li><li><Link href="/fiqh/salah/14">شروط الصلاة وأركانها</Link></li><li><Link href="/fiqh/salah/16">سجود السهو</Link></li><li><Link href="/fiqh/salah/19">صلاة أهل الأعذار</Link></li><li><Link href="/fiqh/salah/25">الجنائز</Link></li><li><Link href="/fiqh/zakat/30">زكاة الفطر</Link></li><li><Link href="/fiqh/siyam/33">المفطرات</Link></li><li><Link href="/fiqh/hajj/40">صفة الحج والعمرة</Link></li><li><Link href="/library/bidaya">أقوال المذاهب (بداية المجتهد)</Link></li></ul></section>
       <section className="section"><h2>بقية أبواب الفقه من الكتاب نفسه</h2>
         <ul className="chips even">{rest.map((k) => <li key={k.slug}><Link href={`/fiqh/${k.slug}`}>{k.title}</Link></li>)}</ul>
         <p className="note"><Link href="/fiqh/muqaddimah">مقدمة الكتاب ومنهجه والتمهيد</Link></p>

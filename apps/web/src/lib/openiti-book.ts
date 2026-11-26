@@ -7,7 +7,7 @@ export interface Section { title: string; group?: string; blocks: Block[] }
 export interface Book { meta: Record<string, string>; sections: Section[]; body: string }
 const clean = (s: string) => s.replace(/\bms\d+[A-Za-z]?\b/g, ' ').replace(/@QB@\s*/g, '﴿').replace(/\s*@QE@/g, '﴾').replace(/\s*%~%\s*/g, '   *   ').replace(/\s+([.،,:؛])/g, '$1').replace(/\s+/g, ' ').trim();
 
-export type BookKind = 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul';
+export type BookKind = 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya';
 /** Where the author's own text starts (anything before it is the modern editor's introduction, which is not imported). */
 const START: Partial<Record<BookKind, string>> = { qisas: '### | باب ما ورد في خلق آدم' };
 export function parseBook(text: string, kind: BookKind): Book {
@@ -39,6 +39,10 @@ export function parseBook(text: string, kind: BookKind): Book {
       if ((m = p.match(/^### \| (.*)$/))) { group = clean(m[1].replace(/PageV\d+P\d+/g, '')); open(group); continue; }
       if ((m = p.match(/^### \|\| (.*)$/))) { if (group.startsWith('[')) group = ''; open(clean(m[1].replace(/PageV\d+P\d+/g, ''))); continue; }
       if ((m = p.match(/^### \|\|\| ?(.*)$/))) { if (!cur) open('—'); const num = m[1].match(/(\d+)\s*\/\s*(\d+)/); cur!.blocks.push({ n: num ? num[2] : clean(m[1]) }); const rest = m[1].replace(/^\s*\d+\s*\/\s*\d+\s*-?\s*/, ''); if (rest.trim()) pushText('p', rest); continue; }
+    }
+    if (kind === 'bidaya') {
+      // «بداية المجتهد»: each «[كتاب …]» heading starts a group; every heading inside it opens a section.
+      if ((m = p.match(/^### \| ?(.*)$/))) { const t = clean(m[1].replace(/PageV\d+P\d+/g, '')).replace(/^\[|\]$/g, '').trim(); if (/^كتاب /.test(t)) group = t; open(t || '—'); continue; }
     }
     if (kind === 'qisas' || kind === 'fusul') {
       if ((m = p.match(/^### \|{1,3} ?(.*)$/))) { open(clean(m[1].replace(/PageV\d+P\d+/g, '')) || '—'); continue; }

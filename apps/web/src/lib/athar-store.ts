@@ -2,7 +2,7 @@ import 'server-only';
 import { db } from './db';
 import { FREEZE_AT, hashToken, newSlug, newToken, type AtharInput, type AtharItem } from './athar';
 
-export interface AtharPage { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: 'active' | 'frozen'; listed: boolean; items: AtharItem[] }
+export interface AtharPage { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: 'active' | 'frozen'; listed: boolean; items: AtharItem[]; gender: 'm' | 'f' | 'pl'; relation: string; died_on: string | null; audio_set: string }
 
 export async function createPage(v: AtharInput, ownerId: number | null = null): Promise<{ slug: string; token: string }> {
   const token = newToken(); const c = await db().connect();
@@ -11,8 +11,8 @@ export async function createPage(v: AtharInput, ownerId: number | null = null): 
     for (let attempt = 0; ; attempt++) {
       const slug = newSlug();
       const r = await c.query<{ id: string }>(
-        'INSERT INTO memorial_pages (slug, display_name, dedication, dua_text, edit_token_hash, visibility, owner_id) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (slug) DO NOTHING RETURNING id',
-        [slug, v.display_name, v.dedication, v.dua_text, hashToken(token), v.listed ? 'listed' : 'unlisted', ownerId]);
+        'INSERT INTO memorial_pages (slug, display_name, dedication, dua_text, edit_token_hash, visibility, owner_id, gender, relation, died_on, audio_set) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT (slug) DO NOTHING RETURNING id',
+        [slug, v.display_name, v.dedication, v.dua_text, hashToken(token), v.listed ? 'listed' : 'unlisted', ownerId, v.gender, v.relation, v.died_on, v.audio_set]);
       if (r.rowCount) { await writeItems(c, Number(r.rows[0].id), v.items); await c.query('COMMIT'); return { slug, token }; }
       if (attempt > 4) throw new Error('slug collision');
     }
@@ -25,7 +25,7 @@ async function writeItems(c: { query: (q: string, p: unknown[]) => Promise<unkno
 }
 
 export async function getPage(slug: string): Promise<AtharPage | null> {
-  const r = await db().query("SELECT id, slug, display_name, dedication, dua_text, status, visibility = 'listed' AS listed FROM memorial_pages WHERE slug = $1 AND status <> 'removed'", [slug]);
+  const r = await db().query("SELECT id, slug, display_name, dedication, dua_text, status, visibility = 'listed' AS listed, gender, relation, died_on::text, audio_set FROM memorial_pages WHERE slug = $1 AND status <> 'removed'", [slug]);
   if (!r.rowCount) return null;
   const p = r.rows[0];
   const items = await db().query<{ kind: 'surah' | 'dhikr' | 'reciter'; ref: number }>('SELECT kind, ref FROM memorial_page_content WHERE page_id = $1 ORDER BY sort', [p.id]);
@@ -37,8 +37,8 @@ export async function updatePage(slug: string, token: string, v: AtharInput, own
   const c = await db().connect();
   try {
     await c.query('BEGIN');
-    const r = await c.query<{ id: string }>("UPDATE memorial_pages SET display_name=$3, dedication=$4, dua_text=$5, visibility=$6, updated_at=now() WHERE slug=$1 AND (edit_token_hash=$2 OR (owner_id IS NOT NULL AND owner_id=$7)) AND status <> 'removed' RETURNING id",
-      [slug, hashToken(token), v.display_name, v.dedication, v.dua_text, v.listed ? 'listed' : 'unlisted', ownerId]);
+    const r = await c.query<{ id: string }>("UPDATE memorial_pages SET display_name=$3, dedication=$4, dua_text=$5, visibility=$6, gender=$8, relation=$9, died_on=$10, audio_set=$11, updated_at=now() WHERE slug=$1 AND (edit_token_hash=$2 OR (owner_id IS NOT NULL AND owner_id=$7)) AND status <> 'removed' RETURNING id",
+      [slug, hashToken(token), v.display_name, v.dedication, v.dua_text, v.listed ? 'listed' : 'unlisted', ownerId, v.gender, v.relation, v.died_on, v.audio_set]);
     if (!r.rowCount) { await c.query('ROLLBACK'); return false; }
     await writeItems(c, Number(r.rows[0].id), v.items); await c.query('COMMIT'); return true;
   } catch (e) { await c.query('ROLLBACK'); throw e; } finally { c.release(); }

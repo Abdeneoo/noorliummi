@@ -47,11 +47,25 @@ function colour(text: string, anns: Ann[], lang: 'ar' | 'en') {
 const arDigits = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
 export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; ayat: { n: number; t: string }[]; lang?: 'ar' | 'en' }) {
-  const [tf, setTf] = useState<{ n: number; j?: string; m?: string } | null>(null);
-  const cacheT = useRef<{ jalalayn: Record<string, string>; moyassar: Record<string, string> } | null>(null);
-  const openTafsir = async (n: number) => {
-    setTf({ n });
-    try { cacheT.current ??= await (await fetch(`/api/tafsir/${surah}`)).json(); const c = cacheT.current!; setTf({ n, j: c.jalalayn[String(n)] ?? c.jalalayn[n as unknown as string], m: c.moyassar[String(n)] }); } catch { setTf({ n, j: '', m: '' }); }
+  type G = { q: string; t: string; w?: [number, number] };
+  const [tf, setTf] = useState<{ n: number; j?: string; m?: string; g?: G[]; focus?: number } | null>(null);
+  const cacheT = useRef<{ jalalayn: Record<string, string>; moyassar: Record<string, string>; gharib: Record<string, G[]> } | null>(null);
+  // Gharib al-Quran (Ibn Qutayba): words with an explanation are underlined and open it on tap.
+  const [gh, setGh] = useState<Record<string, G[]> | null>(null);
+  useEffect(() => { if (lang !== 'ar') return; import(`@/generated/gharib/${surah}.json`).then((m) => setGh(m.default as Record<string, G[]>)).catch(() => setGh({})); }, [surah, lang]);
+  const openTafsir = async (n: number, focus?: number) => {
+    setTf({ n, focus });
+    try { cacheT.current ??= await (await fetch(`/api/tafsir/${surah}`)).json(); const c = cacheT.current!; setTf({ n, j: c.jalalayn[String(n)] ?? '', m: c.moyassar[String(n)], g: c.gharib?.[String(n)] ?? [], focus }); } catch { setTf({ n, j: '', m: '', focus }); }
+  };
+  const words = (n: number, t: string) => {
+    const es = gh?.[String(n)]?.filter((e) => e.w) ?? []; if (!es.length) return t;
+    const ws = t.split(' '); const out: React.ReactNode[] = [];
+    for (let i = 0; i < ws.length; i++) {
+      const k = es.findIndex((e) => e.w![0] === i);
+      if (k >= 0) { const [a0, b0] = es[k].w!; out.push(<button key={i} type="button" className="gw" onClick={() => void openTafsir(n, k)} aria-label={`معنى: ${es[k].q}`}>{ws.slice(a0, b0 + 1).join(' ')}</button>, ' '); i = b0; continue; }
+      out.push(ws[i], i < ws.length - 1 ? ' ' : '');
+    }
+    return out;
   };
   const [on, setOn] = useState(false);
   const [data, setData] = useState<Record<string, Ann[]> | null>(null);
@@ -80,13 +94,13 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
       )}
       <div className="ayat" lang="ar" dir="rtl">
         {ayat.map((a) => (
-          <span key={a.n} id={`a${a.n}`}>{on && data ? colour(a.t, data[a.n] ?? [], lang) : a.t}<Link className="ayah-end" href={lang === 'ar' ? `/tafsir/${surah}#a${a.n}` : `/en/quran/${surah}#a${a.n}`} onClick={lang === 'ar' ? (e) => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); void openTafsir(a.n); } : undefined} aria-label={lang === 'ar' ? `تفسير الآية ${a.n}` : `Ayah ${a.n}`}><span aria-hidden="true">﴿{arDigits(a.n)}﴾</span></Link> </span>
+          <span key={a.n} id={`a${a.n}`}>{on && data ? colour(a.t, data[a.n] ?? [], lang) : gh ? words(a.n, a.t) : a.t}<Link className="ayah-end" href={lang === 'ar' ? `/tafsir/${surah}#a${a.n}` : `/en/quran/${surah}#a${a.n}`} onClick={lang === 'ar' ? (e) => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); void openTafsir(a.n); } : undefined} aria-label={lang === 'ar' ? `تفسير الآية ${a.n}` : `Ayah ${a.n}`}><span aria-hidden="true">﴿{arDigits(a.n)}﴾</span></Link> </span>
         ))}
       </div>
     </>
       {tf && <div className="tf-panel" role="dialog" aria-label={`تفسير الآية ${tf.n}`}><div className="tf-head"><strong>تفسير الآية {arDigits(tf.n)}</strong><button type="button" className="btn ghost small" onClick={() => setTf(null)} aria-label="إغلاق">✕</button></div>
-        {tf.j === undefined ? <p className="note">…</p> : <>{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
-        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>افتح صفحة التفسير</Link> · التفسير الميسر: مجمع الملك فهد عبر QuranEnc.com</p></div>}
+        {tf.j === undefined ? <p className="note">…</p> : <>{tf.g && tf.g.length > 0 && <><h3>غريب القرآن — ابن قتيبة</h3>{tf.g.map((e, k) => <p key={k} className={k === tf.focus ? 'gw-on' : ''} style={{ whiteSpace: 'pre-line' }}>{e.t}</p>)}</>}{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
+        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>افتح صفحة التفسير</Link> · الغريب: «غريب القرآن» لابن قتيبة (ت 276هـ)، تحقيق أحمد صقر، عبر OpenITI · التفسير الميسر: مجمع الملك فهد عبر QuranEnc.com</p></div>}
     </>
   );
 }

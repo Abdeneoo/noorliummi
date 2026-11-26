@@ -245,6 +245,8 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       const tv = resolve(here, '../../../database/sources/tvquran');
       if (sha256File(`${tv}/selections-category-4.json`) !== readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for tvquran list');
       writeFileSync(`${out}/duas/tvquran.json`, readFileSync(`${tv}/selections-category-4.json`, 'utf8'));
+      // Inventory of recordings held for permission (admin panel only; not published).
+      writeFileSync(`${out}/duas/islamweb-dua.json`, readFileSync(resolve(here, '../../../database/sources/rights/islamweb-dua.json'), 'utf8'));
     }
     // al-Fiqh al-Muyassar (King Fahd Complex): the source has paragraphs only, so books ("أولاً: كتاب الطهارة"), chapters
     // ("الباب الأول: …، وفيه مسائل:") and issues ("المسألة الأولى: …") are recognised by their wording. Text is kept verbatim;
@@ -438,15 +440,15 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
 // ---- Library: whole books from OpenITI (CC BY-NC-SA 4.0), sectioned for reading ----
 {
   const AR: Record<string, { ar: string; author: string }> = { riyad: { ar: 'رياض الصالحين', author: 'الإمام النووي (ت 676هـ)' }, 'adhkar-nawawi': { ar: 'الأذكار', author: 'الإمام النووي (ت 676هـ)' },
-    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' } };
+    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' }, bidaya: { ar: 'بداية المجتهد ونهاية المقتصد', author: 'ابن رشد الحفيد (ت 595هـ)' } };
   const index: unknown[] = [];
   // Two pinned OpenITI sources: the RELEASE corpus (Riyad, al-Adhkar) and the 0775AH repository (Qisas al-Anbiya, al-Fusul — chosen by the owner).
-  const libLines = ['library-openiti', 'library-openiti-0775'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
+  const libLines = ['library-openiti', 'library-openiti-0775', 'library-openiti-0600'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
   for (const { l: line, dir } of libLines) {
     const [sum, key, path] = line.split(/\s+/); const f = `${dir}/files/${key}.txt`;
     if (!existsSync(f)) throw new Error(`Missing ${key} — run infrastructure/fetch-hadith.sh`);
     if (sha256File(f) !== sum) throw new Error(`Checksum mismatch for library ${key} — refusing to build`);
-    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul');
+    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya');
     const got = bookLetters(b.sections.map((s) => s.blocks.map((x) => ('p' in x ? x.p : 'h' in x ? x.h : 'v' in x ? x.v : '')).join('')).join(''));
     const want = bookLetters(b.body.split(/\r?\n/).filter((l) => !/^### \|{1,3} /.test(l)).join(' ').replace(/\bms\d+[A-Za-z]?\b/g, ''));
     if (got !== want) throw new Error(`Library ${key}: Arabic letters changed in processing — refusing to build`);
@@ -599,4 +601,54 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
     writeFileSync(`${out}/tajweed/${m.index}.json`, JSON.stringify(res));
   }
   console.log(`Tajweed: ${n} annotations`);
+}
+
+// ---- Gharib al-Quran — Ibn Qutayba (d. 276), OpenITI cleaned version of Ahmad Saqr's edition (author's text only) ----
+// Each entry «{phrase} explanation» is kept verbatim (editor's footnote markers and page tags removed) under its surah and ayah,
+// and linked to the words of the ayah when the phrase is found in Tanzil's simple-clean text (word counts must match Uthmani).
+{
+  const dir = resolve(here, '../../../database/sources/gharib-openiti');
+  if (sha256File(`${dir}/ibn-qutayba.txt`) !== readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for ibn-qutayba.txt');
+  const raw = readFileSync(`${dir}/ibn-qutayba.txt`, 'utf8').split('#META#Header#End#')[1];
+  const lines = raw.replace(/\r/g, '').replace(/\n~~/g, ' ').split('\n');
+  const clean = (t: string) => t.replace(/PageV\d+P\d+/g, '').replace(/\s*[«(]\d{1,2}[»)]/g, '').replace(/\s+/g, ' ').trim();
+  const order = ['الحمد', ...meta.slice(1).map((m) => m.name)];
+  const ALIAS: Record<string, number> = { 'الحمد': 1, 'بني إسرائيل': 17, 'المؤمن': 40, 'الدهر': 76, 'الانشراح': 94, 'اللهب': 111 };
+  const nk = (t: string) => normDhikr(t).replace(/[ءأإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/^ال/, '').replace(/\s+/g, '');
+  const byName = new Map(meta.map((m) => [nk(m.name), m.index]));
+  type E = { q: string; t: string; w?: [number, number] };
+  const res = new Map<number, Map<number, E[]>>(); let s = 0, a = 0, cur: E | null = null, total = 0;
+  for (const l0 of lines) {
+    const l = l0.trim(); if (!l) continue;
+    const sh = /^### \| سورة (.+)$/.exec(l);
+    if (sh) { const name = sh[1].trim(); s = ALIAS[name] ?? byName.get(nk(name)) ?? 0; if (!s) throw new Error(`gharib: unknown surah «${name}»`); a = 0; cur = null; res.set(s, res.get(s) ?? new Map()); continue; }
+    if (!s) continue;
+    const ah = /^### \| (\d+)/.exec(l); if (ah) { a = Number(ah[1]); cur = null; continue; }
+    if (l.startsWith('### ')) { cur = null; continue; }
+    if (!a || !l.startsWith('#')) continue;
+    const t = clean(l.replace(/^#\s*/, '')); if (!t || /^\*\s*\*\s*\*$/.test(t)) continue;
+    const q = /\{([^}]+)\}/.exec(t);
+    if (q) { cur = { q: q[1].trim(), t }; const m = res.get(s)!; m.set(a, [...(m.get(a) ?? []), cur]); total++; }
+    else if (cur) cur.t += `\n${t}`;
+  }
+  // Word ranges: match the phrase in simple-clean words; only when the ayah has the same word count in Uthmani.
+  const simple = parseTanzilText(readFileSync(`${src}/simple-clean.xml`, 'utf8'));
+  const sw = new Map(simple.map((x) => [`${x.sura}:${x.aya}`, x.text.split(' ').map(nk)]));
+  const uw = new Map(ayat.map((x) => [`${x.sura}:${x.aya}`, x.text.split(' ').length]));
+  let linked = 0;
+  mkdirSync(`${out}/gharib`, { recursive: true });
+  for (const [sn, m] of res) {
+    const obj: Record<number, E[]> = {};
+    for (const [an, es] of m) {
+      const words = sw.get(`${sn}:${an}`); const same = words && uw.get(`${sn}:${an}`) === words.length;
+      for (const e of es) {
+        if (!words || !same) continue; const qw = e.q.split(/\s+/).map(nk).filter(Boolean); if (!qw.length) continue;
+        for (let i = 0; i + qw.length <= words.length; i++) if (qw.every((w, k) => words[i + k] === w || words[i + k] === `و${w}` || `و${words[i + k]}` === w)) { e.w = [i, i + qw.length - 1]; linked++; break; }
+      }
+      obj[an] = es;
+    }
+    writeFileSync(`${out}/gharib/${sn}.json`, JSON.stringify(obj));
+  }
+  if (total < 2000) throw new Error(`gharib: only ${total} entries parsed`);
+  console.log(`Gharib (Ibn Qutayba): ${total} entries in ${res.size} surahs, ${linked} linked to words`);
 }
