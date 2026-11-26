@@ -623,7 +623,7 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   const ALIAS: Record<string, number> = { 'الحمد': 1, 'بني إسرائيل': 17, 'المؤمن': 40, 'الدهر': 76, 'الانشراح': 94, 'اللهب': 111 };
   const nk = (t: string) => normDhikr(t).replace(/[ءأإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/^ال/, '').replace(/\s+/g, '');
   const byName = new Map(meta.map((m) => [nk(m.name), m.index]));
-  type E = { q: string; t: string; w?: [number, number] };
+  type E = { q: string; t: string; w?: [number, number]; b?: 's'; r?: string[] };
   const res = new Map<number, Map<number, E[]>>(); let s = 0, a = 0, cur: E | null = null, total = 0;
   for (const l0 of lines) {
     const l = l0.trim(); if (!l) continue;
@@ -642,20 +642,45 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   const simple = parseTanzilText(readFileSync(`${src}/simple-clean.xml`, 'utf8'));
   const sw = new Map(simple.map((x) => [`${x.sura}:${x.aya}`, x.text.split(' ').map(nk)]));
   const uw = new Map(ayat.map((x) => [`${x.sura}:${x.aya}`, x.text.split(' ').length]));
+  // Second book: Sijistani's Nuzhat al-Qulub, aligned offline (scripts/align-sijistani.py), entries tagged b:'s'.
+  const sums = Object.fromEntries(readFileSync(`${dir}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse()));
+  for (const f of ['sijistani.txt', 'sijistani-aligned.json']) if (sha256File(`${dir}/${f}`) !== sums[f]) throw new Error(`Checksum mismatch for ${f}`);
+  const sij = JSON.parse(readFileSync(`${dir}/sijistani-aligned.json`, 'utf8')) as { entries: { q: string; t: string; s: number; a: number; w: [number, number] }[] };
+  const sijW: E[] = [];
+  for (const e of sij.entries) { const m = res.get(e.s) ?? new Map(); res.set(e.s, m); const x: E = { q: e.q, t: e.t, b: 's' }; m.set(e.a, [...(m.get(e.a) ?? []), x]); sijW.push(Object.assign(x, { _w: e.w }) as E); }
   let linked = 0;
   mkdirSync(`${out}/gharib`, { recursive: true });
+  const BWA: Record<string, string> = { "'": 'ء', A: 'ا', b: 'ب', t: 'ت', v: 'ث', j: 'ج', H: 'ح', x: 'خ', d: 'د', '*': 'ذ', r: 'ر', z: 'ز', s: 'س', $: 'ش', S: 'ص', D: 'ض', T: 'ط', Z: 'ظ', E: 'ع', g: 'غ', f: 'ف', q: 'ق', k: 'ك', l: 'ل', m: 'م', n: 'ن', h: 'ه', w: 'و', y: 'ي' };
+  const rootAr = (bw: string) => { const a = [...bw].map((c) => BWA[c]); return a.every(Boolean) ? a.join('') : ''; };
   for (const [sn, m] of res) {
     const obj: Record<number, E[]> = {};
+    const morphS = JSON.parse(readFileSync(`${out}/morph/${sn}.json`, 'utf8')) as Record<string, { r: string }[]>;
     for (const [an, es] of m) {
       const words = sw.get(`${sn}:${an}`); const same = words && uw.get(`${sn}:${an}`) === words.length;
       for (const e of es) {
+        const pre = (e as E & { _w?: [number, number] })._w; if (pre) { delete (e as E & { _w?: unknown })._w; if (same) { e.w = pre; linked++; } continue; }
         if (!words || !same) continue; const qw = e.q.split(/\s+/).map(nk).filter(Boolean); if (!qw.length) continue;
         for (let i = 0; i + qw.length <= words.length; i++) if (qw.every((w, k) => words[i + k] === w || words[i + k] === `و${w}` || `و${words[i + k]}` === w)) { e.w = [i, i + qw.length - 1]; linked++; break; }
       }
+      for (const e of es) if (e.w) { const ws = morphS[String(an)] ?? []; const r = [...new Set(ws.slice(e.w[0], e.w[1] + 1).map((x) => rootAr(x?.r ?? '')).filter(Boolean))]; if (r.length) e.r = r; }
       obj[an] = es;
     }
     writeFileSync(`${out}/gharib/${sn}.json`, JSON.stringify(obj));
   }
   if (total < 2000) throw new Error(`gharib: only ${total} entries parsed`);
-  console.log(`Gharib (Ibn Qutayba): ${total} entries in ${res.size} surahs, ${linked} linked to words`);
+  console.log(`Gharib: Ibn Qutayba ${total} + Sijistani ${sijW.length} entries in ${res.size} surahs, ${linked} linked to words`);
+  // Third book, by root: al-Samin al-Halabi, 'Umdat al-Huffaz (OpenITI, ed. Muhammad Basil 'Uyun al-Sud). Text verbatim per root heading.
+  if (sha256File(`${dir}/samin-umda.txt`) !== sums['samin-umda.txt']) throw new Error('Checksum mismatch for samin-umda.txt');
+  const sm = readFileSync(`${dir}/samin-umda.txt`, 'utf8').split('#META#Header#End#')[1].replace(/\r/g, '').replace(/\n~~/g, ' ').split('\n');
+  const rk = (r: string) => r.replace(/[ءأإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه');
+  const samin: Record<string, string[]> = {}; let sr = ''; let sb: string[] = [];
+  const sflush = () => { if (sr && sb.length) (samin[rk(sr)] ??= []).push(sb.join(' ').replace(/\s+/g, ' ').trim()); };
+  for (const l0 of sm) { const l = l0.trim(); const m = /^#\s+((?:[\u0621-\u064A]\s?){2,5})\s*:\s*$/.exec(l);
+    if (m) { sflush(); sr = m[1].replace(/\s/g, ''); sb = []; continue; }
+    if (l.startsWith('###')) { sflush(); sr = ''; sb = []; continue; }
+    if (sr && l.startsWith('#')) sb.push(l.slice(1).replace(/PageV\d+P\d+/g, '').replace(/# /g, ' ')); }
+  sflush();
+  if (Object.keys(samin).length < 1500) throw new Error(`samin: only ${Object.keys(samin).length} roots`);
+  mkdirSync(`${out}/gharib-root`, { recursive: true }); writeFileSync(`${out}/gharib-root/samin.json`, JSON.stringify(samin));
+  console.log(`Gharib: al-Samin 'Umdat al-Huffaz ${Object.keys(samin).length} roots`);
 }

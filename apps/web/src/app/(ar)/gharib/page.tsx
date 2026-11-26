@@ -1,25 +1,51 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { SURAHS, arDigits } from '@/lib/quran';
-export const metadata: Metadata = { title: 'غريب القرآن', description: 'معاني الكلمات الغريبة في القرآن من «غريب القرآن» لابن قتيبة (ت 276هـ)، مرتبة بالسورة والآية، مع البحث.' };
+let SAMIN: Record<string, string[]> | null = null;
+const samin = (r: string) => { SAMIN ??= JSON.parse(readFileSync(join(process.cwd(), 'src/generated/gharib-root/samin.json'), 'utf8')); const k = r.replace(/\s+/g, '').replace(/[ءأإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه');
+  // Weak roots: the corpus and al-Samin may spell the weak letter differently (غشو / غشي).
+  const alt = [k, k.replace(/و$/, 'ي'), k.replace(/ي$/, 'و'), k.replace(/^(.)و/, '$1ي'), k.replace(/^(.)ي/, '$1و')];
+  for (const x of alt) if (SAMIN![x]) return SAMIN![x]; return []; };
+export const metadata: Metadata = { title: 'غريب القرآن', description: 'معاني الكلمات الغريبة في القرآن من «غريب القرآن» لابن قتيبة و«نزهة القلوب» للسجستاني، بالبحث بالكلمة والجذر والسورة والآية، مع المقارنة بين المؤلفين.' };
 export const dynamic = 'force-dynamic';
-async function search(q: string) {
-  const norm = (t: string) => t.replace(/[ً-ٰٟـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي');
-  const nq = norm(q); const hits: { s: number; a: string; t: string }[] = [];
-  for (const s of SURAHS) { const g = (await import(`@/generated/gharib/${s.index}.json`).catch(() => ({ default: {} }))).default as Record<string, { q: string; t: string }[]>;
-    for (const [a, es] of Object.entries(g)) for (const e of es) if (norm(e.q).includes(nq) || norm(e.t).includes(nq)) hits.push({ s: s.index, a, t: e.t }); if (hits.length > 80) break; }
+type E = { q: string; t: string; b?: 's'; r?: string[] };
+const BOOK = { q: 'ابن قتيبة', s: 'السجستاني' } as const;
+const norm = (t: string) => t.replace(/[ً-ٰٟـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي');
+async function search(o: { q: string; root: string; s: number; a: number; b: string }) {
+  const nq = norm(o.q); const nr = o.root.replace(/\s+/g, ''); const hits: { s: number; a: string; e: E }[] = [];
+  for (const su of SURAHS) {
+    if (o.s && su.index !== o.s) continue;
+    const g = (await import(`@/generated/gharib/${su.index}.json`).catch(() => ({ default: {} }))).default as Record<string, E[]>;
+    for (const [a, es] of Object.entries(g)) { if (o.a && Number(a) !== o.a) continue;
+      for (const e of es) { if (o.b && (e.b ?? 'q') !== o.b) continue; if (nr && !(e.r ?? []).some((r) => norm(r) === norm(nr))) continue; if (nq && !(norm(e.q).includes(nq) || norm(e.t).includes(nq))) continue; hits.push({ s: su.index, a, e }); } }
+    if (hits.length > 200) break;
+  }
   return hits;
 }
-export default async function Page({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const q = String((await searchParams).q ?? '').trim().slice(0, 60); const hits = q.length > 1 ? await search(q) : [];
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
+  const p = await searchParams; const q = String(p.q ?? '').trim().slice(0, 60); const root = String(p.root ?? '').trim().slice(0, 8);
+  const s = Math.max(0, Math.min(114, Number(p.s) || 0)); const a = Math.max(0, Number(p.a) || 0); const b = p.b === 'q' || p.b === 's' ? p.b : '';
+  const active = q.length > 1 || root.length >= 2 || s > 0; const hits = active ? await search({ q, root, s, a, b }) : [];
+  const groups = new Map<string, { s: number; a: string; es: E[] }>(); for (const h of hits) { const k = `${h.s}:${h.a}`; const g = groups.get(k) ?? { s: h.s, a: h.a, es: [] }; g.es.push(h.e); groups.set(k, g); }
   return (
-    <article style={{ maxWidth: 860, margin: '0 auto' }}>
-      <header className="page-head"><p className="eyebrow">القرآن</p><h1>غريب القرآن</h1><p>من كتاب «غريب القرآن» للإمام ابن قتيبة الدينوري (ت 276هـ)، بنصه كما في نسخة OpenITI لتحقيق أحمد صقر. وفي المصحف: الكلمات المسطّرة تفتح معناها عند الضغط عليها.</p></header>
-      <form className="row" role="search"><input type="search" name="q" defaultValue={q} placeholder="ابحث عن كلمة: غشاوة، الصمد…" aria-label="بحث في غريب القرآن" style={{ flex: 1 }} /><button className="btn">بحث</button></form>
-      {q && <p className="note">{hits.length ? `${arDigits(hits.length)} نتيجة` : 'لا نتائج'}</p>}
-      {hits.length > 0 && <ul className="athar-dir">{hits.map((h, i) => <li key={i}><Link href={`/gharib/${h.s}#a${h.a}`}><strong>{SURAHS[h.s - 1].name}: {arDigits(Number(h.a))}</strong><small style={{ whiteSpace: 'pre-line' }}>{h.t.slice(0, 220)}</small></Link></li>)}</ul>}
-      <p className="review-banner">نص المؤلف فقط (أُزيلت حواشي المحقق وأرقامها). رقم الآية كما في الكتاب. لم يراجعه مراجع المنصة بعد. الترخيص: CC BY-NC-SA 4.0 (OpenITI).</p>
-      <ul className="surah-list">{SURAHS.map((s) => <li key={s.index}><Link href={`/gharib/${s.index}`}><span className="num">{arDigits(s.index)}</span><span className="nm">{s.name}</span></Link></li>)}</ul>
+    <article style={{ maxWidth: 900, margin: '0 auto' }}>
+      <header className="page-head"><p className="eyebrow">القرآن</p><h1>غريب القرآن</h1>
+        <p>من «غريب القرآن» لابن قتيبة الدينوري (ت 276هـ، تحقيق أحمد صقر) و«نزهة القلوب» لأبي بكر السجستاني (ت 330هـ، تحقيق محمد أديب عبد الواحد جمران)، بنصّيهما كما في نسخ OpenITI. في المصحف: الكلمات المسطّرة تفتح معناها عند المؤلفَين معًا للمقارنة.</p></header>
+      <form className="row" role="search" style={{ flexWrap: 'wrap', gap: 8 }}>
+        <input type="search" name="q" defaultValue={q} placeholder="كلمة: غشاوة، الصمد…" aria-label="بحث بالكلمة" style={{ flex: '1 1 180px' }} />
+        <input name="root" defaultValue={root} placeholder="الجذر: غشو" aria-label="بحث بالجذر" style={{ width: 110 }} />
+        <select name="s" defaultValue={s || ''} aria-label="السورة"><option value="">كل السور</option>{SURAHS.map((x) => <option key={x.index} value={x.index}>{x.index}. {x.name}</option>)}</select>
+        <input name="a" type="number" min={1} defaultValue={a || ''} placeholder="الآية" aria-label="رقم الآية" style={{ width: 80 }} />
+        <select name="b" defaultValue={b} aria-label="المؤلف"><option value="">المؤلفان</option><option value="q">ابن قتيبة</option><option value="s">السجستاني</option></select>
+        <button className="btn">بحث</button></form>
+      {active && <p className="note">{hits.length ? `${arDigits(hits.length)} شرحًا في ${arDigits(groups.size)} موضعًا` : 'لا نتائج'}</p>}
+      {root.length >= 2 && (() => { const sm = samin(root); return sm.length ? <section className="card" style={{ marginBottom: 12 }}><h2 style={{ marginTop: 0 }}>الجذر «{root}» في «عمدة الحفاظ» للسمين الحلبي (ت 756هـ)</h2>{sm.map((t, k) => <details key={k} open={k === 0}><summary>المادة {arDigits(k + 1)}</summary><p style={{ whiteSpace: 'pre-line', lineHeight: 2 }}>{t}</p></details>)}<p className="note">تحقيق محمد باسل عيون السود، دار الكتب العلمية 1417هـ، عبر OpenITI. نص المؤلف كما في النسخة.</p></section> : <p className="note">لا مادة لهذا الجذر في «عمدة الحفاظ».</p>; })()}
+      {[...groups.values()].map((g) => <section key={`${g.s}:${g.a}`} className="card" style={{ marginBottom: 8 }}><p><Link href={`/gharib/${g.s}#a${g.a}`}><strong>{SURAHS[g.s - 1].name}: {arDigits(Number(g.a))}</strong></Link> · <Link href={`/quran/${g.s}#a${g.a}`}>في المصحف</Link></p>
+        {g.es.map((e, k) => <div key={k}><p className="eyebrow" style={{ margin: '6px 0 0' }}>{BOOK[e.b ?? 'q']}{e.r?.length ? ` · الجذور: ${e.r.join('، ')}` : ''}</p><p style={{ whiteSpace: 'pre-line', marginTop: 2 }}>{e.t.length > 500 ? `${e.t.slice(0, 500)}…` : e.t}</p></div>)}</section>)}
+      <p className="review-banner">نص المؤلفين فقط (أُزيلت حواشي المحققين وأرقامها). ربط «نزهة القلوب» بالآيات آلي بمطابقة اللفظ وترتيب الكتاب، وما لم يثبت ربطه تُرك. الجذور من Quranic Arabic Corpus. لم يراجعه مراجع المنصة بعد. الترخيص: CC BY-NC-SA 4.0 (OpenITI). «عمدة الحفاظ» للسمين يظهر عند البحث بالجذر. «المفردات» للراغب و«تحفة الأريب» لأبي حيان: لم نجد لهما نسخة في OpenITI بعد.</p>
+      <ul className="surah-list">{SURAHS.map((x) => <li key={x.index}><Link href={`/gharib/${x.index}`}><span className="num">{arDigits(x.index)}</span><span className="nm">{x.name}</span></Link></li>)}</ul>
     </article>
   );
 }

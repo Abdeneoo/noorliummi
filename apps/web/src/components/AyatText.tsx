@@ -47,7 +47,8 @@ function colour(text: string, anns: Ann[], lang: 'ar' | 'en') {
 const arDigits = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
 export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; ayat: { n: number; t: string }[]; lang?: 'ar' | 'en' }) {
-  type G = { q: string; t: string; w?: [number, number] };
+  type G = { q: string; t: string; w?: [number, number]; b?: 's'; r?: string[] };
+  const BOOKS = { q: 'ابن قتيبة (ت 276هـ)', s: 'السجستاني (ت 330هـ)' } as const;
   const [tf, setTf] = useState<{ n: number; j?: string; m?: string; g?: G[]; focus?: number } | null>(null);
   const cacheT = useRef<{ jalalayn: Record<string, string>; moyassar: Record<string, string>; gharib: Record<string, G[]> } | null>(null);
   // Gharib al-Quran (Ibn Qutayba): words with an explanation are underlined and open it on tap.
@@ -99,8 +100,8 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
       </div>
     </>
       {tf && <div className="tf-panel" role="dialog" aria-label={`تفسير الآية ${tf.n}`}><div className="tf-head"><strong>تفسير الآية {arDigits(tf.n)}</strong><button type="button" className="btn ghost small" onClick={() => setTf(null)} aria-label="إغلاق">✕</button></div>
-        {tf.j === undefined ? <p className="note">…</p> : <>{tf.g && tf.g.length > 0 && <><h3>غريب القرآن — ابن قتيبة</h3>{tf.g.map((e, k) => <p key={k} className={k === tf.focus ? 'gw-on' : ''} style={{ whiteSpace: 'pre-line' }}>{e.t}</p>)}</>}{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
-        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>افتح صفحة التفسير</Link> · الغريب: «غريب القرآن» لابن قتيبة (ت 276هـ)، تحقيق أحمد صقر، عبر OpenITI · التفسير الميسر: مجمع الملك فهد عبر QuranEnc.com</p></div>}
+        {tf.j === undefined ? <p className="note">…</p> : <>{tf.g && tf.g.length > 0 && <><h3>غريب القرآن</h3>{tf.g.map((e, k) => <div key={k} className={k === tf.focus ? 'gw-on' : ''}><p className="eyebrow" style={{ margin: '6px 0 0' }}>{BOOKS[e.b ?? 'q']}{e.r?.length ? <> · <Link href={`/gharib?root=${encodeURIComponent(e.r[e.r.length - 1])}`}>الجذر {e.r[e.r.length - 1]}</Link></> : null}</p><p style={{ whiteSpace: 'pre-line', margin: '2px 0 8px' }}>{e.t}</p></div>)}</>}{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
+        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>افتح صفحة التفسير</Link> · الغريب: «غريب القرآن» لابن قتيبة (تحقيق أحمد صقر) و«نزهة القلوب» للسجستاني (تحقيق محمد أديب جمران)، عبر OpenITI · التفسير الميسر: مجمع الملك فهد عبر QuranEnc.com</p></div>}
     </>
   );
 }
