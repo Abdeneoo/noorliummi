@@ -14,3 +14,4 @@ apps/web/public/audio/adhkar/
 database/sources/hadith-fawazahmed0/files/
 database/sources/hadith-openiti/files/
 database/sources/library-openiti/files/
+apps/web/src/generated/hadith-tr/

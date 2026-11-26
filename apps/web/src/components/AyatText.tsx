@@ -73,7 +73,7 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
       )}
       <div className="ayat" lang="ar" dir="rtl">
         {ayat.map((a) => (
-          <span key={a.n} id={`a${a.n}`}>{on && data ? colour(a.t, data[a.n] ?? [], lang) : a.t}<Link className="ayah-end" href={lang === 'ar' ? `/tafsir/${surah}#a${a.n}` : `/en/quran/${surah}#a${a.n}`} aria-label={lang === 'ar' ? `تفسير الآية ${a.n}` : `Ayah ${a.n}`}>﴿{arDigits(a.n)}﴾</Link> </span>
+          <span key={a.n} id={`a${a.n}`}>{on && data ? colour(a.t, data[a.n] ?? [], lang) : a.t}<Link className="ayah-end" href={lang === 'ar' ? `/tafsir/${surah}#a${a.n}` : `/en/quran/${surah}#a${a.n}`} aria-label={lang === 'ar' ? `تفسير الآية ${a.n}` : `Ayah ${a.n}`}><span aria-hidden="true">﴿{arDigits(a.n)}﴾</span></Link> </span>
         ))}
       </div>
     </>

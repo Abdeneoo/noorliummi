@@ -49,10 +49,10 @@ export default function Tasbeeh({ lang = 'ar', storeKey = 'home', compact = fals
   return (
     <section className={`card tasbeeh${compact ? ' compact' : ''}`} aria-label={t.title}>
       <h2>{t.title}</h2>
-      <ul className="chips tas-phrases" role="radiogroup" aria-label={t.title}>
-        {PHRASES.map((p, k) => <li key={k}><button type="button" role="radio" aria-checked={i === k} className={i === k ? 'on' : ''} lang="ar" onClick={() => { setI(k); setN(0); save(k, 0, target); }}>{p.ar}</button></li>)}
+      <ul className="chips tas-phrases" aria-label={t.title}>
+        {PHRASES.map((p, k) => <li key={k}><button type="button" aria-pressed={i === k ? 'true' : 'false'} className={i === k ? 'on' : ''} lang="ar" onClick={() => { setI(k); setN(0); save(k, 0, target); }}>{p.ar}</button></li>)}
       </ul>
-      <button type="button" className={`tas-tap${reached ? ' reached' : ''}`} onClick={tap} aria-label={`${t.tap}: ${PHRASES[i].ar}`}>
+      <button type="button" className={`tas-tap${reached ? ' reached' : ''}`} onClick={tap}>
         <svg viewBox="0 0 120 120" aria-hidden="true">
           <circle cx="60" cy="60" r="52" className="tas-track" />
           <circle cx="60" cy="60" r="52" className="tas-ring" style={{ strokeDasharray: C, strokeDashoffset: C * (1 - ring) }} />

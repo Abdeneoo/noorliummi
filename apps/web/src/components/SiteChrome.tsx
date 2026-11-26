@@ -16,7 +16,7 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/quran', label: 'القرآن', icon: 'quran', match: ['/quran'] },
     { href: '/prayer', label: 'الصلاة والأذان', icon: 'prayer', match: ['/prayer', '/times', '/adhan', '/mosques'] },
     { href: '/adhkar', label: 'الأذكار', icon: 'adhkar', match: ['/adhkar'] },
-    { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat', '/library', '/topics', '/prophets'] },
+    { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat', '/library', '/topics', '/prophets', '/lessons'] },
     { href: '/sadaqah', label: 'الصدقة الجارية', icon: 'sadaqah', match: ['/sadaqah', '/dedication', '/athar'] },
     { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz', '/tasbeeh'] },
   ],
@@ -76,7 +76,7 @@ export function SiteHeader({ lang }: { lang: Lang }) {
           <Link className="util-btn acct" href="/account" aria-label={ar ? 'حسابي' : 'My account'} title={ar ? 'حسابي' : 'My account'} aria-current={path.startsWith('/account') ? 'page' : undefined}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6" /><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4" /></svg>
           </Link>
-          <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'}><span className="full">{ar ? 'English' : 'العربية'}</span><span className="short" aria-hidden="true">{ar ? 'EN' : 'ع'}</span></Link>
+          <Link className="lang-switch" href={ar ? '/en' : '/'} lang={ar ? 'en' : 'ar'} hrefLang={ar ? 'en' : 'ar'} aria-label={ar ? 'English' : 'العربية'}><span className="full">{ar ? 'English' : 'العربية'}</span><span className="short">{ar ? 'EN' : 'ع'}</span></Link>
           <FontSize lang={lang} />
           <ThemeToggle lang={lang} />
         </div>

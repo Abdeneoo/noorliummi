@@ -61,7 +61,7 @@ export default function DhikrList({ catId, items, lang = 'ar' }: { catId: number
                 <ShareImageButton lang={lang} story={{ text: d.t, caption: d.r ? `${d.r} — حصن المسلم` : 'حصن المسلم', path: `/adhkar/${catId}` }} />
               </div>
               <button type="button" className="btn counter" onClick={() => tap(d)} disabled={complete} aria-label={t.count(cur, d.c)}>
-                {complete ? t.complete : d.c === 1 ? t.once : `${cur} / ${d.c}`}
+                <span aria-hidden="true">{complete ? t.complete : d.c === 1 ? t.once : `${cur} / ${d.c}`}</span>
               </button>
             </li>
           );

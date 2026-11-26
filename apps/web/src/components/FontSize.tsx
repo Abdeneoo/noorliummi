@@ -13,8 +13,8 @@ export default function FontSize({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
   const ar = lang === 'ar';
   return (
     <div className="font-size" role="group" aria-label={ar ? 'حجم الخط' : 'Text size'}>
-      <button type="button" onClick={() => set(-1)} disabled={v === STEPS[0]} aria-label={ar ? 'تصغير الخط' : 'Smaller text'}>{ar ? 'ا' : 'A'}<small>−</small></button>
-      <button type="button" onClick={() => set(1)} disabled={v === STEPS[STEPS.length - 1]} aria-label={ar ? 'تكبير الخط' : 'Larger text'}>{ar ? 'ا' : 'A'}<small>+</small></button>
+      <button type="button" onClick={() => set(-1)} disabled={v === STEPS[0]} aria-label={ar ? 'تصغير الخط' : 'Smaller text'}><span aria-hidden="true">{ar ? 'ا' : 'A'}<small>−</small></span></button>
+      <button type="button" onClick={() => set(1)} disabled={v === STEPS[STEPS.length - 1]} aria-label={ar ? 'تكبير الخط' : 'Larger text'}><span aria-hidden="true">{ar ? 'ا' : 'A'}<small>+</small></span></button>
     </div>
   );
 }

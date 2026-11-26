@@ -103,9 +103,9 @@ html[dir='rtl'] .page-head::after { background: linear-gradient(270deg, var(--go
 .arch path { fill: none; stroke-linecap: round; }
 .arch-outer { stroke: #C6A66B; stroke-width: 1.4; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 2.6s var(--ease) .2s backwards; }
 .arch-inner { stroke: rgba(198, 166, 107, .38); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 3s var(--ease) .6s backwards; }
-.arch-shine { stroke: #FFF4D6; stroke-width: 2.2; stroke-dasharray: .06 .94; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 6px rgba(255, 236, 190, .9)); animation: shine 6s ease-in-out 3s infinite; }
+.arch-shine { stroke: #FFF4D6; stroke-width: 2.2; stroke-dasharray: .06 .94; stroke-dashoffset: 1; opacity: 0; animation: shine 6s ease-in-out 3s 2; }
 .cover .logo { position: relative; width: 78%; aspect-ratio: 1; margin-bottom: 9%; border-radius: 28px; }
-@media (prefers-reduced-motion: no-preference) { .cover .logo { animation: bloom 1.6s var(--ease) backwards; } }
+/* The logo is the largest paint on the home page: it must be visible at once (no fade/blur). */
 .cover h1 { color: #F8F6F0; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.1rem, 5vw, 3rem); margin: 0; line-height: 1.2; }
 .cover .tagline { color: #E9D9B4; font-family: var(--font-calligraphic); font-size: clamp(1.1rem, 2.2vw, 1.35rem); margin: 0; }
 .cover .lead { color: #CFDCD5; max-width: 46ch; margin: 0 auto; font-size: 1.02rem; font-weight: 300; }
@@ -542,3 +542,14 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 .live-close { position: absolute; top: calc(10px + env(safe-area-inset-top)); inset-inline-end: 10px; z-index: 2; border: 0; border-radius: 999px; padding: 8px 14px; background: rgba(0,0,0,.6); color: #fff; cursor: pointer; }
 .talqeen-now .ayat { font-size: clamp(1.6rem, 5vw, 2.3rem); line-height: 2.3; }
 .talqeen-list { font-family: var(--font-quran); font-size: 1.3rem; line-height: 2.2; padding-inline-start: 1.6em; }
+/* Phones: keep the look, drop the continuously repainting ambient motion (pattern drift, motes) that costs main-thread time. */
+@media (max-width: 899px) { .cover .pattern { animation: none; } .mote { display: none; } .cover .glow { animation: none; } header.site { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--bg); } }
+.cover .pattern { will-change: transform; }
+.hadith-tr { border-top: 1px dashed var(--line); margin-top: 10px; padding-top: 10px; line-height: 1.9; color: var(--text); } .hadith-tr[lang='ur'] { font-family: 'Noto Naskh Arabic Variable', var(--font-ui); font-size: 1.05rem; line-height: 2.2; } .hadith-tr.missing { color: var(--muted); font-size: .85rem; }
+.lesson-list { list-style: none; padding: 0; display: grid; gap: 10px; } .lesson-list a strong { font-size: 1.05rem; }
+.lesson-parts { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; } .lesson-parts button { width: 100%; text-align: start; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; } .lesson-parts button.on { border-color: var(--gold); background: var(--tint); } .lesson-parts small { color: var(--muted); }
+.lib-groups a.on { background: var(--primary); color: var(--on-primary); }
+.kid-editor { display: grid; gap: 12px; margin-block: 12px; } .kid-editor fieldset { border: 1px solid var(--line); border-radius: 12px; } .kid-editor label { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 4px 10px; max-height: 300px; overflow: auto; padding: 8px; } .pick-grid.wide { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.kid-tasks { list-style: none; padding: 0; display: grid; gap: 6px; } .kid-tasks label { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.chips.even { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } .chips.even a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }

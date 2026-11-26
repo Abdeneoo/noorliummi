@@ -2,7 +2,7 @@
 export default function BrandLogo({ alt, priority = false }: { alt: string; priority?: boolean }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className="logo" src="/brand/logo-480.webp" srcSet="/brand/logo-240.webp 240w, /brand/logo-480.webp 480w, /brand/logo-960.webp 960w"
-      sizes="(min-width: 820px) 240px, 52vw" width={480} height={480} alt={alt} decoding="async" loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} />
+    <img className="logo" src="/brand/logo-480.webp" srcSet="/brand/logo-240.webp 240w, /brand/logo-360.webp 360w, /brand/logo-480.webp 480w, /brand/logo-960.webp 960w"
+      sizes="(min-width: 820px) 240px, 200px" width={480} height={480} alt={alt} decoding="async" loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} />
   );
 }

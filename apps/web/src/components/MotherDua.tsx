@@ -16,7 +16,7 @@ export default function MotherDua({ text, reference, audio }: { text: string; re
   useEffect(() => {
     let on = true; try { on = localStorage.getItem(KEY) !== '0'; } catch { /* ignore */ }
     setAuto(on);
-    const a = (el.current = new Audio(audio)); a.preload = 'auto';
+    const a = (el.current = new Audio(audio)); a.preload = 'none';
     a.onplay = () => setPlaying(true); a.onpause = () => setPlaying(false); a.onended = () => setPlaying(false);
     let done = false;
     try { done = sessionStorage.getItem('noor.duaPlayed') === '1'; } catch { /* ignore */ }
