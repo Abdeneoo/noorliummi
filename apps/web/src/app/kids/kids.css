@@ -1,0 +1,10 @@
+body.kids { margin: 0; min-height: 100vh; background: var(--bg, #F8F6F0); color: var(--text); font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif; font-size: 1.15rem; }
+.kid-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+.kid-bar a.home { font-family: 'El Messiri', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none; } .kid-bar .sp { margin-inline-start: auto; color: var(--muted); font-size: .95rem; }
+.kid-main { max-width: 760px; margin: 0 auto; padding: 18px 14px 60px; } .kid-center { text-align: center; }
+.kid-tiles { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.kid-tiles a { display: grid; place-items: center; min-height: 92px; padding: 14px; border-radius: 20px; background: var(--surface); border: 2px solid var(--line); color: var(--text); text-decoration: none; font-weight: 600; text-align: center; } .kid-tiles a:focus-visible, .kid-tiles a:hover { border-color: var(--gold); }
+.kid-tasks { list-style: none; padding: 0; display: grid; gap: 8px; } .kid-tasks label { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); } .kid-tasks input { width: 28px; height: 28px; } .kid-tasks .done { text-decoration: line-through; color: var(--muted); }
+.kid-ayat { font-family: 'Amiri Quran', serif; font-size: 2rem; line-height: 2.5; text-align: justify; } .kid-dhikr { font-family: 'Amiri Quran', serif; font-size: 1.6rem; line-height: 2.3; }
+.kid-count { width: min(70vw, 280px); aspect-ratio: 1; border-radius: 50%; border: 6px solid var(--gold); background: var(--surface); font-size: 4rem; color: var(--primary); cursor: pointer; display: block; margin: 20px auto; }
+.kid-exit { display: grid; gap: 8px; max-width: 280px; margin: 10px auto 0; }

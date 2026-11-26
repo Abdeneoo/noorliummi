@@ -1,0 +1,1 @@
+export default function KidBlocked() { return <section className="card kid-center"><h1>غير متاح</h1><p>هذا المحتوى لم يضفه وليّ الأمر إلى قائمتك.</p><p><a className="btn" href="/kids">العودة</a></p></section>; }
