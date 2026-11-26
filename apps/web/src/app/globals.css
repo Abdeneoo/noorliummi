@@ -565,6 +565,8 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 .yt-box[hidden] { display: none; }
 .foot-help { margin: 8px 0 0; font-size: .9rem; } .foot-help a { color: var(--gold-text); }
 
-.tas-targets{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tasbeeh .tas-targets{display:flex;flex-direction:row;align-items:center;gap:8px;flex-wrap:wrap}
+.account-card [role=tablist]{margin-bottom:8px}
+.account-card [role=tablist]+h2{margin-top:12px}
 .tas-targets .chip{min-width:56px;min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--line,#d9d3c4);background:transparent;font:inherit;font-weight:700;cursor:pointer}
 .tas-targets .chip.on{background:var(--green,#103D32);color:#F8F6F0;border-color:transparent}
