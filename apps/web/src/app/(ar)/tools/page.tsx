@@ -10,7 +10,7 @@ export default function Tools() {
   return (
     <Hub eyebrow="الأدوات" title="أدوات يومية" intro="كل الأدوات تعمل على جهازك، وبياناتك تبقى عندك."
       items={[
-        { href: '/tasbeeh', icon: 'adhkar', title: 'عدّاد التسبيح', desc: 'سبّح واحسب بلمسة، مع هدف ٣٣ أو ١٠٠.' },
+        { href: '/tasbeeh', icon: 'adhkar', title: 'عدّاد التسبيح', desc: 'سبّح واحسب بلمسة، مع هدف ٣٣ أو ٧٠ أو ١٠٠، والصلاة على النبي ﷺ بعدد مفتوح.' },
         { href: '/hifz', icon: 'hifz', title: 'الحفظ والمراجعة', desc: 'مراجعة متباعدة لما تحفظه من القرآن.' },
         { href: '/talqeen', icon: 'quran', title: 'التلقين آية بآية', desc: 'القارئ يقرأ وأنت تردّد، مع تكرار كل آية.' },
         { href: '/times', icon: 'compass', title: 'القبلة', desc: 'بوصلة القبلة واتجاهها من موقعك.' },
@@ -30,6 +30,10 @@ export default function Tools() {
         { href: '/listen', icon: 'bell', title: 'وضع الاستماع', desc: 'أزرار كبيرة لأذكار الصباح والمساء والسور، للمشي والطريق.' },
         { href: '/duas', icon: 'adhkar', title: 'أدعية موثّقة', desc: 'للمتوفى والوالدين والمريض، جاهزة للإهداء.' },
         { href: '/mutashabihat', icon: 'similar', title: 'تحدّي المتشابهات', desc: 'ثلاثة أسئلة يومية لتثبيت الحفظ.' },
+        { href: '/family', icon: 'heart', title: 'الأسرة وركن الأطفال', desc: 'حساب للأطفال بإشراف الوالدين: سور ومهام وأذكار وتسبيح.' },
+        { href: '/live', icon: 'mosque', title: 'البث المباشر من الحرمين', desc: 'قناتا القرآن والسنة الرسميتان.' },
+        { href: '/extension', icon: 'bell', title: 'إضافة المتصفح', desc: 'مواقيت وأذان وتذكير بالورد والأذكار والصيام في متصفح كروم.' },
+        { href: '/account', icon: 'heart', title: 'حسابي', desc: 'تسجيل بالبريد وكلمة المرور لحفظ صفحاتك وتقدمك.' },
         { href: '/sources', icon: 'hadith', title: 'المصادر والتراخيص', desc: 'مصدر كل نص وتسجيل وترخيصه.' },
       ]}>
       <section className="card"><h2 style={{ marginTop: 0 }}>تذكير الجمعة</h2><p className="note">يضيف موعدًا أسبوعيًا إلى تقويم هاتفك: سورة الكهف والصلاة على النبي ﷺ.</p><FridayReminder /></section>

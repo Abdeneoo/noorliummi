@@ -16,9 +16,9 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/quran', label: 'القرآن', icon: 'quran', match: ['/quran'] },
     { href: '/prayer', label: 'الصلاة والأذان', icon: 'prayer', match: ['/prayer', '/times', '/adhan', '/mosques'] },
     { href: '/adhkar', label: 'الأذكار', icon: 'adhkar', match: ['/adhkar'] },
-    { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat', '/library', '/topics', '/prophets', '/lessons'] },
+    { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat', '/library', '/topics', '/prophets', '/lessons', '/hadeeth', '/books', '/series'] },
     { href: '/sadaqah', label: 'الصدقة الجارية', icon: 'sadaqah', match: ['/sadaqah', '/dedication', '/athar'] },
-    { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz', '/tasbeeh'] },
+    { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz', '/tasbeeh', '/family', '/extension', '/live'] },
   ],
   en: [
     { href: '/en', label: 'Home', icon: 'home' },

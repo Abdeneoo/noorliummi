@@ -564,3 +564,7 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 @media (max-width: 560px) { .ep-list .ep { grid-template-columns: 2em 1fr; } .ep-list .d { grid-column: 2; } }
 .yt-box[hidden] { display: none; }
 .foot-help { margin: 8px 0 0; font-size: .9rem; } .foot-help a { color: var(--gold-text); }
+
+.tas-targets{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tas-targets .chip{min-width:56px;min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--line,#d9d3c4);background:transparent;font:inherit;font-weight:700;cursor:pointer}
+.tas-targets .chip.on{background:var(--green,#103D32);color:#F8F6F0;border-color:transparent}

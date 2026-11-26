@@ -20,7 +20,7 @@ export default function Circle({ slug }: { slug: string }) {
     <>
       <header className="page-head"><p className="eyebrow">{fam ? 'أسرة' : 'حلقة تحفيظ'}</p><h1>{v.name}</h1></header>
       {msg && <p className="note" role="alert">{msg}</p>}
-      {!v.signedIn && <section className="card"><p>للانضمام سجّل الدخول ببريدك أولًا (بلا كلمة مرور)، ثم ارجع إلى هذا الرابط.</p><Link className="btn" href="/account">تسجيل الدخول</Link></section>}
+      {!v.signedIn && <section className="card"><p>للانضمام سجّل الدخول أو أنشئ حسابًا بالبريد وكلمة المرور، ثم ارجع إلى هذا الرابط.</p><Link className="btn" href="/account">تسجيل الدخول</Link></section>}
       {v.signedIn && !v.owner && !v.member && (
         <section className="card"><h2 style={{ marginTop: 0 }}>الانضمام</h2>
           <p className="note">بانضمامك يرى {fam ? 'وليّ الأمر' : 'المعلّم'} المشرف على هذه المجموعة: الاسم الذي تكتبه هنا، وملخص تقدّمك في الحفظ (عدد الآيات في خطتك، ما ثبت منها، المستحق للمراجعة، أسماء السور، وتاريخ آخر مزامنة)، وما ترسله أنت من تسجيلات التسميع. لا يرى بريدك ولا أي شيء آخر، ويمكنك المغادرة في أي وقت.</p>

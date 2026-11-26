@@ -21,6 +21,20 @@ export default function Home() {
       </div>
       <div className="section reveal tas-home"><Tasbeeh /></div>
 
+      <section className="section reveal" aria-labelledby="new-title">
+        <div className="section-head"><h2 id="new-title">جديد في نور لأمي</h2><Link href="/knowledge">كل الأقسام</Link></div>
+        <Tiles items={[
+          { href: '/series', icon: 'knowledge', title: 'سلاسل صوتية ومرئية', desc: 'السيرة وأصحاب رسول الله وقصص القرآن والسنة — أحمد عامر.' },
+          { href: '/library/qisas', icon: 'quran', title: 'قصص الأنبياء', desc: 'لابن كثير، بنصه الكامل.' },
+          { href: '/library/fusul', icon: 'hadith', title: 'السيرة النبوية', desc: 'الفصول في سيرة الرسول ﷺ لابن كثير.' },
+          { href: '/books', icon: 'hadith', title: 'كتب مختارة', desc: 'كتب الحج وفتاوى صيام التطوع، بنصها الكامل.' },
+          { href: '/hadeeth', icon: 'hadith', title: 'أحاديث مترجمة', desc: 'شرح ودرجة وترجمات، حسب الموضوع.' },
+          { href: '/lessons', icon: 'knowledge', title: 'الدروس', desc: 'دروس ومحاضرات مصنّفة حسب الموضوع.' },
+          { href: '/family', icon: 'heart', title: 'ركن الأطفال', desc: 'للأطفال بإشراف الوالدين.' },
+          { href: '/extension', icon: 'bell', title: 'إضافة المتصفح', desc: 'الأذان والتذكير في كروم.' },
+        ]} />
+      </section>
+
       <section className="section reveal" aria-labelledby="sections-title">
         <div className="section-head"><h2 id="sections-title">استكشف</h2><Link href="/knowledge">كل الأقسام</Link></div>
         <Tiles items={[

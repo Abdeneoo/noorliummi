@@ -6,10 +6,10 @@ import { PHRASES } from '@/lib/dhikr-phrases';
 
 /** Tasbeeh counter. Counts dhikr only (no reward figures); kept on this device. */
 type Lang = 'ar' | 'en';
-const TARGETS = [33, 100, 0];
+const TARGETS = [33, 70, 100];
 const T = {
-  ar: { title: 'عدّاد التسبيح', tap: 'اضغط للتسبيح', reset: 'تصفير', target: 'الهدف', open: 'بلا حد', done: 'اكتمل العدد', of: 'من', note: 'يُحفظ العدد على جهازك فقط.', full: 'شاشة كاملة', exit: 'خروج', anywhere: 'المس أي مكان في الشاشة للتسبيح', record: 'سجّل تسبيحك في صفحة أثر', none: 'لا تسجيل', recorded: 'يُسجَّل كل ٣٣ تسبيحة في قنديل الصفحة.' },
-  en: { title: 'Tasbeeh counter', tap: 'Tap to count', reset: 'Reset', target: 'Target', open: 'No limit', done: 'Target reached', of: 'of', note: 'The count is kept on this device only.', full: 'Full screen', exit: 'Exit', anywhere: 'Tap anywhere on the screen to count', record: 'Record your tasbeeh on an athar page', none: 'Do not record', recorded: 'Every 33 is added to the page lantern.' },
+  ar: { title: 'عدّاد التسبيح', tap: 'اضغط للتسبيح', reset: 'تصفير', target: 'الهدف', open: 'عدد مفتوح بلا حد', done: 'اكتمل العدد', of: 'من', note: 'يُحفظ العدد على جهازك فقط.', full: 'شاشة كاملة', exit: 'خروج', anywhere: 'المس أي مكان في الشاشة للتسبيح', record: 'سجّل تسبيحك في صفحة أثر', none: 'لا تسجيل', recorded: 'يُسجَّل كل ٣٣ تسبيحة في قنديل الصفحة.' },
+  en: { title: 'Tasbeeh counter', tap: 'Tap to count', reset: 'Reset', target: 'Target', open: 'Open count, no limit', done: 'Target reached', of: 'of', note: 'The count is kept on this device only.', full: 'Full screen', exit: 'Exit', anywhere: 'Tap anywhere on the screen to count', record: 'Record your tasbeeh on an athar page', none: 'Do not record', recorded: 'Every 33 is added to the page lantern.' },
 };
 /**
  * atharSlug: on an athar page, every 33 counts is added to that page's lantern. pickAthar: lets the user choose one of
@@ -35,16 +35,19 @@ export default function Tasbeeh({ lang = 'ar', storeKey = 'home', compact = fals
     document.addEventListener('keydown', onKey); document.body.style.overflow = 'hidden';
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
   }, [full]);
-  useEffect(() => { try { const v = JSON.parse(localStorage.getItem(KEY) || 'null'); if (v) { setI(v.i ?? 0); setN(v.n ?? 0); setTarget(v.t ?? 33); } } catch { /* ignore */ } }, [KEY]);
+  useEffect(() => { try { const v = JSON.parse(localStorage.getItem(KEY) || 'null'); if (v) { setI(v.i ?? 0); setN(v.n ?? 0); setTarget(TARGETS.includes(v.t) ? v.t : 33); } } catch { /* ignore */ } }, [KEY]);
   const save = (ni: number, nn: number, nt: number) => { try { localStorage.setItem(KEY, JSON.stringify({ i: ni, n: nn, t: nt })); } catch { /* ignore */ } };
+  // الصلاة على النبي ﷺ: عدد مفتوح بلا هدف.
+  const openCount = PHRASES[i]?.ar.includes('صَلِّ');
+  const goal = openCount ? 0 : target;
   const tap = () => {
     const nn = n + 1; setN(nn); setPulse((p) => p + 1); save(i, nn, target); logDay('t');
-    try { if ((target && nn % target === 0) || nn % 100 === 0) navigator.vibrate?.([60, 40, 60]); else if (nn % 33 === 0) navigator.vibrate?.(40); else navigator.vibrate?.(8); } catch { /* ignore */ }
+    try { if ((goal && nn % goal === 0) || nn % 100 === 0) navigator.vibrate?.([60, 40, 60]); else if (nn % 33 === 0) navigator.vibrate?.(40); else navigator.vibrate?.(8); } catch { /* ignore */ }
     if (rec && nn % 33 === 0) void recordActivity(rec, 'tasbeeh');
   };
   const num = (v: number) => (lang === 'ar' ? String(v).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]) : String(v));
-  const reached = target > 0 && n > 0 && n % target === 0;
-  const ring = target ? ((n % target) || (n > 0 ? target : 0)) / target : 0;
+  const reached = goal > 0 && n > 0 && n % goal === 0;
+  const ring = goal ? ((n % goal) || (n > 0 ? goal : 0)) / goal : 0;
   const C = 2 * Math.PI * 52;
   return (
     <section className={`card tasbeeh${compact ? ' compact' : ''}`} aria-label={t.title}>
@@ -59,22 +62,21 @@ export default function Tasbeeh({ lang = 'ar', storeKey = 'home', compact = fals
         </svg>
         <span className="tas-phrase" lang="ar">{PHRASES[i].ar}</span>
         <span key={pulse} className="tas-count" aria-live="polite">{lang === 'ar' ? String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]) : n}</span>
-        <span className="tas-hint">{reached ? t.done : target ? `${t.of} ${lang === 'ar' ? String(target).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]) : target}` : t.tap}</span>
+        <span className="tas-hint">{reached ? t.done : goal ? `${t.of} ${num(goal)}` : t.tap}</span>
       </button>
       {full && (
         <div className="tas-full" role="button" tabIndex={0} aria-label={`${t.tap}: ${PHRASES[i].ar}`} onPointerDown={(e) => { if (!(e.target as HTMLElement).closest('.tas-exit')) { e.preventDefault(); tap(); } }} onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tap(); } }}>
           <button type="button" className="btn outline-light tas-exit" onClick={() => setFull(false)}>{t.exit}</button>
           <span className="tas-phrase" lang="ar">{PHRASES[i].ar}</span>
           <span key={pulse} className="tas-count" aria-live="polite">{num(n)}</span>
-          <span className="tas-hint">{reached ? t.done : target ? `${t.of} ${num(target)}` : ''}</span>
+          <span className="tas-hint">{reached ? t.done : goal ? `${t.of} ${num(goal)}` : t.open}</span>
           <span className="tas-hint">{t.anywhere}</span>
         </div>
       )}
       <div className="row tas-controls">
-        <div className="field"><label htmlFor={`tt-${storeKey}`}>{t.target}</label>
-          <select id={`tt-${storeKey}`} value={target} onChange={(e) => { const v = Number(e.target.value); setTarget(v); save(i, n, v); }}>
-            {TARGETS.map((x) => <option key={x} value={x}>{x || t.open}</option>)}
-          </select></div>
+        {openCount ? <p className="note tas-open">{t.open}</p> : <div className="field tas-targets" role="group" aria-label={t.target}><span>{t.target}</span>
+          {TARGETS.map((x) => <button key={x} type="button" className={`chip${target === x ? ' on' : ''}`} aria-pressed={target === x} onClick={() => { setTarget(x); save(i, n, x); }}>{num(x)}</button>)}
+        </div>}
         <button type="button" className="btn ghost" onClick={() => { setN(0); save(i, 0, target); }}>{t.reset}</button>
         <button type="button" className="btn ghost" onClick={() => setFull(true)}>{t.full}</button>
       </div>
