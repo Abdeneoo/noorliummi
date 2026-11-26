@@ -11,7 +11,7 @@ export function middleware(req: NextRequest) {
   if (req.cookies.has('noor_kid')) {
     const g = kidGate(path);
     if (g === 'deny') return NextResponse.json({ error: 'غير متاح في وضع الطفل.' }, { status: 403 });
-    if (g === 'redirect') return NextResponse.redirect(new URL('/kids', req.url));
+    if (g === 'redirect') return new NextResponse(null, { status: 307, headers: { location: '/kids' } }); // relative: behind the proxy req.url is the internal address
   }
   const res = NextResponse.next();
   if (path.startsWith('/api/')) return res;
