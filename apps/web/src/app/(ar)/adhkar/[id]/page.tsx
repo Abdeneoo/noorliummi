@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import DhikrList from '@/components/DhikrList';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
+import { adhkarTranslations } from '@/lib/adhkar-tr';
+import AdhkarTranslation from '@/components/AdhkarTranslation';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return ADHKAR.map((c) => ({ id: String(c.id) })); }
@@ -21,6 +23,7 @@ export default async function AdhkarCat({ params }: { params: Promise<{ id: stri
       <p className="review-banner" role="note">نسخة تجريبية: النصوص والأعداد والتخريج كما وردت في المصدر، ولم تكتمل مراجعتها بعد.</p>
       {id === 29 && <p style={{ textAlign: 'center' }}><Link className="btn ghost" href="/sakina?adhkar=sleep">وضع السكينة: ذكر واحد بخط كبير ومؤقت نوم</Link></p>}
       <DhikrList catId={id} items={cat.items} />
+      <AdhkarTranslation data={adhkarTranslations(id)} />
       <p className="note">المصدر: «حصن المسلم» — سعيد بن علي بن وهف القحطاني.</p>
       <nav className="pager"><Link className="btn ghost" href="/adhkar">كل الأبواب</Link></nav>
     </article>

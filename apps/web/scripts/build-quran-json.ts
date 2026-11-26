@@ -73,6 +73,34 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
   mkdirSync(`${out}/adhkar`, { recursive: true });
   writeFileSync(`${out}/adhkar/index.json`, JSON.stringify(cats.map((c) => ({ id: c.id, title: c.title, count: c.items.length }))));
   for (const c of cats) writeFileSync(`${out}/adhkar/${c.id}.json`, JSON.stringify(c));
+  // Adhkar translations (ur/tr/id) from IslamHouse's phrase-aligned books, verbatim. A chapter is attached to one of ours only when
+  // its number maps to ours AND the normalised chapter titles agree; otherwise it is left out (never matched by guesswork).
+  {
+    const cd = resolve(here, '../../../database/sources/islamhouse-cnt');
+    const sums = Object.fromEntries(readFileSync(`${cd}/SHA256SUMS`, 'utf8').trim().split('\n').map((l) => l.split(/\s+/).reverse()));
+    const load = (f: string) => { if (sha256File(`${cd}/${f}`) !== sums[f]) throw new Error(`Checksum mismatch for islamhouse-cnt/${f} — refusing to build`); return JSON.parse(readFileSync(`${cd}/${f}`, 'utf8')).data as { tag: string; type: string; original_text: string; transes: Record<string, string> | [] }[]; };
+    const norm = (t: string) => t.replace(/ﷺ/g, 'صلى الله عليه وسلم').replace(/[ً-ٰٟـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/[^ء-ي]/g, '');
+    const ourTitle = new Map(cats.map((c) => [c.id, norm(c.title)]));
+    type Ch = { title: Record<string, string>; items: { ar: string; tr: Record<string, string> }[] };
+    const chapters = (rows: ReturnType<typeof load>) => { const m = new Map<number, Ch & { ar: string }>(); let cur: (Ch & { ar: string }) | null = null;
+      for (const r of rows) { const tr = Array.isArray(r.transes) ? {} : r.transes;
+        if (r.type === 'title') { const k = r.original_text.match(/^\s*(\d+)\s*[.\-ـ]/); cur = k ? { ar: r.original_text.replace(/^\s*\d+\s*[.\-ـ]\s*/, ''), title: tr, items: [] } : null; if (k && cur) m.set(Number(k[1]), cur); continue; }
+        if (cur && Object.keys(tr).length) cur.items.push({ ar: r.original_text.trim(), tr: Object.fromEntries(Object.entries(tr).map(([l, v]) => [l, String(v).trim()])) }); }
+      return m; };
+    const res: Record<string, Record<number, { book: number; title: string; items: { ar: string; t: string }[] }>> = { ur: {}, tr: {}, id: {} };
+    const agree = (ours: number, ch: { ar: string }) => { const a = ourTitle.get(ours) ?? ''; const b = norm(ch.ar); return !!a && !!b && (a === b || a.includes(b) || b.includes(a)); };
+    // Hisn al-Muslim 4.0 (Urdu): its chapter 27 is morning AND evening (our 27 and 28); from its 28 on, ours is one higher.
+    const hisn = chapters(Array.from({ length: 14 }, (_, i) => load(`12306-${i + 1}.json`)).flat());
+    for (const [n, ch] of hisn) { const ours = n < 27 ? [n] : n === 27 ? [27, 28] : [n + 1]; for (const o of ours) { if (n !== 27 && !agree(o, ch)) continue; if (ch.title.ur && ch.items.length) res.ur[o] = { book: 12306, title: ch.title.ur, items: ch.items.filter((x) => x.tr.ur).map((x) => ({ ar: x.ar, t: x.tr.ur })) }; } }
+    // Morning and evening adhkar (ur/tr/id): one booklet, shown under our 27 (morning) and 28 (evening).
+    const me = load('12290-1.json'); const head = me.find((r) => r.type === 'title' || /الأذكار التي تقال/.test(r.original_text));
+    for (const l of ['tr', 'id', 'ur'] as const) { const items = me.filter((r) => r !== head && !Array.isArray(r.transes) && r.transes[l]).map((r) => ({ ar: r.original_text.trim(), t: String((r.transes as Record<string, string>)[l]).trim() }));
+      for (const o of [27, 28]) if (!res[l][o]) res[l][o] = { book: 12290, title: l === 'tr' ? 'Sabah ve akşam zikirleri' : l === 'id' ? 'Zikir pagi dan petang' : 'صبح وشام کے اذکار', items }; }
+    mkdirSync(`${out}/adhkar-tr`, { recursive: true });
+    for (const [l, v] of Object.entries(res)) for (const [id, ch] of Object.entries(v)) { mkdirSync(`${out}/adhkar-tr/${l}`, { recursive: true }); writeFileSync(`${out}/adhkar-tr/${l}/${id}.json`, JSON.stringify(ch)); }
+    writeFileSync(`${out}/adhkar-tr/coverage.json`, JSON.stringify({ chapters: cats.length, ur: Object.keys(res.ur).length, tr: Object.keys(res.tr).length, id: Object.keys(res.id).length }));
+    console.log('adhkar translations (chapters):', Object.fromEntries(Object.entries(res).map(([l, v]) => [l, Object.keys(v).length])));
+  }
   console.log(`Adhkar JSON generated: ${cats.length} categories, ${cats.reduce((n, c) => n + c.items.length, 0)} entries`);
 }
 

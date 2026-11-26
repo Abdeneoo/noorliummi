@@ -6,6 +6,7 @@ import { LIBRARY } from '@/lib/library';
 import { GROUPS } from '@/lib/sources';
 import { db } from '@/lib/db';
 import coverage from '@/generated/hadith-tr/coverage.json';
+import adhkarCov from '@/generated/adhkar-tr/coverage.json';
 import { REVIEW_SECTIONS, REVIEW_STATES, type ReviewRow } from '@/lib/review';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'تقرير الشفافية' };
@@ -36,7 +37,10 @@ export default async function Transparency() {
       <h2>تغطية ترجمات الحديث</h2>
       <div style={{ overflowX: 'auto' }}><table className="admin-table"><thead><tr><th>اللغة</th><th>الأحاديث المترجمة</th><th>من</th><th>النسبة</th><th>الكتب</th></tr></thead>
         <tbody>{(Object.entries(coverage) as [string, Record<string, { translated: number; total: number }>][]).map(([l, v]) => { const t = Object.values(v).reduce((x, y) => x + y.translated, 0); const a = Object.values(v).reduce((x, y) => x + y.total, 0); return <tr key={l}><td>{({ ur: 'الأردية', tr: 'التركية', id: 'الإندونيسية' } as Record<string, string>)[l]}</td><td>{n(t)}</td><td>{n(a)}</td><td>{n(Math.round((t / a) * 100))}٪</td><td>{n(Object.keys(v).length)}</td></tr>; })}</tbody></table></div>
-      <p className="note">المصدر: fawazahmed0/hadith-api، بمطابقة رقم الحديث في الطبعة نفسها. لا ترجمة لمسند أحمد والدارمي والقدسية والدهلوية (ولا للنووية بغير التركية)، ولا ترجمة للأذكار بهذه اللغات بعد؛ ما لا ترجمة موثقة له يُعرض بالعربية فقط.</p>
+      <p className="note">المصدر: fawazahmed0/hadith-api، بمطابقة رقم الحديث في الطبعة نفسها. لا ترجمة لمسند أحمد والدارمي والقدسية والدهلوية (ولا للنووية بغير التركية)، ما لا ترجمة موثقة له يُعرض بالعربية فقط. ومعها أحاديث مختارة مترجمة مع الشرح من <Link href="/hadeeth">HadeethEnc</Link> (أعدادها في المصدر: الأردية والتركية والإندونيسية لنحو ٢٬٦٠٠ حديث لكل لغة).</p>
+      <h2>تغطية ترجمات الأذكار (أبواب حصن المسلم)</h2>
+      <p>الأردية: {n(adhkarCov.ur)} بابًا من {n(adhkarCov.chapters)} · التركية: {n(adhkarCov.tr)} (أذكار الصباح والمساء) · الإندونيسية: {n(adhkarCov.id)} (أذكار الصباح والمساء).</p>
+      <p className="note">المصدر: IslamHouse (كتب مترجمة جملةً جملة)، كما هي. يُربط الباب بترجمته برقمه مع تطابق عنوانه؛ ٧ أبواب اختلف عنوانها بين الطبعتين فتُركت بلا ترجمة بدل التخمين. لا يتوفر في المصدر «حصن المسلم» كاملًا بالتركية، والإندونيسي فيه مُدرج بلا نصوص.</p>
       <h2>بلاغات الأخطاء</h2>
       {rep ? <ul className="stat-grid"><li><strong>{n(rep.open ?? 0)}</strong><span>بلاغات مفتوحة</span></li><li><strong>{n(rep.fixed ?? 0)}</strong><span>أخطاء صُحّحت ببلاغات الزوار</span></li><li><strong>{n(rep.dismissed ?? 0)}</strong><span>بلاغات لم يثبت فيها خطأ</span></li></ul> : <p className="note">تعذّر تحميل الأرقام الآن.</p>}
       <p className="note"><Link href="/report">بلّغ عن خطأ</Link> · <Link href="/sources">المصادر والتراخيص</Link></p>

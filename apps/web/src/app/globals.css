@@ -553,3 +553,5 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 .pick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 4px 10px; max-height: 300px; overflow: auto; padding: 8px; } .pick-grid.wide { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 .kid-tasks { list-style: none; padding: 0; display: grid; gap: 6px; } .kid-tasks label { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .chips.even { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } .chips.even a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+.he-tr { margin-top: 12px; padding: 12px 14px; border-inline-start: 3px solid var(--gold); background: var(--tint); border-radius: 10px; } .he-tr[dir='ltr'] { text-align: left; font-family: var(--font-sans, system-ui); }
+.adhkar-tr { padding-inline-start: 1.2em; display: grid; gap: 14px; } .adhkar-tr .ar { font-family: var(--font-quran, 'Amiri Quran'), serif; font-size: 1.2rem; line-height: 2; margin: 0; }

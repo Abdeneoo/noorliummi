@@ -16,3 +16,4 @@ database/sources/hadith-openiti/files/
 database/sources/library-openiti/files/
 apps/web/src/generated/hadith-tr/
 reports/lighthouse/ci/
+apps/web/src/generated/adhkar-tr/
