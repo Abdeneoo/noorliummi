@@ -4,26 +4,36 @@ import { useEffect, useRef, useState } from 'react';
 import { RECITERS, type Rec } from '@/lib/reciters';
 const KEY = 'noor.reciter';
 const ayahUrl = (r: Rec, global: number) => `https://cdn.islamic.network/quran/audio/${r.br}/${r.id}/${global}.mp3`;
+type Ext = { id: string; name: string; en: string; kind: string; server: string };
 const arNum = (n: number) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
 const L = {
-  ar: { aria: 'الاستماع إلى السورة', reciter: 'القارئ', full: 'السورة كاملة', byAyah: 'آية بآية (مع تتبّع الآية)', prev: 'السابقة', next: 'التالية', pause: 'إيقاف مؤقت', resume: 'متابعة', play: 'تشغيل', pos: (c: number, n: number) => `الآية ${arNum(c)} من ${arNum(n)}`, follow: 'تتبّع الآية', err: 'تعذّر تحميل التلاوة من المصدر الآن. جرّب قارئًا آخر أو أعد المحاولة لاحقًا.', note: (r: string) => `التلاوة بصوت ${r}، تُبث مباشرة من Islamic Network (alquran.cloud). حقوق التلاوة لأصحابها.`, album: 'القرآن الكريم — نور لأمي', title: (s: string) => `سورة ${s}` },
-  en: { aria: 'Listen to the surah', reciter: 'Reciter', full: 'Full surah', byAyah: 'Ayah by ayah (follows the text)', prev: 'Previous', next: 'Next', pause: 'Pause', resume: 'Resume', play: 'Play', pos: (c: number, n: number) => `Ayah ${c} of ${n}`, follow: 'Follow ayah', err: 'Could not load the recitation from its source. Try another reciter or try again later.', note: (r: string) => `Recited by ${r}, streamed directly from Islamic Network (alquran.cloud). Recitation rights belong to their owners.`, album: 'The Holy Quran — Noor Li Ummi', title: (s: string) => `Surah ${s}` },
+  ar: { aria: 'الاستماع إلى السورة', reciter: 'القارئ', full: 'السورة كاملة', follows: 'السورة كاملة مع إبراز الآية المتلوّة', more: 'كل القرّاء — السورة كاملة', search: 'ابحث عن قارئ', searchPh: 'اكتب الاسم', byAyah: 'آية بآية (مع تتبّع الآية)', prev: 'السابقة', next: 'التالية', pause: 'إيقاف مؤقت', resume: 'متابعة', play: 'تشغيل', pos: (c: number, n: number) => `الآية ${arNum(c)} من ${arNum(n)}`, follow: 'تتبّع الآية', err: 'تعذّر تحميل التلاوة من المصدر الآن. جرّب قارئًا آخر أو أعد المحاولة لاحقًا.', note: (r: string) => `التلاوة بصوت ${r}، تُبث مباشرة من Islamic Network (alquran.cloud). حقوق التلاوة لأصحابها.`, album: 'القرآن الكريم — نور لأمي', title: (s: string) => `سورة ${s}` },
+  en: { aria: 'Listen to the surah', reciter: 'Reciter', full: 'Full surah', follows: 'Full surah, highlighting the ayah being recited', more: 'All reciters — full surah', search: 'Find a reciter', searchPh: 'Type a name', byAyah: 'Ayah by ayah (follows the text)', prev: 'Previous', next: 'Next', pause: 'Pause', resume: 'Resume', play: 'Play', pos: (c: number, n: number) => `Ayah ${c} of ${n}`, follow: 'Follow ayah', err: 'Could not load the recitation from its source. Try another reciter or try again later.', note: (r: string) => `Recited by ${r}, streamed directly from Islamic Network (alquran.cloud). Recitation rights belong to their owners.`, album: 'The Holy Quran — Noor Li Ummi', title: (s: string) => `Surah ${s}` },
 };
 
 export default function Recitation({ surah, surahName, start, count, lang = 'ar' }: { surah: number; surahName: string; start: number; count: number; lang?: 'ar' | 'en' }) {
   const t = L[lang];
   const [rid, setRid] = useState(RECITERS[0].id);
+  const [ext, setExt] = useState<Ext[]>([]); const [q, setQ] = useState('');
   const [error, setError] = useState(false);
   const [cur, setCur] = useState(1); // ayah-mode position
   const [playing, setPlaying] = useState(false);
   const [follow, setFollow] = useState(true);
   const player = useRef<HTMLAudioElement | null>(null);
   const preload = useRef<HTMLAudioElement | null>(null);
-  const r = RECITERS.find((x) => x.id === rid) ?? RECITERS[0];
-  const rname = (x: Rec) => (lang === 'en' ? x.en : x.name);
+  const x = rid.startsWith('mq:') ? ext.find((e) => e.id === rid) : undefined;
+  // An MP3Quran reciter plays as one file per surah; until the list has loaded, fall back to the first reciter.
+  const r: Rec = x ? { id: x.id, name: x.name, en: x.en, mode: 'surah', br: 0 } : (RECITERS.find((y) => y.id === rid) ?? RECITERS[0]);
+  const rname = (y: { name: string; en: string }) => (lang === 'en' ? y.en : y.name);
+  const fold = (v: string) => v.toLowerCase().replace(/[أإآ]/g, 'ا').replace(/[\u064B-\u0652]/g, '');
+  const shown = q.trim() ? ext.filter((e) => fold(`${e.name} ${e.en}`).includes(fold(q.trim()))) : ext;
 
-  useEffect(() => { try { const v = localStorage.getItem(KEY); if (v && RECITERS.some((x) => x.id === v)) setRid(v); } catch { /* ignore */ } }, []);
+  useEffect(() => {
+    let saved = ''; try { saved = localStorage.getItem(KEY) ?? ''; } catch { /* ignore */ }
+    if (saved && RECITERS.some((y) => y.id === saved)) setRid(saved);
+    fetch('/api/reciters').then((res) => res.json()).then((j: { reciters: Ext[] }) => { setExt(j.reciters ?? []); if (saved.startsWith('mq:') && j.reciters?.some((e) => e.id === saved)) setRid(saved); }).catch(() => undefined);
+  }, []);
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
     navigator.mediaSession.metadata = new MediaMetadata({ title: t.title(surahName), artist: rname(r), album: t.album });
@@ -65,13 +75,15 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
       <div className="row" style={{ marginTop: 0 }}>
         <div className="field"><label htmlFor="reciter">{t.reciter}</label>
           <select id="reciter" value={rid} onChange={(e) => choose(e.target.value)}>
-            <optgroup label={t.full}>{RECITERS.filter((x) => x.mode === 'surah').map((x) => <option key={x.id} value={x.id}>{rname(x)}</option>)}</optgroup>
-            <optgroup label={t.byAyah}>{RECITERS.filter((x) => x.mode === 'ayah').map((x) => <option key={x.id} value={x.id}>{rname(x)}</option>)}</optgroup>
+            <optgroup label={t.follows}>{RECITERS.filter((y) => y.mode === 'ayah').map((y) => <option key={y.id} value={y.id}>{rname(y)}</option>)}</optgroup>
+            <optgroup label={t.full}>{RECITERS.filter((y) => y.mode === 'surah').map((y) => <option key={y.id} value={y.id}>{rname(y)}</option>)}</optgroup>
+            {ext.length > 0 && <optgroup label={`${t.more} (${lang === 'ar' ? arNum(shown.length) : shown.length})`}>{shown.map((e) => <option key={e.id} value={e.id}>{rname(e)}{e.kind && e.kind !== 'مرتل' ? ` — ${e.kind}` : ''}</option>)}{x && !shown.includes(x) && <option value={x.id}>{rname(x)}</option>}</optgroup>}
           </select></div>
+        {ext.length > 0 && <div className="field" style={{ flex: '0 1 200px' }}><label htmlFor="reciter-q">{t.search}</label><input id="reciter-q" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.searchPh} /></div>}
       </div>
       {r.mode === 'surah' ? (
         <audio key={rid} controls preload="metadata" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)}
-          src={`https://cdn.islamic.network/quran/audio-surah/${r.br}/${r.id}/${surah}.mp3`} />
+          src={x ? `${x.server}${String(surah).padStart(3, '0')}.mp3` : `https://cdn.islamic.network/quran/audio-surah/${r.br}/${r.id}/${surah}.mp3`} />
       ) : (
         <div className="row" style={{ marginTop: 12, alignItems: 'center' }}>
           <button type="button" className="btn ghost" onClick={() => cur > 1 && playAyah(cur - 1)} disabled={cur <= 1} aria-label={t.prev}>{t.prev}</button>
@@ -82,6 +94,7 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
         </div>
       )}
       {error && <p className="note" role="alert">{t.err}</p>}
+      {lang === 'ar' && <p className="note" style={{ marginBottom: 0 }}>للحفظ والتلقين آية بآية مع التكرار: <a href={`/talqeen?s=${surah}`}>صفحة التلقين</a>.</p>}
     </section>
   );
 }
