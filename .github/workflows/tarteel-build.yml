@@ -29,6 +29,8 @@ jobs:
           python3 -m pip install --quiet "transformers<5" huggingface_hub numpy
           python3 -c "from huggingface_hub import snapshot_download; snapshot_download('tarteel-ai/whisper-base-ar-quran', revision='$MODEL_REV', local_dir='hf', allow_patterns=['*.json','*.txt','pytorch_model.bin','README.md'])"
           git clone --depth 1 https://github.com/openai/whisper openai-whisper
+          # The converter writes config.max_length as the text context; this fine-tune sets it to 1024 while its decoder has 448 positions.
+          python3 -c "import json; p='hf/config.json'; c=json.load(open(p)); print('max_length', c.get('max_length'), '-> max_target_positions', c['max_target_positions']); c['max_length']=c['max_target_positions']; json.dump(c, open(p,'w'), indent=2)"
           mkdir -p conv && python3 wc/models/convert-h5-to-ggml.py hf openai-whisper conv
           ls -la conv
           mv conv/ggml-model.bin out/ggml-tarteel-base-ar-quran-f16.bin
