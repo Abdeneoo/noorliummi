@@ -11,6 +11,8 @@ import ShareLink from '@/components/ShareLink';
 import DuaFav from '@/components/DuaFav';
 import AddToPlaylist from '@/components/AddToPlaylist';
 import { EA, eaUrl } from '@/lib/everyayah';
+import { albums, readers } from '@/lib/ih-quran';
+import { norm } from '@/lib/people';
 import { QD, ayatOf, surahName } from '@/lib/duas';
 
 const S = surahs as { index: number; name: string }[];
@@ -33,6 +35,8 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
   const ayahOnly = p.quran.map((i) => RECITERS[i]).filter((r) => r.mode === 'ayah');
   const duaAyat = p.ea.length ? (await Promise.all(QD.duas.filter((d) => d.kind === 'quran').map(ayatOf))).flat() : [];
   const eaTracks = p.ea.flatMap((f) => { const e = EA.find((x) => x.f === f)!; return duaAyat.map((x) => ({ id: `q${x.s}:${x.a}:ea-${f}`, src: eaUrl(e, x.s, x.a), title: `${surahName(x.s)}: ${x.a}`, by: e.name, source: 'تلاوة الآية كاملة — EveryAyah.com (بث من موقعهم)', text: x.t, page: `/quran/${x.s}#a${x.a}` })); });
+  const fl = (x: string) => { const t = norm(x).split(' ').filter((w) => w !== 'بن'); return `${t[0]} ${t[t.length - 1]}`; };
+  const myAlbums = albums().filter((a) => readers(a).some((r) => fl(r) === fl(p.ar)));
   const catsOf = (rows: { cat: number }[]) => TVC.categories.filter((c) => rows.some((r) => r.cat === c.id));
   return (
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -58,6 +62,8 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
         {full.map(({ i, r }) => { const t = S.map((s) => ({ id: `q-${r.id}-${s.index}`, src: surahUrl(r, s.index), title: `سورة ${s.name}`, by: r.name, source: 'Islamic Network (cdn.islamic.network)', page: `/quran/${s.index}` }));
           return <div key={i} className="row"><strong>{r.name}</strong><PlayTrack tracks={t} label="▶ ختمة كاملة من الفاتحة" /><AddToPlaylist tracks={t.slice(0, 1)} name={r.name} /></div>; })}
         {ayahOnly.map((r) => <p key={r.id}>{r.name}: <Link href="/quran/1">اختره من قائمة القارئ في المصحف</Link> (تلاوة آية بآية تتبع النص).</p>)}</section>}
+
+      {myAlbums.length > 0 && <section className="section"><h2>مصاحف كاملة من دار الإسلام</h2><ul className="athar-items">{myAlbums.map((a) => <li key={a.id}><Link href={`/mushafs/${a.id}`}>{a.title}</Link> <small className="note">({a.files.length.toLocaleString('ar-EG')} سورة)</small></li>)}</ul></section>}
 
       {clips.length > 0 && <section className="section"><h2>مقاطع تلاوة مختارة</h2><TvLibrary rows={clips} cats={catsOf(clips)} /></section>}
 

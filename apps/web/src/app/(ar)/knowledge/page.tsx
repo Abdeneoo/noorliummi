@@ -13,6 +13,7 @@ export default function Knowledge() {
         { href: '/today', icon: 'quran', title: 'يومي مع الله', desc: 'لوحة يومك: الصلاة والأذكار والورد وآية وحديث ودعاء اليوم.' },
         { href: '/playlists', icon: 'adhkar', title: 'قوائم تشغيل الأدعية', desc: '١٦ قائمة جاهزة وقوائمك الخاصة.' },
         { href: '/reciters', icon: 'hifz', title: 'القرّاء والمشايخ', desc: 'صفحة لكل قارئ تجمع أدعيته وتلاواته ومصادرها.' },
+        { href: '/mushafs', icon: 'quran', title: 'مصاحف دار الإسلام', desc: '١٣٦ مصحفًا مرتلًا ومصاحف الحرمين، بث مباشر وحفظ دون إنترنت.' },
         { href: '/ramadan', icon: 'heart', title: 'رمضان', desc: 'الإمساكية والعد التنازلي والأحكام والمجالس.' },
         { href: '/patient', icon: 'heart', title: 'وضع المريض وكبار السن', desc: 'شاشة واحدة بأزرار كبيرة للقرآن والشفاء والرقية.' },
         { href: '/travel', icon: 'bell', title: 'شنطة المسافر', desc: 'المواقيت والقبلة وأدعية السفر والأحكام والمساجد.' },

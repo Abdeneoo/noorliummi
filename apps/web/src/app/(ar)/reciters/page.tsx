@@ -11,6 +11,7 @@ export default function RecitersPage() {
     <article style={{ maxWidth: 960, margin: '0 auto' }}>
       <header className="page-head"><h1>القرّاء والمشايخ</h1>
         <p>كل قارئ في صفحة واحدة تجمع ما بصوته من مصادر الموقع: المصحف كاملًا (Islamic Network)، والأدعية والأذكار والرقية ومقاطع التلاوة (TVQuran بمشغّله الرسمي)، والمواد الصوتية من IslamHouse.</p></header>
+      <p className="note">ولمصاحف كاملة أخرى بأصوات كثيرة: <a href="/mushafs">مصاحف دار الإسلام (١٣٦ مصحفًا)</a>.</p>
       <ReciterIndex rows={rows} />
     </article>
   );
