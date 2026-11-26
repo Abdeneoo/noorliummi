@@ -14,9 +14,8 @@ import '@fontsource/amiri-quran';
 import '../tokens.css';
 import '../design-system.css';
 import '../globals.css';
-import AdhanController from '@/components/AdhanController';
 import { SiteHeader, TabBar } from '@/components/SiteChrome';
-import Beacon from '@/components/Beacon';
+import Deferred from '@/components/Deferred';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
@@ -34,14 +33,13 @@ export default function EnglishLayout({ children }: { children: React.ReactNode 
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');try{var t=localStorage.getItem('noor.theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}try{var f=Number(localStorage.getItem('noor.fs'));if(f>=0.85&&f<=1.4)document.documentElement.style.fontSize=(f*100)+'%'}catch(e){}(function(){var n=0;function s(m,st){if(n++>4||!navigator.sendBeacon)return;try{navigator.sendBeacon('/api/log',JSON.stringify({m:String(m).slice(0,300),s:String(st||'').slice(0,800),p:location.pathname}))}catch(e){}}addEventListener('error',function(e){s(e.message,e.error&&e.error.stack)});addEventListener('unhandledrejection',function(e){var r=e.reason;s(r&&r.message||r,r&&r.stack)})})();" }} />
-        <AdhanController />
         <script dangerouslySetInnerHTML={{ __html: "if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}" }} />
         <a className="skip" href="#main">Skip to content</a>
         <SiteHeader lang="en" />
         <main id="main"><div className="wrap">{children}</div></main>
         <TabBar lang="en" />
         <SiteFooter lang="en" />
-        <Beacon />
+        <Deferred />
       </body>
     </html>
   );

@@ -1,0 +1,30 @@
+# Manual Lighthouse audit of the live staging site (real network), three runs per page, median kept.
+# Run from the Actions tab or: gh workflow run lighthouse-staging.yml
+name: Lighthouse (staging)
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Site to audit
+        default: https://staging.noorliummi.io
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Lighthouse
+        env:
+          BASE: ${{ inputs.base }}
+        run: |
+          npx --yes @lhci/cli@0.14.x collect --numberOfRuns=3 \
+            --url="$BASE/" --url="$BASE/quran/36" --url="$BASE/adhkar/27" --url="$BASE/hadith/bukhari/1" --url="$BASE/lessons"
+          npx --yes @lhci/cli@0.14.x upload --target=filesystem --outputDir=./lh
+          node -e '
+            const m = require("./lh/manifest.json").filter((r) => r.isRepresentativeRun);
+            for (const r of m) { const s = r.summary; console.log(r.url.padEnd(48), "perf", Math.round(s.performance*100), "a11y", Math.round(s.accessibility*100), "bp", Math.round(s["best-practices"]*100), "seo", Math.round(s.seo*100)); }'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-staging
+          path: lh
