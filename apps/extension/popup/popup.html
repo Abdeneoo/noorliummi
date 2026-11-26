@@ -23,6 +23,7 @@
     </header>
 
     <main id="homeView" class="view">
+      <div class="mute-row" role="group" aria-label="كتم مؤقت"><span id="muteLabel" class="muted small">كتم مؤقت (اجتماع):</span><button class="mini-btn" data-mute="30">٣٠ د</button><button class="mini-btn" data-mute="60">٦٠ د</button><button class="mini-btn" data-mute="90">٩٠ د</button><button class="mini-btn" data-mute="0" id="unmuteBtn">إلغاء</button><span id="muteState" class="muted small"></span></div>
       <!-- Next Prayer Card -->
       <section class="card hero-card">
         <div class="hero-top">
@@ -46,6 +47,11 @@
         <p id="dhikrRef" class="muted small"></p>
       </section>
 
+      <section class="card" id="hadithCard" hidden>
+        <div class="card-head"><span>📜 حديث اليوم</span><a id="hadithLink" class="text-btn" target="_blank">افتح</a></div>
+        <p id="hadithText" class="dhikr-text"></p>
+        <p id="hadithRef" class="muted small"></p>
+      </section>
       <section class="card" id="ayahCard" hidden>
         <div class="card-head"><span>📖 آية اليوم</span><a id="ayahLink" class="text-btn" target="_blank">افتح</a></div>
         <p id="ayahText" class="dhikr-text" style="font-family:'Amiri Quran','Amiri',serif"></p>
@@ -68,6 +74,7 @@
             <span id="tasbeehCount">0</span>
             <small id="tasbeehSub">من 33</small>
           </button>
+          <div class="target-row" id="targetRow"><button data-t="33">٣٣</button><button data-t="70">٧٠</button><button data-t="100">١٠٠</button></div>
         </section>
 
         <section class="card wird-card">
@@ -179,6 +186,10 @@
           </select>
         </label>
 
+        <label class="field row"><span>عدّاد الصلاة القادمة على أيقونة الإضافة</span><input id="badgeToggle" type="checkbox" /></label>
+        <fieldset class="field"><span>استراحة الذكر: جلسة عمل ثم تذكير بذكر لمدة ٣٠ ثانية</span>
+          <div class="focus-row"><button type="button" class="mini-btn" data-focus="25">٢٥ دقيقة</button><button type="button" class="mini-btn" data-focus="50">٥٠ دقيقة</button><button type="button" class="mini-btn" data-focus="0">إيقاف</button><span id="focusState" class="muted small"></span></div></fieldset>
+        <p class="muted small">ظلّل أي نص في أي صفحة، ثم اختر من القائمة (الزر الأيمن) «ابحث في نور لأمي».</p>
         <div class="two-col"><button id="testAdhanBtn" type="button" class="primary-btn">🔔 تجربة الأذان</button><button id="stopAdhanBtn" type="button" class="mini-btn">إيقاف الصوت</button></div>
         <p class="muted small">صدقة جارية عن روح أمل مجدي منير — نسألكم لها الدعاء بالرحمة والمغفرة.</p>
         <p class="muted small">المواقيت محسوبة على جهازك (نفس محرك موقع نور لأمي) وقد تختلف دقائق عن التقويم الرسمي المحلي. التاريخ الهجري بتقويم أم القرى. الأذكار من «حصن المسلم» بتخريجها. لا تُرسل الإضافة أي بيانات عنك.</p>

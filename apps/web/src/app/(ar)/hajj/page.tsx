@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import HajjChecklist from '@/components/HajjChecklist';
+import { bookMeta } from '@/lib/books';
 import HajjDays from '@/components/HajjDays';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { libBook } from '@/lib/library';
@@ -19,12 +21,17 @@ export default async function Hajj() {
         <p className="note" style={{ marginBottom: 4 }}>مكمّلات للشيخ ابن عثيمين:</p>
         <div className="row"><Link className="btn ghost small" href="/books/sifat-al-hajj">صفة الحج</Link><Link className="btn ghost small" href="/books/manhaj-umrah-hajj">المنهج لمريد العمرة والحج</Link><Link className="btn ghost small" href="/books/hajj-mistakes">أخطاء يرتكبها بعض الحجاج</Link></div>
         <p className="note">«دليل الحاج والمعتمر وزائر مسجد الرسول ﷺ» (هيئة التوعية الإسلامية في الحج): <a href="https://islamhouse.com/ar/books/111040/" target="_blank" rel="noopener">على IslamHouse ↗</a> — لم يُنقل نصه لأن آياته في الملف مكتوبة بخط مصحف خاص لا يُستخرج نصًا صحيحًا.</p></section>
+      <HajjChecklist items={[
+        ...[[3, 'المواقيت'], [4, 'أنواع الأنساك'], [5, 'من يلزمه الهدي'], [6, 'صفة العمرة'], [7, 'صفة الحج']].map(([n, t]) => ({ id: `m${n}`, href: `/books/manhaj-umrah-hajj/${n}`, title: String(t), group: 'المنهج لمريد العمرة والحج — ابن عثيمين' })),
+        ...(bookMeta('sifat-al-hajj')?.chapters ?? []).filter((c) => [8, 9, 7, 10].includes(c.n)).map((c) => ({ id: `s${c.n}`, href: `/books/sifat-al-hajj/${c.n}`, title: c.title, group: 'صفة الحج — ابن عثيمين' })),
+        { id: 'adhkar', href: '#adhkar', title: 'أذكار الحج والعمرة', group: 'الأذكار' },
+      ]} />
       <section className="card"><h2 style={{ marginTop: 0 }}>التصاريح والخدمات الرسمية</h2>
         <p>التصاريح والحجز وكل ما يخص أداء النسك يكون عبر منصة «نسك» الرسمية فقط. هذا الموقع لا يصدر تصاريح ولا يقدّم خدمات حج.</p>
         <div className="row"><a className="btn" href="https://www.nusuk.sa" target="_blank" rel="noopener">منصة نسك الرسمية ↗</a></div></section>
       <section className="card"><h2 style={{ marginTop: 0 }}>من الموقع</h2>
         <div className="row"><Link className="btn ghost" href="/quran/22">سورة الحج</Link><Link className="btn ghost" href="/tasbeeh">التكبير والتسبيح</Link><Link className="btn ghost" href="/times">مواقيت الصلاة</Link><Link className="btn ghost" href="/calendar">التقويم والمواسم</Link></div></section>
-      <section className="section"><h2>أذكار الحج والعمرة — من «حصن المسلم»</h2>
+      <section className="section" id="adhkar"><h2>أذكار الحج والعمرة — من «حصن المسلم»</h2>
         <p className="note">النصوص كما في الكتاب بتخريجها، بترتيب ورودها فيه.</p>
         {chapters.map((c) => (
           <div key={c.id} className="card" style={{ marginBottom: 12 }} id={`c${c.id}`}><h3 style={{ marginTop: 0 }} lang="ar">{c.title}</h3>

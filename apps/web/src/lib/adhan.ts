@@ -82,6 +82,7 @@ function chime(): string {
 export function stopSound() { if (player) { player.pause(); } }
 /** Plays the chosen sound on the shared element. Rejects with 'audio-blocked' when the browser refuses. */
 export async function playSound(id: string, volume = 0.9): Promise<void> {
+  try { window.dispatchEvent(new Event('noor:adhan')); } catch { /* ignore */ }
   stopSound();
   if (id === 'silent') return;
   const s = SOUNDS.find((x) => x.id === id);

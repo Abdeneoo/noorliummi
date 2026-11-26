@@ -50,11 +50,26 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
   }, [cur, playing, follow, v?.kind]);
   useEffect(() => () => { player.current?.pause(); document.querySelectorAll('.ayat .reciting').forEach((e) => e.classList.remove('reciting')); }, []);
 
+  const [rate, setRate] = useState(1);
+  useEffect(() => { try { const r = Number(localStorage.getItem('noor.rate')); if ([0.75, 0.85, 1, 1.25].includes(r)) setRate(r); } catch { /* ignore */ } }, []);
+  const surahAudio = useRef<HTMLAudioElement | null>(null);
+  const changeRate = (r: number) => { setRate(r); if (player.current) player.current.playbackRate = r; if (surahAudio.current) surahAudio.current.playbackRate = r; try { localStorage.setItem('noor.rate', String(r)); } catch { /* ignore */ } };
+  // Keyboard on a computer: Space plays/pauses, arrows move between ayat (ayah mode), F opens Sakina mode. Ignored while typing.
+  useEffect(() => {
+    const on = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement; if (e.ctrlKey || e.metaKey || e.altKey || el.closest('input,textarea,select,[contenteditable=true]')) return;
+      if (e.key === ' ') { e.preventDefault(); if (v?.kind === 'surah') { const a = surahAudio.current; if (a) { if (a.paused) void a.play(); else a.pause(); } } else toggleRef.current(); }
+      else if (v?.kind !== 'surah' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) { const fwd = (e.key === 'ArrowLeft') === (document.dir !== 'ltr'); const n = fwd ? cur + 1 : cur - 1; if (n >= 1 && n <= count) { e.preventDefault(); playAyah(n); } }
+      else if (e.key === 'f' || e.key === 'F') { location.href = `/sakina?s=${surah}`; }
+    };
+    document.addEventListener('keydown', on); return () => document.removeEventListener('keydown', on);
+  });
+  const toggleRef = useRef<() => void>(() => undefined);
   const playAyah = (n: number) => {
     if (!v?.rec) return; if (!player.current) player.current = new Audio(); const a = player.current;
     a.onended = () => { if (n < count) playAyah(n + 1); else { setPlaying(false); setCur(1); } };
     a.onerror = () => { setError(true); setPlaying(false); };
-    a.src = ayahUrl(v.rec, start + n - 1); setCur(n); setError(false);
+    a.src = ayahUrl(v.rec, start + n - 1); setCur(n); setError(false); a.playbackRate = rate;
     a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     if (n < count) { preload.current ??= new Audio(); preload.current.preload = 'auto'; preload.current.src = ayahUrl(v.rec, start + n); }
   };
@@ -64,6 +79,7 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
     if (a && a.src && !a.ended && a.currentTime > 0) { a.play().then(() => setPlaying(true)).catch(() => undefined); return; }
     playAyah(cur);
   };
+  toggleRef.current = toggle;
   const choose = (p: string, id: string) => {
     player.current?.pause(); player.current = null; setPlaying(false); setError(false); setCur(1); setPk(p); setVid(id);
     try { localStorage.setItem(KEY, JSON.stringify({ p, v: id })); } catch { /* ignore */ }
@@ -96,7 +112,7 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
       </div>
       {v && !v.hafs && <p className="note" role="note">{x.notHafs}</p>}
       {v?.kind === 'surah' ? (url ? (<>
-        <audio key={url} controls preload="metadata" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} src={url} />
+        <audio key={url} ref={surahAudio} controls preload="metadata" style={{ width: '100%', marginTop: 12 }} onError={() => setError(true)} onLoadedMetadata={(e) => { e.currentTarget.playbackRate = rate; }} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} src={url} />
         <div className="row"><button type="button" className={saved ? 'btn ghost small' : 'btn small'} onClick={save} disabled={saving}>{saving ? x.saving : saved ? x.saved : x.save}</button><span className="note" style={{ margin: 0 }}>{saveErr ? x.saveFail : x.saveNote}</span></div>
       </>) : <p className="note" role="alert">{x.none}</p>) : (
         <div className="row" style={{ marginTop: 12, alignItems: 'center' }}>
@@ -107,6 +123,9 @@ export default function Recitation({ surah, surahName, start, count, lang = 'ar'
           <label style={{ display: 'flex', gap: 6, alignItems: 'center' }}><input type="checkbox" checked={follow} onChange={(e) => setFollow(e.target.checked)} /> {t.follow}</label>
         </div>
       )}
+      <div className="row" style={{ alignItems: 'center' }}><label htmlFor="rec-rate" className="note" style={{ margin: 0 }}>{lang === 'en' ? 'Speed' : 'سرعة التلاوة'}</label>
+        <select id="rec-rate" value={rate} onChange={(e) => changeRate(Number(e.target.value))} style={{ width: 'auto' }}>{[0.75, 0.85, 1, 1.25].map((r) => <option key={r} value={r}>{r === 1 ? (lang === 'en' ? 'Normal' : 'عادية') : `${r}×`}</option>)}</select>
+        <span className="note kbd-hint" style={{ margin: 0 }}>{lang === 'en' ? 'Keyboard: Space play/pause · arrows next/previous ayah · F Sakina mode' : 'لوحة المفاتيح: المسافة تشغيل/إيقاف · الأسهم الآية التالية/السابقة · F وضع السكينة'}</span></div>
       {error && <p className="note" role="alert">{t.err}</p>}
       {lang === 'ar' && <p className="note" style={{ marginBottom: 0 }}>{x.talqeen} <a href={`/talqeen?s=${surah}`}>{x.talqeenLink}</a>.</p>}
     </section>

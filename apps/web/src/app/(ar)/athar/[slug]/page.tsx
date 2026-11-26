@@ -5,6 +5,8 @@ import AtharTools from '@/components/AtharTools';
 import KhatmaPlayer from '@/components/KhatmaPlayer';
 import Tasbeeh from '@/components/Tasbeeh';
 import Lantern from '@/components/Lantern';
+import PlayTrack from '@/components/PlayTrack';
+import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import AtharShare from '@/components/AtharShare';
 import { isSlug } from '@/lib/athar';
 import { getPage } from '@/lib/athar-store';
@@ -36,6 +38,9 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
   if (p.status === 'frozen') {
     return <article className="card" style={{ maxWidth: 720, margin: '24px auto' }}><h1>الصفحة موقوفة مؤقتًا</h1><p>وصلت عن هذه الصفحة بلاغات، فأُوقفت حتى تُراجَع.</p></article>;
   }
+  // Recorded duas for the deceased (Hisn al-Muslim, OpenDua recordings, CC BY 4.0), played in the site-wide player so they continue while browsing.
+  const duaTracks = (await Promise.all([56, 57, 59, 60, 61].map(async (id) => ({ id, c: await loadAdhkar(id) }))))
+    .flatMap(({ id, c }) => c.items.filter((x) => x.a).map((x) => ({ id: `athar-${slug}-${id}-${x.n}`, src: `/audio/adhkar/${x.a}`, title: `${ADHKAR.find((a) => a.id === id)?.title ?? ''} — لـ${p.display_name}`, by: 'محمد جمعة (OpenDua)', license: 'CC BY 4.0', source: `حصن المسلم: ${x.r}`, text: x.t, page: `/athar/${slug}` })));
   return (
     <article style={{ maxWidth: 720, margin: '24px auto', display: 'grid', gap: 20 }}>
       <section className="card dedication" style={{ textAlign: 'center' }}>
@@ -44,6 +49,9 @@ export default async function AtharPage({ params }: { params: Promise<{ slug: st
         {p.dedication && <p style={{ whiteSpace: 'pre-line' }}>{p.dedication}</p>}
       </section>
       <Lantern slug={slug} name={p.display_name} />
+      {duaTracks.length > 0 && <section className="card"><h2 style={{ marginTop: 0 }}>استمع إلى الدعاء للميت</h2>
+        <p className="note">{duaTracks.length.toLocaleString('ar-EG')} أدعية من «حصن المسلم» بصوت محمد جمعة (OpenDua، CC BY 4.0)، بلفظ الحديث كما ورد. يستمر التشغيل وأنت تتصفح الموقع.</p>
+        <PlayTrack tracks={duaTracks} label="▶ شغّل الأدعية" className="btn" /></section>}
       {p.items.filter((it) => it.kind === 'reciter').map((it) => <KhatmaPlayer key="k" reciter={it.ref} pageKey={slug.slice(0, 12)} atharSlug={slug} />)}
       {p.items.some((it) => it.kind !== 'reciter') && (
         <section className="card">

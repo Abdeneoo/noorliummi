@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { play as playAudio, positions } from '@/lib/audio-store';
 type Ep = { id: string; t: string; full: string; d: string; embed: boolean; audio?: string };
 type YTPlayer = { getCurrentTime(): number; getDuration(): number; loadVideoById(o: { videoId: string; startSeconds?: number }): void; destroy(): void };
 type YTNs = { Player: new (el: HTMLElement, o: object) => YTPlayer };
@@ -21,15 +22,15 @@ export default function SeriesPlayer({ slug, eps, lecturer }: { slug: string; ep
   const [ok, setOk] = useState(false); const [cur, setCur] = useState<number | null>(null); const [q, setQ] = useState(''); const [onlyFav, setOnlyFav] = useState(false);
   const [pos, setPos] = useState<Record<string, number>>({}); const [fav, setFav] = useState<string[]>([]); const [auto, setAuto] = useState(true);
   const box = useRef<HTMLDivElement>(null); const au = useRef<HTMLAudioElement>(null); const hasVideo = eps.some((e) => !e.audio); const player = useRef<YTPlayer | null>(null); const curRef = useRef<number | null>(null); const autoRef = useRef(true);
-  useEffect(() => { try { setOk(localStorage.getItem(OK) === '1'); } catch { /* ignore */ } setPos(read(POS, {})); setFav(read(FAV, [])); const last = read<Record<string, number>>(LAST, {})[slug]; if (typeof last === 'number' && eps[last]) setCur(last); }, [slug, eps]);
+  useEffect(() => { try { setOk(localStorage.getItem(OK) === '1'); } catch { /* ignore */ } setPos({ ...read(POS, {}), ...positions() }); setFav(read(FAV, [])); const last = read<Record<string, number>>(LAST, {})[slug]; if (typeof last === 'number' && eps[last]) setCur(last); }, [slug, eps]);
   useEffect(() => { autoRef.current = auto; }, [auto]);
   const savePos = useCallback(() => { const i = curRef.current; if (i == null) return; const a = eps[i].audio ? au.current : null; const p = a ? null : player.current; if (!a && !p) return; const t = Math.floor(a ? a.currentTime : p!.getCurrentTime?.() || 0); if (!t) return; const all = read<Record<string, number>>(POS, {}); const dur = (a ? a.duration : p!.getDuration?.()) || sec(eps[i].d); all[eps[i].id] = dur && t > dur - 20 ? -1 : t; write(POS, all); setPos(all); }, [eps]);
   const play = useCallback(async (i: number) => {
     const e = eps[i]; if (!e) return; curRef.current = i; setCur(i); const l = read<Record<string, number>>(LAST, {}); l[slug] = i; write(LAST, l);
     if (e.audio) { player.current?.destroy(); player.current = null; if (box.current) box.current.innerHTML = '';
-      const a = au.current; if (!a) return; const start = Math.max(0, read<Record<string, number>>(POS, {})[e.id] ?? 0);
-      a.src = e.audio; a.onloadedmetadata = () => { if (start > 5 && start < a.duration - 5) a.currentTime = start; a.onloadedmetadata = null; }; a.play().catch(() => {});
-      if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: e.t, artist: lecturer, album: 'نور لأمي' });
+      // Audio episodes play in the site-wide player, so they keep playing while the visitor moves to other pages.
+      const list = (autoRef.current ? eps.filter((x) => x.audio) : [e]).map((x) => ({ id: x.id, src: x.audio!, title: x.t, by: lecturer, page: `/series/${slug}`, source: 'Spreaker (البودكاست الرسمي)' }));
+      playAudio(list, Math.max(0, list.findIndex((x) => x.id === e.id)));
       return; }
     au.current?.pause();
     if (!e.embed || !ok) return;
@@ -51,7 +52,6 @@ export default function SeriesPlayer({ slug, eps, lecturer }: { slug: string; ep
   return (
     <div className="series">
       <section className="card">
-        <audio ref={au} controls preload="none" hidden={!c?.audio} style={{ width: '100%' }} onPause={savePos} onEnded={() => { const i = curRef.current; if (i == null) return; const all = read<Record<string, number>>(POS, {}); all[eps[i].id] = -1; write(POS, all); setPos(all); if (autoRef.current && eps[i + 1]) play(i + 1); }} />
         {!hasVideo ? (cur == null && <p className="note kid-center">اختر حلقة من القائمة.</p>)
           : !ok ? (!c?.audio && <div className="kid-center"><p>المشغّل من يوتيوب (خدمة خارجية قد تضع ملفات تعريف وتعرض إعلانات). نستخدم وضع الخصوصية المحسّن، ولا يُحمَّل شيء من يوتيوب قبل موافقتك.</p><button type="button" className="btn" onClick={agree}>موافق — شغّل الحلقات هنا</button></div>)
           : <div className="yt-box" ref={box} hidden={!!c?.audio}>{cur == null && <p className="note kid-center">اختر حلقة من القائمة.</p>}</div>}

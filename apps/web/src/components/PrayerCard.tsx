@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
+import { hijriAdj } from '@/lib/hijri-adj';
 import { METHODS, formatCountdown, formatTime, getPrayerStatus, getScheduleForInstant, qiblaDirection, type MethodId, type PrayerName, type PrayerSettings } from '@noor/prayer-engine';
 import { loadPrefs } from '@/lib/adhan';
 import { CITIES, cityForTimezone, methodForTimezone, nearestCity, nearestCityDist, type City } from '@/lib/cities';
@@ -62,6 +63,8 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   const [now, setNow] = useState<Date | null>(null);
   const [geoMsg, setGeoMsg] = useState('');
   const [jumuah, setJumuah] = useState('');
+  const [hadj, setHadj] = useState(0);
+  useEffect(() => { setHadj(hijriAdj()); }, []);
   const [adhanOn, setAdhanOn] = useState(true);
   useEffect(() => { setAdhanOn(loadPrefs().enabled); }, []);
   useEffect(() => { try { setJumuah(localStorage.getItem(JUMUAH) ?? ''); } catch { /* ignore */ } }, []);
@@ -136,7 +139,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
   const place = placeOf(saved);
   const placeLabel = place.city ? (place.near ? t.near(cityName(place.city, lang)) : cityName(place.city, lang)) : t.here;
   const cityId = saved.src === 'gps' ? '' : place.city?.id ?? '';
-  const hijri = new Intl.DateTimeFormat(t.hijri, { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now);
+  const hijri = new Intl.DateTimeFormat(t.hijri, { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(new Date(now.getTime() + hadj * 86400000));
   const isFriday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: tz }).format(now) === 'Fri';
   const pname = (p: PrayerName) => (p === 'dhuhr' && isFriday ? t.jumuah : t.names[p]);
   const greg = new Intl.DateTimeFormat(t.greg, { weekday: 'long', day: 'numeric', month: 'long', timeZone: tz }).format(now);
@@ -186,6 +189,13 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
           </li>
         ))}
       </ul>
+      <p className="pp-extra">
+        <span>{lang === 'ar' ? 'آخر وقت الفجر (الشروق)' : 'Fajr ends (sunrise)'}: <b>{formatTime(day.times.sunrise, tz)}</b></span>
+        <span>{lang === 'ar' ? 'ارتفاع الشمس قدر رمح (≈ الشروق + ٢٠ د)' : 'Sun risen a spear’s length (≈ sunrise + 20 min)'}: <b>{formatTime(new Date(day.times.sunrise.getTime() + 20 * 60000), tz)}</b></span>
+        <span>{lang === 'ar' ? 'منتصف الليل' : 'Islamic midnight'}: <b>{formatTime(day.middleOfTheNight, tz)}</b></span>
+        <span>{lang === 'ar' ? 'الثلث الأخير' : 'Last third'}: <b>{formatTime(day.lastThirdOfTheNight, tz)}</b></span>
+        {lang === 'ar' && <a href="/fiqh/salah/15#m7">المصدر: الفقه الميسر (أوقات النهي)</a>}
+      </p>
       {saved.src !== 'gps' && <p className="pp-hint">{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)}{' '}{t.exact}{' '}<button type="button" className="linkish" onClick={() => locate()}>{t.locate}</button></p>}
       {geoMsg && <p className="note" role="status">{geoMsg}</p>}
       {!adhanOn && <p className="pp-hint">{t.adhanOff} <a href={lang === 'en' ? '/en/adhan' : '/adhan'}>{t.adhanOn}</a></p>}
@@ -201,6 +211,10 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
           <div className="field"><label htmlFor="method">{t.method}</label>
           <select id="method" value={saved.s.method} onChange={(e) => update({ ...saved, s: { ...saved.s, method: e.target.value as MethodId } })}>
             {Object.entries(METHODS).map(([id, m]) => <option key={id} value={id}>{m[lang]}</option>)}
+          </select></div>
+          <div className="field"><label htmlFor="hadj">{lang === 'ar' ? 'تعديل التاريخ الهجري' : 'Hijri date adjustment'}</label>
+          <select id="hadj" value={hadj} onChange={(e) => { const v = Number(e.target.value); setHadj(v); try { localStorage.setItem('noor.hadj', String(v)); } catch { /* ignore */ } }}>
+            <option value={-1}>{lang === 'ar' ? 'يوم قبل (−١)' : '−1 day'}</option><option value={0}>{lang === 'ar' ? 'أم القرى (بلا تعديل)' : 'Umm al-Qura (none)'}</option><option value={1}>{lang === 'ar' ? 'يوم بعد (+١)' : '+1 day'}</option>
           </select></div>
           <div className="field"><label htmlFor="jum">{t.myJumuah}</label>
           <div className="row" style={{ marginTop: 0 }}>

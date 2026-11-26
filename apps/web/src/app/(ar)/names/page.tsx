@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import names from '@/generated/names-of-allah.json';
+import NamesCards from '@/components/NamesCards';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
 export const metadata: Metadata = { title: 'أسماء الله الحسنى' };
 type N = { id: number; name: string; refs: [number, number][]; found?: boolean; page: number | null; url: string | null };
@@ -14,6 +15,9 @@ export default async function Names() {
       <h1>أسماء الله الحسنى</h1>
       <p className="meta"><span>التسعة والتسعون بترتيب كتاب «شرح أسماء الله الحسنى في ضوء الكتاب والسنة»</span><span>د. سعيد بن علي بن وهف القحطاني</span></p>
       <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم.</p>
+      <details className="section"><summary><strong>وضع البطاقات للمراجعة</strong></summary>
+        <NamesCards cards={list.map((n) => { const r = n.refs[0]; return { id: n.id, name: n.name, url: n.url, ...(r ? { ayah: surahs.get(r[0])!.ayat[r[1] - 1].t, ref: `${SURAHS[r[0] - 1].name}: ${arDigits(r[1])}` } : {}) }; })} />
+      </details>
       <ol className="grid" style={{ listStyle: 'none', padding: 0, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))' }}>
         {list.map((n) => (
           <li key={n.id} id={`n${n.id}`} className="card">

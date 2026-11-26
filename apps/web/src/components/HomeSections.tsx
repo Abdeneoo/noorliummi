@@ -28,7 +28,7 @@ export default function HomeSections() {
   return (
     <>
       <Block id="duas" icon="heart" title="الأدعية" all="/duas" intro="من القرآن الكريم و«حصن المسلم» بتخريجها، مرتبة حسب الحاجة."
-        cards={[{ href: '/duas#g0', title: 'للمتوفى' }, { href: '/duas#q0', title: 'للوالدين' }, { href: '/duas#g1', title: 'للمريض' }, { href: '/adhkar/35', title: 'الهم والحزن' }, { href: '/adhkar/36', title: 'الكرب' }, { href: '/adhkar/26', title: 'الاستخارة' }, { href: '/adhkar/42', title: 'قضاء الدين' }, { href: '/adhkar/97', title: 'السفر' }, { href: '/duas#hamm', title: 'كل الأدعية' }]} />
+        cards={[{ href: '/duas/hal', title: 'ادعُ بما يناسب حالك' }, { href: '/duas/quran', title: 'أدعية القرآن' }, { href: '/duas/audio', title: 'المكتبة الصوتية' }, { href: '/duas#g0', title: 'للمتوفى' }, { href: '/duas#q0', title: 'للوالدين' }, { href: '/duas#g1', title: 'للمريض' }, { href: '/adhkar/35', title: 'الهم والحزن' }, { href: '/adhkar/36', title: 'الكرب' }, { href: '/adhkar/26', title: 'الاستخارة' }, { href: '/adhkar/42', title: 'قضاء الدين' }, { href: '/adhkar/97', title: 'السفر' }, { href: '/duas#hamm', title: 'كل الأدعية' }]} />
       <Block id="fiqh" icon="hadith" title="فقه العبادات" all="/fiqh" intro="الطهارة والصلاة والزكاة والصيام والحج بالدليل، من «الفقه الميسر» بنصه الكامل."
         cards={[{ href: '/books/how-to-pray', title: 'كيف تصلي؟', sub: 'ابن باز' }, ...fiqhIndex().kitabs.filter((k) => IBADAT.includes(k.slug)).map((k) => ({ href: `/fiqh/${k.slug}`, title: k.title, sub: `${arDigits(k.abwab.length)} أبواب` })), { href: '/books/fusul-siyam', title: 'فصول في الصيام', sub: 'ابن عثيمين' }]} />
       <Block id="series" icon="knowledge" title="سلاسل صوتية ومرئية" all="/series" intro="سلاسل الأستاذ أحمد عامر: استمع بالصوت أو شاهد من يوتيوب."

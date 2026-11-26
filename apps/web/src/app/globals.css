@@ -588,3 +588,53 @@ html[lang='tr'], html[lang='id'] { --font-ui: 'Inter Variable', system-ui, sans-
 .fiqh .book-body h3{scroll-margin-top:90px;margin-top:1.6em}
 .fiqh-ref{font-size:.85rem;opacity:.7;margin-top:-.4em}
 .fiqh .book-body p:target,.fiqh .book-body h3:target{background:rgba(201,164,92,.15);border-radius:8px}
+.pp-extra{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;opacity:.85;margin:10px 0 0}
+.pp-extra a{font-size:.8rem}
+
+/* High contrast / low vision: plain dark background, pure text colours, stronger borders and focus, no decoration. */
+html[data-contrast=high]{--bg:#000;--surface:#000;--card:#000;--text:#fff;--muted:#f0f0f0;--line:#fff;--gold:#ffd75e;filter:none}
+html[data-contrast=high] body{background:#000!important;color:#fff!important}
+html[data-contrast=high] .card,html[data-contrast=high] .tiles a,html[data-contrast=high] .rail a,html[data-contrast=high] .prayer-panel{background:#000!important;border:2px solid #fff!important;box-shadow:none!important}
+html[data-contrast=high] a{color:#ffd75e!important;text-decoration:underline}
+html[data-contrast=high] .btn{background:#ffd75e!important;color:#000!important;border:2px solid #fff!important}
+html[data-contrast=high] .btn.ghost{background:#000!important;color:#fff!important}
+html[data-contrast=high] .note,html[data-contrast=high] small{color:#f0f0f0!important;opacity:1!important}
+html[data-contrast=high] :focus-visible{outline:3px solid #ffd75e!important;outline-offset:2px}
+html[data-contrast=high] .home-cover::before,html[data-contrast=high] .pp-arc,html[data-contrast=high] [class*=ornament],html[data-contrast=high] [class*=pattern]{display:none!important}
+html[data-contrast=high] *{text-shadow:none!important;background-image:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (hover:none){.kbd-hint{display:none}}
+.quran-jump{margin-bottom:16px}.quran-jump summary{cursor:pointer;padding:4px 0}
+.hizb-list{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 16px;margin:8px 0}
+.hizb-list li{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.hizb-list li span{min-width:70px;font-weight:700}
+.flash{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;min-height:220px;border-radius:18px;border:1px solid var(--line,rgba(128,128,128,.3));background:transparent;color:inherit;font:inherit;cursor:pointer;padding:20px}
+.flash-name{font-size:2.4rem;font-family:var(--font-quran,serif)}
+.flash-back{display:flex;flex-direction:column;gap:8px;text-align:center}
+.flash-hint{opacity:.6}
+.check-list{list-style:none;padding:0;display:grid;gap:6px}.check-list li{display:flex;justify-content:space-between;gap:8px;align-items:center}.check-list .done{text-decoration:line-through;opacity:.65}
+@page { size: A4; margin: 14mm; }
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  header.site, .tabbar, footer.site, .no-print, button, .btn, nav.pager, .pp-arc, .pp-settings, .review-banner, .share, .athar-tools, .kbd-hint, iframe, audio, video { display: none !important; }
+  .card, .prayer-panel { box-shadow: none !important; border: 1px solid #999 !important; background: #fff !important; break-inside: avoid; }
+  a { color: #000 !important; text-decoration: none !important; }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5pt; } th, td { border: 1px solid #999; padding: 3px 6px; }
+  .dhikr-text, .ayat { color: #000 !important; }
+  * { text-shadow: none !important; }
+  .print-only { display: block !important; }
+}
+.print-only { display: none; }
+.audio-dock{position:fixed;inset-inline:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:60;max-width:560px;margin-inline:auto;background:var(--surface,#103D32);color:var(--text,#F8F6F0);border:1px solid rgba(198,166,107,.4);border-radius:18px;padding:8px 12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+@media (min-width:900px){.audio-dock{bottom:16px}}
+.ad-row{display:flex;align-items:center;gap:8px}
+.ad-btn{min-width:40px;min-height:40px;border-radius:999px;border:1px solid rgba(198,166,107,.4);background:transparent;color:inherit;font:inherit;cursor:pointer}
+.ad-main{background:#C6A66B;color:#141C19;border:0;font-weight:700}
+.ad-info{flex:1;display:flex;flex-direction:column;align-items:flex-start;background:none;border:0;color:inherit;font:inherit;cursor:pointer;text-align:start;min-width:0}
+.ad-info strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.ad-info small{opacity:.75}
+.ad-bar{display:flex;align-items:center;gap:8px;font-size:.75rem;opacity:.85}.ad-bar input{flex:1;accent-color:#C6A66B}
+.ad-more{display:grid;gap:8px;padding-top:6px}.ad-ctl{flex-wrap:wrap}.ad-ctl label{display:flex;gap:6px;align-items:center;font-size:.85rem}
+.ad-text{max-height:30vh;overflow:auto;line-height:2;margin:0}.ad-queue{max-height:20vh;overflow:auto;margin:0;padding-inline-start:20px;font-size:.85rem}.ad-queue [aria-current]{color:#C6A66B;font-weight:700}
+.ad-src{font-size:.75rem;opacity:.7;margin:0}.ad-link{color:#C6A66B}
+.audio-resume{position:fixed;inset-inline-end:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:60;border-radius:999px;border:1px solid rgba(198,166,107,.5);background:var(--surface,#103D32);color:var(--text,#F8F6F0);padding:8px 14px;font:inherit;cursor:pointer}
+@media (min-width:900px){.audio-resume{bottom:16px}}
+@media print{.audio-dock,.audio-resume{display:none!important}}

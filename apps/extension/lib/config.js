@@ -11,6 +11,7 @@ export const DEFAULTS = {
   duhaEnabled: false, duhaAfterSunrise: 20, qiyamEnabled: false, qiyamIgnoresSleep: true,
   sleepModeEnabled: true, sleepStart: '23:00', sleepEnd: '05:00', muteUntil: 0,
   atharUrl: '', atharName: '',
+  badgeEnabled: true, tasbeehTarget: 33,
 };
 export async function getSettings() { const d = await chrome.storage.local.get('settings'); const s = { ...DEFAULTS, ...(d.settings || {}) }; s.prayersOn = { ...DEFAULTS.prayersOn, ...(s.prayersOn || {}) }; return s; }
 export async function saveSettings(s) { await chrome.storage.local.set({ settings: s }); }

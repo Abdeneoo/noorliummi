@@ -1,6 +1,7 @@
+import { hshift } from './hijri-adj';
 /** Upcoming occasions by the Umm al-Qura calendar (astronomical; actual days follow each country's moon sighting). */
 const fmt = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'numeric', year: 'numeric' });
-export function hijri(d: Date) { const p = fmt.formatToParts(d); const g = (t: string) => Number(p.find((x) => x.type === t)?.value); return { y: g('year'), m: g('month'), d: g('day') }; }
+export function hijri(d: Date) { const p = fmt.formatToParts(hshift(d)); const g = (t: string) => Number(p.find((x) => x.type === t)?.value); return { y: g('year'), m: g('month'), d: g('day') }; }
 export interface Occasion { date: Date; title: string; kind: 'season' | 'fast' }
 const NAMES: [number, number, string, Occasion['kind']][] = [
   [9, 1, 'أول رمضان', 'season'], [10, 1, 'عيد الفطر', 'season'], [12, 1, 'أول عشر ذي الحجة', 'season'], [12, 9, 'يوم عرفة', 'fast'], [12, 10, 'عيد الأضحى', 'season'], [1, 9, 'تاسوعاء', 'fast'], [1, 10, 'عاشوراء', 'fast'],

@@ -1,4 +1,5 @@
 'use client';
+import { hshift } from '@/lib/hijri-adj';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 /**
@@ -7,7 +8,7 @@ import { useEffect, useState } from 'react';
  */
 type Card = { eyebrow: string; title: string; links: [string, string][] };
 export function seasonFor(d: Date): Card | null {
-  const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'numeric' }).formatToParts(d);
+  const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'numeric' }).formatToParts(hshift(d));
   const hm = Number(parts.find((p) => p.type === 'month')?.value); const hd = Number(parts.find((p) => p.type === 'day')?.value);
   if (hm === 12 && hd === 9) return { eyebrow: 'اليوم التاسع من ذي الحجة', title: 'يوم عرفة', links: [['/books/dhul-hijjah', 'فضل عشر ذي الحجة'], ['/adhkar', 'الأذكار والأدعية'], ['/duas', 'أدعية موثّقة']] };
   if (hm === 12 && hd <= 10) return { eyebrow: 'ذو الحجة', title: 'العشر الأوائل من ذي الحجة', links: [['/books/dhul-hijjah', 'فضلها'], ['/adhkar', 'الأذكار'], ['/tasbeeh', 'التسبيح والتكبير']] };

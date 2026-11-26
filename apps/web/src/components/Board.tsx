@@ -1,4 +1,5 @@
 'use client';
+import { hshift } from '@/lib/hijri-adj';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { PRAYERS, formatCountdown, formatTime, getPrayerStatus, getScheduleForInstant, type PrayerName, type PrayerSettings } from '@noor/prayer-engine';
@@ -19,7 +20,7 @@ export default function Board() {
   const friday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: tz }).format(now) === 'Fri';
   return (
     <div className="board">
-      <div className="board-top"><span>{s.label}</span><span>{new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(now)}</span><Link href="/times" className="board-x">خروج ✕</Link></div>
+      <div className="board-top"><span>{s.label}</span><span>{new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(hshift(now))}</span><Link href="/times" className="board-x">خروج ✕</Link></div>
       <div style={{ alignSelf: 'center' }}>
         <div className="board-clock" dir="ltr"><bdo dir="ltr">{AR(formatTime(now, tz))}<small style={{ fontSize: '.35em', opacity: .7 }}>:{AR(String(now.getSeconds()).padStart(2, '0'))}</small></bdo></div>
         <p className="board-next">{friday && st.next.name === 'dhuhr' ? 'الجمعة' : NAMES[st.next.name]} بعد <bdo dir="ltr">{AR(formatCountdown(st.remainingMs))}</bdo></p>

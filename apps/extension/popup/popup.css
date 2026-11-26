@@ -1,23 +1,24 @@
 :root {
-  --bg: #06281f;
-  --surface: #0b382c;
-  --surface-2: #104638;
-  --border: rgba(212, 175, 55, 0.25);
-  --text: #f7f4eb;
-  --muted: #b8c9c1;
-  --gold: #d4af37;
-  --gold-soft: rgba(212, 175, 55, 0.16);
+  /* Same tokens as docs/DESIGN_SYSTEM.md */
+  --bg: #141C19;
+  --surface: #103D32;
+  --surface-2: #17493c;
+  --border: rgba(198, 166, 107, 0.28);
+  --text: #F8F6F0;
+  --muted: #b9c6bf;
+  --gold: #C6A66B;
+  --gold-soft: rgba(198, 166, 107, 0.16);
 }
 
 body[data-theme="light"] {
-  --bg: #faf7f0;
+  --bg: #F8F6F0;
   --surface: #ffffff;
-  --surface-2: #f1ece0;
-  --border: rgba(11, 56, 44, 0.16);
-  --text: #112922;
-  --muted: #526860;
-  --gold: #b3891b;
-  --gold-soft: rgba(179, 137, 27, 0.12);
+  --surface-2: #efeadf;
+  --border: rgba(16, 61, 50, 0.16);
+  --text: #141C19;
+  --muted: #4f5f58;
+  --gold: #8a6d36;
+  --gold-soft: rgba(198, 166, 107, 0.16);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -152,3 +153,10 @@ body {
 .footer-links a:hover { color: var(--gold); }
 .compass{position:relative;width:64px;height:64px;border-radius:50%;border:2px solid currentColor;opacity:.9;flex:none}.compass .n{position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:11px}.compass .arrow{position:absolute;inset:0;display:grid;place-items:center;font-size:26px;transform-origin:50% 50%;transition:transform .4s}
 .compass .arrow{rotate:-90deg}
+
+.mute-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+.mute-row .mini-btn.active{background:var(--gold);color:var(--bg)}
+.focus-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.target-row{display:flex;gap:6px;justify-content:center;margin-top:6px}
+.target-row button{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:999px;padding:3px 10px;cursor:pointer;font:inherit}
+.target-row button.on{background:var(--gold);color:var(--bg);border-color:transparent}

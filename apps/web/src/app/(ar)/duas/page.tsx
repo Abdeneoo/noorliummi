@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { loadSurah, SURAHS, arDigits } from '@/lib/quran';
 import ShareImageButton from '@/components/ShareImageButton';
+import { HISN_GROUPS } from '@/lib/duas-groups';
+import DuaNav from '@/components/DuaNav';
 
 export const metadata: Metadata = { title: 'الأدعية', description: 'أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها: للمتوفى والوالدين والمريض والهم والكرب والاستخارة والسفر وغيرها.' };
 /**
@@ -11,19 +13,6 @@ export const metadata: Metadata = { title: 'الأدعية', description: 'أد�
  */
 const QURAN: { title: string; refs: [number, number][] }[] = [
   { title: 'للوالدين من القرآن', refs: [[17, 24], [14, 41], [71, 28], [46, 15]] },
-];
-/** Every supplication chapter of Hisn al-Muslim, grouped by need (links to the full chapter with its takhrij). */
-const HISN_GROUPS: { id: string; title: string; ids: number[] }[] = [
-  { id: 'hamm', title: 'الهم والكرب والشدائد', ids: [35, 36, 54, 42, 44, 47, 41, 43, 46, 93, 83, 37, 38, 39] },
-  { id: 'marad', title: 'المرض والموت والعزاء', ids: [50, 52, 84, 55, 56, 57, 58, 59, 60, 61] },
-  { id: 'salah', title: 'في الصلاة', ids: [16, 17, 18, 19, 20, 21, 24, 26, 33] },
-  { id: 'bayt', title: 'البيت والمسجد واللباس', ids: [2, 3, 4, 6, 7, 12, 13, 14] },
-  { id: 'taam', title: 'الطعام والصيام', ids: [69, 75, 70, 71, 72, 73, 74, 77] },
-  { id: 'safar', title: 'السفر', ids: [96, 97, 98, 99, 100, 101, 102, 104, 105] },
-  { id: 'nas', title: 'مع الناس', ids: [80, 81, 82, 87, 88, 90, 91, 92, 94, 113] },
-  { id: 'kawn', title: 'المطر والريح والهلال', ids: [62, 63, 65, 68] },
-  { id: 'hajj', title: 'الحج', ids: [118, 119, 120] },
-  { id: 'other', title: 'أحوال أخرى', ids: [30, 31, 78, 95, 111, 112, 123, 126] },
 ];
 const GROUPS: { title: string; ids: number[] }[] = [
   { title: 'للمتوفى', ids: [56, 57, 59, 60, 61, 55] },
@@ -38,7 +27,8 @@ export default async function Duas() {
     <article style={{ maxWidth: 820, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow">الأدعية</p><h1>الأدعية</h1>
         <p>أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها، مرتبة حسب الحاجة. أضف ما تريد إلى صفحة أثر، أو شاركه كصورة.</p></header>
-      <nav className="card" aria-label="أقسام الأدعية"><ul className="chips even">{[...QURAN.map((g, i) => [`q${i}`, g.title]), ...GROUPS.map((g, i) => [`g${i}`, g.title])].map(([id, t]) => <li key={id}><a href={`#${id}`}>{t}</a></li>)}{HISN_GROUPS.map((g) => <li key={g.id}><a href={`#${g.id}`}>{g.title}</a></li>)}</ul></nav>
+      <DuaNav />
+      <nav className="card" aria-label="أقسام هذه الصفحة"><ul className="chips even">{[...QURAN.map((g, i) => [`q${i}`, g.title]), ...GROUPS.map((g, i) => [`g${i}`, g.title])].map(([id, t]) => <li key={id}><a href={`#${id}`}>{t}</a></li>)}{HISN_GROUPS.map((g) => <li key={g.id}><a href={`#${g.id}`}>{g.title}</a></li>)}</ul></nav>
       <p className="review-banner">النصوص كما في مصادرها دون تأليف أو تعديل. نسخة تجريبية بانتظار مراجعة أهل العلم.</p>
       {quran.map((g, gi) => (
         <section key={g.title} id={`q${gi}`} className="section"><h2>{g.title}</h2>

@@ -36,6 +36,10 @@ writeFileSync(`${out}/juz.json`, JSON.stringify(juz));
 const pages = [...readFileSync(`${src}/quran-data.xml`, 'utf8').matchAll(/<page index="(\d+)" sura="(\d+)" aya="(\d+)"/g)].map((m) => [Number(m[2]), Number(m[3])]);
 if (pages.length !== 604) throw new Error('page table check failed');
 writeFileSync(`${out}/pages.json`, JSON.stringify(pages));
+// Hizb quarters (rub' al-hizb) [surah, ayah] (Tanzil metadata, 240 = 60 hizb × 4), for quick navigation by juz/hizb/quarter.
+const quarters = [...readFileSync(`${src}/quran-data.xml`, 'utf8').matchAll(/<quarter index="(\d+)" sura="(\d+)" aya="(\d+)"/g)].map((m) => [Number(m[2]), Number(m[3])]);
+if (quarters.length !== 240) throw new Error('quarter table check failed');
+writeFileSync(`${out}/quarters.json`, JSON.stringify(quarters));
 for (const m of meta) {
   const rows = ayat.filter((a) => a.sura === m.index);
   if (rows.length !== m.ayas) throw new Error(`Ayah count mismatch in sura ${m.index}`);
@@ -113,6 +117,10 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       { id: 12264, slug: 'how-to-pray', pages: 1, level: 'h1', title: 'كيفية صلاة النبي ﷺ', author: 'سماحة الشيخ عبد العزيز بن باز' },
       { id: 52, slug: 'fusul-siyam', pages: 6, level: 'h1', title: 'فصول في الصيام والتراويح والزكاة', author: 'الشيخ محمد بن صالح العثيمين' },
       { id: 1161, slug: 'ahkam-siyam', pages: 10, level: 'h1', title: 'من أحكام الصيام', author: 'لم يُذكر المؤلف في المصدر' },
+      // Dua section companions (owner's choice, 26 Nov 2026).
+      { id: 786, slug: 'dua-adab', pages: 2, level: 'h1', title: 'فضل الدعاء وآدابه والأوقات التي يستحب فيها', author: 'لم يُذكر المؤلف في المصدر' },
+      { id: 1159, slug: 'adiya-jamia', pages: 2, level: 'h1', title: 'أدعية جامعة', author: 'لم يُذكر المؤلف في المصدر' },
+      { id: 1170, slug: 'dua-ruqa', pages: 1, level: 'h1', title: 'الدعاء ويليه العلاج بالرقى من الكتاب والسنة', author: 'د. سعيد بن علي بن وهف القحطاني' },
       { id: 12274, slug: 'ahkam-fiqhiyya', pages: 8, level: 'h2', title: 'من الأحكام الفقهية في الطهارة والصلاة والجنائز', author: 'الشيخ محمد بن صالح العثيمين' },
     ];
     const books: unknown[] = [];
@@ -167,6 +175,60 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       console.log(`book ${slug}: ${F.items.length} fatwas`);
     }
     writeFileSync(`${out}/books/index.json`, JSON.stringify(books));
+    // al-Qahtani, «الدعاء من الكتاب والسنة» (IslamHouse content API, book 19): 149 numbered duas, each with the author's own
+    // footnote (Quran reference or hadith takhrij and grade). Texts are kept verbatim; only the leading "N- " number is split off.
+    {
+      const rows = Array.from({ length: 8 }, (_, i) => load(`19-${i + 1}.json`)).flat();
+      const main = rows.map((r, i) => ({ r, i })).filter(({ r }) => r.type === 'title').pop()!.i;
+      const introStart = rows.findIndex((r) => r.type === 'title' && r.original_text.replace(/[\u064B-\u065F\u0670]/g, '').includes('المقدمة'));
+      const sections: { title: string; blocks: { tag: string; ar: string }[] }[] = [];
+      for (const r of rows.slice(introStart, main)) {
+        const t = r.original_text.trim(); if (!t) continue;
+        if (r.type === 'title') { sections.push({ title: t.replace(/\[\d+\]:?$/, '').replace(/:$/, ''), blocks: [] }); continue; }
+        sections[sections.length - 1].blocks.push({ tag: r.tag === 'div' ? 'note' : 'p', ar: t });
+      }
+      type Dua = { n: number; text: string; notes: string[]; kind: 'quran' | 'sunnah'; refs: [number, number, number][]; tags: string[]; audio?: string };
+      const duas: Dua[] = []; let closing = ''; let pending = false;
+      const nm = (t: string) => t.replace(/[\u064B-\u065F\u0670\u0640]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ').trim();
+      const SN = new Map(meta.map((m) => [nm(m.name).replace(/^ال/, ''), m.index]));
+      for (const r of rows.slice(main + 1)) {
+        const t = r.original_text.trim(); if (!t) continue;
+        if (r.tag === 'div') { if (duas.length) duas[duas.length - 1].notes.push(t); continue; }
+        const m = /^(\d+)\s*-\s*(.*)$/s.exec(t);
+        if (m && Number(m[1]) === duas.length + 1) { duas.push({ n: Number(m[1]), text: m[2].trim(), notes: [], kind: 'sunnah', refs: [], tags: [] }); pending = !m[2].trim(); continue; }
+        if (!duas.length) continue;
+        if (pending) { duas[duas.length - 1].text = t; pending = false; continue; }
+        if (/^والحمد لله رب العالمين/.test(t)) { closing = t; continue; }
+        duas[duas.length - 1].text += `\n${t}`;
+      }
+      if (duas.length !== 149 || duas.some((d) => !d.text)) throw new Error(`duas: expected 149 numbered duas with text, got ${duas.length}`);
+      const TAGS: [string, RegExp][] = [['rabbana', /^\(*\s*ربنا|^\(*\s*\)*\s*ربنا/], ['rabbi', /^\(*\s*رب /], ['allahumma', /^\(*\s*اللهم/],
+        ['maghfira', /اغفر|غفرانك|المغفره|مغفرت/], ['tawba', /تب علي|التواب|اتوب/], ['rahma', /ارحم|رحمه|رحمتك/], ['walidayn', /والدي|لوالدي/], ['dhurriyya', /ذريه|ذريتي|ازواجنا/],
+        ['huda', /اهدنا|اهدني|لا تزغ|ثبت|الهدي/], ['rizq', /ارزق|الرزق|رزقا|الغني/], ['nar', /عذاب النار|من النار|عذاب جهنم/], ['janna', /الجنه/], ['ilm', /علما|العلم|علمني|فقهني/],
+        ['sabr', /صبرا/], ['nasr', /انصرنا|وانصرنا/], ['isti3adha', /اعوذ/], ['afiya', /العافيه|عافني|الشفاء|اشف/], ['karb', /الكرب|الهم|الحزن|كربه/]];
+      for (const d of duas) {
+        const nt = nm(d.text);
+        for (const note of d.notes) for (const m of note.matchAll(/سورة\s+([^،,]+?)\s*[،,]\s*(?:الآية|الآيات|الآيتان)\s*:?\s*(\d+)(?:\s*[-–]\s*(\d+))?/g)) {
+          const s = SN.get(nm(m[1]).replace(/^ال/, '')); if (!s) throw new Error(`duas: unknown surah «${m[1]}» in #${d.n}`);
+          d.refs.push([s, Number(m[2]), Number(m[3] ?? m[2])]);
+        }
+        if (d.refs.length && /^\[\d+\]\s*سورة/.test(d.notes[0] ?? '')) d.kind = 'quran';
+        d.tags = TAGS.filter(([, re]) => re.test(nt)).map(([k]) => k);
+      }
+      // OpenDua recording when the same text exists in our Hisn al-Muslim with a recording (letters only, exact).
+      const letters = (t: string) => nm(t).replace(/[^ء-ي]/g, '');
+      const rec = new Map<string, string>();
+      for (const c of cats) for (const it of (JSON.parse(readFileSync(`${out}/adhkar/${c.id}.json`, 'utf8')) as { items: { t: string; a?: string }[] }).items) if (it.a) rec.set(letters(it.t), it.a);
+      for (const d of duas) { const a = rec.get(letters(d.text.replace(/[()]/g, ''))); if (a) d.audio = a; }
+      mkdirSync(`${out}/duas`, { recursive: true });
+      writeFileSync(`${out}/duas/qahtani.json`, JSON.stringify({ title: 'الدعاء من الكتاب والسنة', author: 'د. سعيد بن علي بن وهف القحطاني', source: 'https://enc.islamhouse.com/ar/books/19/1', sections, duas, closing }));
+      if (sections.length < 3) throw new Error('duas: intro sections missing');
+      console.log(`duas qahtani: ${duas.length} (quran ${duas.filter((d) => d.kind === 'quran').length}, sunnah ${duas.filter((d) => d.kind === 'sunnah').length}, with audio ${duas.filter((d) => d.audio).length}), ${sections.length} intro sections`);
+      // TVQuran: official dua selections (embed only; direct streaming needs permission). Snapshot of the public list.
+      const tv = resolve(here, '../../../database/sources/tvquran');
+      if (sha256File(`${tv}/selections-category-4.json`) !== readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for tvquran list');
+      writeFileSync(`${out}/duas/tvquran.json`, readFileSync(`${tv}/selections-category-4.json`, 'utf8'));
+    }
     // al-Fiqh al-Muyassar (King Fahd Complex): the source has paragraphs only, so books ("أولاً: كتاب الطهارة"), chapters
     // ("الباب الأول: …، وفيه مسائل:") and issues ("المسألة الأولى: …") are recognised by their wording. Text is kept verbatim;
     // the integrity check below proves no paragraph was dropped or changed.
