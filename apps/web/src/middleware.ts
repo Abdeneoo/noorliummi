@@ -11,7 +11,10 @@ export function middleware(req: NextRequest) {
   if (req.cookies.has('noor_kid')) {
     const g = kidGate(path);
     if (g === 'deny') return NextResponse.json({ error: 'غير متاح في وضع الطفل.' }, { status: 403 });
-    if (g === 'redirect') return new NextResponse(null, { status: 307, headers: { location: '/kids' } }); // relative: behind the proxy req.url is the internal address
+    if (g === 'redirect') { // behind the proxy req.url is the internal address, so the public host comes from the forwarded headers
+      const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? req.nextUrl.host; const proto = req.headers.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https');
+      return NextResponse.redirect(`${proto}://${host}/kids`);
+    }
   }
   const res = NextResponse.next();
   if (path.startsWith('/api/')) return res;
