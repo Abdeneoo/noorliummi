@@ -1,0 +1,32 @@
+# Lighthouse CI: builds the site, serves it locally on the runner, and audits five pages.
+# Fails if accessibility or best practices drop below 95; warns on performance below 70 or layout shift above 0.1
+# (thresholds in apps/web/lighthouserc.json). No secrets and no database are used; database-backed parts degrade gracefully.
+name: Lighthouse
+on:
+  push: { branches: [main] }
+  pull_request:
+  workflow_dispatch:
+permissions: { contents: read }
+concurrency: { group: lighthouse-${{ github.ref }}, cancel-in-progress: true }
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Fetch pinned, checksum-verified sources
+        run: bash infrastructure/fetch-hadith.sh
+      - name: Test
+        run: pnpm --filter @noor/web test
+      - name: Build
+        run: pnpm --filter @noor/web build
+      - name: Lighthouse
+        working-directory: apps/web
+        run: npx --yes @lhci/cli@0.14.x autorun
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: lighthouse-reports, path: reports/lighthouse/ci, if-no-files-found: ignore }
