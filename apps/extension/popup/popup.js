@@ -14,11 +14,22 @@ const city = () => placeOf(s);
 function renderPrayer() {
   const lang = s.lang === 'en' ? 'en' : 'ar'; const c = city(); const now = Date.now();
   $('cityBadge').textContent = lang === 'en' ? c.en : c.ar; $('hijriDate').textContent = hijri().label;
+  renderRamadan(lang);
   const t = timesFor(s); let nk = PRAYERS.find((p) => t[p] > now); let nt = nk ? t[nk] : timesFor(s, new Date(), 1).fajr; nk = nk || 'fajr';
   $('nextPrayerName').textContent = NAMES[nk][lang];
   const sec = Math.max(0, Math.floor((nt - now) / 1000)); $('countdown').textContent = [Math.floor(sec / 3600), Math.floor((sec % 3600) / 60), sec % 60].map((x) => String(x).padStart(2, '0')).join(':');
   const grid = $('prayerGrid'); grid.textContent = '';
   for (const p of ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha']) { const d = document.createElement('div'); d.className = `prayer-pill${p === nk ? ' next' : ''}`; const a = document.createElement('span'); a.textContent = NAMES[p][lang]; const b = document.createElement('strong'); b.textContent = clock(t[p], c.tz); d.append(a, b); grid.append(d); }
+}
+/** Ramadan line: day of Ramadan and time to Maghrib (iftar) / Fajr, or a countdown in the second half of Sha'ban (Umm al-Qura). */
+function renderRamadan(lang) {
+  const el = $('ramadanLine'); if (!el) return; const h = hijri(); const now = Date.now(); const t = timesFor(s);
+  const hm = (ms) => { const m = Math.max(0, Math.round(ms / 60000)); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`; };
+  let txt = '';
+  if (h.month === 9) { const toM = t.maghrib - now; const toF = (t.fajr > now ? t.fajr : timesFor(s, new Date(), 1).fajr) - now;
+    txt = lang === 'en' ? `Ramadan day ${h.day} · ${toM > 0 ? `iftar in ${hm(toM)}` : `Fajr in ${hm(toF)}`}` : `رمضان — اليوم ${h.day} · ${toM > 0 ? `الإفطار بعد ${hm(toM)}` : `الإمساك (الفجر) بعد ${hm(toF)}`}`; }
+  else if (h.month === 8 && h.day >= 15) txt = lang === 'en' ? `Ramadan in about ${30 - h.day} days` : `رمضان بعد نحو ${30 - h.day} يومًا`;
+  el.hidden = !txt; el.textContent = txt;
 }
 function renderQibla() { const q = qibla(s); $('qiblaArrow').style.transform = `rotate(${q}deg)`; $('qiblaDeg').textContent = `${Math.round(q)}° ${s.lang === 'en' ? 'from true north (clockwise)' : 'من الشمال الجغرافي باتجاه عقارب الساعة'}`; }
 function renderDhikr() { const x = pool[di % pool.length]; if (!x) return; $('dhikrText').textContent = x.t; $('dhikrRef').textContent = `${x.r} — حصن المسلم: ${x.title}`; }

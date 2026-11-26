@@ -13,7 +13,9 @@ export function seasonFor(d: Date): Card | null {
   if (hm === 12 && hd === 9) return { eyebrow: 'اليوم التاسع من ذي الحجة', title: 'يوم عرفة', links: [['/books/dhul-hijjah', 'فضل عشر ذي الحجة'], ['/adhkar', 'الأذكار والأدعية'], ['/duas', 'أدعية موثّقة']] };
   if (hm === 12 && hd <= 10) return { eyebrow: 'ذو الحجة', title: 'العشر الأوائل من ذي الحجة', links: [['/books/dhul-hijjah', 'فضلها'], ['/adhkar', 'الأذكار'], ['/tasbeeh', 'التسبيح والتكبير']] };
   if (hm === 1 && (hd === 9 || hd === 10)) return { eyebrow: 'المحرّم', title: hd === 10 ? 'يوم عاشوراء' : 'تاسوعاء — اليوم التاسع من المحرّم', links: [['/adhkar', 'الأذكار']] };
-  if (hm === 9) return { eyebrow: `رمضان — اليوم ${hd.toLocaleString('ar-EG')}`, title: 'ختمة رمضان', links: [['/wird', 'خطة ختمة رمضان'], ['/khatma', 'ختمة جماعية'], ['/adhkar/75', 'دعاء الصائم']] };
+  if (hm === 9) return { eyebrow: `رمضان — اليوم ${hd.toLocaleString('ar-EG')}`, title: hd > 20 ? 'العشر الأواخر' : 'رمضان', links: [['/ramadan', 'الإمساكية والعد التنازلي'], ['/ramadan/majalis', 'مجلس اليوم'], ['/wird', 'خطة ختمة رمضان'], ['/khatma', 'ختمة جماعية'], ['/adhkar/75', 'دعاء الصائم']] };
+  if (hm === 8 && hd >= 15) return { eyebrow: 'شعبان', title: 'رمضان على الأبواب', links: [['/ramadan', 'العد التنازلي والإمساكية'], ['/fiqh/siyam', 'فقه الصيام'], ['/ramadan/majalis', 'مجالس رمضان']] };
+  if (hm === 10 && hd === 1) return { eyebrow: 'شوال', title: 'عيد الفطر — تقبّل الله منا ومنكم', links: [['/fiqh/salah/22', 'صلاة العيدين'], ['/fiqh/zakat/30', 'زكاة الفطر']] };
   if (d.getDay() === 5) return { eyebrow: 'يوم الجمعة', title: 'سورة الكهف', links: [['/quran/18', 'اقرأ واستمع'], ['/sakina?s=18', 'وضع السكينة'], ['/tools', 'تذكير الجمعة']] };
   return null;
 }

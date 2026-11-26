@@ -228,6 +228,9 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       const iha = resolve(here, '../../../database/sources/islamhouse-api'); const ihSum = readFileSync(`${iha}/SHA256SUMS`, 'utf8').split('\n').find((l) => l.endsWith('dua-audio-items.json'))?.split(/\s+/)[0];
       if (sha256File(`${iha}/dua-audio-items.json`) !== ihSum) throw new Error('Checksum mismatch for islamhouse-api/dua-audio-items.json');
       writeFileSync(`${out}/duas/ih-audio.json`, readFileSync(`${iha}/dua-audio-items.json`, 'utf8'));
+      const ramSum = readFileSync(`${iha}/SHA256SUMS`, 'utf8').split('\n').find((l) => l.endsWith('ramadan-2026-11-26.json'))?.split(/\s+/)[0];
+      if (sha256File(`${iha}/ramadan-2026-11-26.json`) !== ramSum) throw new Error('Checksum mismatch for islamhouse-api/ramadan-2026-11-26.json');
+      writeFileSync(`${out}/duas/ih-ramadan.json`, readFileSync(`${iha}/ramadan-2026-11-26.json`, 'utf8'));
       // Prophets' duas in the Quran, each verified by Tafsir al-Muyassar (QuranEnc snapshot).
       const pm = resolve(here, '../../../database/sources/quranenc-arabic_moyassar');
       if (sha256File(`${pm}/prophets.json`) !== readFileSync(`${pm}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for prophets.json');
