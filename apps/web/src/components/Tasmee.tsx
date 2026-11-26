@@ -1,8 +1,9 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { compare } from '@/lib/tasmee';
+import { toWav16k } from '@/lib/wav';
 type Rec = { lang: string; interimResults: boolean; continuous: boolean; maxAlternatives: number; start(): void; stop(): void; onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> }) => void) | null; onerror: ((e: { error: string }) => void) | null; onend: (() => void) | null };
-const CONSENT = 'noor.tasmee.ok';
+const CONSENT = 'noor.tasmee.ok'; const CONSENT_SRV = 'noor.tasmee.srv';
 /**
  * «سمّع بصوتك»: the user recites the ayah from memory; the browser's own speech recognition turns it into text and
  * the words are compared with the ayah. This site never receives or stores the audio. Asked once for consent because
@@ -13,7 +14,27 @@ export default function Tasmee({ ayah, lang = 'ar', onResult }: { ayah: string; 
   const [supported, setSupported] = useState(true); const [ask, setAsk] = useState(false); const [on, setOn] = useState(false); const [err, setErr] = useState('');
   const [res, setRes] = useState<ReturnType<typeof compare> | null>(null);
   const rec = useRef<Rec | null>(null); const heard = useRef('');
-  useEffect(() => { const w = window as unknown as Record<string, unknown>; setSupported(!!(w.SpeechRecognition || w.webkitSpeechRecognition)); return () => rec.current?.stop(); }, []);
+  const [srv, setSrv] = useState(false); const [askSrv, setAskSrv] = useState(false); const [busy, setBusy] = useState(false); const mr = useRef<MediaRecorder | null>(null); const chunks = useRef<Blob[]>([]); const timer = useRef<number | null>(null);
+  useEffect(() => { const w = window as unknown as Record<string, unknown>; setSupported(!!(w.SpeechRecognition || w.webkitSpeechRecognition)); fetch('/api/tasmee/status').then((r) => r.json()).then((j) => setSrv(!!j.up && typeof MediaRecorder !== 'undefined')).catch(() => {}); return () => { rec.current?.stop(); mr.current?.stop(); }; }, []);
+  // Server mode (Tarteel model on this site's own server): record → 16 kHz WAV in the browser → our server → text. Audio is not stored.
+  const startSrv = async () => {
+    setRes(null); setErr('');
+    let stream: MediaStream; try { stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } }); } catch { setErr(ar ? 'لم يُسمح باستخدام الميكروفون.' : 'Microphone permission was denied.'); return; }
+    const m = new MediaRecorder(stream); mr.current = m; chunks.current = [];
+    m.ondataavailable = (e) => { if (e.data.size) chunks.current.push(e.data); };
+    m.onstop = async () => {
+      stream.getTracks().forEach((t) => t.stop()); if (timer.current) clearTimeout(timer.current); setOn(false); setBusy(true);
+      try {
+        const wav = await toWav16k(new Blob(chunks.current, { type: m.mimeType }));
+        const r = await fetch('/api/tasmee/check', { method: 'POST', headers: { 'content-type': 'audio/wav', 'x-noor': '1' }, body: wav });
+        const j = await r.json(); if (!r.ok) { setErr(j.error || (ar ? 'تعذّر التسميع.' : 'Check failed.')); return; }
+        if (!String(j.text || '').trim()) { setErr(ar ? 'لم يُسمع شيء واضح. اقترب من الميكروفون وحاول مرة أخرى.' : 'Nothing clear was heard. Try again closer to the microphone.'); return; }
+        const c = compare(ayah, j.text); setRes(c); onResult?.(c.score);
+      } catch { setErr(ar ? 'تعذّر التسميع. حاول مرة أخرى.' : 'Check failed. Try again.'); } finally { setBusy(false); }
+    };
+    m.start(); setOn(true); timer.current = window.setTimeout(() => m.state === 'recording' && m.stop(), 75_000);
+  };
+  const beginSrv = () => { let ok = false; try { ok = localStorage.getItem(CONSENT_SRV) === '1'; } catch { /* ignore */ } if (ok) startSrv(); else setAskSrv(true); };
   useEffect(() => { setRes(null); setErr(''); rec.current?.stop(); }, [ayah]);
   const start = () => {
     const w = window as unknown as Record<string, new () => Rec>; const C = w.SpeechRecognition || w.webkitSpeechRecognition;
@@ -24,10 +45,18 @@ export default function Tasmee({ ayah, lang = 'ar', onResult }: { ayah: string; 
     setRes(null); setErr(''); setOn(true); r.start();
   };
   const begin = () => { let ok = false; try { ok = localStorage.getItem(CONSENT) === '1'; } catch { /* ignore */ } if (ok) start(); else setAsk(true); };
-  if (!supported) return <p className="note">{ar ? 'التسميع بالصوت غير مدعوم في هذا المتصفح (يعمل في Chrome و Safari الحديثين).' : 'Voice recitation check is not supported in this browser (works in recent Chrome and Safari).'}</p>;
+  if (!supported && !srv) return <p className="note">{ar ? 'التسميع بالصوت غير مدعوم في هذا المتصفح (يعمل في Chrome و Safari الحديثين).' : 'Voice recitation check is not supported in this browser (works in recent Chrome and Safari).'}</p>;
   return (
     <div className="tasmee">
-      {ask ? (
+      {askSrv ? (
+        <div className="card" role="dialog" aria-label={ar ? 'إذن التسميع' : 'Recitation check consent'}>
+          <p>{ar ? 'يُرسل تسجيل قراءتك إلى خادم منصة نور لأمي فقط، حيث يحوّله نموذج Tarteel المفتوح إلى نص ثم يُقارن بالآية. لا يُحفظ التسجيل ولا يُرسل لأي جهة أخرى ولا يُستخدم في تدريب أي نموذج. الحد ٧٥ ثانية.' : 'Your recording goes only to Noor Li Ummi’s own server, where the open Tarteel model turns it into text to compare with the ayah. It is not stored, not sent anywhere else and not used for training. Limit: 75 seconds.'}</p>
+          <div className="row"><button type="button" className="btn" onClick={() => { try { localStorage.setItem(CONSENT_SRV, '1'); } catch { /* ignore */ } setAskSrv(false); startSrv(); }}>{ar ? 'موافق، ابدأ' : 'Agree and start'}</button><button type="button" className="btn ghost" onClick={() => setAskSrv(false)}>{ar ? 'إلغاء' : 'Cancel'}</button></div>
+        </div>
+      ) : busy ? <p className="note" role="status"><span className="spin" aria-hidden="true" /> {ar ? 'جارٍ التحقق من قراءتك…' : 'Checking your recitation…'}</p>
+      : srv && on && mr.current?.state === 'recording' ? <button type="button" className="btn" onClick={() => mr.current?.stop()}><span className="spin" aria-hidden="true" /> {ar ? 'أسمعك… اضغط عند الانتهاء' : 'Listening… tap when done'}</button>
+      : srv && !on ? <div className="row"><button type="button" className="btn ghost" onClick={beginSrv}>{ar ? 'سمّع بصوتك' : 'Recite aloud'}</button>{supported && <button type="button" className="btn ghost small" onClick={begin}>{ar ? 'بخدمة المتصفح' : 'Use browser service'}</button>}</div>
+      : ask ? (
         <div className="card" role="dialog" aria-label={ar ? 'إذن التسميع بالصوت' : 'Voice check consent'}>
           <p>{ar ? 'التسميع يستخدم خدمة تحويل الكلام إلى نص الخاصة بمتصفحك أو جهازك، وقد ترسل صوتك إلى مزوّدها (مثل Google أو Apple) لتحويله. موقع نور لأمي لا يستقبل صوتك ولا يحفظه؛ تصله الكلمات على جهازك فقط للمقارنة.' : 'This uses your browser or device speech-to-text service, which may send your voice to its provider (such as Google or Apple). Noor Li Ummi never receives or stores your voice; only the recognised words are compared on your device.'}</p>
           <div className="row"><button type="button" className="btn" onClick={() => { try { localStorage.setItem(CONSENT, '1'); } catch { /* ignore */ } setAsk(false); start(); }}>{ar ? 'موافق، ابدأ' : 'Agree and start'}</button><button type="button" className="btn ghost" onClick={() => setAsk(false)}>{ar ? 'إلغاء' : 'Cancel'}</button></div>

@@ -29,7 +29,7 @@ jobs:
           python3 -m pip install --quiet "transformers<5" huggingface_hub numpy
           python3 -c "from huggingface_hub import snapshot_download; snapshot_download('tarteel-ai/whisper-base-ar-quran', revision='$MODEL_REV', local_dir='hf', allow_patterns=['*.json','*.txt','pytorch_model.bin','README.md'])"
           git clone --depth 1 https://github.com/openai/whisper openai-whisper
-          python3 wc/models/convert-h5-to-ggml.py hf openai-whisper conv
+          mkdir -p conv && python3 wc/models/convert-h5-to-ggml.py hf openai-whisper conv
           ls -la conv
           mv conv/ggml-model.bin out/ggml-tarteel-base-ar-quran-f16.bin
           ./quantize out/ggml-tarteel-base-ar-quran-f16.bin out/ggml-tarteel-base-ar-quran-q5_0.bin q5_0
