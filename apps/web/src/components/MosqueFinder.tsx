@@ -16,8 +16,10 @@ const dist = (a: number, b: number, c: number, d: number) => {
   return 12742 * Math.asin(Math.sqrt(x));
 };
 
-export default function MosqueFinder({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
-  const t = L[lang];
+/** kind 'halal': places tagged diet:halal=yes or only in OpenStreetMap (as mapped by volunteers; not a certification). */
+const HALAL = { ar: { find: 'ابحث عن مطاعم حلال قريبة', none: 'لم نجد أماكن موسومة «حلال» في الخريطة ضمن هذه المسافة. البيانات تطوعية وغير مكتملة.', unnamed: 'مكان بلا اسم في الخريطة' }, en: { find: 'Find nearby halal places', none: 'No places tagged halal in the map within this distance. The data is volunteer-made and incomplete.', unnamed: 'Unnamed place' } };
+export default function MosqueFinder({ lang = 'ar', kind = 'mosque' }: { lang?: 'ar' | 'en'; kind?: 'mosque' | 'halal' }) {
+  const t = kind === 'halal' ? { ...L[lang], ...HALAL[lang] } : L[lang];
   const [r, setR] = useState(3);
   const [busy, setBusy] = useState(false); const [msg, setMsg] = useState(''); const [list, setList] = useState<Place[] | null>(null);
 
@@ -31,7 +33,9 @@ export default function MosqueFinder({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
     setBusy(true); setMsg(''); setList(null);
     let pos; try { pos = await where(); } catch { setMsg(t.noGeo); setBusy(false); return; }
     const lat = Math.round(pos.lat * 100) / 100, lon = Math.round(pos.lon * 100) / 100;
-    const q = `[out:json][timeout:25];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r * 1000},${lat},${lon});out center 80;`;
+    const q = kind === 'halal'
+      ? `[out:json][timeout:25];(nwr["diet:halal"~"^(yes|only)$"](around:${r * 1000},${lat},${lon});nwr["cuisine"~"halal"](around:${r * 1000},${lat},${lon}););out center 80;`
+      : `[out:json][timeout:25];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r * 1000},${lat},${lon});out center 80;`;
     for (const ep of ENDPOINTS) {
       try {
         const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 30000);
@@ -52,8 +56,8 @@ export default function MosqueFinder({ lang = 'ar' }: { lang?: 'ar' | 'en' }) {
     <div>
       <section className="card">
         <div className="row">
-          <div className="field"><label htmlFor="mr">{t.radius}</label>
-            <select id="mr" value={r} onChange={(e) => setR(+e.target.value)}>{[1, 3, 5, 10].map((n) => <option key={n} value={n}>{t.km(n)}</option>)}</select></div>
+          <div className="field"><label htmlFor={`mr-${kind}`}>{t.radius}</label>
+            <select id={`mr-${kind}`} value={r} onChange={(e) => setR(+e.target.value)}>{[1, 3, 5, 10].map((n) => <option key={n} value={n}>{t.km(n)}</option>)}</select></div>
           <button type="button" className="btn" onClick={search} disabled={busy}>{busy ? t.searching : t.find}</button>
         </div>
         <p className="note">{t.privacy}</p>

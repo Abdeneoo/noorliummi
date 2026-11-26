@@ -649,3 +649,6 @@ body:has(.audio-dock:not(.tv-dock)) .tv-dock{bottom:calc(196px + env(safe-area-i
 @media (min-width:900px){.tf-panel{bottom:100px}}
 .gw{all:unset;cursor:pointer;text-decoration:underline dotted rgba(198,166,107,.8);text-underline-offset:.45em;text-decoration-thickness:1px}.gw:hover,.gw:focus-visible{background:rgba(198,166,107,.15);border-radius:4px}
 .gw-on{background:rgba(198,166,107,.18);border-radius:8px;padding:4px 6px}
+
+.big-btn{font-size:1.2rem;padding:16px 22px;min-height:56px;border-radius:16px}
+.big-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));align-items:center}
