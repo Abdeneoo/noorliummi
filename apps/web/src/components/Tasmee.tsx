@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { compare } from '@/lib/tasmee';
-import { toWav16k } from '@/lib/wav';
+import { SilentError, toWav16k } from '@/lib/wav';
 type Rec = { lang: string; interimResults: boolean; continuous: boolean; maxAlternatives: number; start(): void; stop(): void; onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> }) => void) | null; onerror: ((e: { error: string }) => void) | null; onend: (() => void) | null };
 const CONSENT = 'noor.tasmee.ok'; const CONSENT_SRV = 'noor.tasmee.srv';
 /**
@@ -30,7 +30,7 @@ export default function Tasmee({ ayah, lang = 'ar', onResult }: { ayah: string; 
         const j = await r.json(); if (!r.ok) { setErr(j.error || (ar ? 'تعذّر التسميع.' : 'Check failed.')); return; }
         if (!String(j.text || '').trim()) { setErr(ar ? 'لم يُسمع شيء واضح. اقترب من الميكروفون وحاول مرة أخرى.' : 'Nothing clear was heard. Try again closer to the microphone.'); return; }
         const c = compare(ayah, j.text); setRes(c); onResult?.(c.score);
-      } catch { setErr(ar ? 'تعذّر التسميع. حاول مرة أخرى.' : 'Check failed. Try again.'); } finally { setBusy(false); }
+      } catch (e) { setErr(e instanceof SilentError ? (ar ? 'لم يُسمع صوت واضح. اقترب من الميكروفون وحاول مرة أخرى.' : 'No clear voice was heard. Try again closer to the microphone.') : (ar ? 'تعذّر التسميع. حاول مرة أخرى.' : 'Check failed. Try again.')); } finally { setBusy(false); }
     };
     m.start(); setOn(true); timer.current = window.setTimeout(() => m.state === 'recording' && m.stop(), 75_000);
   };
