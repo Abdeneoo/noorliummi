@@ -17,11 +17,12 @@ jobs:
       - name: Build whisper-server (static)
         run: |
           git clone --depth 1 -b "$WHISPER_TAG" https://github.com/ggml-org/whisper.cpp wc
-          cmake -S wc -B wc/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DGGML_NATIVE=OFF -DGGML_AVX=ON -DGGML_AVX2=ON -DGGML_FMA=ON -DGGML_F16C=ON -DWHISPER_SDL2=OFF -DWHISPER_BUILD_TESTS=OFF
+          cmake -S wc -B wc/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DGGML_NATIVE=OFF -DGGML_AVX=ON -DGGML_AVX2=ON -DGGML_FMA=ON -DGGML_F16C=ON -DWHISPER_SDL2=OFF -DWHISPER_BUILD_TESTS=OFF -DGGML_OPENMP=OFF -DCMAKE_EXE_LINKER_FLAGS="-static-libgcc -static-libstdc++"
           cmake --build wc/build -j --config Release
           ls wc/build/bin
           mkdir -p out && cp wc/build/bin/whisper-server out/ && (cp wc/build/bin/whisper-quantize quantize 2>/dev/null || cp wc/build/bin/quantize quantize)
           ldd out/whisper-server || true
+          if ldd out/whisper-server | grep -E "gomp|stdc\+\+|not found"; then echo "unexpected shared library"; exit 1; fi
           out/whisper-server --help | head -5
       - name: Convert the Tarteel model
         run: |
