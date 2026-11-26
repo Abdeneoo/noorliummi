@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>نور لأمي — ذكّرني</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body data-theme="dark">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <div>
+          <h1 id="brandTitle">نور لأمي</h1>
+          <p id="hijriDate" class="hijri">...</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="muteBtn" class="icon-btn" title="كتم الإشعارات ساعة">🔔</button>
+        <button id="themeBtn" class="icon-btn" title="تبديل المظهر">🌙</button>
+        <button id="tabToggleBtn" class="pill-btn">الإعدادات</button>
+      </div>
+    </header>
+
+    <main id="homeView" class="view">
+      <!-- Next Prayer Card -->
+      <section class="card hero-card">
+        <div class="hero-top">
+          <span id="nextPrayerLabel" class="muted">الصلاة القادمة</span>
+          <span id="cityBadge" class="badge">الرياض</span>
+        </div>
+        <div class="hero-main">
+          <strong id="nextPrayerName">العصر</strong>
+          <span id="countdown" class="countdown">00:00:00</span>
+        </div>
+        <div id="prayerGrid" class="prayer-grid"></div>
+      </section>
+
+      <!-- Dhikr Card -->
+      <section class="card">
+        <div class="card-head">
+          <span id="dhikrTitle">🤲 ذكر الآن</span>
+          <button id="nextDhikrBtn" class="text-btn">تبديل</button>
+        </div>
+        <p id="dhikrText" class="dhikr-text"></p>
+        <p id="dhikrRef" class="muted small"></p>
+      </section>
+
+      <section class="card" id="ayahCard" hidden>
+        <div class="card-head"><span>📖 آية اليوم</span><a id="ayahLink" class="text-btn" target="_blank">افتح</a></div>
+        <p id="ayahText" class="dhikr-text" style="font-family:'Amiri Quran','Amiri',serif"></p>
+        <p id="ayahRef" class="muted small"></p>
+      </section>
+
+      <!-- Tasbeeh + Wird Row -->
+      <div class="two-col">
+        <section class="card tasbeeh-card">
+          <div class="card-head">
+            <span id="tasbeehTitle">📿 المسبحة</span>
+            <button id="tasbeehResetBtn" class="text-btn">تصفير</button>
+          </div>
+          <button id="tasbeehBtn" class="tasbeeh-btn">
+            <span id="tasbeehCount">0</span>
+            <small id="tasbeehSub">من 33</small>
+          </button>
+        </section>
+
+        <section class="card wird-card">
+          <div class="card-head">
+            <span id="wirdTitle">📖 الورد اليومي</span>
+            <span id="wirdProgressText" class="badge">0/4</span>
+          </div>
+          <div class="progress-bar"><div id="wirdBar" class="progress-fill"></div></div>
+          <div class="wird-actions">
+            <button id="wirdPlusBtn" class="mini-btn">+ صفحة</button>
+            <a href="https://staging.noorliummi.io/quran" target="_blank" class="mini-link" id="openQuranLink">اقرأ</a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Pinned Athar Card -->
+      <section class="card athar-card">
+        <div class="card-head">
+          <span id="atharTitle">🌿 صفحة أثر مثبّتة</span>
+          <button id="editAtharBtn" class="text-btn">تعديل</button>
+        </div>
+        <div id="atharDisplay">
+          <p id="atharDesc" class="muted small">لم تثبّت صفحة أثر بعد — أضف رابطاً لوالدتك أو من تحب.</p>
+          <a id="atharOpenLink" href="https://staging.noorliummi.io/athar" target="_blank" class="primary-link">زيارة أو إنشاء أثر</a>
+        </div>
+        <form id="atharForm" class="athar-form hidden">
+          <input id="atharNameInput" type="text" placeholder="اسم المُهدى إليه (مثلاً: أمي)" maxlength="60" />
+          <input id="atharUrlInput" type="url" placeholder="https://staging.noorliummi.io/athar/..." />
+          <button type="submit" class="primary-btn">حفظ</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Settings View -->
+    <main id="settingsView" class="view hidden">
+      <section class="card settings-list">
+        <label class="field">
+          <span id="lblCity">المدينة</span>
+          <select id="citySelect"></select>
+        </label>
+
+        <label class="field row">
+          <span id="lblAdhan">تشغيل صوت الأذان</span>
+          <input id="adhanToggle" type="checkbox" />
+        </label>
+
+        <label class="field row">
+          <span id="lblPrePrayer">تنبيه قبل الصلاة</span>
+          <input id="prePrayerToggle" type="checkbox" />
+        </label>
+
+        <label class="field">
+          <span id="lblDhikrInterval">تذكير الأذكار الدوري</span>
+          <select id="dhikrIntervalSelect">
+            <option value="0">إيقاف</option>
+            <option value="30">كل 30 دقيقة</option>
+            <option value="60">كل ساعة</option>
+            <option value="120">كل ساعتين</option>
+            <option value="240">كل ٤ ساعات</option>
+          </select>
+        </label>
+
+        <label class="field row">
+          <span id="lblFasting">تذكير صيام الإثنين والخميس والأيام البيض</span>
+          <input id="fastingToggle" type="checkbox" />
+        </label>
+
+        <label class="field row">
+          <span id="lblSleep">وضع النوم (إيقاف التذكيرات ليلاً)</span>
+          <input id="sleepToggle" type="checkbox" />
+        </label>
+
+        <div class="two-col">
+          <label class="field">
+            <span id="lblSleepStart">من</span>
+            <input id="sleepStartInput" type="time" />
+          </label>
+          <label class="field">
+            <span id="lblSleepEnd">إلى</span>
+            <input id="sleepEndInput" type="time" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span id="lblWirdGoal">هدف الورد اليومي (صفحات)</span>
+          <input id="wirdGoalInput" type="number" min="1" max="50" />
+        </label>
+
+        <fieldset class="field"><span>الصلوات التي يُؤذَّن لها</span>
+          <div id="prayersOn" class="two-col"></div></fieldset>
+        <label class="field"><span>صوت الأذان (يُبث من موقع نور لأمي)</span><select id="adhanSelect"><option value="">جارٍ التحميل…</option></select></label>
+        <label class="field"><span>أذان الفجر</span><select id="adhanFajrSelect"><option value="">نفس الأذان</option></select></label>
+        <p id="adhanLicense" class="muted small"></p>
+        <label class="field"><span>مدة التنبيه قبل الصلاة (دقائق)</span><input id="preMinutesInput" type="number" min="1" max="60" /></label>
+        <label class="field"><span>تذكير الورد كل (ساعات، ٠ = إيقاف)</span><input id="wirdHoursInput" type="number" min="0" max="12" /></label>
+        <label class="field"><span>وقت تذكير الصيام (مساء اليوم السابق)</span><input id="fastAtInput" type="time" /></label>
+        <label class="field row"><span>تذكير سورة الكهف يوم الجمعة</span><input id="kahfToggle" type="checkbox" /></label>
+        <label class="field">
+          <span id="lblLang">اللغة / Language</span>
+          <select id="langSelect">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+
+        <div class="two-col"><button id="testAdhanBtn" type="button" class="primary-btn">🔔 تجربة الأذان</button><button id="stopAdhanBtn" type="button" class="mini-btn">إيقاف الصوت</button></div>
+        <p class="muted small">المواقيت محسوبة على جهازك (نفس محرك موقع نور لأمي) وقد تختلف دقائق عن التقويم الرسمي المحلي. التاريخ الهجري بتقويم أم القرى. الأذكار من «حصن المسلم» بتخريجها. لا تُرسل الإضافة أي بيانات عنك.</p>
+      </section>
+    </main>
+
+    <footer class="footer-links">
+      <a href="https://staging.noorliummi.io/quran" target="_blank" data-i18n="quran">القرآن</a>
+      <a href="https://staging.noorliummi.io/adhkar" target="_blank" data-i18n="adhkar">الأذكار</a>
+      <a href="https://staging.noorliummi.io/tafsir" target="_blank" data-i18n="tafsir">التفسير</a>
+      <a href="https://staging.noorliummi.io/prayer" target="_blank" data-i18n="prayer">الصلاة</a>
+      <a href="https://staging.noorliummi.io/athar" target="_blank" data-i18n="athar">أثر</a>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

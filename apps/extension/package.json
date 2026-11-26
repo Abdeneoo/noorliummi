@@ -1,0 +1,9 @@
+{
+  "name": "@noor/extension",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": { "@noor/prayer-engine": "workspace:*" },
+  "devDependencies": { "esbuild": "0.21.5" }
+}

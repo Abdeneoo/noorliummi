@@ -8,6 +8,16 @@ importers:
 
   .: {}
 
+  apps/extension:
+    dependencies:
+      '@noor/prayer-engine':
+        specifier: workspace:*
+        version: link:../../packages/prayer-engine
+    devDependencies:
+      esbuild:
+        specifier: 0.21.5
+        version: 0.21.5
+
   apps/web:
     dependencies:
       '@fontsource-variable/inter':

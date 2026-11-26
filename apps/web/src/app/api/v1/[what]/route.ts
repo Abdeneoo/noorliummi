@@ -5,6 +5,7 @@ import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { CITIES } from '@/lib/cities';
 import { ayahOfDay } from '@/lib/daily';
 import { rateLimited } from '@/lib/db';
+import registry from '@/generated/adhan-registry.json';
 /**
  * Public read-only API (no key): ayah of the day, hadith of the day (an-Nawawi's forty-two, in order), a Hisn al-Muslim
  * chapter, and prayer times for a listed city. Same data and sources as the site; see /developers.
@@ -26,6 +27,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ what: st
       const s: PrayerSettings = { latitude: c.lat, longitude: c.lng, timezone: c.tz, method: c.method as PrayerSettings['method'] }; const d = /^\d{4}-\d{2}-\d{2}$/.test(q.get('date') ?? '') ? q.get('date')! : today(c.tz); const day = getDaySchedule(s, d);
       const t = (x: Date) => new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: c.tz }).format(x);
       return json({ city: c.id, name: c.ar, date: d, timezone: c.tz, method: c.method, times: Object.fromEntries(Object.entries(day.times).map(([k, v]) => [k, t(v)])), note: 'Calculated; local official tables may differ by a minute or two.' }); }
-    default: return json({ error: 'unknown endpoint', endpoints: ['ayah-of-day', 'hadith-of-day', 'adhkar?chapter=27', 'times?city=makkah'] }, 404);
+    // Adhan recordings this site hosts with a documented licence (used by the browser extension; streamed, never bundled).
+    case 'adhans': return json({ items: (registry as { id: string; title: string; titleEn: string; by: string; license: string; licenseUrl: string; file: string; duration: number; kind: string }[]).map((x) => ({ id: x.id, kind: x.kind, title: x.title, title_en: x.titleEn, url: `${site()}${x.file}`, duration: x.duration, by: x.by, license: x.license, license_url: x.licenseUrl })) });
+    default: return json({ error: 'unknown endpoint', endpoints: ['ayah-of-day', 'hadith-of-day', 'adhkar?chapter=27', 'times?city=makkah', 'adhans'] }, 404);
   }
 }
