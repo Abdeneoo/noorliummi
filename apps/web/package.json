@@ -20,6 +20,7 @@
     "@fontsource/ibm-plex-sans-arabic": "^5.3.0",
     "@noor/islamic-core": "workspace:*",
     "@noor/prayer-engine": "workspace:*",
+    "@resvg/resvg-js": "^2.6.2",
     "next": "^15.0.0",
     "nodemailer": "^10.6.1",
     "pg": "^8.23.1",

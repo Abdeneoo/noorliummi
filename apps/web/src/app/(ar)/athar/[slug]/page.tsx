@@ -8,13 +8,21 @@ import Lantern from '@/components/Lantern';
 import AtharShare from '@/components/AtharShare';
 import { isSlug } from '@/lib/athar';
 import { getPage } from '@/lib/athar-store';
+import { ogVersion } from '@/lib/og-meta';
 import surahs from '@/generated/surahs.json';
 import adhkar from '@/generated/adhkar/index.json';
 
 export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params; const robots = { index: false, follow: false, nocache: true };
-  try { const p = isSlug(slug) ? await getPage(slug) : null; if (p && p.status === 'active') { const d = (p.dedication || 'صفحة مُهداة: سور وأذكار ودعاء. ادخل واقرأ وادعُ.').slice(0, 160); return { title: `صفحة أثر — ${p.display_name}`, description: d, robots, openGraph: { title: `صفحة أثر — ${p.display_name}`, description: d, images: ['/brand/og-cover.jpg'] } }; } } catch { /* db unavailable */ }
+  try {
+    const p = isSlug(slug) ? await getPage(slug) : null;
+    if (p && p.status === 'active') {
+      const title = `${p.display_name} — صفحة أثر`; const d = (p.dedication || 'صدقة جارية: سور وأذكار ودعاء. ادخل واقرأ وادعُ.').slice(0, 160);
+      const img = { url: `/api/og/athar/${slug}?v=${ogVersion(p.display_name, p.dedication)}`, width: 1200, height: 630, alt: `صدقة جارية — ${p.display_name} — نور لأمي`, type: 'image/png' };
+      return { title, description: d, robots, alternates: { canonical: `/athar/${slug}` }, openGraph: { type: 'article', title: `${title} — نور لأمي`, description: d, url: `/athar/${slug}`, siteName: 'نور لأمي', locale: 'ar', images: [img] }, twitter: { card: 'summary_large_image', title: `${title} — نور لأمي`, description: d, images: [img.url] } };
+    }
+  } catch { /* db unavailable */ }
   return { title: 'صفحة أثر', robots };
 }
 const S = surahs as { index: number; name: string; ayas: number }[];
