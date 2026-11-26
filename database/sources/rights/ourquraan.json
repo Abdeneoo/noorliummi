@@ -1,0 +1,632 @@
+{
+ "source": "https://ourquraan.com/audios/",
+ "checked": "2026-11-26",
+ "notice": "لم نجد شروط استخدام منشورة؛ الحقوق محفوظة لأصحابها. نخزّن العناوين والروابط فقط.",
+ "items": [
+  {
+   "title": "الرقية الشرعية - أحمد بن علي العجمي",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_Ahmed_Al-Ajami.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D8%A3%D8%AD%D9%85%D8%AF+%D8%A8%D9%86+%D8%B9%D9%84%D9%8A+%D8%A7%D9%84%D8%B9%D8%AC%D9%85%D9%8A&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_Ahmed_Al-Ajami.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - فارس عباد",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_Faris_Abbad.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D9%81%D8%A7%D8%B1%D8%B3+%D8%B9%D8%A8%D8%A7%D8%AF&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_Faris_Abbad.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - خالد القحطاني",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_Khalid_Alkahtany.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D8%AE%D8%A7%D9%84%D8%AF+%D8%A7%D9%84%D9%82%D8%AD%D8%B7%D8%A7%D9%86%D9%8A&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_Khalid_Alkahtany.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - سعد الغامدي",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_Sadd_ghamdy.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D8%B3%D8%B9%D8%AF+%D8%A7%D9%84%D8%BA%D8%A7%D9%85%D8%AF%D9%8A&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_Sadd_ghamdy.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - ياسر الدوسري",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_Yasser_dosry.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D9%8A%D8%A7%D8%B3%D8%B1+%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_Yasser_dosry.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - ياسر سلامة",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_Yasser_salamah.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D9%8A%D8%A7%D8%B3%D8%B1+%D8%B3%D9%84%D8%A7%D9%85%D8%A9&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_Yasser_salamah.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - مشاري راشد العفاسي",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Alroqyah_mshary.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D9%85%D8%B4%D8%A7%D8%B1%D9%8A+%D8%B1%D8%A7%D8%B4%D8%AF+%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%8A&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Alroqyah_mshary.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - ادريس ابكر",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Edres_abkr_ruqya.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D8%A7%D8%AF%D8%B1%D9%8A%D8%B3+%D8%A7%D8%A8%D9%83%D8%B1&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Edres_abkr_ruqya.mp3"
+  },
+  {
+   "title": "الرقية الشرعية - ناصر القطامي",
+   "url": "https://ourquraan.com/listen/?file=ourquraan.com%2Faudio%2Froquia%2FOurQuraan.Com_Roqyah_Shar3eyah_Naser_katamy.mp3&t=%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A9+%D8%A7%D9%84%D8%B4%D8%B1%D8%B9%D9%8A%D8%A9+-+%D9%86%D8%A7%D8%B5%D8%B1+%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A&listen=1",
+   "file": "https://ourquraan.com/audio/roquia/OurQuraan.Com_Roqyah_Shar3eyah_Naser_katamy.mp3"
+  },
+  {
+   "title": "دعاء  - الشيخ. عبدالرشيد بن الشيخ علي صوفي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAbdalrashed.Ali.Alsofy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1++-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE.+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B1%D8%B4%D9%8A%D8%AF+%D8%A8%D9%86+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B9%D9%84%D9%8A+%D8%B5%D9%88%D9%81%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Abdalrashed.Ali.Alsofy.mp3"
+  },
+  {
+   "title": " دعاء - أحمد أبا الخيل",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAhmed.Aba-Alkhail.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A3%D8%AD%D9%85%D8%AF+%D8%A3%D8%A8%D8%A7+%D8%A7%D9%84%D8%AE%D9%8A%D9%84&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ahmed.Aba-Alkhail.mp3"
+  },
+  {
+   "title": " الدعاء - أحمد البطل",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAhmed.Albatal.mp3&t=+%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A3%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%A8%D8%B7%D9%84&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ahmed.Albatal.mp3"
+  },
+  {
+   "title": "دعاء - القارئ أحمدجليل مولوي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAhmed.Galil.Mawloy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6+%D8%A3%D8%AD%D9%85%D8%AF%D8%AC%D9%84%D9%8A%D9%84+%D9%85%D9%88%D9%84%D9%88%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ahmed.Galil.Mawloy.mp3"
+  },
+  {
+   "title": "دعاء - أحمد سعود",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAhmed.Saoud.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A3%D8%AD%D9%85%D8%AF+%D8%B3%D8%B9%D9%88%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ahmed.Saoud.mp3"
+  },
+  {
+   "title": "الدعاء-الهادي الفخفاخ",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAlhady.Alfkhfakh.mp3&t=%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1-%D8%A7%D9%84%D9%87%D8%A7%D8%AF%D9%8A+%D8%A7%D9%84%D9%81%D8%AE%D9%81%D8%A7%D8%AE&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Alhady.Alfkhfakh.mp3"
+  },
+  {
+   "title": "الدعاء - علي بن جريد العنزي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAli.Bin.Green.Alenzy.mp3&t=%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%B9%D9%84%D9%8A+%D8%A8%D9%86+%D8%AC%D8%B1%D9%8A%D8%AF+%D8%A7%D9%84%D8%B9%D9%86%D8%B2%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ali.Bin.Green.Alenzy.mp3"
+  },
+  {
+   "title": " الدعاء 1 - السيد عبدالعزيز السعدني",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAlsayed.Abdalzez.Alzadany+1.mp3&t=+%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+1+-+%D8%A7%D9%84%D8%B3%D9%8A%D8%AF+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2+%D8%A7%D9%84%D8%B3%D8%B9%D8%AF%D9%86%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Alsayed.Abdalzez.Alzadany 1.mp3"
+  },
+  {
+   "title": " الدعاء 2 - السيد عبدالعزيز السعدني",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAlsayed.Abdalzez.Alzadany+2.mp3&t=+%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+2+-+%D8%A7%D9%84%D8%B3%D9%8A%D8%AF+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2+%D8%A7%D9%84%D8%B3%D8%B9%D8%AF%D9%86%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Alsayed.Abdalzez.Alzadany 2.mp3"
+  },
+  {
+   "title": "دعاء - الشيخ أشرف بن علي عبدالباري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FAshraf.Bn.Ali.Abd.Albary.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%A3%D8%B4%D8%B1%D9%81+%D8%A8%D9%86+%D8%B9%D9%84%D9%8A+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ashraf.Bn.Ali.Abd.Albary.mp3"
+  },
+  {
+   "title": "دعاء - الشيخ إدريس أبكر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FEdres.Abkar.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%A5%D8%AF%D8%B1%D9%8A%D8%B3+%D8%A3%D8%A8%D9%83%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Edres.Abkar.mp3"
+  },
+  {
+   "title": "دعاء 1 - الشيخ فؤاد محمد الخامري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FFouad.Mohammed.Alkhamry.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+1+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%81%D8%A4%D8%A7%D8%AF+%D9%85%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Fouad.Mohammed.Alkhamry.mp3"
+  },
+  {
+   "title": "دعاء 2 - الشيخ فؤاد محمد الخامري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FFound.Muhammed.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+2+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%81%D8%A4%D8%A7%D8%AF+%D9%85%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Found.Muhammed.mp3"
+  },
+  {
+   "title": " دعاء - فيصل الرشود",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FFysal.Alrshod.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%81%D9%8A%D8%B5%D9%84+%D8%A7%D9%84%D8%B1%D8%B4%D9%88%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Fysal.Alrshod.mp3"
+  },
+  {
+   "title": " دعاء - فيصل الشدي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FFysal.Alshada.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%81%D9%8A%D8%B5%D9%84+%D8%A7%D9%84%D8%B4%D8%AF%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Fysal.Alshada.mp3"
+  },
+  {
+   "title": " الدعاء -جمال شاكر عبدالله",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FGamal.Shaker.Abdallah.mp3&t=+%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+-%D8%AC%D9%85%D8%A7%D9%84+%D8%B4%D8%A7%D9%83%D8%B1+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D9%84%D9%87&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Gamal.Shaker.Abdallah.mp3"
+  },
+  {
+   "title": "من أدعية الاستفتاح في الصلاة - هاني محمد نصر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FHany.Mhammed.Nasr+-+Opening+du%27aa+in+prayer.mp3&t=%D9%85%D9%86+%D8%A3%D8%AF%D8%B9%D9%8A%D8%A9+%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%AA%D8%A7%D8%AD+%D9%81%D9%8A+%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9+-+%D9%87%D8%A7%D9%86%D9%8A+%D9%85%D8%AD%D9%85%D8%AF+%D9%86%D8%B5%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Hany.Mhammed.Nasr - Opening du'aa in prayer.mp3"
+  },
+  {
+   "title": " دعاء صلاة الاستخارة - الشيخ هاني محمد نصر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FHany.Mohammed.Nasr+-+Istikhaarah.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+%D8%B5%D9%84%D8%A7%D8%A9+%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%A7%D8%B1%D8%A9+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%87%D8%A7%D9%86%D9%8A+%D9%85%D8%AD%D9%85%D8%AF+%D9%86%D8%B5%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Hany.Mohammed.Nasr - Istikhaarah.mp3"
+  },
+  {
+   "title": "دعاء - حسن قاري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FHasan.Qary.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%AD%D8%B3%D9%86+%D9%82%D8%A7%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Hasan.Qary.mp3"
+  },
+  {
+   "title": " الدعاء -حاتم فريد الواعر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FHatem.Fared.Alwa3er.mp3&t=+%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+-%D8%AD%D8%A7%D8%AA%D9%85+%D9%81%D8%B1%D9%8A%D8%AF+%D8%A7%D9%84%D9%88%D8%A7%D8%B9%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Hatem.Fared.Alwa3er.mp3"
+  },
+  {
+   "title": "دعاء - إبراهيم البصيلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FIbrahim.Albosili.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%A8%D8%B5%D9%8A%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ibrahim.Albosili.mp3"
+  },
+  {
+   "title": "دعاء - خالد الجليل",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FKhalid.Aljalil.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%AE%D8%A7%D9%84%D8%AF+%D8%A7%D9%84%D8%AC%D9%84%D9%8A%D9%84&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Khalid.Aljalil.mp3"
+  },
+  {
+   "title": "دعاء 2 - ماهر المعيقلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMaher.M3equly+2.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+2+-+%D9%85%D8%A7%D9%87%D8%B1+%D8%A7%D9%84%D9%85%D8%B9%D9%8A%D9%82%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Maher.M3equly 2.mp3"
+  },
+  {
+   "title": "دعاء - ماهر المعيقلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMaher.M3equly.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%85%D8%A7%D9%87%D8%B1+%D8%A7%D9%84%D9%85%D8%B9%D9%8A%D9%82%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Maher.M3equly.mp3"
+  },
+  {
+   "title": "دعاء 1 - ماهر المعيقلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMaher.M3equly1.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+1+-+%D9%85%D8%A7%D9%87%D8%B1+%D8%A7%D9%84%D9%85%D8%B9%D9%8A%D9%82%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Maher.M3equly1.mp3"
+  },
+  {
+   "title": "دعاء 3 - ماهر المعيقلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMaher.M3equly3.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+3+-+%D9%85%D8%A7%D9%87%D8%B1+%D8%A7%D9%84%D9%85%D8%B9%D9%8A%D9%82%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Maher.M3equly3.mp3"
+  },
+  {
+   "title": "الدعاء المعلم - مشاري راشد العفاسي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMashary.Rashed+-+Doaa.Moalem.mp3&t=%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%85+-+%D9%85%D8%B4%D8%A7%D8%B1%D9%8A+%D8%B1%D8%A7%D8%B4%D8%AF+%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mashary.Rashed - Doaa.Moalem.mp3"
+  },
+  {
+   "title": " دعاء الدخول إلى المسجد - الشيخ مشارى راشد العفاسى",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMashary.Rashed+-+Doaa.entering.the.mosque.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D8%AF%D8%AE%D9%88%D9%84+%D8%A5%D9%84%D9%89+%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%B4%D8%A7%D8%B1%D9%89+%D8%B1%D8%A7%D8%B4%D8%AF+%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%89&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mashary.Rashed - Doaa.entering.the.mosque.mp3"
+  },
+  {
+   "title": "دعاء الذهاب إلى المسجد - الشيخ مشارى راشد العفاسى",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMashary.Rashed+-+Going.To.mosque.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D8%B0%D9%87%D8%A7%D8%A8+%D8%A5%D9%84%D9%89+%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%B4%D8%A7%D8%B1%D9%89+%D8%B1%D8%A7%D8%B4%D8%AF+%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%89&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mashary.Rashed - Going.To.mosque.mp3"
+  },
+  {
+   "title": " دعاء  - الشيخ مشارى راشد العفاسى",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMashary.Rashed.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1++-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%B4%D8%A7%D8%B1%D9%89+%D8%B1%D8%A7%D8%B4%D8%AF+%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%89&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mashary.Rashed.mp3"
+  },
+  {
+   "title": "دعاء - الشيخ معمر السيد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMoamer.Alsayed.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%B9%D9%85%D8%B1+%D8%A7%D9%84%D8%B3%D9%8A%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Moamer.Alsayed.mp3"
+  },
+  {
+   "title": "دعاء - محمد علي قاسم الغرباني",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMohamed.Ali.Qasim.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%B9%D9%84%D9%8A+%D9%82%D8%A7%D8%B3%D9%85+%D8%A7%D9%84%D8%BA%D8%B1%D8%A8%D8%A7%D9%86%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mohamed.Ali.Qasim.mp3"
+  },
+  {
+   "title": "دعاء - محمد إبراهيم النعيم",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMohamed.Ibrahim.Alnaeem.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D9%86%D8%B9%D9%8A%D9%85&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mohamed.Ibrahim.Alnaeem.mp3"
+  },
+  {
+   "title": "الدعاء - الشيخ محمد الاسيوطي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMuhammed.Alasyouty.mp3&t=%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%A7%D8%B3%D9%8A%D9%88%D8%B7%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Muhammed.Alasyouty.mp3"
+  },
+  {
+   "title": "دعاء - محمد اللحيدان",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMuhammed.Allhidan.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D9%84%D8%AD%D9%8A%D8%AF%D8%A7%D9%86&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Muhammed.Allhidan.mp3"
+  },
+  {
+   "title": "دعاء الذهاب إلى المسجد - بصوت مصطفى وليد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMustafa.Alwaleed+-+Going.To.mosque.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D8%B0%D9%87%D8%A7%D8%A8+%D8%A5%D9%84%D9%89+%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF+-+%D8%A8%D8%B5%D9%88%D8%AA+%D9%85%D8%B5%D8%B7%D9%81%D9%89+%D9%88%D9%84%D9%8A%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mustafa.Alwaleed - Going.To.mosque.mp3"
+  },
+  {
+   "title": "دعاء بصوت الشيخ مصطفى خميس",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FMustafa.Khamis.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A8%D8%B5%D9%88%D8%AA+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%B5%D8%B7%D9%81%D9%89+%D8%AE%D9%85%D9%8A%D8%B3&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Mustafa.Khamis.mp3"
+  },
+  {
+   "title": "دعاء 1 - ناصر القطامي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FNaser.Alqutamy+1.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+1+-+%D9%86%D8%A7%D8%B5%D8%B1+%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Naser.Alqutamy 1.mp3"
+  },
+  {
+   "title": "دعاء 1 - ناصر القطامي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FNaser.Alqutamy+2.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+1+-+%D9%86%D8%A7%D8%B5%D8%B1+%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Naser.Alqutamy 2.mp3"
+  },
+  {
+   "title": "دعاء  بصوت الشيخ  رمضان شكور (رحمه الله)",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FRamadan.Shakor.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1++%D8%A8%D8%B5%D9%88%D8%AA+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE++%D8%B1%D9%85%D8%B6%D8%A7%D9%86+%D8%B4%D9%83%D9%88%D8%B1+%28%D8%B1%D8%AD%D9%85%D9%87+%D8%A7%D9%84%D9%84%D9%87%29&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Ramadan.Shakor.mp3"
+  },
+  {
+   "title": "دعاء الأنبياء -للشيخ صلاح الجمل",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FSalah.Algamal+-+Doaa.Alanbiaa.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D8%A3%D9%86%D8%A8%D9%8A%D8%A7%D8%A1+-%D9%84%D9%84%D8%B4%D9%8A%D8%AE+%D8%B5%D9%84%D8%A7%D8%AD+%D8%A7%D9%84%D8%AC%D9%85%D9%84&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Salah.Algamal - Doaa.Alanbiaa.mp3"
+  },
+  {
+   "title": "دعاء - صالح العمري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FSaleh.Alamry.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D8%B5%D8%A7%D9%84%D8%AD+%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Saleh.Alamry.mp3"
+  },
+  {
+   "title": "دعاء بصوت -الشيخ السيد القوصي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FSayed.Alquosy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A8%D8%B5%D9%88%D8%AA+-%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%A7%D9%84%D8%B3%D9%8A%D8%AF+%D8%A7%D9%84%D9%82%D9%88%D8%B5%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Sayed.Alquosy.mp3"
+  },
+  {
+   "title": "دعاء الشيخ بندر بليله من الحرم المكي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FShikh.Bander.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%A8%D9%86%D8%AF%D8%B1+%D8%A8%D9%84%D9%8A%D9%84%D9%87+%D9%85%D9%86+%D8%A7%D9%84%D8%AD%D8%B1%D9%85+%D8%A7%D9%84%D9%85%D9%83%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Shikh.Bander.mp3"
+  },
+  {
+   "title": "الدعاء بصوت سلمان العتيبي ",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FSoliman.Alotiby.mp3&t=%D8%A7%D9%84%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A8%D8%B5%D9%88%D8%AA+%D8%B3%D9%84%D9%85%D8%A7%D9%86+%D8%A7%D9%84%D8%B9%D8%AA%D9%8A%D8%A8%D9%8A+&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Soliman.Alotiby.mp3"
+  },
+  {
+   "title": "دعاء - ياسر الدوسري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FYaser.Aldosy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%8A%D8%A7%D8%B3%D8%B1+%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Yaser.Aldosy.mp3"
+  },
+  {
+   "title": "دعاء - ياسر الفيلكاوي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fprayers%2FYasser.Alfilkawy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+-+%D9%8A%D8%A7%D8%B3%D8%B1+%D8%A7%D9%84%D9%81%D9%8A%D9%84%D9%83%D8%A7%D9%88%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/prayers/Yasser.Alfilkawy.mp3"
+  },
+  {
+   "title": "دعاء ليلة27 - عبدالرشيد بن الشيخ علي صوفي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fqdr%2FAbd.Alrashed.Soufy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D9%84%D9%8A%D9%84%D8%A927+-+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B1%D8%B4%D9%8A%D8%AF+%D8%A8%D9%86+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B9%D9%84%D9%8A+%D8%B5%D9%88%D9%81%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/qdr/Abd.Alrashed.Soufy.mp3"
+  },
+  {
+   "title": "دعاء ليلة القدر -  الشيخ محمد جبريل لعام 1418هـ",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fqdr%2FMuahmmed.Jebreel.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D9%84%D9%8A%D9%84%D8%A9+%D8%A7%D9%84%D9%82%D8%AF%D8%B1+-++%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D9%85%D8%AD%D9%85%D8%AF+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D9%84%D8%B9%D8%A7%D9%85+1418%D9%87%D9%80&listen=1",
+   "file": "https://www.ourquraan.com/audio/qdr/Muahmmed.Jebreel.mp3"
+  },
+  {
+   "title": "دعاء ليلة 29 من رمضان - الشيخ سالم بانافع",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fqdr%2FSalem.Banafe.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D9%84%D9%8A%D9%84%D8%A9+29+%D9%85%D9%86+%D8%B1%D9%85%D8%B6%D8%A7%D9%86+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B3%D8%A7%D9%84%D9%85+%D8%A8%D8%A7%D9%86%D8%A7%D9%81%D8%B9&listen=1",
+   "file": "https://www.ourquraan.com/audio/qdr/Salem.Banafe.mp3"
+  },
+  {
+   "title": "دعاء ليلة القدر -  الشيخ سعود يونس رمضان 1430هـ",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fqdr%2FSoud.Younes.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D9%84%D9%8A%D9%84%D8%A9+%D8%A7%D9%84%D9%82%D8%AF%D8%B1+-++%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B3%D8%B9%D9%88%D8%AF+%D9%8A%D9%88%D9%86%D8%B3+%D8%B1%D9%85%D8%B6%D8%A7%D9%86+1430%D9%87%D9%80&listen=1",
+   "file": "https://www.ourquraan.com/audio/qdr/Soud.Younes.mp3"
+  },
+  {
+   "title": "دعاء ليلة القدر - السديس",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fqdr%2FSoudes.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D9%84%D9%8A%D9%84%D8%A9+%D8%A7%D9%84%D9%82%D8%AF%D8%B1+-+%D8%A7%D9%84%D8%B3%D8%AF%D9%8A%D8%B3&listen=1",
+   "file": "https://www.ourquraan.com/audio/qdr/Soudes.mp3"
+  },
+  {
+   "title": "دعاء القنوت - عبد المحسن القاسم",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FAbd.Almohsen.Alquasem.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%85%D8%AD%D8%B3%D9%86+%D8%A7%D9%84%D9%82%D8%A7%D8%B3%D9%85&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Abd.Almohsen.Alquasem.mp3"
+  },
+  {
+   "title": "دعاء القنوت - عبدالرشيد بن الشيخ علي صوفي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FAbd.Alrashed.Ali.Alsofy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B1%D8%B4%D9%8A%D8%AF+%D8%A8%D9%86+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B9%D9%84%D9%8A+%D8%B5%D9%88%D9%81%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Abd.Alrashed.Ali.Alsofy.mp3"
+  },
+  {
+   "title": "دعاء القنوت - عبد الله بوقيان",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FAbdallah.Boquian.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D9%87+%D8%A8%D9%88%D9%82%D9%8A%D8%A7%D9%86&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Abdallah.Boquian.mp3"
+  },
+  {
+   "title": "دعاء القنوت - أبو عبد الله",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FAbo.Abdallah.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%A3%D8%A8%D9%88+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D9%87&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Abo.Abdallah.mp3"
+  },
+  {
+   "title": "دعاء القنوت - عادل السنيد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FAdel.Alsaned.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%B9%D8%A7%D8%AF%D9%84+%D8%A7%D9%84%D8%B3%D9%86%D9%8A%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Adel.Alsaned.mp3"
+  },
+  {
+   "title": "دعاء القنوت - علي جابر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FAli.Jaber.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%B9%D9%84%D9%8A+%D8%AC%D8%A7%D8%A8%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Ali.Jaber.mp3"
+  },
+  {
+   "title": "دعاء القنوت - فيصل الخلاقي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FFysal.Alkhlaky.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%81%D9%8A%D8%B5%D9%84+%D8%A7%D9%84%D8%AE%D9%84%D8%A7%D9%82%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Fysal.Alkhlaky.mp3"
+  },
+  {
+   "title": "دعاء القنوت - إبراهيم العسيري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FIbraheem.Alesery.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%B9%D8%B3%D9%8A%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Ibraheem.Alesery.mp3"
+  },
+  {
+   "title": "دعاء القنوت - الشيخ ابراهيم الجميلى",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FIbraheem.Algemely.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%AC%D9%85%D9%8A%D9%84%D9%89&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Ibraheem.Algemely.mp3"
+  },
+  {
+   "title": "دعاء القنوت - خالد عبد اللطيف",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FKhalid.Abd.Allateef.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D8%AE%D8%A7%D9%84%D8%AF+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D8%B7%D9%8A%D9%81&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Khalid.Abd.Allateef.mp3"
+  },
+  {
+   "title": "دعاء القنوت - محمد عابد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FMohammed.Abed.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%B9%D8%A7%D8%A8%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Mohammed.Abed.mp3"
+  },
+  {
+   "title": " دعاء القنوت - محمد طه القارئ الصغير",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FMohammed.Taha.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%B7%D9%87+%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6+%D8%A7%D9%84%D8%B5%D8%BA%D9%8A%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Mohammed.Taha.mp3"
+  },
+  {
+   "title": "دعاء القنوت - محمد عبد الكريم",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FMuhammed.Abd.Alkarem.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Muhammed.Abd.Alkarem.mp3"
+  },
+  {
+   "title": "دعاء القنوت - محمد البراك",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FMuhammed.Albarak.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%83&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Muhammed.Albarak.mp3"
+  },
+  {
+   "title": "دعاء القنوت - ناصر العبيد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FNaser.Alabeed.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%86%D8%A7%D8%B5%D8%B1+%D8%A7%D9%84%D8%B9%D8%A8%D9%8A%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Naser.Alabeed.mp3"
+  },
+  {
+   "title": "دعاء القنوت - ناصر الغامدي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FNaser.Alghamdy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%86%D8%A7%D8%B5%D8%B1+%D8%A7%D9%84%D8%BA%D8%A7%D9%85%D8%AF%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Naser.Alghamdy.mp3"
+  },
+  {
+   "title": "دعاء القنوت - قاسم المالكي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FQasem.Almalky.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%82%D8%A7%D8%B3%D9%85+%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%83%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Qasem.Almalky.mp3"
+  },
+  {
+   "title": "دعاء القنوت [1] - سعود بن إبراهيم الشريم",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FSaood.Alshoreem1.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+%5B1%5D+-+%D8%B3%D8%B9%D9%88%D8%AF+%D8%A8%D9%86+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%B4%D8%B1%D9%8A%D9%85&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Saood.Alshoreem1.mp3"
+  },
+  {
+   "title": "دعاء القنوت [2] - سعود بن إبراهيم الشريم",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FSaood.Alshoreem2.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+%5B2%5D+-+%D8%B3%D8%B9%D9%88%D8%AF+%D8%A8%D9%86+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%B4%D8%B1%D9%8A%D9%85&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Saood.Alshoreem2.mp3"
+  },
+  {
+   "title": "دعاء القنوت - ياسر الدوسري",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FYaser.Aldosy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%8A%D8%A7%D8%B3%D8%B1+%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Yaser.Aldosy.mp3"
+  },
+  {
+   "title": "دعاء القنوت - يوسف القرضاوي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FYousef.Alkaeadawy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%8A%D9%88%D8%B3%D9%81+%D8%A7%D9%84%D9%82%D8%B1%D8%B6%D8%A7%D9%88%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Yousef.Alkaeadawy.mp3"
+  },
+  {
+   "title": "دعاء القنوت - يوسف الهقاص",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquonot%2FYoussef.Alhaquas.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%A7%D9%84%D9%82%D9%86%D9%88%D8%AA+-+%D9%8A%D9%88%D8%B3%D9%81+%D8%A7%D9%84%D9%87%D9%82%D8%A7%D8%B5&listen=1",
+   "file": "https://www.ourquraan.com/audio/quonot/Youssef.Alhaquas.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - عبد العزيز الأحمد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbd.Alazez.Al.Ahmed.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2+%D8%A7%D9%84%D8%A3%D8%AD%D9%85%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abd.Alazez.Al.Ahmed.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - عبد الباري الثبيتي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbd.Albary.Althabety.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%A8%D8%A7%D8%B1%D9%8A+%D8%A7%D9%84%D8%AB%D8%A8%D9%8A%D8%AA%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abd.Albary.Althabety.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن - عبد الحكيم عبد اللطيف عبد الله",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbd.Alhakim.Abd.Allatef.Abd.Allah.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%AD%D9%83%D9%8A%D9%85+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D8%B7%D9%8A%D9%81+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D9%87&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abd.Alhakim.Abd.Allatef.Abd.Allah.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - عبد الله المطرود",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbd.Allah.Matrood.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D9%87+%D8%A7%D9%84%D9%85%D8%B7%D8%B1%D9%88%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abd.Allah.Matrood.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - عبد المنعم عبد المبدئ",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbd.Almonem.Abd.Almobde.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%85%D9%86%D8%B9%D9%85+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%85%D8%A8%D8%AF%D8%A6&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abd.Almonem.Abd.Almobde.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - عبد الرحمن السديس",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbd.Alrahman.Soudes.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%B1%D8%AD%D9%85%D9%86+%D8%A7%D9%84%D8%B3%D8%AF%D9%8A%D8%B3&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abd.Alrahman.Soudes.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن - عبد الله طه سربل",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAbdallah.Tha.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+-+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D9%84%D9%87+%D8%B7%D9%87+%D8%B3%D8%B1%D8%A8%D9%84&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Abdallah.Tha.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - عادل الكلباني",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAdel.Alkalbany.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D8%A7%D8%AF%D9%84+%D8%A7%D9%84%D9%83%D9%84%D8%A8%D8%A7%D9%86%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Adel.Alkalbany.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - أحمد العجمي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAhmed.Alajami.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A3%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%B9%D8%AC%D9%85%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Ahmed.Alajami.mp3"
+  },
+  {
+   "title": "دعاء ختم القران الكريم - للقارئ احمد الحداد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAhmed.Alhadad.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A7%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%84%D9%84%D9%82%D8%A7%D8%B1%D8%A6+%D8%A7%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%AD%D8%AF%D8%A7%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Ahmed.Alhadad.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - أحمد الشاوي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAhmed.Alshawy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A3%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%B4%D8%A7%D9%88%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Ahmed.Alshawy.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - الحرم المدني",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAlharam.Almadany.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A7%D9%84%D8%AD%D8%B1%D9%85+%D8%A7%D9%84%D9%85%D8%AF%D9%86%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Alharam.Almadany.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم [1] - علي عبد الرحمن الحذيفي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAli.Abd.Alrahman.Hozify1.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+%5B1%5D+-+%D8%B9%D9%84%D9%8A+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%B1%D8%AD%D9%85%D9%86+%D8%A7%D9%84%D8%AD%D8%B0%D9%8A%D9%81%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Ali.Abd.Alrahman.Hozify1.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم [2] - علي عبد الرحمن الحذيفي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAli.Abd.Alrahman.Hozify2.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+%5B2%5D+-+%D8%B9%D9%84%D9%8A+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%B1%D8%AD%D9%85%D9%86+%D8%A7%D9%84%D8%AD%D8%B0%D9%8A%D9%81%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Ali.Abd.Alrahman.Hozify2.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - السيد السعدلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FAlsayed.Alsadaly.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A7%D9%84%D8%B3%D9%8A%D8%AF+%D8%A7%D9%84%D8%B3%D8%B9%D8%AF%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Alsayed.Alsadaly.mp3"
+  },
+  {
+   "title": " دعاء ختم القرآن الكريم - عيسى العجمي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FEssa.Alajami.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B9%D9%8A%D8%B3%D9%89+%D8%A7%D9%84%D8%B9%D8%AC%D9%85%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Essa.Alajami.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - فيصل الحليبي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FFesal.Alhaliby.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%81%D9%8A%D8%B5%D9%84+%D8%A7%D9%84%D8%AD%D9%84%D9%8A%D8%A8%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Fesal.Alhaliby.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - هاني الرفاعي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FHany.Alrefaey.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%87%D8%A7%D9%86%D9%8A+%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Hany.Alrefaey.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - إبراهيم الجبرين",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FIbrahim.Algabreen.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%AC%D8%A8%D8%B1%D9%8A%D9%86&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Ibrahim.Algabreen.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - خالد القحطاني",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FKhalid.Alkahtany.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%AE%D8%A7%D9%84%D8%AF+%D8%A7%D9%84%D9%82%D8%AD%D8%B7%D8%A7%D9%86%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Khalid.Alkahtany.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - خالد بركات",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FKhalid.Barakat.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%AE%D8%A7%D9%84%D8%AF+%D8%A8%D8%B1%D9%83%D8%A7%D8%AA&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Khalid.Barakat.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - للشيخ خالد حسن الصلعاوي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FKhalid.Hasan.Salawy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%84%D9%84%D8%B4%D9%8A%D8%AE+%D8%AE%D8%A7%D9%84%D8%AF+%D8%AD%D8%B3%D9%86+%D8%A7%D9%84%D8%B5%D9%84%D8%B9%D8%A7%D9%88%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Khalid.Hasan.Salawy.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - مهدي البيشي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMahdy.Albeshy.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D9%87%D8%AF%D9%8A+%D8%A7%D9%84%D8%A8%D9%8A%D8%B4%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Mahdy.Albeshy.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - ماهر المعيقلي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMaher.Al.Mequly.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%A7%D9%87%D8%B1+%D8%A7%D9%84%D9%85%D8%B9%D9%8A%D9%82%D9%84%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Maher.Al.Mequly.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - القارئ محمد السعيد ماهر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhamed.Alsaed.Maher.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6+%D9%85%D8%AD%D9%85%D8%AF+%D8%A7%D9%84%D8%B3%D8%B9%D9%8A%D8%AF+%D9%85%D8%A7%D9%87%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhamed.Alsaed.Maher.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد أيوب",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Ayoub.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%A3%D9%8A%D9%88%D8%A8&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Ayoub.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد جبريل",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Gebel.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Gebel.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد حبش",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Habash.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%AD%D8%A8%D8%B4&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Habash.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد إبراهيم السعيد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Ibrahim.Alsaead.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85+%D8%A7%D9%84%D8%B3%D8%B9%D9%8A%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Ibrahim.Alsaead.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد صالح شاه",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Saleh.Shah.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%B5%D8%A7%D9%84%D8%AD+%D8%B4%D8%A7%D9%87&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Saleh.Shah.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد طه القارئ الصغير",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Taha.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D8%B7%D9%87+%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6+%D8%A7%D9%84%D8%B5%D8%BA%D9%8A%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Taha.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - محمد يوسف",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMuhammed.Youssef.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%AD%D9%85%D8%AF+%D9%8A%D9%88%D8%B3%D9%81&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Muhammed.Youssef.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - مصطفى بن رعد العزاوي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMustafa.Bin.Raad.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%B5%D8%B7%D9%81%D9%89+%D8%A8%D9%86+%D8%B1%D8%B9%D8%AF+%D8%A7%D9%84%D8%B9%D8%B2%D8%A7%D9%88%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Mustafa.Bin.Raad.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - مصطفى غربي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FMustafa.Gharby.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D9%85%D8%B5%D8%B7%D9%81%D9%89+%D8%BA%D8%B1%D8%A8%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Mustafa.Gharby.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - صلاح الراشد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FSalah.Alrashed.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B5%D9%84%D8%A7%D8%AD+%D8%A7%D9%84%D8%B1%D8%A7%D8%B4%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Salah.Alrashed.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - صلاح أبو خاطر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FSalah.Bou.Khater.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B5%D9%84%D8%A7%D8%AD+%D8%A3%D8%A8%D9%88+%D8%AE%D8%A7%D8%B7%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Salah.Bou.Khater.mp3"
+  },
+  {
+   "title": "دعاء ختم القرآن الكريم - الشيخ عبد العزيز",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FShikh.Abda.Alazez.mp3&t=%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%A7%D9%84%D8%B4%D9%8A%D8%AE+%D8%B9%D8%A8%D8%AF+%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Shikh.Abda.Alazez.mp3"
+  },
+  {
+   "title": " دعاء ختم القرآن الكريم - طارق الحواس",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fquraan-completion%2FTarek.Alhwas.mp3&t=+%D8%AF%D8%B9%D8%A7%D8%A1+%D8%AE%D8%AA%D9%85+%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86+%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85+-+%D8%B7%D8%A7%D8%B1%D9%82+%D8%A7%D9%84%D8%AD%D9%88%D8%A7%D8%B3&listen=1",
+   "file": "https://www.ourquraan.com/audio/quraan-completion/Tarek.Alhwas.mp3"
+  },
+  {
+   "title": "أذكار طرفي النهار - فارس عباد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fremembrace%2FFares.Abad+-+++Evening.and.Morning.Remembrance.mp3&t=%D8%A3%D8%B0%D9%83%D8%A7%D8%B1+%D8%B7%D8%B1%D9%81%D9%8A+%D8%A7%D9%84%D9%86%D9%87%D8%A7%D8%B1+-+%D9%81%D8%A7%D8%B1%D8%B3+%D8%B9%D8%A8%D8%A7%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/remembrace/Fares.Abad -   Evening.and.Morning.Remembrance.mp3"
+  },
+  {
+   "title": "أذكار الصباح للشيخ هاني محمد نصر",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fremembrace%2FHany.Muhammed.Nasr+-+Morning.remembrance.mp3&t=%D8%A3%D8%B0%D9%83%D8%A7%D8%B1+%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD+%D9%84%D9%84%D8%B4%D9%8A%D8%AE+%D9%87%D8%A7%D9%86%D9%8A+%D9%85%D8%AD%D9%85%D8%AF+%D9%86%D8%B5%D8%B1&listen=1",
+   "file": "https://www.ourquraan.com/audio/remembrace/Hany.Muhammed.Nasr - Morning.remembrance.mp3"
+  },
+  {
+   "title": "أذكار الصباح والمساء - مشاري راشد العفاسي",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fremembrace%2FMashary.Rashed+-+Evening.and.Morning.Remembrance.mp3&t=%D8%A3%D8%B0%D9%83%D8%A7%D8%B1+%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD+%D9%88%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1+-+%D9%85%D8%B4%D8%A7%D8%B1%D9%8A+%D8%B1%D8%A7%D8%B4%D8%AF+%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%8A&listen=1",
+   "file": "https://www.ourquraan.com/audio/remembrace/Mashary.Rashed - Evening.and.Morning.Remembrance.mp3"
+  },
+  {
+   "title": "أذكار الاستيقاظ من النوم - مصطفى وليد",
+   "url": "https://ourquraan.com/listen/?file=www.ourquraan.com%2Faudio%2Fremembrace%2FMustafa.Alwalid+-+Remembrance.waking.from.sleep.mp3&t=%D8%A3%D8%B0%D9%83%D8%A7%D8%B1+%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D9%82%D8%A7%D8%B8+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D9%88%D9%85+-+%D9%85%D8%B5%D8%B7%D9%81%D9%89+%D9%88%D9%84%D9%8A%D8%AF&listen=1",
+   "file": "https://www.ourquraan.com/audio/remembrace/Mustafa.Alwalid - Remembrance.waking.from.sleep.mp3"
+  }
+ ]
+}

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const H = { 'content-type': 'application/json', 'x-noor-admin': '1' };
 type R = { key: string; title: string; author: string; owner: string; source_url: string; contact: string; permissions: string[]; requested_on: string | null; status: string; approval: string; publish_status: string; notes: string; items: unknown[] };
 const ST: Record<string, string> = { not_requested: 'لم يُطلب', requested: 'طُلب — بانتظار الرد', approved: 'موافَق', partial: 'موافقة جزئية', refused: 'مرفوض' };
-const PB: Record<string, string> = { held: 'محجوز (غير منشور)', embed_only: 'تضمين رسمي فقط', published: 'منشور' };
+const PB: Record<string, string> = { held: 'محجوز (غير منشور)', link_only: 'روابط لموقعهم فقط', embed_only: 'تضمين رسمي فقط', stream: 'بث من خوادمهم (بعد الموافقة)', published: 'منشور على خوادمنا' };
 const PM: Record<string, string> = { direct: 'تشغيل مباشر', background: 'تشغيل في الخلفية', rehost: 'استضافة عندنا', offline: 'تنزيل ودون إنترنت', athar: 'في صفحات الأثر', text: 'نشر النص' };
 /** Content waiting for permission: request date, reply, approval document, publish status. Publishing needs a recorded approval. */
 export default function AdminRights() {

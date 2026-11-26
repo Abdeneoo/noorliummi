@@ -246,7 +246,7 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       if (sha256File(`${tv}/selections-category-4.json`) !== readFileSync(`${tv}/SHA256SUMS`, 'utf8').trim().split(/\s+/)[0]) throw new Error('Checksum mismatch for tvquran list');
       writeFileSync(`${out}/duas/tvquran.json`, readFileSync(`${tv}/selections-category-4.json`, 'utf8'));
       // Inventory of recordings held for permission (admin panel only; not published).
-      writeFileSync(`${out}/duas/islamweb-dua.json`, readFileSync(resolve(here, '../../../database/sources/rights/islamweb-dua.json'), 'utf8'));
+      for (const k of ['islamweb-dua', 'ourquraan', 'daralbalagh']) writeFileSync(`${out}/duas/${k}.json`, readFileSync(resolve(here, `../../../database/sources/rights/${k}.json`), 'utf8'));
     }
     // al-Fiqh al-Muyassar (King Fahd Complex): the source has paragraphs only, so books ("أولاً: كتاب الطهارة"), chapters
     // ("الباب الأول: …، وفيه مسائل:") and issues ("المسألة الأولى: …") are recognised by their wording. Text is kept verbatim;

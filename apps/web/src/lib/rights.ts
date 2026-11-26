@@ -2,14 +2,17 @@ import 'server-only';
 import { db } from './db';
 import tv from '@/generated/duas/tvquran.json';
 import iw from '@/generated/duas/islamweb-dua.json';
+import oq from '@/generated/duas/ourquraan.json';
+import dab from '@/generated/duas/daralbalagh.json';
+const INV: Record<string, unknown[]> = { tvquran: tv as unknown[], 'islamweb-dua': (iw as { items: unknown[] }).items, ourquraan: (oq as { items: unknown[] }).items, daralbalagh: (dab as { items: unknown[] }).items };
 /** Content held for permission. Seeded once from what we found (2026-11-26); everything else is edited in the admin panel. */
 export interface Right { key: string; title: string; author: string; owner: string; source_url: string; contact: string; permissions: string[]; requested_on: string | null; status: string; approval: string; publish_status: string; notes: string; items: unknown[] }
 const P = ['direct', 'background', 'rehost', 'offline', 'athar'];
 export const SEED: Omit<Right, 'requested_on' | 'approval' | 'items'>[] = [
   { key: 'tvquran', title: 'TVQuran — أدعية مختارة (قنوت وختم القرآن)', author: 'المعيقلي، إدريس أبكر، العفاسي، السديس، القطامي، المحيسني، الصايغ، ريان، الثبيتي، الزامل، جبريل وغيرهم', owner: 'TVQuran.com', source_url: 'https://www.tvquran.com/ar/selections/category/4', contact: 'https://www.tvquran.com/ar/contact', permissions: P, status: 'not_requested', publish_status: 'embed_only', notes: 'منشور بالتضمين الرسمي فقط بعد موافقة الزائر.' },
-  { key: 'islamweb-dua', title: 'إسلام ويب — قسم «أدعية وأذكار» الصوتي', author: 'المعيقلي، اللحيدان، القطامي، الدوسري، خالد الجليل، السديس، جبريل، إدريس أبكر، سلمان العتيبي، صلاح الجمل، حاتم فريد الواعر وغيرهم', owner: 'شبكة إسلام ويب (وزارة الأوقاف والشؤون الإسلامية — قطر)', source_url: 'https://audio.islamweb.net/audio/dua/', contact: 'https://www.islamweb.net/ar/article/226933', permissions: P, status: 'not_requested', publish_status: 'held', notes: 'أسفل الصفحة: «جميع الحقوق محفوظة © 1998–2026 لشبكة إسلام ويب». 205 تسجيلًا في السجل.' },
-  { key: 'ourquraan', title: 'قرآننا — الصوتيات', author: '', owner: 'ourquraan.com', source_url: 'https://ourquraan.com/audios/', contact: 'https://ourquraan.com/contact/', permissions: P, status: 'not_requested', publish_status: 'held', notes: 'لا توجد شروط استخدام منشورة.' },
-  { key: 'daralbalagh', title: 'دار البلاغ — الصوتيات', author: '', owner: 'daralbalagh.com', source_url: 'https://daralbalagh.com/audios/', contact: 'https://daralbalagh.com/', permissions: P, status: 'not_requested', publish_status: 'held', notes: 'لا توجد شروط استخدام ظاهرة.' },
+  { key: 'islamweb-dua', title: 'إسلام ويب — قسم «أدعية وأذكار» الصوتي', author: 'المعيقلي، اللحيدان، القطامي، الدوسري، خالد الجليل، السديس، جبريل، إدريس أبكر، سلمان العتيبي، صلاح الجمل، حاتم فريد الواعر وغيرهم', owner: 'شبكة إسلام ويب (وزارة الأوقاف والشؤون الإسلامية — قطر)', source_url: 'https://audio.islamweb.net/audio/dua/', contact: 'https://www.islamweb.net/ar/article/226933', permissions: P, status: 'not_requested', publish_status: 'link_only', notes: 'أسفل الصفحة: «جميع الحقوق محفوظة © 1998–2026 لشبكة إسلام ويب». 205 تسجيلًا في السجل.' },
+  { key: 'ourquraan', title: 'قرآننا — الصوتيات', author: '', owner: 'ourquraan.com', source_url: 'https://ourquraan.com/audios/', contact: 'https://ourquraan.com/contact/', permissions: P, status: 'not_requested', publish_status: 'link_only', notes: 'لا توجد شروط استخدام منشورة.' },
+  { key: 'daralbalagh', title: 'دار البلاغ — الصوتيات', author: '', owner: 'daralbalagh.com', source_url: 'https://daralbalagh.com/audios/', contact: 'https://daralbalagh.com/', permissions: P, status: 'not_requested', publish_status: 'link_only', notes: 'لا توجد شروط استخدام ظاهرة.' },
   { key: 'hisnmuslim-com', title: 'hisnmuslim.com — حصن المسلم بصوت حمد الدريهم', author: 'حمد الدريهم', owner: 'hisnmuslim.com', source_url: 'https://hisnmuslim.com/', contact: 'https://hisnmuslim.com/', permissions: ['rehost', 'offline'], status: 'not_requested', publish_status: 'held', notes: 'التسجيلات نفسها منشورة من IslamHouse (133 مقطعًا) وتُشغّل منه.' },
   { key: 'islamhouse-azkar-app', title: 'تطبيق حصن المسلم الصوتي (IslamHouse) — الملفات الأصلية', author: '', owner: 'IslamHouse.com', source_url: 'https://play.google.com/store/apps/details?id=com.islamhouse.azkar', contact: 'admin@islamhouse.com', permissions: ['rehost', 'offline'], status: 'not_requested', publish_status: 'held', notes: 'لا نستخرج شيئًا من التطبيق.' },
   { key: 'siraj', title: 'السراج في بيان غريب القرآن', author: 'د. محمد بن عبد العزيز الخضيري', owner: 'المؤلف', source_url: 'https://alkhaderi.com/library/alsrag-fy-byan-ghryb-alkran', contact: 'https://alkhaderi.com/', permissions: ['text'], status: 'not_requested', publish_status: 'held', notes: 'كتاب حديث؛ المؤلف حي.' },
@@ -18,8 +21,22 @@ export const SEED: Omit<Right, 'requested_on' | 'approval' | 'items'>[] = [
 ];
 export async function ensureSeed() {
   for (const r of SEED) await db().query(`INSERT INTO content_rights (key, title, author, owner, source_url, contact, permissions, status, publish_status, notes, items) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT (key) DO NOTHING`,
-    [r.key, r.title, r.author, r.owner, r.source_url, r.contact, r.permissions, r.status, r.publish_status, r.notes, JSON.stringify(r.key === 'tvquran' ? tv : r.key === 'islamweb-dua' ? (iw as { items: unknown[] }).items : [])]);
+    [r.key, r.title, r.author, r.owner, r.source_url, r.contact, r.permissions, r.status, r.publish_status, r.notes, JSON.stringify(INV[r.key] ?? [])]);
+  for (const [k, v] of Object.entries(INV)) await db().query("UPDATE content_rights SET items = $2 WHERE key = $1 AND items = '[]'::jsonb", [k, JSON.stringify(v)]);
 }
 export async function listRights(): Promise<Right[]> { await ensureSeed(); const r = await db().query<Right>('SELECT key, title, author, owner, source_url, contact, permissions, requested_on::text, status, approval, publish_status, notes, items FROM content_rights ORDER BY id'); return r.rows; }
 /** True when the owner recorded approval for direct playback of TVQuran (switches its recordings from the embed to the site player). */
 export async function tvDirect(): Promise<boolean> { try { const r = await db().query<{ status: string; publish_status: string }>("SELECT status, publish_status FROM content_rights WHERE key = 'tvquran'"); return r.rows[0]?.status === 'approved' && r.rows[0]?.publish_status === 'published'; } catch { return false; } }
+
+export interface SharedItem { title: string; url: string; file?: string }
+export interface Shared { key: string; title: string; owner: string; source_url: string; mode: 'link_only' | 'stream'; items: SharedItem[] }
+/** Libraries shown without copying them: links to the owner's site, or (once approved) playback from the owner's own servers. */
+export async function listShared(): Promise<Shared[]> {
+  try {
+    await ensureSeed();
+    const r = await db().query<{ key: string; title: string; owner: string; source_url: string; publish_status: string; status: string; items: SharedItem[] }>(
+      "SELECT key, title, owner, source_url, publish_status, status, items FROM content_rights WHERE publish_status IN ('link_only', 'stream') AND key <> 'tvquran' ORDER BY id");
+    return r.rows.map((x) => ({ key: x.key, title: x.title, owner: x.owner, source_url: x.source_url, items: Array.isArray(x.items) ? x.items : [],
+      mode: x.publish_status === 'stream' && (x.status === 'approved' || x.status === 'partial') ? 'stream' : 'link_only' }));
+  } catch { return []; }
+}
