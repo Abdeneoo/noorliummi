@@ -7,6 +7,7 @@ export default function Knowledge() {
       items={[
         { href: '/tafsir', icon: 'tafsir', title: 'التفسير', desc: 'تفسير الجلالين لكل آية، مرتبطًا بالمصحف.' },
         { href: '/hadith', icon: 'hadith', title: 'الحديث الشريف', desc: 'الكتب الستة والموطأ ومسند أحمد والدارمي، مع البحث.' },
+        { href: '/lessons', icon: 'knowledge', title: 'الدروس', desc: 'دروس ومحاضرات وكتب مصنّفة حسب الموضوع، من دار الإسلام.' },
         { href: '/library', icon: 'hadith', title: 'المكتبة', desc: 'رياض الصالحين والأذكار للنووي، نصًا كاملًا بطبعته.' },
         { href: '/hadith/nawawi', icon: 'hadith', title: 'الأربعون النووية', desc: 'الأحاديث الأربعون للإمام النووي.' },
         { href: '/topics', icon: 'quran', title: 'مواضيع في القرآن', desc: 'آيات الوالدين والأم والصبر والرزق والسكينة والتوبة.' },

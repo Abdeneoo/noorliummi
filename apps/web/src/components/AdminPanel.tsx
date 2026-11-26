@@ -6,6 +6,7 @@ import AdminStats from './AdminStats';
 import AdminUsers from './AdminUsers';
 import AdminReports from './AdminReports';
 import AdminReview from './AdminReview';
+import AdminLessons from './AdminLessons';
 
 type Row = { id: number; slug: string; display_name: string; dedication: string; dua_text: string; status: string; report_count: number; created_at: string; reasons: string[] };
 type Data = { rows: Row[]; counts: Record<string, number>; openReports: number };
@@ -63,7 +64,7 @@ export default function AdminPanel() {
         <li><button type="button" role="tab" aria-selected={tab === 'errors'} className={tab === 'errors' ? 'on' : ''} onClick={() => setTab('errors')}>سجل الأخطاء</button></li>
       </ul>
       {err && <p className="note" role="alert">{err}</p>}
-      {tab === 'stats' ? <AdminStats /> : tab === 'users' ? <AdminUsers /> : tab === 'reports' ? <AdminReports /> : tab === 'review' ? <AdminReview /> : tab === 'errors' ? <AdminErrors /> : tab === 'adhan' ? <AdminAdhan /> : data.rows.length === 0 ? <section className="card"><p>لا شيء يحتاج مراجعة الآن.</p></section> : data.rows.map((r) => (
+      {tab === 'stats' ? <AdminStats /> : tab === 'users' ? <AdminUsers /> : tab === 'reports' ? <AdminReports /> : tab === 'review' ? <><AdminReview /><AdminLessons /></> : tab === 'errors' ? <AdminErrors /> : tab === 'adhan' ? <AdminAdhan /> : data.rows.length === 0 ? <section className="card"><p>لا شيء يحتاج مراجعة الآن.</p></section> : data.rows.map((r) => (
         <section key={r.id} className="card">
           <p className="meta"><span>{STATUS[r.status] ?? r.status}</span><span>بلاغات: {r.report_count}</span><span>{r.created_at.slice(0, 10)}</span>
             {r.status !== 'removed' && <span><a href={`/athar/${r.slug}`} target="_blank" rel="noopener">فتح الصفحة</a></span>}</p>
