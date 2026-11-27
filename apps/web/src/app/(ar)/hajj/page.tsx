@@ -14,6 +14,7 @@ export default async function Hajj() {
   return (
     <article style={{ maxWidth: 760, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow">المواسم</p><h1>موسم الحج</h1><p>العدّ إلى يوم عرفة وأيام الحج بتواريخها.</p></header>
+      <p className="card"><strong>رايح عمرة؟</strong> <Link className="btn small" href="/umrah">العمرة خطوة بخطوة</Link></p>
       <HajjDays />
       <section className="card"><h2 style={{ marginTop: 0 }}>شرح المناسك</h2>
         <p>كتاب «التحقيق والإيضاح لكثير من مسائل الحج والعمرة والزيارة» للشيخ عبد العزيز بن باز، كاملًا بفصوله بالترتيب الأصلي، مع ترجمته الأردية والتركية والإندونيسية من الناشر.</p>

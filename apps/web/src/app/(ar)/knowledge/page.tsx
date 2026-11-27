@@ -17,6 +17,7 @@ export default function Knowledge() {
         { href: '/mushafs', icon: 'quran', title: 'مصاحف دار الإسلام', desc: '١٣٦ مصحفًا مرتلًا ومصاحف الحرمين، بث مباشر وحفظ دون إنترنت.' },
         { href: '/ramadan', icon: 'heart', title: 'رمضان', desc: 'الإمساكية والعد التنازلي والأحكام والمجالس.' },
         { href: '/patient', icon: 'heart', title: 'وضع المريض وكبار السن', desc: 'شاشة واحدة بأزرار كبيرة للقرآن والشفاء والرقية.' },
+        { href: '/umrah', icon: 'bell', title: 'العمرة خطوة بخطوة', desc: 'صفة العمرة والأذكار وعدّاد أشواط الطواف والسعي.' },
         { href: '/travel', icon: 'bell', title: 'شنطة المسافر', desc: 'المواقيت والقبلة وأدعية السفر والأحكام والمساجد.' },
         { href: '/hadeeth', icon: 'hadith', title: 'موسوعة الأحاديث المترجمة', desc: 'أحاديث مشروحة مع درجتها وترجماتها، مصنّفة حسب الموضوع (HadeethEnc).' },
         { href: '/library/qisas', icon: 'quran', title: 'قصص الأنبياء', desc: 'كتاب الحافظ ابن كثير بنصه الكامل، من آدم إلى عيسى عليهم السلام.' },

@@ -16,6 +16,7 @@ export default async function Travel() {
     <article style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gap: 16 }}>
       <header className="page-head"><h1>شنطة المسافر</h1><p>كل ما يحتاجه المسافر في صفحة واحدة. التاريخ اليوم: {hijri} (أم القرى) — {new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
         <nav aria-label="أقسام الصفحة"><ul className="chips"><li><a href="#times">المواقيت</a></li><li><a href="#qibla">القبلة</a></li><li><a href="#duas">أدعية السفر</a></li><li><a href="#ahkam">الأحكام</a></li><li><a href="#near">المساجد والمطاعم</a></li><li><a href="#pack">دون إنترنت</a></li><li><a href="#checklist">الاستعداد</a></li></ul></nav></header>
+      <p className="card"><strong>مسافر للعمرة؟</strong> <Link className="btn small" href="/umrah">العمرة خطوة بخطوة</Link></p>
       <div id="times"><PrayerCard /><p className="note">في بلد جديد اضغط «موقعي» في البطاقة لتُحسب المواقيت حيث أنت وبتوقيته. <Link href="/times">جدول الشهر</Link></p></div>
       <TravelTools />
       <section className="card" id="duas"><h2>أدعية السفر والركوب والخروج والعودة</h2><p className="note">من «حصن المسلم» بصوت محمد جمعة (OpenDua، CC BY 4.0).</p>
