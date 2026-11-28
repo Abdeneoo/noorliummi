@@ -4,13 +4,19 @@ import Link from 'next/link';
 import MiqatMap from '@/components/MiqatMap';
 import UmrahJourney, { type Dh, type Step } from '@/components/UmrahJourney';
 import { loadAdhkar } from '@/lib/adhkar';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { UMRAH_AUDIO } from '@/lib/umrah-audio';
 
 export const metadata: Metadata = { title: 'Umrah step by step', description: 'Your Umrah journey step by step, with the adhkar of each step, a lap counter for tawaf and sa\'i, and a map of the mawaqit.', alternates: { languages: { ar: '/umrah' } }, openGraph: og('/en/umrah', 'en', 'Umrah step by step', 'Your Umrah journey step by step, with the adhkar of each step, a lap counter for tawaf and sa\'i, and a map of the mawaqit.') };
 
 const dh = async (ids: [number, string][]): Promise<Dh[]> => Promise.all(ids.map(async ([id, title]) => ({ title, items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r, en: d.en, tl: d.tl, a: d.a ?? UMRAH_AUDIO[`${id}:${d.n}`] })) })));
 
+type Book = { title: string; author: string; publisher: string; sections: { title: string; blocks: { fn: boolean; t: string }[] }[] };
+const book = (): Book => JSON.parse(readFileSync(join(process.cwd(), '../../database/sources/en-books/hajj-umrah-uthaymeen.json'), 'utf8'));
+
 export default async function UmrahEn() {
+  const bk = book();
   const steps: Step[] = [
     { id: 'safar', title: 'Travelling', hint: 'Mounting and travel supplications', dhikr: await dh([[96, 'On mounting a means of transport'], [97, 'The travel supplication']]) },
     { id: 'ihram', title: 'Ihram at the miqat', hint: 'The talbiyah', read: '#map', dhikr: await dh([[116, 'The talbiyah']]) },
@@ -32,12 +38,19 @@ export default async function UmrahEn() {
           <a className="btn light" href="#steps">Start your journey</a>
         </div>
       </header>
-      <nav className="um-tabs" aria-label="Page sections"><a href="#steps">Steps</a><a href="#map">Mawaqit map</a><a href="#services">Services</a></nav>
+      <nav className="um-tabs" aria-label="Page sections"><a href="#steps">Steps</a><a href="#map">Mawaqit map</a><a href="#learn">Read</a><a href="#services">Services</a></nav>
       <UmrahJourney steps={steps} after={after} lang="en" />
       <section className="um-section" id="map">
         <div className="um-section-head"><h2>Map of the mawaqit</h2><p>Tap a miqat to see its distance and open it in maps.</p></div>
         <MiqatMap lang="en" />
       </section>
+      <section className="um-section" id="learn">
+        <div className="um-section-head"><h2>Read before you travel</h2><p>«{bk.title}» by {bk.author}.</p></div>
+        {bk.sections.map((sec, i) => <details key={sec.title} className={`um-read${sec.title.includes('Umrah') ? ' gh-main' : ''}`} open={sec.title.includes('Umrah')} id={`r${i}`}><summary><span>{sec.title}</span><small>{sec.blocks.filter((b) => !b.fn).length} paragraphs</small></summary>
+          <div className="um-read-body" dir="ltr">{sec.blocks.map((b, k) => <p key={k} className={b.fn ? 'en-bfn' : ''}>{b.t}</p>)}</div></details>)}
+        <p className="um-more">{bk.publisher}.</p>
+      </section>
+
       <section className="um-section" id="services">
         <div className="um-section-head"><h2>Useful links</h2></div>
         <div className="um-grid">

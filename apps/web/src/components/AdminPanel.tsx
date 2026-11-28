@@ -20,7 +20,12 @@ export default function AdminPanel() {
   const [token, setToken] = useState(''); const [err, setErr] = useState(''); const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     const r = await fetch('/api/admin/athar', { cache: 'no-store' });
-    if (r.status === 401) { setNeed(true); setData(null); return; }
+    if (r.status === 401) {
+      // Try the signed-in account first (admin accounts need no token).
+      const a = await fetch('/api/admin/login', { method: 'POST', headers: H, body: JSON.stringify({ mode: 'account' }) });
+      if (a.ok) { const again = await fetch('/api/admin/athar', { cache: 'no-store' }); if (again.ok) { setNeed(false); setData(await again.json()); return; } }
+      setNeed(true); setData(null); return;
+    }
     if (!r.ok) { setErr('تعذّر التحميل.'); return; }
     setNeed(false); setData(await r.json());
   }, []);
@@ -44,6 +49,7 @@ export default function AdminPanel() {
       <div className="field"><label htmlFor="tk">رمز المراجعة</label><input id="tk" type="password" autoComplete="current-password" value={token} onChange={(e) => setToken(e.target.value)} /></div>
       {err && <p className="note" role="alert">{err}</p>}
       <button className="btn" disabled={busy || !token}>دخول</button>
+      <p className="note">الأسهل: <a href="/account">سجّل دخولك بحسابك</a> ثم ارجع لهذه الصفحة. إن كان حسابك حساب إدارة تدخل مباشرة. أول مرة فقط: أدخل الرمز وأنت مسجّل بحسابك، فيصبح حسابك حساب إدارة ولا تحتاج الرمز بعدها.</p>
       <p className="note">الرمز محفوظ على الخادم فقط. لا ترسله لأحد ولا تكتبه في أي محادثة.</p>
     </form>
   );

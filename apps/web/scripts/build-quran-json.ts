@@ -63,6 +63,7 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
     if (st.items?.length === 1 && st.items[0].dua && st.recordings?.length === 1) audio.set(dhikrKey(st.items[0].dua.arabic), st.recordings[0].url.split('/').pop()!);
     if (st.items?.length === 1 && st.items[0].dua) { const d = st.items[0].dua as { arabic: string; translation?: string; transliteration?: string }; if (d.translation) english.set(dhikrKey(d.arabic), { en: d.translation, tl: d.transliteration ?? '' }); }
   }
+  const fuzzy = JSON.parse(readFileSync(`${od}/fuzzy-map.json`, 'utf8')) as Record<string, { en: string; tl: string; a?: string[] }>;
   let withAudio = 0; let withEnglish = 0;
   const cats = Object.entries(raw).map(([title, v], i) => ({
     id: i + 1,
@@ -70,7 +71,10 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
     items: v.Adhkar.map((d, j) => {
       const a = audio.get(dhikrKey(d.Text)); if (a) withAudio++;
       const e = english.get(dhikrKey(d.Text)); if (e) withEnglish++;
-      return { n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '', ...(a ? { a } : {}), ...(e ? { en: e.en, tl: e.tl } : {}) };
+      // Near-exact matches (letters-only similarity ≥ 0.93, listed with their ratio in database/sources/opendua/fuzzy-map.json for review).
+      const fz = fuzzy[`${i + 1}:${j + 1}`]; const fa = !a && fz?.a?.length === 1 ? fz.a[0] : undefined; const fe = !e && fz ? { en: fz.en, tl: fz.tl } : undefined;
+      if (fa) withAudio++; if (fe) withEnglish++;
+      return { n: j + 1, t: d.Text.replace(/\r\n/g, '\n'), c: d.Count, r: d.Reference ?? '', ...(a ? { a } : fa ? { a: fa } : {}), ...(e ? { en: e.en, tl: e.tl } : fe ? fe : {}) };
     }),
   }));
   console.log(`Adhkar with OpenDua audio: ${withAudio}, with English: ${withEnglish}`);

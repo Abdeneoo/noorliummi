@@ -54,6 +54,11 @@ export default async function Page() {
       <section className="section"><h2>أدعية «حصن المسلم» بصوت محمد جمعة</h2>
         <p className="note">{hisnTotal.toLocaleString('ar-EG')} تسجيلًا من مشروع OpenDua (ترخيص CC BY 4.0: «Recitation by Muhammad Jumah for OpenDua»)، كل تسجيل مربوط بنصه بعد مطابقة حروفه.</p>
         <ul className="athar-dir">{groups.filter((g) => g.tracks.length).map((g) => <li key={g.id}><div className="card"><strong>{g.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{g.tracks.length.toLocaleString('ar-EG')} تسجيلًا</p><PlayTrack tracks={g.tracks} label="▶ شغّل القائمة" className="btn small" /> <SaveOffline srcs={g.tracks.map((t) => t.src)} /></div></li>)}</ul></section>
+      <section className="section" id="qunut"><h2>دعاء القنوت</h2>
+        <ul className="athar-dir">
+          <li><div className="card"><strong>دعاء القنوت (قنوت الوتر)</strong><p className="note" style={{ margin: '4px 0 8px' }}>تسجيل قصير · ٢٧ ثانية</p><PlayTrack tracks={[{ id: 'qunut-witr', src: '/audio/qunut/doa-qunut.mp3', title: 'دعاء القنوت', by: 'PeaceSeekers', license: 'CC0 — PeaceSeekers, Wikimedia Commons', page: '/duas/audio#qunut' }]} label="▶ استمع" className="btn small" /> <SaveOffline srcs={['/audio/qunut/doa-qunut.mp3']} /></div></li>
+          <li><div className="card"><strong>قنوت النازلة</strong><p className="note" style={{ margin: '4px 0 8px' }}>يُدعى به عند النوازل، وهو غير قنوت الوتر · ٣١ ثانية</p><PlayTrack tracks={[{ id: 'qunut-nazila', src: '/audio/qunut/qunut-nazilah.mp3', title: 'قنوت النازلة', by: 'PeaceSeekers', license: 'CC0 — PeaceSeekers, Wikimedia Commons', page: '/duas/audio#qunut' }]} label="▶ استمع" className="btn small" /> <SaveOffline srcs={['/audio/qunut/qunut-nazilah.mp3']} /></div></li>
+        </ul></section>
       <section className="section" id="ruqyah-ih"><h2>آيات الرقية الشرعية بأصوات القراء</h2>
         <p className="note">تعمل في الخلفية وتُحفظ دون إنترنت.</p>
         <ul className="athar-dir">{ruqyaIh.map((x) => <li key={x.it.id}><div className="card"><strong>{x.reader || x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.it.title}</p><PlayTrack tracks={x.tracks} /> <SaveOffline srcs={x.tracks.map((t) => t.src)} /></div></li>)}</ul></section>
