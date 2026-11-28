@@ -20,7 +20,6 @@ export default async function TafsirPage({ params }: { params: Promise<{ n: stri
         <h1>سورة {meta.name}</h1>
         <div className="meta"><span>تفسير الجلالين</span><span>جلال الدين المحلّي وجلال الدين السيوطي</span></div>
       </header>
-      <p className="review-banner" role="note">نسخة تجريبية: نص التفسير مستورد من مصدر مفتوح ولم تكتمل مراجعته بعد.</p>
       <ol className="tafsir-list">
         {ayat.map((a) => (
           <li key={a.n} id={`a${a.n}`} className="card">

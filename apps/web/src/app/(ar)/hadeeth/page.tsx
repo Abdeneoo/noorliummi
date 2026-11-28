@@ -10,7 +10,6 @@ export default async function HadeethHome({ searchParams }: { searchParams: Prom
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/hadith">الحديث الشريف</Link></p><h1>أحاديث مترجمة مع الشرح</h1>
         <p>أحاديث مختارة بالعربية مع درجتها وتخريجها وشرحها وفوائدها، وترجمتها الكاملة بالأردية والتركية والإندونيسية.</p></header>
-      <p className="review-banner">من <a href="https://hadeethenc.com/ar/home" target="_blank" rel="noopener">موسوعة الأحاديث النبوية المترجمة HadeethEnc.com ↗</a> كما هي دون تعديل. الترجمات من المصدر نفسه، وليست ترجمة آلية. لم يراجعها مراجع المنصة.</p>
       <nav aria-label="لغة الترجمة"><ul className="chips lib-groups" style={{ marginBottom: 14 }}><li><Link className={!q ? 'on' : ''} href="/hadeeth">العربية فقط</Link></li>{(Object.keys(HE_LANGS) as (keyof typeof HE_LANGS)[]).map((x) => <li key={x}><Link lang={x} className={l === x ? 'on' : ''} href={`/hadeeth?lang=${x}`}>{HE_LANGS[x].name}</Link></li>)}</ul></nav>
       {roots.length ? roots.map((r) => (
         <section key={r.id} className="section"><h2><Link href={`/hadeeth/c/${r.id}${q}`}>{r.title}</Link> <small className="note">{ar(Number(r.hadeeths_count))} حديثًا</small></h2>

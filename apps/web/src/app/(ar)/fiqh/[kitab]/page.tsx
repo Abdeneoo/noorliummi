@@ -31,7 +31,6 @@ export default async function Kitab({ params }: { params: Promise<{ kitab: strin
         <p className="note">من «بداية المجتهد ونهاية المقتصد» لابن رشد الحفيد (ت 595هـ): يذكر مواضع الاتفاق والخلاف بين المذاهب وأدلتها وسبب الخلاف، بنصه. للقراءة والفهم، لا للفتوى.</p>
         {groups.map(({ g, secs }) => <details key={g} className="card" style={{ marginBottom: 8 }}><summary><strong>{g}</strong> ({secs.length.toLocaleString('ar-EG')})</summary><ul>{secs.map((x) => <li key={x.i}><Link href={`/library/bidaya/${x.i}`}>{x.title}</Link></li>)}</ul></details>)}</section>}
       {comp.length > 0 && <section className="section"><h2>كتب مساندة</h2><ul className="athar-dir">{comp.map((c) => <li key={c.slug}><Link href={`/books/${c.slug}`}><strong>{c.b!.title}</strong><small>{c.note}</small></Link></li>)}</ul></section>}
-      <p className="note">{arDigits(k.abwab.length)} أبواب. المصدر: «{fiqhIndex().title}»، {fiqhIndex().publisher}، <a href={fiqhIndex().source} target="_blank" rel="noopener">IslamHouse ↗</a>.</p>
     </article>
   );
 }

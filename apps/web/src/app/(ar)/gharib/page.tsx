@@ -41,10 +41,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         <select name="b" defaultValue={b} aria-label="المؤلف"><option value="">المؤلفان</option><option value="q">ابن قتيبة</option><option value="s">السجستاني</option></select>
         <button className="btn">بحث</button></form>
       {active && <p className="note">{hits.length ? `${arDigits(hits.length)} شرحًا في ${arDigits(groups.size)} موضعًا` : 'لا نتائج'}</p>}
-      {root.length >= 2 && (() => { const sm = samin(root); return sm.length ? <section className="card" style={{ marginBottom: 12 }}><h2 style={{ marginTop: 0 }}>الجذر «{root}» في «عمدة الحفاظ» للسمين الحلبي (ت 756هـ)</h2>{sm.map((t, k) => <details key={k} open={k === 0}><summary>المادة {arDigits(k + 1)}</summary><p style={{ whiteSpace: 'pre-line', lineHeight: 2 }}>{t}</p></details>)}<p className="note">تحقيق محمد باسل عيون السود، دار الكتب العلمية 1417هـ، عبر OpenITI. نص المؤلف كما في النسخة.</p></section> : <p className="note">لا مادة لهذا الجذر في «عمدة الحفاظ».</p>; })()}
+      {root.length >= 2 && (() => { const sm = samin(root); return sm.length ? <section className="card" style={{ marginBottom: 12 }}><h2 style={{ marginTop: 0 }}>الجذر «{root}» في «عمدة الحفاظ» للسمين الحلبي (ت 756هـ)</h2>{sm.map((t, k) => <details key={k} open={k === 0}><summary>المادة {arDigits(k + 1)}</summary><p style={{ whiteSpace: 'pre-line', lineHeight: 2 }}>{t}</p></details>)}</section> : <p className="note">لا مادة لهذا الجذر في «عمدة الحفاظ».</p>; })()}
       {[...groups.values()].map((g) => <section key={`${g.s}:${g.a}`} className="card" style={{ marginBottom: 8 }}><p><Link href={`/gharib/${g.s}#a${g.a}`}><strong>{SURAHS[g.s - 1].name}: {arDigits(Number(g.a))}</strong></Link> · <Link href={`/quran/${g.s}#a${g.a}`}>في المصحف</Link></p>
         {g.es.map((e, k) => <div key={k}><p style={{ whiteSpace: 'pre-line', marginTop: 2 }}>{e.t.length > 500 ? `${e.t.slice(0, 500)}…` : e.t}</p></div>)}</section>)}
-      <p className="note"><Link href="/sources">المصادر والتراخيص</Link></p>
       <ul className="surah-list">{SURAHS.map((x) => <li key={x.index}><Link href={`/gharib/${x.index}`}><span className="num">{arDigits(x.index)}</span><span className="nm">{x.name}</span></Link></li>)}</ul>
     </article>
   );

@@ -15,7 +15,6 @@ export default async function Names() {
     <article style={{ maxWidth: 860, margin: '24px auto' }}>
       <h1>The Most Beautiful Names of Allah</h1>
       <p className="meta"><span>The 99 names in the order of «Sharh Asma&apos; Allah al-Husna fi Daw&apos; al-Kitab wa al-Sunnah» by Dr Sa&apos;id ibn Ali ibn Wahf al-Qahtani</span></p>
-      <p className="review-banner">Trial version awaiting review by scholars.</p>
       <ol className="grid" style={{ listStyle: 'none', padding: 0, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))' }}>
         {list.map((n) => (
           <li key={n.id} className="card">

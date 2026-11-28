@@ -194,7 +194,7 @@ export default function PrayerCard({ lang = 'ar' }: { lang?: Lang }) {
         <span>{lang === 'ar' ? 'ارتفاع الشمس قدر رمح (≈ الشروق + ٢٠ د)' : 'Sun risen a spear’s length (≈ sunrise + 20 min)'}: <b>{formatTime(new Date(day.times.sunrise.getTime() + 20 * 60000), tz)}</b></span>
         <span>{lang === 'ar' ? 'منتصف الليل' : 'Islamic midnight'}: <b>{formatTime(day.middleOfTheNight, tz)}</b></span>
         <span>{lang === 'ar' ? 'الثلث الأخير' : 'Last third'}: <b>{formatTime(day.lastThirdOfTheNight, tz)}</b></span>
-        {lang === 'ar' && <a href="/fiqh/salah/15#m7">المصدر: الفقه الميسر (أوقات النهي)</a>}
+        {lang === 'ar' && <a href="/fiqh/salah/15#m7">أوقات النهي</a>}
       </p>
       {saved.src !== 'gps' && <p className="pp-hint">{saved.src === 'auto' ? t.auto(placeLabel) : t.chosen(placeLabel)}{' '}{t.exact}{' '}<button type="button" className="linkish" onClick={() => locate()}>{t.locate}</button></p>}
       {geoMsg && <p className="note" role="status">{geoMsg}</p>}

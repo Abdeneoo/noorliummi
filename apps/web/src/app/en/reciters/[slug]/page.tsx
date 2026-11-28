@@ -30,7 +30,7 @@ export default async function ReciterEn({ params }: { params: Promise<{ slug: st
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/en/reciters">Reciters and scholars</Link></p><h1>{name}</h1>{p.en && <p lang="ar" dir="rtl" style={{ margin: 0 }}>{p.ar}</p>}
         <div className="row"><ShareLink title={`${name} — Noor Li Ummi`} /><Link className="btn ghost small" href={`/reciters/${p.slug}`}>العربية</Link></div></header>
-      {allIh.length > 0 && <section className="section"><h2>Recordings that play in the background and save offline</h2><p className="note">From IslamHouse, streamed unmodified under its published policy (republishing and offline use allowed with the source named).</p>
+      {allIh.length > 0 && <section className="section"><h2>Recordings that play in the background and save offline</h2>
         <div className="row"><PlayTrack tracks={allIh} label={`▶ Play all (${allIh.length})`} className="btn" lang="en" /><AddToPlaylist tracks={allIh} name={name} lang="en" /><SaveOffline srcs={allIh.map((t) => t.src)} lang="en" /></div>
         <ul className="athar-items">{ih.map(({ it, tracks }) => <li key={it.id}><PlayTrack tracks={tracks} lang="en" /> <span lang="ar">{it.title}</span></li>)}</ul></section>}
       {eaTracks.length > 0 && <section className="section"><h2>Quranic duas in this voice</h2><p className="note">{eaTracks.length} ayat of supplication, each recited in full (a recitation of the ayat, not a qunut recording). Streamed from EveryAyah.com.</p>
@@ -38,7 +38,6 @@ export default async function ReciterEn({ params }: { params: Promise<{ slug: st
       {duaTv.length > 0 && <section className="section"><h2>Duas, adhkar and ruqyah</h2><p className="note">From TVQuran in its official player: one recording at a time, kept open at the bottom while you browse. Not available offline.</p><TvLibrary rows={duaTv} cats={catsOf(duaTv)} lang="en" /></section>}
       {full.length > 0 && <section className="section"><h2>The whole Quran</h2>{full.map((r) => { const t = S.map((s) => ({ id: `q-${r.id}-${s.index}`, src: surahUrl(r, s.index), title: `Surah ${s.tname}`, by: r.en, source: 'Islamic Network', page: `/en/quran/${s.index}` })); return <div key={r.id} className="row"><strong>{r.en}</strong><PlayTrack tracks={t} label="▶ Full khatma from al-Fatiha" lang="en" /></div>; })}</section>}
       {clips.length > 0 && <section className="section"><h2>Selected recitations</h2><TvLibrary rows={clips} cats={catsOf(clips)} lang="en" /></section>}
-      <p className="note"><Link href="/en/sources">Sources and licences</Link></p>
     </article>
   );
 }

@@ -17,7 +17,6 @@ export default async function Lesson({ params }: { params: Promise<{ id: string 
       {x.description && <p style={{ lineHeight: 2 }}>{x.description}</p>}
       {x.full_description && <p style={{ lineHeight: 2, whiteSpace: 'pre-line' }}>{x.full_description.replace(/<[^>]+>/g, ' ')}</p>}
       <LessonPlayer id={x.id} title={x.title} attachments={att} />
-      <p className="note">المصدر: <a href={sourceUrl(x)} target="_blank" rel="noopener">صفحة المادة في IslamHouse.com ↗</a>{x.update_date ? ` · آخر تحديث في المصدر ${new Date(x.update_date * 1000).toLocaleDateString('ar-EG')}` : ''}. حالة المراجعة في منصتنا: موثّق المصدر، لم يراجعه مراجع المنصة.</p>
     </article>
   );
 }

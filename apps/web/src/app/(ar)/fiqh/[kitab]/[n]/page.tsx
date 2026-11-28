@@ -26,7 +26,6 @@ export default async function Bab({ params }: { params: Promise<{ kitab: string;
       })}</div>
       <p className="row"><ShareLink title={`${b.title} — الفقه الميسر`} /><Link className="btn ghost" href="/fiqh/search">بحث في الفقه</Link></p>
       <FiqhNotice />
-      <p className="note">المصدر: «{x.title}» — إعداد {x.by}، {x.publisher}، {k.title}، {b.title}. النسخة الرقمية: <a href={x.cnt} target="_blank" rel="noopener">موسوعة المحتوى الإسلامي (IslamHouse) ↗</a> · <a href={x.source} target="_blank" rel="noopener">صفحة الكتاب ↗</a>. حالة المراجعة في منصتنا: موثّق المصدر، لم يراجعه مراجع المنصة.</p>
       <nav className="pager">{prev ? <Link className="btn ghost" href={`/fiqh/${prev.kitab}/${prev.n}`}>الباب السابق</Link> : <span />}<Link className="btn ghost" href={`/fiqh/${k.slug}`}>{k.title}</Link>{next ? <Link className="btn ghost" href={`/fiqh/${next.kitab}/${next.n}`}>الباب التالي</Link> : <span />}</nav>
     </article>
   );

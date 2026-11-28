@@ -11,7 +11,6 @@ export default function Page() {
       <div className="book-body">{QD.sections.map((s, i) => (
         <section key={i}><h2>{s.title}</h2>{s.blocks.map((b, k) => b.tag === 'note' ? <p key={k} className="fiqh-ref">{note(b.ar)}</p> : <p key={k} className="ar">{b.ar}</p>)}</section>
       ))}</div>
-      <p className="note">المصدر: <a href={QD.source} target="_blank" rel="noopener">IslamHouse ↗</a>. النص كما هو مع حواشي المؤلف. وللمزيد: <Link href="/books/dua-adab">«فضل الدعاء وآدابه والأوقات التي يستحب فيها»</Link> (بترجماته الأردية والتركية والإندونيسية).</p>
     </article>
   );
 }

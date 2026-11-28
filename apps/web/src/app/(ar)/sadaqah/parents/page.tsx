@@ -17,7 +17,6 @@ export default async function Parents() {
     <article style={{ maxWidth: 820, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/sadaqah">الصدقة الجارية</Link></p><h1>كيف أبرّ والديّ بعد وفاتهما؟</h1>
         <p>نصوص من القرآن الكريم والسنة الصحيحة كما في مصادرها، وتحت كل نص أدوات في المنصة تعينك على العمل به.</p></header>
-      <p className="review-banner">النصوص منقولة بأسانيدها كما في الكتب، دون شرح ولا تعليق منا. لتفاصيل الأحكام ارجع إلى أهل العلم.</p>
       <section className="card section"><h2 style={{ marginTop: 0 }}>من القرآن الكريم</h2>
         <p className="dhikr-text" style={{ fontFamily: 'var(--font-quran)' }}>{ayah} ﴿{arDigits(24)}﴾</p>
         <p className="dhikr-ref">سورة {SURAHS[16].name}، الآية {arDigits(24)} — <Link href="/quran/17#a24">في المصحف</Link></p>

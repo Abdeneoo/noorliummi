@@ -17,7 +17,6 @@ export default async function BookSection({ params }: { params: Promise<{ book: 
   return (
     <article className="reader">
       <header><p className="eyebrow"><Link href={`/library/${b.key}`}>{b.ar}</Link>{meta.group ? ` · ${meta.group}` : ''}</p><h1 style={{ fontSize: '1.5rem' }}>{title}</h1></header>
-      <p className="review-banner">نص الطبعة كما هو (قد يتضمن أخطاء طباعية من النسخة الرقمية). نسخة تجريبية بانتظار المراجعة. <Link href={`/library/${b.key}`}>بيانات الطبعة</Link></p>
       <PageFilter target="#lib-list" />
       <ol id="lib-list" className="tafsir-list" style={{ listStyle: 'none', padding: 0 }}>
         {cards.filter((c) => c.blocks.length).map((c, k) => (

@@ -15,4 +15,4 @@ export function Pager({ base, l, extra = '' }: { base: string; l: IhList['links'
   if (l.pages_number <= 1) return null;
   return <nav className="pager">{l.current_page > 1 ? <Link className="btn ghost" href={`${base}?p=${l.current_page - 1}${extra}`}>السابق</Link> : <span />}<span className="note">صفحة {l.current_page.toLocaleString('ar-EG')} من {l.pages_number.toLocaleString('ar-EG')}</span>{l.current_page < l.pages_number ? <Link className="btn ghost" href={`${base}?p=${l.current_page + 1}${extra}`}>التالي</Link> : <span />}</nav>;
 }
-export const SourceNote = () => <p className="review-banner">المواد من موقع <a href="https://islamhouse.com/ar/" target="_blank" rel="noopener">دار الإسلام IslamHouse.com ↗</a> كما هي دون تعديل، وتُبث ملفاتها من خوادمه. الآراء لأصحابها، ولم يراجع هذه المواد مراجعٌ من منصة نور لأمي.</p>;
+export const SourceNote = () => null;

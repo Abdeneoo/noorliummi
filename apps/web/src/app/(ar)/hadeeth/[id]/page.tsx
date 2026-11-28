@@ -22,7 +22,6 @@ export default async function HeHadithPage({ params, searchParams }: { params: P
         {tr && L && tr.hints.length > 0 && <ul lang={lang!} dir={L.dir} className="he-tr">{tr.hints.map((x, i) => <li key={i}>{x}</li>)}</ul>}</section>}
       {h.words_meanings && h.words_meanings.length > 0 && <section className="section"><h2>معاني الكلمات</h2><dl>{h.words_meanings.map((w, i) => <div key={i}><dt><strong>{w.word}</strong></dt><dd>{w.meaning}</dd></div>)}</dl></section>}
       {h.reference && <section className="section"><h2>المراجع</h2><p className="note" style={{ whiteSpace: 'pre-line' }}>{h.reference}</p></section>}
-      <p className="note">المصدر: <a href={heSource(id, lang ?? 'ar')} target="_blank" rel="noopener">هذا الحديث في HadeethEnc.com ↗</a> — النص والترجمة كما هما دون تعديل. حالة المراجعة في منصتنا: موثّق المصدر، لم يراجعه مراجع المنصة.</p>
     </article>
   );
 }

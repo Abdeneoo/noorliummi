@@ -30,7 +30,7 @@ export default async function Transparency() {
         <li><strong>{n(GROUPS.reduce((t, g) => t + g.items.length, 0))}</strong><span>مصدرًا موثقًا بترخيصه</span></li>
       </ul>
       <h2>حالة المراجعة الشرعية لكل قسم</h2>
-      <p>المراجعة الشرعية يقوم بها إنسان متخصص فقط؛ الفحوص الآلية والذكاء الاصطناعي لا تُعدّ مراجعة. ما لم يكتب هنا اسم مراجع وتاريخ فالقسم «نسخة تجريبية».</p>
+      <p>المراجعة الشرعية يقوم بها إنسان متخصص فقط؛ الفحوص الآلية والذكاء الاصطناعي لا تُعدّ مراجعة.</p>
       <div style={{ overflowX: 'auto' }}><table className="admin-table"><thead><tr><th>القسم</th><th>الحالة</th><th>المراجع والتاريخ</th></tr></thead>
         <tbody>{REVIEW_SECTIONS.map((x) => { const r = review[x.id]; const st = r?.status ?? 'sourced'; return <tr key={x.id}><td>{x.ar}</td><td>{REVIEW_STATES[st]}{x.sensitive && st !== 'reviewed' ? ' — نتائج استرشادية غير معتمدة' : ''}</td><td>{st === 'reviewed' ? `${r.reviewer} — ${r.reviewed_at}` : '—'}</td></tr>; })}</tbody></table></div>
       <p className="note">الفحوص الآلية (مطابقة نص القرآن، أعداد الآيات، سلامة حروف الكتب، مواقيت الصلاة، مسائل الميراث المعروفة) تعمل مع كل تحديث؛ تفاصيلها في <Link href="/verify">كيف نتحقق</Link>.</p>

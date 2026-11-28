@@ -88,9 +88,6 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
         <details className="tj-legend" open>
           <summary>{lang === 'ar' ? 'دليل الألوان' : 'Colour key'}</summary>
           <ul>{used.map((r) => <li key={r.id}><span className={`tj tj-${r.id}`} aria-hidden="true">●</span> {r[lang]}</li>)}</ul>
-          <p className="note">{lang === 'ar'
-            ? 'تلوين آلي لرواية حفص، لم يراجعه معلم تجويد بعد. للاستعانة لا للاعتماد، والمرجع التلقي من معلم.'
-            : 'Automatic colouring for the Hafs reading, not yet reviewed by a tajweed teacher. A learning aid; learning from a teacher remains the reference.'}</p>
         </details>
       )}
       <div className="ayat" lang="ar" dir="rtl">
@@ -101,7 +98,7 @@ export default function AyatText({ surah, ayat, lang = 'ar' }: { surah: number; 
     </>
       {tf && <div className="tf-panel" role="dialog" aria-label={`تفسير الآية ${tf.n}`}><div className="tf-head"><strong>تفسير الآية {arDigits(tf.n)}</strong><button type="button" className="btn ghost small" onClick={() => setTf(null)} aria-label="إغلاق">✕</button></div>
         {tf.j === undefined ? <p className="note">…</p> : <>{tf.g && tf.g.length > 0 && <><h3>غريب القرآن</h3>{tf.g.map((e, k) => <div key={k} className={k === tf.focus ? 'gw-on' : ''}><p style={{ whiteSpace: 'pre-line', margin: '4px 0 8px' }}>{e.t}</p></div>)}</>}{tf.m && <><h3>التفسير الميسر</h3><p>{tf.m}</p></>}{tf.j && <><h3>تفسير الجلالين</h3><p>{tf.j}</p></>}</>}
-        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>صفحة التفسير</Link> · <Link href={`/gharib/${surah}#a${tf.n}`}>الغريب</Link> · <Link href="/sources">المصادر</Link></p></div>}
+        <p className="note"><Link href={`/tafsir/${surah}#a${tf.n}`}>صفحة التفسير</Link> · <Link href={`/gharib/${surah}#a${tf.n}`}>الغريب</Link></p></div>}
     </>
   );
 }

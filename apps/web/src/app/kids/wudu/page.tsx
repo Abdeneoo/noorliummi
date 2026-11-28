@@ -24,7 +24,6 @@ export default async function KidsWudu() {
       <section className="card">{show(fard)}</section>
       <section className="card">{show(sunan)}</section>
       <section className="card"><h2>صفة وضوء النبي ﷺ كما رواها عثمان رضي الله عنه</h2><p lang="ar">{h.t}</p><p className="note">صحيح البخاري، رقم {arDigits(159)}{k ? '' : <> — <Link href={h.href}>في كتاب الحديث</Link></>}</p></section>
-      <p className="note">المصادر: المصحف (Tanzil)، و«الفقه الميسر» (مجمع الملك فهد)، وصحيح البخاري. الرسوم التوضيحية قيد الإعداد وستُعرض بعد مراجعتها. لم يراجع هذه الصفحة مراجع شرعي أو تربوي بعد.</p>
     </article>
   );
 }

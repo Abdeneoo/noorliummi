@@ -10,7 +10,6 @@ export default async function KidBook({ params }: { params: Promise<{ n: string 
   return (
     <article><h1>{c.title}</h1>
       {c.blocks.map((x, i) => x.tag === 'h2' || x.tag === 'h3' ? <h2 key={i} style={{ fontSize: '1.2rem', marginTop: 22 }}>{x.ar}</h2> : <p key={i} style={{ lineHeight: 2, whiteSpace: 'pre-line' }}>{x.ar}</p>)}
-      <p className="note">من كتاب «{b.title}» — {b.author}، IslamHouse.</p>
     </article>
   );
 }

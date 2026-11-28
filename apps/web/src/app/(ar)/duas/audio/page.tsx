@@ -45,7 +45,6 @@ export default async function Page() {
         <p className="note">{quran.length.toLocaleString('ar-EG')} آية من آيات الدعاء، تُتلى كل آية كاملة. اختر القارئ ثم شغّل.</p>
         <DuaReciterBar all={quran} /></section>
       <section className="section" id="hisn-full"><h2>«حصن المسلم» كاملًا بأصوات القراء</h2>
-        <p className="note">من موسوعة IslamHouse، تُشغَّل من خوادمها دون تعديل، مع ذكر القارئ والمصدر.</p>
         <ul className="athar-dir">{hisnIh.map((x) => <li key={x.it.id}><div className="card"><strong>{x.reader}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.tracks.length.toLocaleString('ar-EG')} مقطعًا{x.it.by.some((p) => p.kind === 'reviewer') ? ` · مراجعة: ${x.it.by.filter((p) => p.kind === 'reviewer').map((p) => p.title).join('، ')}` : ''}</p><PlayTrack tracks={x.tracks} label="▶ شغّل من البداية" className="btn small" /> <SaveOffline srcs={x.tracks.map((t) => t.src)} size={mb(x)} /></div></li>)}</ul></section>
       <section className="section" id="afasy"><h2>أذكار وأدعية بصوت مشاري العفاسي</h2>
         <ul className="athar-dir">{afasy.map((x) => <li key={x.it.id}><div className="card"><strong>{x.it.title}</strong><p className="note" style={{ margin: '4px 0 8px' }}>{x.tracks.length > 1 ? `${x.tracks.length.toLocaleString('ar-EG')} تسجيلات (إصدارات مختلفة)` : 'تسجيل واحد'}</p><PlayTrack tracks={x.tracks} label="▶ استمع" className="btn small" /> <SaveOffline srcs={x.tracks.map((t) => t.src)} size={mb(x)} /></div></li>)}</ul></section>

@@ -21,7 +21,6 @@ export default async function MorePage() {
         return (
           <section key={l.key} className="card" style={{ marginBottom: 16 }}>
             <h2 style={{ marginTop: 0 }}>{l.title}</h2>
-            <p className="note" style={{ marginTop: 0 }}>المصدر: {l.owner} — {l.mode === 'stream' ? 'يُشغَّل من خوادمهم بإذنهم.' : 'تُفتح المواد على موقعهم.'}</p>
             <a className="btn" href={l.source_url} target="_blank" rel="noopener">افتح المكتبة على موقع {l.owner} ↗</a>
             {l.key === 'islamweb-dua' && <p className="note">{l.items.length.toLocaleString('ar-EG')} مادة صوتية في القسم (دعاء ختم القرآن، القنوت، الأذكار) بأصوات المعيقلي واللحيدان والقطامي والدوسري وغيرهم.</p>}
             {list.length > 0 && (

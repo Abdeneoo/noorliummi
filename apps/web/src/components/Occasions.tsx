@@ -36,8 +36,7 @@ export default function Occasions() {
       </section>
       <p className="note">التواريخ محسوبة فلكيًا بتقويم أم القرى وقد تختلف يومًا حسب رؤية الهلال. التذكير اختياري ويُضاف إلى تقويم هاتفك أنت؛ الموقع لا يرسل إشعارات. فضائل هذه الأيام وأحكامها تُؤخذ من أهل العلم.</p>
       <section className="section"><h2>أحاديث الباب من «رياض الصالحين»</h2>
-        <ul className="athar-dir">{RIYAD.map(([i, t]) => <li key={i}><Link href={`/library/riyad/${i}`}><strong>{t}</strong></Link></li>)}</ul>
-        <p className="note">نص الكتاب كما هو بطبعته (نسخة تجريبية لم تُراجع بعد). ومن «حصن المسلم»: <Link href="/adhkar/68">دعاء رؤية الهلال</Link> · <Link href="/adhkar/69">الدعاء عند إفطار الصائم</Link> · <Link href="/adhkar/120">الدعاء يوم عرفة</Link></p></section>
+        <ul className="athar-dir">{RIYAD.map(([i, t]) => <li key={i}><Link href={`/library/riyad/${i}`}><strong>{t}</strong></Link></li>)}</ul></section>
     </>
   );
 }

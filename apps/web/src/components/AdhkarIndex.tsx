@@ -19,7 +19,6 @@ export default function AdhkarIndex({ cats }: { cats: AdhkarCat[] }) {
           ))}
         </ul>
       )}
-      <p className="note">ترجمة الأبواب منشورة من IslamHouse كما هي: بالأردية لـ١٢٦ بابًا من ١٣٣، وبالتركية والإندونيسية لأذكار الصباح والمساء (<a href="/adhkar/27?tr=ur" lang="ur">اردو</a> · <a href="/adhkar/27?tr=tr" lang="tr">Türkçe</a> · <a href="/adhkar/27?tr=id" lang="id">Indonesia</a>). اختر اللغة أسفل كل باب. الترجمة الإنجليزية (OpenDua) في <a href="/en/adhkar">النسخة الإنجليزية</a>.</p>
     </>
   );
 }

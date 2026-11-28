@@ -15,7 +15,6 @@ export default async function Page() {
         <p className="dhikr-text" lang="ar">{cur.text}</p>
         <p className="dhikr-ref">رياض الصالحين{cur.n ? `، الحديث رقم ${arDigits(Number(cur.n))}` : ''} — <Link href={cur.href}>الباب كاملًا</Link></p>
         <ShareImageButton story={{ text: cur.text, caption: `${cur.title} — رياض الصالحين${cur.n ? ` (${cur.n})` : ''}`, path: '/sunnah' }} /></section>
-      <p className="review-banner">التخريج والحكم كما ذكرهما الإمام النووي في آخر الحديث. لشرح الأحاديث انظر «شرح رياض الصالحين» في <Link href="/lessons">الدروس</Link>.</p>
       <section className="section"><h2>كل السنن ({arDigits(all.length)})</h2>
         <ol className="fiqh-abwab">{all.map((x) => <li key={x.i} className="card" aria-current={x.k === now ? 'true' : undefined}><Link href={x.href}><strong>{x.title}</strong></Link><p className="note" style={{ margin: '6px 0 0' }}>{x.text.length > 220 ? `${x.text.slice(0, 220)}…` : x.text}</p></li>)}</ol></section>
     </article>

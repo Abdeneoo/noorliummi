@@ -13,7 +13,6 @@ export default async function Page() {
     <article style={{ maxWidth: 880, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/duas">الأدعية</Link></p><h1>أدعية الأنبياء في القرآن الكريم</h1><p>{arDigits(items.length)} موضعًا لـ{arDigits(names.length)} من الأنبياء عليهم السلام. صاحب كل دعاء ثابت من «التفسير الميسر» للآية نفسها أو لما قبلها في السياق، ونصه تحت الآية.</p></header>
       <DuaNav />
-      <p className="review-banner">نص الآيات من المصحف (Tanzil)، والتفسير من «التفسير الميسر» (مجمع الملك فهد لطباعة المصحف الشريف) عبر موسوعة القرآن الكريم QuranEnc.com، كما هو دون تعديل.</p>
       <DuaReciterBar all={items.flatMap((x) => x.ayat)} />
       <ul className="chips even" style={{ margin: '12px 0' }}>{names.map((n, i) => <li key={n}><a href={`#p${i}`}>{n}</a></li>)}</ul>
       {names.map((n, i) => (

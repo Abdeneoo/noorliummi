@@ -17,7 +17,6 @@ export default function HisnLangs() {
         {D[l].map((e) => <p key={e.id} style={{ margin: '6px 0 0' }}><span dir="auto">{e.title}</span><br />
           {e.files.map((f, i) => <a key={f.url} className="btn small ghost" href={f.url} target="_blank" rel="noopener" style={{ marginInlineEnd: 6 }}>{(f.url.split('.').pop() ?? '').toUpperCase()}{e.files.length > 1 ? ` ${i + 1}` : ''}{f.size ? ` · ${f.size}` : ''}</a>)}</p>)}
       </div></li>)}</ul>
-      <p className="note"><Link href="/sources">المصادر</Link></p>
     </article>
   );
 }

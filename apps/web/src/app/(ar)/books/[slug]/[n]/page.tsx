@@ -18,8 +18,6 @@ export default async function Chap({ params }: { params: Promise<{ slug: string;
         const T = x.tag === 'h2' ? 'h2' : x.tag === 'h3' ? 'h3' : x.tag === 'h4' ? 'h4' : 'p';
         return <div key={i} className={`blk blk-${T}`}><T lang="ar" className="ar">{x.ar}</T>{(Object.keys(x.tr) as (keyof typeof BOOK_LANGS)[]).map((l) => <div key={l} className="he-tr bk-tr" data-l={l} lang={l} dir={BOOK_LANGS[l].dir} hidden>{x.tr[l]}</div>)}</div>;
       })}</div>
-      {c.url && <p className="note">نص الفتوى منقول كما هو من <a href={c.url} target="_blank" rel="noopener">صفحتها في الموقع الرسمي ↗</a> («النقل متاح لكل مسلم بشرط ذكر المصدر»).</p>}
-      <p className="note">المصدر: «{b.title}» — {b.author}، الفصل {n.toLocaleString('ar-EG')}، <a href={b.source} target="_blank" rel="noopener">{b.source.includes('binbaz') ? 'binbaz.org.sa' : 'IslamHouse'} ↗</a>. النص كما هو دون تعديل. حالة المراجعة في منصتنا: موثّق المصدر، لم يراجعه مراجع المنصة. <Link href={`/report?p=${encodeURIComponent(`/books/${b.slug}/${n}`)}`}>بلّغ عن خطأ في هذه الصفحة</Link></p>
       <nav className="pager">{n > 1 ? <Link className="btn ghost" href={`/books/${b.slug}/${n - 1}`}>الفصل السابق</Link> : <span />}<Link className="btn ghost" href={`/books/${b.slug}`}>الفهرس</Link>{n < last ? <Link className="btn ghost" href={`/books/${b.slug}/${n + 1}`}>الفصل التالي</Link> : <span />}</nav>
     </article>
   );

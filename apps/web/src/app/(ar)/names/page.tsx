@@ -14,7 +14,6 @@ export default async function Names() {
     <article style={{ maxWidth: 860, margin: '24px auto' }}>
       <h1>أسماء الله الحسنى</h1>
       <p className="meta"><span>التسعة والتسعون بترتيب كتاب «شرح أسماء الله الحسنى في ضوء الكتاب والسنة»</span><span>د. سعيد بن علي بن وهف القحطاني</span></p>
-      <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم.</p>
       <details className="section"><summary><strong>وضع البطاقات للمراجعة</strong></summary>
         <NamesCards cards={list.map((n) => { const r = n.refs[0]; return { id: n.id, name: n.name, url: n.url, ...(r ? { ayah: surahs.get(r[0])!.ayat[r[1] - 1].t, ref: `${SURAHS[r[0] - 1].name}: ${arDigits(r[1])}` } : {}) }; })} />
       </details>
@@ -27,7 +26,6 @@ export default async function Names() {
                 {surahs.get(s)!.ayat[a - 1].t} <Link className="ayah-end" href={`/quran/${s}#a${a}`}>﴿{SURAHS[s - 1].name}: {arDigits(a)}﴾</Link>
               </p>
             ))}
-            {n.refs.length === 0 && <p className="note">لا تُعرض آية هنا: الآيات التي يحيل إليها الكتاب لهذا الاسم لا تذكره بلفظه، فهي بانتظار مراجعة أهل العلم.</p>}
             {n.found && <p className="note">من آيات تجمع أسماء الله، لأن آيات الكتاب لهذا الاسم لا تذكره بلفظه.</p>}
             {n.refs.length > 3 && <p className="note">و{arDigits(n.refs.length - 3)} مواضع أخرى.</p>}
             {n.url && <p className="note"><a href={n.url} target="_blank" rel="noopener">الشرح في الكتاب ↗</a></p>}

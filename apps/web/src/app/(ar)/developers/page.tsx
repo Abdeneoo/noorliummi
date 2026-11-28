@@ -11,7 +11,7 @@ export default function Developers() {
       <h2>ودجت «آية اليوم»</h2>
       <p>كود التضمين في <Link href="/tools">صفحة الأدوات</Link>.</p>
       <h2>الشروط</h2>
-      <ul><li>اذكر المصدر الأصلي لكل نص كما يرد في الحقل <code>source</code> وفي <Link href="/sources">صفحة المصادر</Link>، والتزم بترخيصه.</li><li>لا تعدّل نص القرآن ولا الأحاديث.</li><li>البيانات «نسخة تجريبية» لم تكتمل مراجعتها؛ بيّن ذلك لمستخدميك.</li><li>الكود كله مفتوح على <a href="https://github.com/Abdeneoo/noorliummi" target="_blank" rel="noopener">GitHub ↗</a> بترخيص AGPL.</li></ul>
+      <ul><li>اذكر المصدر الأصلي لكل نص كما يرد في الحقل <code>source</code> وفي <Link href="/sources">صفحة المصادر</Link>، والتزم بترخيصه.</li><li>لا تعدّل نص القرآن ولا الأحاديث.</li><li>الكود كله مفتوح على <a href="https://github.com/Abdeneoo/noorliummi" target="_blank" rel="noopener">GitHub ↗</a> بترخيص AGPL.</li></ul>
     </article>
   );
 }

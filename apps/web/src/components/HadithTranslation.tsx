@@ -22,7 +22,7 @@ export default function HadithTranslation({ book, s, target }: { book: string; s
         if (t) { p.textContent = t; have++; } else { p.textContent = '— الترجمة غير متوفرة لهذا الحديث —'; p.lang = 'ar'; p.dir = 'rtl'; p.classList.add('missing'); }
         li.appendChild(p);
       });
-      setMsg(`${LANGS[lang].name}: ${have} من ${all} في هذه الصفحة. المصدر: fawazahmed0/hadith-api (المترجم غير مذكور في المصدر).`);
+      setMsg(`${LANGS[lang].name}: ${have} من ${all} في هذه الصفحة.`);
     }).catch(() => setMsg('تعذّر تحميل الترجمة.'));
     return () => { off = true; };
   }, [lang, book, s, target]);

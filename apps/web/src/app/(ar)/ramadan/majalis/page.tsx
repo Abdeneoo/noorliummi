@@ -24,14 +24,12 @@ export default function Majalis() {
   return (
     <article style={{ maxWidth: 960, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/ramadan">رمضان</Link></p><h1>مجالس شهر رمضان والدروس الرمضانية</h1>
-        <p>دروس وخطب وكتب من IslamHouse بأسماء المشايخ ومصادرها. سياسة IslamHouse المنشورة تسمح بالنشر والاستماع والحفظ دون إنترنت دون تعديل مع ذكر المصدر. لا نكتب دروسًا ولا ننسب كلامًا لأحد.</p></header>
+        <p>مجلس لكل يوم من رمضان، ودروس وخطب بأصوات المشايخ.</p></header>
       <TodayMajlis days={series.map(({ n, x }) => ({ n, title: x.title.replace(/^دروس من رمضان \[ \d+ \] /, ''), track: tracks(x)[0] }))} />
       <section className="section" id="daily"><h2>«دروس من رمضان» — الشيخ صالح الفوزان (مجلس لكل يوم)</h2>
-        <p className="note">من إذاعة القرآن الكريم بالمملكة العربية السعودية عبر IslamHouse. {series.length.toLocaleString('ar-EG')} من ٣٠ مجلسًا متاحة {series.length < 30 ? `(الناقص: ${Array.from({ length: 30 }, (_, i) => i + 1).filter((n) => !series.some((s) => s.n === n)).map((n) => n.toLocaleString('ar-EG')).join('، ')})` : ''}.</p>
         <div className="row"><PlayTrack tracks={series.flatMap((s) => tracks(s.x))} label="▶ شغّل السلسلة" className="btn" /><AddToPlaylist tracks={series.flatMap((s) => tracks(s.x))} name="دروس من رمضان — الفوزان" /></div>
         <ol className="athar-items">{series.map(({ n, x }) => <li key={x.id} value={n}><PlayTrack tracks={tracks(x)} /> {x.title.replace(/^دروس من رمضان \[ \d+ \] /, '')}</li>)}</ol></section>
       <section className="section" id="books"><h2>كتب المجالس الرمضانية</h2>
-        <p className="note">تُفتح من IslamHouse (PDF). نصوصها غير منقولة إلى الموقع: نص «مجالس شهر رمضان» للعثيمين ينتظر إذن مؤسسة الشيخ.</p>
         <ul className="athar-dir">{majBooks.map((x) => <li key={x.id}><a href={x.attachments.find((a) => a.type === 'PDF')!.url} target="_blank" rel="noopener"><strong>{x.title}</strong><small>{author(x)} · PDF {x.attachments.find((a) => a.type === 'PDF')!.size}</small></a></li>)}</ul></section>
       <section className="section" id="khutab"><h2>خطب الحرمين عن رمضان والصيام</h2><ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 8 }}>{khutab.map((x) => <Row key={x.id} x={x} />)}</ul></section>
       <section className="section" id="sharh"><h2>شروح كتب الصيام ودروس أخرى</h2><ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 8 }}>{sharh.map((x) => <Row key={x.id} x={x} />)}</ul></section>

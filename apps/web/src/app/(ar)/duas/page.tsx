@@ -29,7 +29,6 @@ export default async function Duas() {
         <p>أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها، مرتبة حسب الحاجة. أضف ما تريد إلى صفحة أثر، أو شاركه كصورة.</p></header>
       <DuaNav />
       <nav className="card" aria-label="أقسام هذه الصفحة"><ul className="chips even">{[...QURAN.map((g, i) => [`q${i}`, g.title]), ...GROUPS.map((g, i) => [`g${i}`, g.title])].map(([id, t]) => <li key={id}><a href={`#${id}`}>{t}</a></li>)}{HISN_GROUPS.map((g) => <li key={g.id}><a href={`#${g.id}`}>{g.title}</a></li>)}</ul></nav>
-      <p className="review-banner">النصوص كما في مصادرها دون تأليف أو تعديل. نسخة تجريبية بانتظار مراجعة أهل العلم.</p>
       {quran.map((g, gi) => (
         <section key={g.title} id={`q${gi}`} className="section"><h2>{g.title}</h2>
           <ul className="dhikr-list">{g.ayat.map((x) => (

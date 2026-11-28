@@ -17,7 +17,6 @@ export default async function TrSura({ params }: { params: Promise<{ key: string
         <p lang="ar" dir="rtl" style={{ fontFamily: 'var(--font-quran)', fontSize: '1.2rem', lineHeight: 2.2, margin: 0 }}>{ayat[r.aya - 1]?.t} ﴿{r.aya.toLocaleString('ar-EG')}﴾</p>
         <p dir={t.direction} style={{ margin: '6px 0 0' }}>{r.t}</p>{r.fn && <details><summary>الحواشي</summary><p dir={t.direction} style={{ whiteSpace: 'pre-line' }}>{r.fn}</p></details>}</li>)}</ol>
       <nav className="pager">{s > 1 ? <Link className="btn ghost" href={`/translations/${key}/${s - 1}`}>السورة السابقة</Link> : <span />}<Link className="btn ghost" href={`/quran/${s}`}>المصحف</Link>{s < 114 ? <Link className="btn ghost" href={`/translations/${key}/${s + 1}`}>السورة التالية</Link> : <span />}</nav>
-      <p className="note"><Link href="/sources">المصادر</Link></p>
     </article>
   );
 }

@@ -21,11 +21,9 @@ export default async function AdhkarCat({ params }: { params: Promise<{ id: stri
   return (
     <article className="reader">
       <header><h1 style={{ fontFamily: 'var(--font-ui)', fontSize: '1.6rem', fontWeight: 700 }}>{cat.title}</h1><PrintButton label="اطبع للمسجد أو البيت (A4)" /></header>
-      <p className="review-banner" role="note">نسخة تجريبية: النصوص والأعداد والتخريج كما وردت في المصدر، ولم تكتمل مراجعتها بعد.</p>
       {id === 29 && <p style={{ textAlign: 'center' }}><Link className="btn ghost" href="/sakina?adhkar=sleep">وضع السكينة: ذكر واحد بخط كبير ومؤقت نوم</Link></p>}
       <DhikrList catId={id} items={cat.items} />
       <AdhkarTranslation data={adhkarTranslations(id)} />
-      <p className="note">المصدر: «حصن المسلم» — سعيد بن علي بن وهف القحطاني.</p>
       <nav className="pager"><Link className="btn ghost" href="/adhkar">كل الأبواب</Link></nav>
     </article>
   );

@@ -19,7 +19,6 @@ export default async function Words({ params }: { params: Promise<{ n: string }>
   return (
     <article className="reader">
       <header><h1>كلمات سورة {meta.name}</h1><div className="meta"><span>نوع كل كلمة وجذرها وخصائصها</span></div></header>
-      <p className="review-banner">تحليل آلي للتعلّم والاستئناس، وليس إعرابًا معتمدًا.</p>
       <ol className="tafsir-list">
         {ayat.map((a) => {
           const words = a.t.split(' '); const m = morph[a.n];

@@ -71,7 +71,6 @@ export default async function Thirty() {
             {a && <div className="row"><PlayTrack tracks={tr} label={`▶ ${a.title}`} /><small className="note">{tr[0]?.by}</small><AddToPlaylist tracks={tr} name="30 مجلسًا في رمضان" /></div>}
             {m.f && <p className="note" style={{ margin: 0 }}>الفقه: <Link href={m.f[0]}>{m.f[1]}</Link> (الفقه الميسر، وأقوال الفقهاء من بداية المجتهد)</p>}
           </li>); })}</ol>
-      <p className="note">المصادر: نص المصحف من Tanzil؛ الأحاديث من كتب الموقع مع أرقامها؛ الدروس من IslamHouse بسياسته المنشورة. لم يراجعه مراجع المنصة بعد.</p>
     </article>
   );
 }

@@ -9,7 +9,6 @@ export default async function MutashabihatIndex() {
   return (
     <article>
       <header className="page-head"><p className="eyebrow">المعرفة</p><h1>متشابهات القرآن</h1><p>الآيات المتشابهة في اللفظ، عونًا على الحفظ والمراجعة. اختر سورة.</p></header>
-      <p className="review-banner">نسخة تجريبية بانتظار مراجعة معلم قرآن.</p>
       <MutashabihatQuiz />
       <h2>السور</h2>
       <ul className="surah-list">

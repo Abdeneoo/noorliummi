@@ -12,7 +12,6 @@ export default async function Translations() {
         <p>{L.length.toLocaleString('ar-EG')} ترجمة بـ{langs.length.toLocaleString('ar-EG')} لغة من موسوعة القرآن الكريم، بأحدث إصدار، كما هي دون تعديل.</p></header>
       {!L.length && <p className="card">تعذّر الوصول إلى موسوعة القرآن الآن. حاول لاحقًا.</p>}
       {langs.map((c) => <section key={c} className="section"><h2>{name(c)}</h2><ul className="athar-dir">{L.filter((t) => t.language_iso_code === c).map((t) => <li key={t.key}><Link href={`/translations/${t.key}/1`}><strong dir={t.direction}>{t.title}</strong><small>الإصدار {t.version}</small></Link></li>)}</ul></section>)}
-      <p className="note"><Link href="/sources">المصادر</Link></p>
     </article>
   );
 }

@@ -20,7 +20,7 @@ export default function LessonPlayer({ id, title, attachments }: { id: number; t
         : <audio key={cur.url} ref={(e) => { el.current = e; }} controls preload="metadata" style={{ width: '100%' }} src={cur.url} onLoadedMetadata={restore} onTimeUpdate={save} onEnded={() => i < media.length - 1 && setI(i + 1)} />)}
       {media.length > 1 && <ol className="lesson-parts">{media.map((a, k) => <li key={a.url}><button type="button" className={k === i ? 'on' : ''} onClick={() => setI(k)}>{a.description || `الجزء ${(k + 1).toLocaleString('ar-EG')}`} <small>{a.size}</small></button></li>)}</ol>}
       {docs.length > 0 && <ul className="chips" style={{ marginTop: 12 }}>{docs.map((a) => <li key={a.url}><a href={a.url} target="_blank" rel="noopener">{a.description || a.extension_type} ({a.extension_type}{a.size ? ` · ${a.size}` : ''}) ↗</a></li>)}</ul>}
-      {!attachments.length && <p className="note">لا مرفقات لهذه المادة في المصدر.</p>}
+      {!attachments.length && <p className="note">لا مرفقات لهذه المادة.</p>}
       <div className="row"><button type="button" className={fav ? 'btn small' : 'btn ghost small'} aria-pressed={fav ? 'true' : 'false'} onClick={toggleFav}>{fav ? '★ في المفضلة' : '☆ أضف للمفضلة'}</button><button type="button" className="btn ghost small" onClick={share}>{copied ? 'نُسخ الرابط ✓' : 'مشاركة'}</button></div>
     </section>
   );

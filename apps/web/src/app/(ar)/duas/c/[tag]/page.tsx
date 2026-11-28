@@ -15,7 +15,6 @@ export default async function Page({ params }: { params: Promise<{ tag: string }
       <header className="page-head"><p className="eyebrow"><Link href="/duas">الأدعية</Link></p><h1>{TAG[tag]}</h1><p>{list.length.toLocaleString('ar-EG')} دعاءً وردت فيها هذه الكلمات.</p></header>
       <DuaNav />
       <ul className="chips even" style={{ marginBottom: 12 }}>{Object.entries(TAG).filter(([k]) => k !== tag).map(([k, v]) => <li key={k}><Link href={`/duas/c/${k}`}>{v}</Link></li>)}</ul>
-      <p className="review-banner">النصوص من كتاب «الدعاء من الكتاب والسنة» للدكتور سعيد بن علي بن وهف القحطاني كما نشرته موسوعة المحتوى الإسلامي (IslamHouse)، مع تخريج المؤلف وحكمه تحت كل دعاء، ونص الآيات من المصحف (Tanzil). التصنيف حسب الموضوع آلي بالكلمات الواردة في نص الدعاء. لم يراجع المحتوى مراجعٌ شرعي في المنصة بعد.</p>
       <DuaList list={list} />
     </article>
   );

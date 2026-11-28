@@ -46,7 +46,6 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
         <div className="row"><DuaFav id={`reciter:${p.slug}`} /><ShareLink title={`${p.ar} — نور لأمي`} /></div></header>
 
       {allIh.length > 0 && <section className="section"><h2>تسجيلات تعمل في الخلفية وتُحفظ دون إنترنت</h2>
-        <p className="note">من IslamHouse، تُشغَّل من خوادمهم دون تعديل وفق سياستهم المنشورة (تسمح بالنشر والحفظ للاستخدام دون إنترنت مع ذكر المصدر).</p>
         <div className="row"><PlayTrack tracks={allIh} label={`▶ شغّل الكل (${allIh.length.toLocaleString('ar-EG')})`} className="btn" /><AddToPlaylist tracks={allIh} name={p.ar} /><SaveOffline srcs={allIh.map((t) => t.src)} /></div>
         <ul className="athar-items">{ih.map(({ it, tracks }) => <li key={it.id}><PlayTrack tracks={tracks} /> {it.title} {tracks.length > 1 && <small className="note">({tracks.length.toLocaleString('ar-EG')} مقطعًا)</small>}</li>)}</ul></section>}
 
@@ -67,7 +66,6 @@ export default async function ReciterPage({ params }: { params: Promise<{ slug: 
 
       {clips.length > 0 && <section className="section"><h2>مقاطع تلاوة مختارة</h2><TvLibrary rows={clips} cats={catsOf(clips)} /></section>}
 
-      <p className="note"><Link href="/sources">المصادر والتراخيص</Link></p>
     </article>
   );
 }

@@ -655,3 +655,78 @@ body:has(.audio-dock:not(.tv-dock)) .tv-dock{bottom:calc(196px + env(safe-area-i
 
 .big-btn{font-size:1.2rem;padding:16px 22px;min-height:56px;border-radius:16px}
 .big-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));align-items:center}
+
+/* ── Umrah ─────────────────────────────────────────── */
+.um { max-width: 820px; margin: 0 auto; }
+.um-hero { position: relative; isolation: isolate; overflow: hidden; border-radius: 28px; padding: 48px 24px 40px; color: #F8F6F0; text-align: center;
+  background: radial-gradient(80% 90% at 50% 0%, #1E5A4A 0%, #103D32 55%, #0A2A22 100%); box-shadow: 0 30px 60px -36px rgba(16, 61, 50, .8); }
+.um-hero-art { position: absolute; inset: 0; width: 100%; height: 100%; color: #C6A66B; opacity: .12; z-index: -1; }
+.um-hero-in { display: grid; gap: 14px; justify-items: center; }
+.um-kicker { margin: 0; font-size: .8rem; letter-spacing: .1em; } .um-kicker a { color: #E6D3A8; }
+.um-hero h1 { margin: 0; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3rem); color: #F8F6F0; }
+.um-lead { margin: 0; max-width: 52ch; color: rgba(248, 246, 240, .82); font-weight: 300; line-height: 1.9; }
+.um-facts { list-style: none; padding: 0; margin: 6px 0 4px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.um-facts li { display: grid; min-width: 96px; padding: 10px 14px; border: 1px solid rgba(198, 166, 107, .35); border-radius: 16px; background: rgba(248, 246, 240, .05); }
+.um-facts b { font-size: 1.6rem; color: #E6D3A8; line-height: 1.2; } .um-facts span { font-size: .8rem; color: rgba(248, 246, 240, .75); }
+.um-tabs { position: sticky; top: 8px; z-index: 5; display: flex; gap: 4px; justify-content: center; margin: -22px auto 28px; width: fit-content; padding: 5px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .45); }
+.um-tabs a { padding: 8px 18px; border-radius: 999px; font-size: .9rem; color: var(--text); text-decoration: none; } .um-tabs a:hover { background: var(--tint); }
+.um-journey { scroll-margin-top: 70px; }
+.um-progress { display: grid; grid-template-columns: 1fr auto; gap: 10px 16px; align-items: end; margin-bottom: 18px; }
+.um-progress h2 { margin: 0; font-family: var(--font-display); font-size: var(--fs-h2); } .um-progress p { margin: 2px 0 0; color: var(--muted); }
+.um-progress-tools { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.um-bar { grid-column: 1 / -1; height: 6px; border-radius: 99px; background: var(--tint); overflow: hidden; }
+.um-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--primary), var(--gold)); border-radius: inherit; transition: width .4s var(--ease); }
+.um-steps { list-style: none; margin: 0; padding: 0; position: relative; }
+.um-steps::before { content: ''; position: absolute; inset-inline-start: 23px; top: 24px; bottom: 24px; width: 2px; background: var(--line); }
+.um-step { position: relative; margin-bottom: 12px; }
+.um-step-head { position: relative; display: flex; align-items: center; gap: 14px; }
+.um-num { position: relative; z-index: 1; flex: none; width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--surface); color: var(--text);
+  font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: background-color .2s, border-color .2s, transform .15s; }
+.um-num:active { transform: scale(.94); }
+.um-step.is-current .um-num { border-color: var(--gold); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); }
+.um-step.is-done .um-num { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.um-step-title { flex: 1; display: grid; gap: 2px; text-align: start; padding: 14px 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--text); cursor: pointer; font: inherit; }
+.um-step-title strong { font-size: 1.08rem; } .um-step-title small { color: var(--muted); font-size: .85rem; }
+.um-step.is-current .um-step-title { border-color: color-mix(in srgb, var(--gold) 60%, var(--line)); }
+.um-step.is-done .um-step-title strong { color: var(--muted); }
+.um-chev { position: absolute; inset-inline-end: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1.2rem; pointer-events: none; }
+.um-step-body { margin: 10px 0 6px; margin-inline-start: 62px; padding: 18px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
+.um-step-foot { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 8px; }
+.um-dhikr + .um-dhikr { border-top: 1px dashed var(--line); padding-top: 12px; margin-top: 4px; }
+.um-dhikr-t { margin: 0 0 6px; font-size: .82rem; color: var(--gold-text); font-weight: 600; }
+.um-laps { display: grid; justify-items: center; gap: 12px; padding: 6px 0 16px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
+.um-ring { position: relative; width: 196px; height: 196px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; color: var(--text); -webkit-tap-highlight-color: transparent; }
+.um-ring:disabled { cursor: default; } .um-ring:active:not(:disabled) { transform: scale(.97); }
+.um-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.um-ring-bg { fill: var(--tint); stroke: var(--line); stroke-width: 8; }
+.um-ring-fg { fill: none; stroke: var(--gold); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .35s var(--ease); }
+.um-ring-n { position: relative; display: block; font-size: 3.4rem; font-weight: 700; line-height: 1; margin-top: 4px; }
+.um-ring-of { position: relative; display: block; color: var(--muted); font-size: .9rem; }
+.um-ring-tap { position: relative; display: block; margin-top: 6px; font-size: .78rem; color: var(--gold-text); }
+.um-dots { list-style: none; padding: 0; margin: 0; display: flex; gap: 6px; }
+.um-dots li { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; font-size: .8rem; border: 1px solid var(--line); color: var(--muted); }
+.um-dots li.on { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.um-laps-actions { display: flex; gap: 6px; }
+.um-done { margin-top: 20px; text-align: center; } .um-done h3 { font-family: var(--font-display); margin-top: 0; }
+.um-section { margin-top: 56px; scroll-margin-top: 70px; }
+.um-section-head h2 { margin: 0; font-family: var(--font-display); font-size: var(--fs-h2); } .um-section-head p { margin: 4px 0 16px; color: var(--muted); }
+.um-read { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); margin-bottom: 10px; scroll-margin-top: 70px; }
+.um-read summary { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 18px; cursor: pointer; list-style: none; font-weight: 600; }
+.um-read summary::-webkit-details-marker { display: none; }
+.um-read summary::after { content: '+'; color: var(--muted); font-size: 1.2rem; } .um-read[open] summary::after { content: '−'; }
+.um-read summary small { margin-inline-start: auto; color: var(--muted); font-weight: 400; font-size: .8rem; }
+.um-read-body { padding: 0 18px 12px; border-top: 1px solid var(--line); }
+.um-read-body p { line-height: 2.1; font-size: 1.05rem; margin: 14px 0; }
+.um-more { font-size: .9rem; color: var(--muted); }
+.um-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.um-tile { display: grid; gap: 4px; padding: 16px 18px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-decoration: none; transition: border-color .2s, transform .2s; }
+.um-tile:hover { border-color: var(--gold); transform: translateY(-1px); } .um-tile span { color: var(--muted); font-size: .85rem; }
+.um-tile-main { background: var(--primary); color: var(--on-primary); border-color: var(--primary); } .um-tile-main span { color: color-mix(in srgb, var(--on-primary) 75%, transparent); }
+@media (max-width: 599px) {
+  .um-hero { border-radius: 0 0 24px 24px; margin-inline: calc(-1 * var(--s4, 16px)); padding-top: 36px; }
+  .um-progress { grid-template-columns: 1fr; } .um-progress-tools { justify-content: flex-start; }
+  .um-step-body { margin-inline-start: 0; }
+  .um-steps::before { inset-inline-start: 23px; }
+}
+@media (prefers-reduced-motion: reduce) { .um-bar span, .um-ring-fg { transition: none; } }

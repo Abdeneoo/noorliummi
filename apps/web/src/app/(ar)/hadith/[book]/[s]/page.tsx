@@ -22,7 +22,6 @@ export default async function Section({ params }: { params: Promise<{ book: stri
         <h1>{b.doc.ar}</h1>
         <div className="meta"><span>{sectionLabel(sec, list)}</span>{sec.s > 0 && sec.en && <span dir="ltr" lang="en">{sec.en}</span>}</div>
       </header>
-      <p className="review-banner">نسخة تجريبية بانتظار مراجعة أهل العلم. لا تُعرض الدرجات ولا الحواشي. <Link href={`/hadith/${b.key}`}>مصدر النص وطبعته</Link>{b.doc.license ? ` · ${b.doc.license}` : ''}</p>
       <PageFilter target="#hadith-list" />
       <HadithTranslation book={b.key} s={sec.s} target="#hadith-list" />
       <ol id="hadith-list" className="tafsir-list" style={{ listStyle: 'none', padding: 0 }}>

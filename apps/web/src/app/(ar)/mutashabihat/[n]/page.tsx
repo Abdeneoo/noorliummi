@@ -24,7 +24,6 @@ export default async function Mutashabihat({ params }: { params: Promise<{ n: st
   return (
     <article className="reader">
       <h1>متشابهات سورة {meta.name}</h1>
-      <p className="review-banner">نسخة تجريبية بانتظار مراجعة معلم قرآن. القائمة تضم أكثر مواضع الاشتباه شيوعًا عند الحفّاظ، وليست حصرًا لكل تشابه.</p>
       {items.length === 0 && <p>لا توجد مواضع مسجّلة في هذه السورة.</p>}
       <ul className="tafsir-list">
         {items.map((it) => (

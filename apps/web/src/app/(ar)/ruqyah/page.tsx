@@ -35,7 +35,6 @@ export default async function Ruqyah() {
           <Link className="btn ghost small" href={`/adhkar/${c.id}`}>في الأذكار</Link>
         </section>
       ))}
-      <p className="note">المصادر: نص المصحف من مشروع Tanzil، والأدعية من «حصن المسلم» لسعيد بن وهف القحطاني بتخريجه. <Link href="/sources">المصادر والتراخيص</Link></p>
     </article>
   );
 }
