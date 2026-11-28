@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
+import LataifSeason from '@/components/LataifSeason';
 import HajjChecklist from '@/components/HajjChecklist';
 import { bookMeta } from '@/lib/books';
 import HajjDays from '@/components/HajjDays';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { libBook } from '@/lib/library';
-export const metadata: Metadata = { title: 'موسم الحج' };
+export const metadata: Metadata = { title: 'موسم الحج', openGraph: og('/hajj', 'ar', 'موسم الحج') };
 const HISN = [116, 117, 118, 119, 120, 121, 122, 128];
 const RIYAD = [234, 227, 228, 314];
 export default async function Hajj() {
@@ -40,10 +42,7 @@ export default async function Hajj() {
       </section>
       {riyad && <section className="section"><h2>من «رياض الصالحين»</h2>
         <ul className="athar-dir">{RIYAD.map((i) => { const x = riyad.sections.find((q) => q.i === i); return x && <li key={i}><Link href={`/library/riyad/${i}`}><strong>{x.title}</strong></Link></li>; })}</ul></section>}
-      <section className="card"><h2 style={{ marginTop: 0 }}>شرح المناسك من مصادره الرسمية</h2>
-        <p>لا ننسخ كتب شرح المناسك هنا لأن حقوق نشرها لأصحابها؛ اقرأها من مواقعها الرسمية:</p>
-        <ul><li><a href="https://binothaimeen.net" target="_blank" rel="noopener">موقع الشيخ ابن عثيمين ↗</a> (مناسك الحج والعمرة)</li><li><a href="https://binbaz.org.sa" target="_blank" rel="noopener">موقع الشيخ ابن باز ↗</a> (التحقيق والإيضاح لكثير من مسائل الحج والعمرة)</li><li><a href="https://www.haj.gov.sa" target="_blank" rel="noopener">وزارة الحج والعمرة ↗</a></li></ul>
-        <p className="note">أحكام المناسك تُؤخذ من العلماء لا من هذا الموقع.</p></section>
+      <LataifSeason group={/ذي الحجة/} title="عشر ذي الحجة وعرفة وأيام التشريق — لطائف المعارف" />
     </article>
   );
 }

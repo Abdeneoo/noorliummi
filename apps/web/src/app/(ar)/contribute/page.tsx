@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
-export const metadata: Metadata = { title: 'ساهم في الصدقة الجارية', description: 'كيف يساهم المطورون والمترجمون والمراجعون الشرعيون في نور لأمي عبر GitHub (AGPL-3.0).' };
+export const metadata: Metadata = { title: 'ساهم في الصدقة الجارية', description: 'كيف يساهم المطورون والمترجمون والمراجعون الشرعيون في نور لأمي عبر GitHub (AGPL-3.0).', openGraph: og('/contribute', 'ar', 'ساهم في الصدقة الجارية', 'كيف يساهم المطورون والمترجمون والمراجعون الشرعيون في نور لأمي عبر GitHub (AGPL-3.0).') };
 const ROLES: [string, string][] = [
   ['المطورون', 'الكود مفتوح بترخيص AGPL-3.0. افتح Issue أو Pull Request، والتعديلات تُختبر على بيئة الاختبار قبل الموقع الرسمي.'],
   ['المترجمون', 'نضيف الترجمات من مصادرها الموثقة فقط ولا نستخدم الترجمة الآلية للنصوص الدينية. ساعدنا بترجمة واجهة الموقع (الأزرار والقوائم) أو بالدلالة على ترجمة منشورة بترخيص يسمح.'],

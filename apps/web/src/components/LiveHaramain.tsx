@@ -23,8 +23,7 @@ export default function LiveHaramain() {
               {on[k] && ids?.[k] ? <iframe src={src(ids[k])} title={CH[k].title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
                 : <button type="button" className="live-play" onClick={() => (ok ? setOn((v) => ({ ...v, [k]: true })) : agree(k))} disabled={!ids}><span aria-hidden="true">▶</span>{ok ? 'شغّل البث' : 'أوافق وشغّل البث'}</button>}
             </div>
-            <div className="row"><a className="btn ghost small" href={CH[k].url} target="_blank" rel="noopener">افتحه على يوتيوب ({CH[k].by}) ↗</a>{on[k] && <button type="button" className="btn small" onClick={() => enlarge(k)}>⛶ ملء الشاشة</button>}{on[k] && <button type="button" className="btn ghost small" onClick={() => { setBig(null); setOn((v) => ({ ...v, [k]: false })); }}>أوقف</button>}</div>
-            <p className="note">إن ظهر أن البث غير متاح داخل الصفحة فافتحه من القناة الرسمية بالزر أعلاه. الحقوق للقناة.</p>
+            <div className="row">{on[k] && <button type="button" className="btn small" onClick={() => enlarge(k)}>⛶ ملء الشاشة</button>}{on[k] && <button type="button" className="btn ghost small" onClick={() => { setBig(null); setOn((v) => ({ ...v, [k]: false })); }}>أوقف</button>}</div>
           </section>))}
       </div>
     </>

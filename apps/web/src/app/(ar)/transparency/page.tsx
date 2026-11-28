@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { BOOKS } from '@/lib/hadith';
 import { ADHKAR } from '@/lib/adhkar';
@@ -9,7 +10,7 @@ import coverage from '@/generated/hadith-tr/coverage.json';
 import adhkarCov from '@/generated/adhkar-tr/coverage.json';
 import { REVIEW_SECTIONS, REVIEW_STATES, type ReviewRow } from '@/lib/review';
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'تقرير الشفافية' };
+export const metadata: Metadata = { title: 'تقرير الشفافية', openGraph: og('/transparency', 'ar', 'تقرير الشفافية') };
 const n = (v: number) => v.toLocaleString('ar-EG');
 export default async function Transparency() {
   let rep: Record<string, number> | null = null;

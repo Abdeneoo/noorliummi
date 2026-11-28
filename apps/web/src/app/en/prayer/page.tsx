@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import PrayerCard from '@/components/PrayerCard';
 import { Hub } from '@/components/Tiles';
-export const metadata: Metadata = { title: 'Prayer & Adhan' };
+export const metadata: Metadata = { title: 'Prayer & Adhan', openGraph: og('/en/prayer', 'en', 'Prayer & Adhan') };
 export default function Prayer() {
   return (
     <Hub eyebrow="Prayer & Adhan" title="Prayer times and the adhan" intro="Times are calculated on your device from your location or city; your location is never sent to a server."

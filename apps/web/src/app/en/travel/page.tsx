@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import TravelTools from '@/components/TravelTools';
@@ -6,7 +7,7 @@ import MosqueFinder from '@/components/MosqueFinder';
 import PlayTrack from '@/components/PlayTrack';
 import SaveOffline from '@/components/SaveOffline';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'Traveller’s kit', description: 'Prayer times and qibla where you are, travel duas, rulings for travellers, nearby mosques and halal places, and an offline pack.', alternates: { languages: { ar: '/travel' } } };
+export const metadata: Metadata = { title: 'Traveller’s kit', description: 'Prayer times and qibla where you are, travel duas, rulings for travellers, nearby mosques and halal places, and an offline pack.', alternates: { languages: { ar: '/travel' } }, openGraph: og('/en/travel', 'en', 'Traveller’s kit', 'Prayer times and qibla where you are, travel duas, rulings for travellers, nearby mosques and halal places, and an offline pack.') };
 export default async function TravelEn() {
   const ids = [96, 97, 103, 98, 105, 101, 102, 104, 100, 106, 10, 11];
   const g = await Promise.all(ids.map(async (id) => ({ id, title: ADHKAR.find((a) => a.id === id)?.title ?? '', c: await loadAdhkar(id) })));

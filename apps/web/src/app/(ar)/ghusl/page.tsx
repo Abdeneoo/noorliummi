@@ -36,7 +36,7 @@ export default function Ghusl() {
       ))}
       <section className="um-section"><div className="um-section-head"><h2>من كتاب الطهارة</h2></div>
         <div className="um-grid">
-          <Link className="um-tile" href="/fiqh/taharah/5"><strong>الوضوء</strong><span>فروضه وسننه ونواقضه</span></Link>
+          <Link className="um-tile" href="/wudu"><strong>كيف أتوضأ؟</strong><span>بالرسوم خطوة بخطوة</span></Link><Link className="um-tile" href="/fiqh/taharah/5"><strong>باب الوضوء</strong><span>فروضه وسننه ونواقضه</span></Link>
           <Link className="um-tile" href="/fiqh/taharah/8"><strong>التيمم</strong><span>عند فقد الماء أو العجز عنه</span></Link>
           <Link className="um-tile" href="/fiqh/taharah/10"><strong>الحيض والنفاس</strong></Link>
           <Link className="um-tile" href="/fiqh/taharah"><strong>كتاب الطهارة كاملًا</strong></Link>

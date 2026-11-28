@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import { arDigits } from '@/lib/quran';
 import hadith from '@/generated/hadith/nawawi.json';
 import HadithTranslation from '@/components/HadithTranslation';
-export const metadata: Metadata = { title: 'الأربعون النووية' };
+export const metadata: Metadata = { title: 'الأربعون النووية', openGraph: og('/hadith/nawawi', 'ar', 'الأربعون النووية') };
 
 export default function Nawawi() {
   const list = hadith as { n: number; t: string }[];

@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import ram from '@/generated/duas/ih-ramadan.json';
 import { loadSurah, SURAHS } from '@/lib/quran';
 import { hadithRef } from '@/lib/hadith-ref';
 import PlayTrack from '@/components/PlayTrack';
 import AddToPlaylist from '@/components/AddToPlaylist';
-export const metadata: Metadata = { title: '30 مجلسًا في رمضان', description: 'مجلس لكل يوم من رمضان: آيات وأحاديث بمصادرها، ودرس صوتي من IslamHouse، وباب الفقه المتصل — جمعٌ من مصادر موثقة، لا تأليف.' };
+export const metadata: Metadata = { title: '30 مجلسًا في رمضان', description: 'مجلس لكل يوم من رمضان: آيات وأحاديث بمصادرها، ودرس صوتي من IslamHouse، وباب الفقه المتصل — جمعٌ من مصادر موثقة، لا تأليف.', openGraph: og('/ramadan/30', 'ar', '30 مجلسًا في رمضان', 'مجلس لكل يوم من رمضان: آيات وأحاديث بمصادرها، ودرس صوتي من IslamHouse، وباب الفقه المتصل — جمعٌ من مصادر موثقة، لا تأليف.') };
 export const revalidate = 86400;
 
 /**

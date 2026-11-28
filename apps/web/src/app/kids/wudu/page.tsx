@@ -4,9 +4,10 @@ import { loadSurah, arDigits } from '@/lib/quran';
 import { hadithRef } from '@/lib/hadith-ref';
 import { kidHere } from '@/lib/kid-page';
 import PrintButton from '@/components/PrintButton';
+import WuduSteps from '@/components/WuduSteps';
 export const dynamic = 'force-dynamic';
 /**
- * How to make wudu — text only for now (illustrations will come after review). Every line is quoted from its source:
+ * How to make wudu — animated original drawings in the order of 'Uthman's narration, then the texts. Every line is quoted from its source:
  * al-Ma'ida 6 (Tanzil), the wudu chapter of «الفقه الميسر» (its obligations and sunnahs, verbatim), and Sahih al-Bukhari 159.
  */
 export default async function KidsWudu() {
@@ -20,6 +21,7 @@ export default async function KidsWudu() {
     <article className="kid-wudu">
       <h1>كيف أتوضأ؟</h1>
       <PrintButton label="اطبع دليل الوضوء" />
+      <WuduSteps />
       <section className="card"><h2>قال الله تعالى</h2><p className="ayat" lang="ar" style={{ fontFamily: 'var(--font-quran)' }}>{ayah} ﴿{arDigits(6)}﴾</p><p className="note">سورة المائدة، الآية ٦</p></section>
       <section className="card">{show(fard)}</section>
       <section className="card">{show(sunan)}</section>

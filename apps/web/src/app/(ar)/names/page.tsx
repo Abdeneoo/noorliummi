@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import names from '@/generated/names-of-allah.json';
 import NamesCards from '@/components/NamesCards';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
-export const metadata: Metadata = { title: 'أسماء الله الحسنى' };
+export const metadata: Metadata = { title: 'أسماء الله الحسنى', openGraph: og('/names', 'ar', 'أسماء الله الحسنى') };
 type N = { id: number; name: string; refs: [number, number][]; found?: boolean; page: number | null; url: string | null };
 
 export default async function Names() {
@@ -28,7 +29,6 @@ export default async function Names() {
             ))}
             {n.found && <p className="note">من آيات تجمع أسماء الله، لأن آيات الكتاب لهذا الاسم لا تذكره بلفظه.</p>}
             {n.refs.length > 3 && <p className="note">و{arDigits(n.refs.length - 3)} مواضع أخرى.</p>}
-            {n.url && <p className="note"><a href={n.url} target="_blank" rel="noopener">الشرح في الكتاب ↗</a></p>}
           </li>
         ))}
       </ol>

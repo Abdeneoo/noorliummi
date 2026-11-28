@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import TodayBoard from '@/components/TodayBoard';
 import { ayahOfDay } from '@/lib/daily';
 import { loadSurah } from '@/lib/quran';
-export const metadata: Metadata = { title: 'My day with Allah', description: 'Your daily board: next prayer, adhkar, wird and khatma, ayah of the day, dua for parents, review and your own reminders — kept on your device.', alternates: { languages: { ar: '/today' } } };
+export const metadata: Metadata = { title: 'My day with Allah', description: 'Your daily board: next prayer, adhkar, wird and khatma, ayah of the day, dua for parents, review and your own reminders — kept on your device.', alternates: { languages: { ar: '/today' } }, openGraph: og('/en/today', 'en', 'My day with Allah', 'Your daily board: next prayer, adhkar, wird and khatma, ayah of the day, dua for parents, review and your own reminders — kept on your device.') };
 export const revalidate = 3600;
 /** Saheeh International (QuranEnc 1.1.2), footnote markers removed for the card. */
 async function en(s: number, a: number) { try { const m = (await import(`@/generated/en/quran/${s}.json`)).default as { ayat: { tr: string }[] }; return (m.ayat[a - 1]?.tr ?? '').replace(/\[\d+\]/g, ''); } catch { return ''; } }

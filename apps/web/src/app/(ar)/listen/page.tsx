@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
-export const metadata: Metadata = { title: 'وضع الاستماع' };
+export const metadata: Metadata = { title: 'وضع الاستماع', openGraph: og('/listen', 'ar', 'وضع الاستماع') };
 /** «وضع الطريق»: very large buttons for listening while walking or driving (each opens the continuous player). */
 const ITEMS: [string, string, string][] = [
   ['/sakina?adhkar=morning', 'أذكار الصباح', 'تشغيل متواصل لما له تسجيل'],

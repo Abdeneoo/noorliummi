@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-export const metadata: Metadata = { title: 'الخصوصية والشروط' };
+import { og } from '@/lib/og-page';
+export const metadata: Metadata = { title: 'الخصوصية والشروط', openGraph: og('/privacy', 'ar', 'الخصوصية والشروط') };
 const ISSUES = 'https://github.com/Abdeneoo/noorliummi/issues';
 
 export default function Privacy() {

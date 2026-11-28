@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -8,7 +9,7 @@ const samin = (r: string) => { SAMIN ??= JSON.parse(readFileSync(join(process.cw
   // Weak roots: the corpus and al-Samin may spell the weak letter differently (غشو / غشي).
   const alt = [k, k.replace(/و$/, 'ي'), k.replace(/ي$/, 'و'), k.replace(/^(.)و/, '$1ي'), k.replace(/^(.)ي/, '$1و')];
   for (const x of alt) if (SAMIN![x]) return SAMIN![x]; return []; };
-export const metadata: Metadata = { title: 'غريب القرآن', description: 'معاني الكلمات الغريبة في القرآن من «غريب القرآن» لابن قتيبة و«نزهة القلوب» للسجستاني، بالبحث بالكلمة والجذر والسورة والآية، مع المقارنة بين المؤلفين.' };
+export const metadata: Metadata = { title: 'غريب القرآن', description: 'معاني الكلمات الغريبة في القرآن من «غريب القرآن» لابن قتيبة و«نزهة القلوب» للسجستاني، بالبحث بالكلمة والجذر والسورة والآية، مع المقارنة بين المؤلفين.', openGraph: og('/gharib', 'ar', 'غريب القرآن', 'معاني الكلمات الغريبة في القرآن من «غريب القرآن» لابن قتيبة و«نزهة القلوب» للسجستاني، بالبحث بالكلمة والجذر والسورة والآية، مع المقارنة بين المؤلفين.') };
 export const dynamic = 'force-dynamic';
 type E = { q: string; t: string; b?: 's'; r?: string[] };
 const BOOK = { q: 'ابن قتيبة', s: 'السجستاني' } as const;

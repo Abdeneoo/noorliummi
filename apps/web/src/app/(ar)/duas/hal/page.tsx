@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ADHKAR } from '@/lib/adhkar';
 import { QD, TAG } from '@/lib/duas';
 import DuaNav from '@/components/DuaNav';
-export const metadata: Metadata = { title: 'ادعُ بما يناسب حالك', description: 'الأدعية المأثورة مرتبة حسب حالك: فقد الوالدين، الحزن، المرض، الرزق، السفر، الاستخارة وغيرها.' };
+export const metadata: Metadata = { title: 'ادعُ بما يناسب حالك', description: 'الأدعية المأثورة مرتبة حسب حالك: فقد الوالدين، الحزن، المرض، الرزق، السفر، الاستخارة وغيرها.', openGraph: og('/duas/hal', 'ar', 'ادعُ بما يناسب حالك', 'الأدعية المأثورة مرتبة حسب حالك: فقد الوالدين، الحزن، المرض، الرزق، السفر، الاستخارة وغيرها.') };
 /** Each situation points only to existing sourced texts: Hisn al-Muslim chapters and topic lists of al-Qahtani's book. */
 const HAL: { t: string; hisn: number[]; tags: string[]; extra?: [string, string][] }[] = [
   { t: 'فقد الوالدين', hisn: [56, 57, 60, 61], tags: ['walidayn'], extra: [['/sadaqah/parents', 'كيف أبرّ والديّ بعد وفاتهما؟'], ['/duas#q0', 'أدعية للوالدين من القرآن']] },

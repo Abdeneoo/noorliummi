@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { hadithRef, BOOK_AR } from '@/lib/hadith-ref';
 import { loadSurah, SURAHS, arDigits } from '@/lib/quran';
-export const metadata: Metadata = { title: 'كيف أبرّ والديّ بعد وفاتهما؟', description: 'نصوص من القرآن والسنة الصحيحة في البر بالوالدين بعد وفاتهما، مع أدوات المنصة: الدعاء، صفحة الأثر، الختمة، الصدقة.' };
+export const metadata: Metadata = { title: 'كيف أبرّ والديّ بعد وفاتهما؟', description: 'نصوص من القرآن والسنة الصحيحة في البر بالوالدين بعد وفاتهما، مع أدوات المنصة: الدعاء، صفحة الأثر، الختمة، الصدقة.', openGraph: og('/sadaqah/parents', 'ar', 'كيف أبرّ والديّ بعد وفاتهما؟', 'نصوص من القرآن والسنة الصحيحة في البر بالوالدين بعد وفاتهما، مع أدوات المنصة: الدعاء، صفحة الأثر، الختمة، الصدقة.') };
 /** Texts only from the site's sources (Tanzil, the hadith collections); each tied to a tool on the site. Nothing composed. */
 export default async function Parents() {
   const ayah = (await loadSurah(17)).ayat[23].t;

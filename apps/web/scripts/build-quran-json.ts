@@ -122,6 +122,19 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
       { id: 1159, slug: 'adiya-jamia', pages: 2, level: 'h1', title: 'أدعية جامعة', author: 'لم يُذكر المؤلف في المصدر' },
       { id: 1170, slug: 'dua-ruqa', pages: 1, level: 'h1', title: 'الدعاء ويليه العلاج بالرقى من الكتاب والسنة', author: 'د. سعيد بن علي بن وهف القحطاني' },
       { id: 12274, slug: 'ahkam-fiqhiyya', pages: 8, level: 'h2', title: 'من الأحكام الفقهية في الطهارة والصلاة والجنائز', author: 'الشيخ محمد بن صالح العثيمين' },
+      // Fiqh alternatives (owner, 28 Nov 2026), from IslamHouse's encyclopedia (written approval 26 Nov 2026).
+      { id: 88, slug: 'tanbihat-muminat', pages: 18, level: 'h1', title: 'تنبيهات على أحكام تختص بالمؤمنات', author: 'الشيخ صالح بن فوزان الفوزان' },
+      { id: 798, slug: 'mawaqit-salah', pages: 1, level: 'h2', title: 'رسالة في مواقيت الصلاة', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 124, slug: 'hayd-60', pages: 10, level: 'h2', title: 'ستون سؤالًا في أحكام الحيض والنفاس', author: 'لم يُذكر المؤلف في المصدر' },
+      { id: 120, slug: 'janaiz-70', pages: 10, level: 'h1', title: 'سبعون سؤالًا في أحكام الجنائز', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 126, slug: 'faraid', pages: 11, level: 'h2', title: 'تلخيص فقه الفرائض', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 1167, slug: 'udhiya', pages: 10, level: 'h2', title: 'تلخيص كتاب أحكام الأضحية والذكاة', author: 'الشيخ محمد بن صالح العثيمين' },
+      { id: 820, slug: 'zakat-siyam-binbaz', pages: 2, level: 'h1', title: 'رسالتان موجزتان في الزكاة والصيام', author: 'سماحة الشيخ عبد العزيز بن باز' },
+      { id: 99, slug: 'sifat-salah-mukhtasar', pages: 17, level: 'h1', title: 'مختصر صفة الصلاة', author: 'أ.د. أحمد بن محمد الخليل' },
+      { id: 770, slug: 'fatawa-marda', pages: 10, level: 'h1', title: 'فتاوى المرضى', author: 'الفريق العلمي بجمعية المحتوى الإسلامي باللغات' },
+      { id: 300, slug: 'ilam-musafirin', pages: 31, level: 'h1', title: 'إعلام المسافرين ببعض آداب وأحكام السفر', author: 'من فتاوى الشيخ محمد بن صالح العثيمين — جمع الشيخ وليد الطويل' },
+      { id: 812, slug: 'adab-safar', pages: 4, level: 'h2', title: 'آداب السفر وأحكامه', author: 'جمعية المحتوى الإسلامي باللغات' },
+      { id: 1178, slug: 'umrah-mukhtasar', pages: 2, level: 'h1', title: 'المختصر في صفة العمرة وأحكامها', author: 'اللجنة العلمية بجمعية خدمة المحتوى الإسلامي باللغات' },
     ];
     const books: unknown[] = [];
     for (const b of BOOKS) {
@@ -450,15 +463,15 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
 // ---- Library: whole books from OpenITI (CC BY-NC-SA 4.0), sectioned for reading ----
 {
   const AR: Record<string, { ar: string; author: string }> = { riyad: { ar: 'رياض الصالحين', author: 'الإمام النووي (ت 676هـ)' }, 'adhkar-nawawi': { ar: 'الأذكار', author: 'الإمام النووي (ت 676هـ)' },
-    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' }, bidaya: { ar: 'بداية المجتهد ونهاية المقتصد', author: 'ابن رشد الحفيد (ت 595هـ)' } };
+    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' }, bidaya: { ar: 'بداية المجتهد ونهاية المقتصد', author: 'ابن رشد الحفيد (ت 595هـ)' }, lataif: { ar: 'لطائف المعارف فيما لمواسم العام من الوظائف', author: 'الحافظ ابن رجب الحنبلي (ت 795هـ)' } };
   const index: unknown[] = [];
   // Two pinned OpenITI sources: the RELEASE corpus (Riyad, al-Adhkar) and the 0775AH repository (Qisas al-Anbiya, al-Fusul — chosen by the owner).
-  const libLines = ['library-openiti', 'library-openiti-0775', 'library-openiti-0600'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
+  const libLines = ['library-openiti', 'library-openiti-0775', 'library-openiti-0600', 'library-openiti-0800'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
   for (const { l: line, dir } of libLines) {
     const [sum, key, path] = line.split(/\s+/); const f = `${dir}/files/${key}.txt`;
     if (!existsSync(f)) throw new Error(`Missing ${key} — run infrastructure/fetch-hadith.sh`);
     if (sha256File(f) !== sum) throw new Error(`Checksum mismatch for library ${key} — refusing to build`);
-    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya');
+    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya' | 'lataif');
     const got = bookLetters(b.sections.map((s) => s.blocks.map((x) => ('p' in x ? x.p : 'h' in x ? x.h : 'v' in x ? x.v : '')).join('')).join(''));
     const want = bookLetters(b.body.split(/\r?\n/).filter((l) => !/^### \|{1,3} /.test(l)).join(' ').replace(/\bms\d+[A-Za-z]?\b/g, ''));
     if (got !== want) throw new Error(`Library ${key}: Arabic letters changed in processing — refusing to build`);

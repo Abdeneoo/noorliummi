@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { Hub } from '@/components/Tiles';
 import { listPages } from '@/lib/athar-store';
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'الصدقة الجارية' };
+export const metadata: Metadata = { title: 'الصدقة الجارية', openGraph: og('/sadaqah', 'ar', 'الصدقة الجارية') };
 export default async function Sadaqah() {
   let latest: Awaited<ReturnType<typeof listPages>>['rows'] = [];
   try { latest = (await listPages('', 0)).rows.slice(0, 6); } catch { /* database unavailable */ }

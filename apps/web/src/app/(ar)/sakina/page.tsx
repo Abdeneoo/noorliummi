@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Sakina from '@/components/Sakina';
 import { loadAdhkar } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'وضع السكينة' };
+export const metadata: Metadata = { title: 'وضع السكينة', openGraph: og('/sakina', 'ar', 'وضع السكينة') };
 export default async function SakinaPage({ searchParams }: { searchParams: Promise<{ s?: string; adhkar?: string }> }) {
   const sp = await searchParams;
   const cat = ({ sleep: 29, morning: 27, evening: 28 } as Record<string, number>)[sp.adhkar ?? ''];

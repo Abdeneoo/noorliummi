@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { HE_LANGS, heCategories, isHeLang } from '@/lib/hadeethenc';
-export const metadata: Metadata = { title: 'أحاديث مترجمة مع الشرح' };
+export const metadata: Metadata = { title: 'أحاديث مترجمة مع الشرح', openGraph: og('/hadeeth', 'ar', 'أحاديث مترجمة مع الشرح') };
 const ar = (n: number) => n.toLocaleString('ar-EG');
 export default async function HadeethHome({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
   const l = (await searchParams).lang; const q = isHeLang(l) ? `?lang=${l}` : ''; const cats = await heCategories();

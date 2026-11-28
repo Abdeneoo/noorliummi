@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import { Hub } from '@/components/Tiles';
-export const metadata: Metadata = { title: 'المعرفة' };
+export const metadata: Metadata = { title: 'المعرفة', openGraph: og('/knowledge', 'ar', 'المعرفة') };
 export default function Knowledge() {
   return (
     <Hub eyebrow="المعرفة" title="العلم النافع" intro="نصوص موثّقة المصدر والترخيص، تُعرض كما وردت دون تعديل."

@@ -18,7 +18,7 @@ export default function NamesCards({ cards }: { cards: Card[] }) {
         <span className="note" style={{ margin: 0 }}>{(i + 1).toLocaleString('ar-EG')} / {list.length.toLocaleString('ar-EG')}</span>
         <button type="button" className="btn ghost" onClick={() => go(1)}>التالي</button>
         <button type="button" className="btn ghost" onClick={shuffle}>رتّب عشوائيًا</button>
-        {c.url && <a className="btn ghost" href={c.url} target="_blank" rel="noopener">الشرح ↗</a>}
+        
       </div>
     </section>
   );

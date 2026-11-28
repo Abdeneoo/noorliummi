@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { PROPHETS, surahName } from '@/lib/duas';
 import { loadSurah, arDigits } from '@/lib/quran';
 import DuaNav from '@/components/DuaNav';
 import { DuaAyahPlay, DuaReciterBar } from '@/components/DuaAyahPlayer';
-export const metadata: Metadata = { title: 'أدعية الأنبياء في القرآن الكريم', description: 'أدعية الأنبياء عليهم السلام من القرآن الكريم، مع التفسير الميسر لكل آية، والاستماع بأصوات القراء.' };
+export const metadata: Metadata = { title: 'أدعية الأنبياء في القرآن الكريم', description: 'أدعية الأنبياء عليهم السلام من القرآن الكريم، مع التفسير الميسر لكل آية، والاستماع بأصوات القراء.', openGraph: og('/duas/prophets', 'ar', 'أدعية الأنبياء في القرآن الكريم', 'أدعية الأنبياء عليهم السلام من القرآن الكريم، مع التفسير الميسر لكل آية، والاستماع بأصوات القراء.') };
 const KIND = { said: 'قاله النبي', joint: 'دعا به أكثر من واحد', commanded: 'أُمر النبي ﷺ أن يقوله' } as const;
 export default async function Page() {
   const items = await Promise.all(PROPHETS.map(async (p) => { const su = await loadSurah(p.s); return { ...p, ayat: Array.from({ length: p.to - p.from + 1 }, (_, k) => ({ s: p.s, a: p.from + k, t: su.ayat[p.from + k - 1].t, title: `${surahName(p.s)}: ${p.from + k}` })) }; }));

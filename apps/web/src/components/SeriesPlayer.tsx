@@ -56,8 +56,7 @@ export default function SeriesPlayer({ slug, eps, lecturer }: { slug: string; ep
           : !ok ? (!c?.audio && <div className="kid-center"><p>المشغّل من يوتيوب (خدمة خارجية قد تضع ملفات تعريف وتعرض إعلانات). نستخدم وضع الخصوصية المحسّن، ولا يُحمَّل شيء من يوتيوب قبل موافقتك.</p><button type="button" className="btn" onClick={agree}>موافق — شغّل الحلقات هنا</button></div>)
           : <div className="yt-box" ref={box} hidden={!!c?.audio}>{cur == null && <p className="note kid-center">اختر حلقة من القائمة.</p>}</div>}
         {c && <div style={{ marginTop: 10 }}><strong>{c.t}</strong> <span className="note">· {c.d}{c.audio ? ' · صوت' : ' · فيديو'}</span>
-          {!c.audio && !c.embed && <p className="note">صاحب القناة لا يسمح بتشغيل هذه الحلقة خارج يوتيوب.</p>}
-          <div className="row"><a className="btn ghost small" href={`https://www.youtube.com/watch?v=${c.id}${pos[c.id] > 0 ? `&t=${pos[c.id]}s` : ''}`} target="_blank" rel="noopener">{c.audio ? 'الفيديو على يوتيوب ↗' : 'شاهد على يوتيوب ↗'}</a>
+          <div className="row">
             {cur != null && cur > 0 && <button type="button" className="btn ghost small" onClick={() => play(cur - 1)}>السابقة</button>}
             {cur != null && cur < eps.length - 1 && <button type="button" className="btn ghost small" onClick={() => play(cur + 1)}>التالية</button>}
             <label className="note"><input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} /> تشغيل التالية تلقائيًا</label></div></div>}
@@ -71,7 +70,6 @@ export default function SeriesPlayer({ slug, eps, lecturer }: { slug: string; ep
             <span className="n">{(i + 1).toLocaleString('ar-EG')}</span><span className="t">{e.t}</span>
             <span className="d">{pos[e.id] === -1 ? '✓ ' : ''}{resumeAt(e.id) ? `توقفت عند ${resumeAt(e.id)} · ` : ''}{e.d}</span></button>
           <button type="button" className="fav" aria-pressed={fav.includes(e.id) ? 'true' : 'false'} aria-label={`المفضلة: ${e.t}`} onClick={() => toggleFav(e.id)}>{fav.includes(e.id) ? '★' : '☆'}</button>
-          {!e.audio && !e.embed && <a className="note" href={`https://www.youtube.com/watch?v=${e.id}`} target="_blank" rel="noopener">يوتيوب ↗</a>}
         </li>))}</ol>
       {!shown.length && <p className="note">لا نتائج.</p>}
     </div>

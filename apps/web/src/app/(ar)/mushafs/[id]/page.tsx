@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { album, producers, readers } from '@/lib/ih-quran';
@@ -7,7 +8,7 @@ import PlayTrack from '@/components/PlayTrack';
 import SaveOffline from '@/components/SaveOffline';
 import AddToPlaylist from '@/components/AddToPlaylist';
 import { PEOPLE, norm } from '@/lib/people';
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> { const a = album(Number((await params).id)); return a ? { title: a.title, description: a.description.slice(0, 160) } : {}; }
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> { const id = Number((await params).id); const a = album(id); return a ? { title: a.title, description: a.description.slice(0, 160), openGraph: og(`/mushafs/${id}`, 'ar', a.title, a.description.slice(0, 160)) } : {}; }
 export default async function Mushaf({ params }: { params: Promise<{ id: string }> }) {
   const a = album(Number((await params).id)); if (!a) notFound();
   const who = readers(a).join('، ');

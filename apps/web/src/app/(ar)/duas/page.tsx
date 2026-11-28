@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { loadSurah, SURAHS, arDigits } from '@/lib/quran';
@@ -6,7 +7,7 @@ import ShareImageButton from '@/components/ShareImageButton';
 import { HISN_GROUPS } from '@/lib/duas-groups';
 import DuaNav from '@/components/DuaNav';
 
-export const metadata: Metadata = { title: 'الأدعية', description: 'أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها: للمتوفى والوالدين والمريض والهم والكرب والاستخارة والسفر وغيرها.' };
+export const metadata: Metadata = { title: 'الأدعية', description: 'أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها: للمتوفى والوالدين والمريض والهم والكرب والاستخارة والسفر وغيرها.', openGraph: og('/duas', 'ar', 'الأدعية', 'أدعية من القرآن الكريم ومن «حصن المسلم» بتخريجها: للمتوفى والوالدين والمريض والهم والكرب والاستخارة والسفر وغيرها.') };
 /**
  * A library of sourced duas grouped by need. Every text comes as-is from Hisn al-Muslim (with its takhrij) or is a
  * Quran ayah quoted by reference. Nothing is composed here.

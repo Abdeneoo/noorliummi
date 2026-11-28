@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PlayTrack from '@/components/PlayTrack';
 import SaveOffline from '@/components/SaveOffline';
@@ -7,7 +8,7 @@ import { readyPlaylists } from '@/lib/playlists-ready';
 import { RECITERS, surahUrl } from '@/lib/reciters';
 import { IHA } from '@/lib/duas';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'وضع المريض وكبار السن', description: 'شاشة واحدة بأزرار كبيرة: القرآن، أدعية الشفاء، الرقية الشرعية، أذكار المريض، وأحكام طهارته وصلاته وصيامه.' };
+export const metadata: Metadata = { title: 'وضع المريض وكبار السن', description: 'شاشة واحدة بأزرار كبيرة: القرآن، أدعية الشفاء، الرقية الشرعية، أذكار المريض، وأحكام طهارته وصلاته وصيامه.', openGraph: og('/patient', 'ar', 'وضع المريض وكبار السن', 'شاشة واحدة بأزرار كبيرة: القرآن، أدعية الشفاء، الرقية الشرعية، أذكار المريض، وأحكام طهارته وصلاته وصيامه.') };
 export default async function Patient() {
   const r = RECITERS[0]; // Alafasy, full surahs
   const S: [number, string][] = [[1, 'الفاتحة'], [36, 'يس'], [67, 'الملك'], [112, 'الإخلاص'], [113, 'الفلق'], [114, 'الناس']];
@@ -34,6 +35,7 @@ export default async function Patient() {
         <ul className="athar-dir">{[['/fiqh/taharah/8', 'التيمم لمن لا يستطيع استعمال الماء'], ['/fiqh/taharah/6', 'المسح على الجبيرة'], ['/fiqh/salah/19', 'صلاة أهل الأعذار (المريض والمسافر)'], ['/fiqh/siyam/33', 'الأعذار المبيحة للفطر'], ['/fiqh/siyam/35', 'القضاء والفدية']].map(([h, t]) => <li key={h}><Link href={h}><strong>{t}</strong></Link></li>)}</ul>
         <p className="note">من «الفقه الميسر» مع أقوال الفقهاء في «بداية المجتهد». للحالات الخاصة اسأل أهل العلم.</p></section>
       <section className="card"><h2>المسبحة</h2><Link className="btn big-btn" href="/tasbeeh">افتح المسبحة بزر كبير</Link></section>
+      <section className="section"><h2>أحكام المريض</h2><ul className="athar-dir"><li><Link href="/books/fatawa-marda"><strong>فتاوى المرضى</strong><small>طهارة المريض وصلاته وصيامه</small></Link></li></ul></section>
     </article>
   );
 }

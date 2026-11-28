@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { HISN_GROUPS } from '@/lib/duas-groups';
@@ -10,10 +11,10 @@ import OfflineManager from '@/components/OfflineManager';
 import { hiddenDuas } from '@/lib/duas-hidden';
 import { tvDirect } from '@/lib/rights';
 import TvLibrary from '@/components/TvLibrary';
-import { TVC, TV_DUA_CATS, TV_ITEMS, personOfTv } from '@/lib/people';
+import { PEOPLE, TVC, TV_DUA_CATS, TV_ITEMS, isPriority, personOfTv } from '@/lib/people';
 export const revalidate = 300;
 import DuaNav from '@/components/DuaNav';
-export const metadata: Metadata = { title: 'مكتبة الأدعية الصوتية', description: 'أدعية حصن المسلم بصوت محمد جمعة، وأدعية القرآن بأصوات القراء، ودعاء القنوت وختم القرآن بأصوات أئمة الحرمين.' };
+export const metadata: Metadata = { title: 'مكتبة الأدعية الصوتية', description: 'أدعية حصن المسلم بصوت محمد جمعة، وأدعية القرآن بأصوات القراء، ودعاء القنوت وختم القرآن بأصوات أئمة الحرمين.', openGraph: og('/duas/audio', 'ar', 'مكتبة الأدعية الصوتية', 'أدعية حصن المسلم بصوت محمد جمعة، وأدعية القرآن بأصوات القراء، ودعاء القنوت وختم القرآن بأصوات أئمة الحرمين.') };
 const MORE: { t: string; ids: number[] }[] = [{ t: 'أذكار الصباح والمساء والنوم', ids: [27, 28, 29] }, { t: 'الاستغفار والتسبيح والصلاة على النبي ﷺ', ids: [130, 131, 108] }];
 export default async function Page() {
   const hid = await hiddenDuas(); const direct = await tvDirect();
@@ -41,6 +42,8 @@ export default async function Page() {
       <header className="page-head"><p className="eyebrow"><Link href="/duas">الأدعية</Link></p><h1>مكتبة الأدعية الصوتية</h1><p>تسجيلات بشرية فقط، بلا موسيقى ولا أصوات مولّدة. ما يُشغَّل هنا يستمر وأنت تتنقل في الموقع.</p></header>
       <DuaNav />
       <OfflineManager />
+      <section className="section" id="by-reciter"><h2>الأدعية بصوت قارئك المفضّل</h2>
+        <ul className="chips">{PEOPLE.filter((p) => isPriority(p) && (p.ih.length > 0 || TV_ITEMS.some((t) => TV_DUA_CATS.includes(t.cat) && p.tv.includes(t.scholar_id ?? -1)))).map((p) => <li key={p.slug}><Link href={`/reciters/${p.slug}`}>{p.ar}</Link></li>)}</ul></section>
       <section className="section"><h2>أدعية القرآن الكريم بأصوات القراء</h2>
         <p className="note">{quran.length.toLocaleString('ar-EG')} آية من آيات الدعاء، تُتلى كل آية كاملة. اختر القارئ ثم شغّل.</p>
         <DuaReciterBar all={quran} /></section>

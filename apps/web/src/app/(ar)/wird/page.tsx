@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Wird from '@/components/Wird';
 import MonthSummary from '@/components/MonthSummary';
-export const metadata: Metadata = { title: 'وِردي اليومي' };
+export const metadata: Metadata = { title: 'وِردي اليومي', openGraph: og('/wird', 'ar', 'وِردي اليومي') };
 export default function WirdPage() {
   return (
     <article style={{ maxWidth: 860, margin: '0 auto' }}>

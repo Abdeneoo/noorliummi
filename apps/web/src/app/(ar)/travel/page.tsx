@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import TravelTools from '@/components/TravelTools';
@@ -6,7 +7,7 @@ import MosqueFinder from '@/components/MosqueFinder';
 import PlayTrack from '@/components/PlayTrack';
 import SaveOffline from '@/components/SaveOffline';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'شنطة المسافر', description: 'مواقيت الصلاة والقبلة حيث أنت، أدعية السفر والركوب، أحكام القصر والجمع وصيام المسافر والتيمم، المساجد والمطاعم الحلال القريبة، وحزمة دون إنترنت.' };
+export const metadata: Metadata = { title: 'شنطة المسافر', description: 'مواقيت الصلاة والقبلة حيث أنت، أدعية السفر والركوب، أحكام القصر والجمع وصيام المسافر والتيمم، المساجد والمطاعم الحلال القريبة، وحزمة دون إنترنت.', openGraph: og('/travel', 'ar', 'شنطة المسافر', 'مواقيت الصلاة والقبلة حيث أنت، أدعية السفر والركوب، أحكام القصر والجمع وصيام المسافر والتيمم، المساجد والمطاعم الحلال القريبة، وحزمة دون إنترنت.') };
 export default async function Travel() {
   const ids = [96, 97, 103, 98, 105, 101, 102, 104, 100, 106, 10, 11];
   const g = await Promise.all(ids.map(async (id) => ({ id, title: ADHKAR.find((a) => a.id === id)?.title ?? '', c: await loadAdhkar(id) })));
@@ -26,6 +27,7 @@ export default async function Travel() {
         <ul className="athar-dir">{[['/fiqh/salah/19', 'قصر الصلاة والجمع بين الصلاتين: حكمه ومسافته ومتى يُتم'], ['/fiqh/siyam/33', 'الفطر في السفر وما يبيحه'], ['/fiqh/taharah/8', 'التيمم عند فقد الماء'], ['/fiqh/taharah/6', 'المسح على الخفين للمسافر'], ['/fiqh/salah/20', 'الجمعة للمسافر']].map(([h, t]) => <li key={h}><Link href={h}><strong>{t}</strong></Link></li>)}</ul>
         <p className="note">من «الفقه الميسر» (مجمع الملك فهد)، وفي كل باب قسم «أقوال الفقهاء وأسباب اختلافهم» من «بداية المجتهد» لابن رشد يبيّن الخلاف المعتبر في مسافة القصر ومدته وغيرها، دون ترجيح من الموقع.</p></section>
       <section className="card" id="near"><h2>المساجد القريبة</h2><MosqueFinder /><h2>مطاعم حلال قريبة</h2><MosqueFinder kind="halal" /><p className="note">البيانات من خريطة OpenStreetMap التطوعية (ODbL) وليست شهادة حلال؛ تأكد بنفسك.</p></section>
+      <section className="section"><h2>أحكام السفر وآدابه</h2><ul className="athar-dir"><li><Link href="/books/ilam-musafirin"><strong>إعلام المسافرين ببعض آداب وأحكام السفر</strong><small>من فتاوى الشيخ ابن عثيمين</small></Link></li><li><Link href="/books/adab-safar"><strong>آداب السفر وأحكامه</strong><small>رسالة مختصرة</small></Link></li></ul></section>
     </article>
   );
 }

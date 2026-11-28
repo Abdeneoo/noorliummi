@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import { readyPlaylists } from '@/lib/playlists-ready';
 import { DuaReciterBar } from '@/components/DuaAyahPlayer';
 import PlayTrack from '@/components/PlayTrack';
@@ -7,7 +8,7 @@ import TvLibrary from '@/components/TvLibrary';
 import MyPlaylists from '@/components/MyPlaylists';
 import SaveOffline from '@/components/SaveOffline';
 import { TVC, TV_DUA_CATS } from '@/lib/people';
-export const metadata: Metadata = { title: 'Dua playlists', description: 'Ready playlists of Quranic and prophetic duas, duas for parents and the deceased, for distress, healing, provision, Ramadan and qunut — and your own playlists.', alternates: { languages: { ar: '/playlists' } } };
+export const metadata: Metadata = { title: 'Dua playlists', description: 'Ready playlists of Quranic and prophetic duas, duas for parents and the deceased, for distress, healing, provision, Ramadan and qunut — and your own playlists.', alternates: { languages: { ar: '/playlists' } }, openGraph: og('/en/playlists', 'en', 'Dua playlists', 'Ready playlists of Quranic and prophetic duas, duas for parents and the deceased, for distress, healing, provision, Ramadan and qunut — and your own playlists.') };
 const EN: Record<string, [string, string]> = {
   quran: ['Duas from the Quran', 'Every ayah of supplication in al-Qahtani’s collection, each recited in full.'], sunnah: ['Prophetic duas', 'From Hisn al-Muslim, recited by Muhammad Jumah, in the wording of the hadith.'],
   prophets: ['Duas of the prophets', 'What the prophets (peace be upon them) prayed in the Quran.'], parents: ['Duas for parents', 'The ayat of dua for one’s parents.'],

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import AdhkarIndex from '@/components/AdhkarIndex';
 import { ADHKAR } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'الأذكار' };
+export const metadata: Metadata = { title: 'الأذكار', openGraph: og('/adhkar', 'ar', 'الأذكار') };
 export default function AdhkarPage() {
   return (
     <>

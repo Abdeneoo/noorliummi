@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { QD } from '@/lib/duas';
 import DuaList from '@/components/DuaList';
 import DuaNav from '@/components/DuaNav';
 export const revalidate = 300;
-export const metadata: Metadata = { title: 'أدعية القرآن الكريم', description: 'أدعية من القرآن الكريم مع الآية كاملة وتلاوتها بصوت قراء مختلفين.' };
+export const metadata: Metadata = { title: 'أدعية القرآن الكريم', description: 'أدعية من القرآن الكريم مع الآية كاملة وتلاوتها بصوت قراء مختلفين.', openGraph: og('/duas/quran', 'ar', 'أدعية القرآن الكريم', 'أدعية من القرآن الكريم مع الآية كاملة وتلاوتها بصوت قراء مختلفين.') };
 export default function Page() {
   const list = QD.duas.filter((d) => d.kind === 'quran');
   return (

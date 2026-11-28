@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import ram from '@/generated/duas/ih-ramadan.json';
 import PlayTrack from '@/components/PlayTrack';
 import AddToPlaylist from '@/components/AddToPlaylist';
 import SaveOffline from '@/components/SaveOffline';
 import TodayMajlis from '@/components/TodayMajlis';
-export const metadata: Metadata = { title: 'مجالس شهر رمضان والدروس الرمضانية', description: 'مجلس لكل يوم من رمضان، ودروس الصيام وخطب الحرمين وكتب المجالس، من IslamHouse مع اسم الشيخ والمصدر.' };
+export const metadata: Metadata = { title: 'مجالس شهر رمضان والدروس الرمضانية', description: 'مجلس لكل يوم من رمضان، ودروس الصيام وخطب الحرمين وكتب المجالس، من IslamHouse مع اسم الشيخ والمصدر.', openGraph: og('/ramadan/majalis', 'ar', 'مجالس شهر رمضان والدروس الرمضانية', 'مجلس لكل يوم من رمضان، ودروس الصيام وخطب الحرمين وكتب المجالس، من IslamHouse مع اسم الشيخ والمصدر.') };
 type It = { id: number; type: string; title: string; url: string; by: { id: number; title: string; kind: string }[]; attachments: { type: string; size: string; url: string; desc: string | null }[]; description: string };
 const R = (ram as { fetched: string; items: It[] }).items;
 const author = (x: It) => x.by.filter((b) => b.kind === 'author').map((b) => b.title).join('، ') || x.by.map((b) => b.title).join('، ');
@@ -29,13 +30,8 @@ export default function Majalis() {
       <section className="section" id="daily"><h2>«دروس من رمضان» — الشيخ صالح الفوزان (مجلس لكل يوم)</h2>
         <div className="row"><PlayTrack tracks={series.flatMap((s) => tracks(s.x))} label="▶ شغّل السلسلة" className="btn" /><AddToPlaylist tracks={series.flatMap((s) => tracks(s.x))} name="دروس من رمضان — الفوزان" /></div>
         <ol className="athar-items">{series.map(({ n, x }) => <li key={x.id} value={n}><PlayTrack tracks={tracks(x)} /> {x.title.replace(/^دروس من رمضان \[ \d+ \] /, '')}</li>)}</ol></section>
-      <section className="section" id="books"><h2>كتب المجالس الرمضانية</h2>
-        <ul className="athar-dir">{majBooks.map((x) => <li key={x.id}><a href={x.attachments.find((a) => a.type === 'PDF')!.url} target="_blank" rel="noopener"><strong>{x.title}</strong><small>{author(x)} · PDF {x.attachments.find((a) => a.type === 'PDF')!.size}</small></a></li>)}</ul></section>
       <section className="section" id="khutab"><h2>خطب الحرمين عن رمضان والصيام</h2><ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 8 }}>{khutab.map((x) => <Row key={x.id} x={x} />)}</ul></section>
       <section className="section" id="sharh"><h2>شروح كتب الصيام ودروس أخرى</h2><ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 8 }}>{sharh.map((x) => <Row key={x.id} x={x} />)}</ul></section>
-      <section className="section" id="videos"><h2>مرئيات</h2><ul className="athar-items">{videos.map((x) => <li key={x.id}><a href={x.url} target="_blank" rel="noopener">{x.title} ↗</a> <small className="note">{author(x)}</small></li>)}</ul></section>
-      <section className="section" id="other-books"><h2>كتب أخرى عن الصيام ({(books.length - majBooks.length).toLocaleString('ar-EG')})</h2>
-        <details><summary>اعرض القائمة</summary><ul className="athar-items">{books.filter((x) => !majBooks.includes(x)).map((x) => <li key={x.id}><a href={x.url} target="_blank" rel="noopener">{x.title} ↗</a> <small className="note">{author(x)}</small></li>)}</ul></details></section>
     </article>
   );
 }

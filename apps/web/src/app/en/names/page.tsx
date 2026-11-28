@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import names from '@/generated/names-of-allah.json';
 import { SURAHS, arDigits, loadSurah } from '@/lib/quran';
-export const metadata: Metadata = { title: 'The Names of Allah' };
+export const metadata: Metadata = { title: 'The Names of Allah', openGraph: og('/en/names', 'en', 'The Names of Allah') };
 type N = { id: number; name: string; refs: [number, number][]; page: number | null; url: string | null };
 type En = { v: string; ayat: { tr: string; fn: string }[] };
 
@@ -26,7 +27,6 @@ export default async function Names() {
                 {en.get(s)!.ayat[a - 1].fn && <p className="en-fn">{en.get(s)!.ayat[a - 1].fn}</p>}
               </div>
             ))}
-            {n.url && <p className="note"><a href={n.url} target="_blank" rel="noopener">Explanation in the book (Arabic) ↗</a></p>}
           </li>
         ))}
       </ol>

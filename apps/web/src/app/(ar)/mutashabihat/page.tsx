@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ayat } from '@/lib/arnum';
 import MutashabihatQuiz from '@/components/MutashabihatQuiz';
 import { SURAHS, arDigits, loadMutashabihat } from '@/lib/quran';
-export const metadata: Metadata = { title: 'متشابهات القرآن' };
+export const metadata: Metadata = { title: 'متشابهات القرآن', openGraph: og('/mutashabihat', 'ar', 'متشابهات القرآن') };
 export default async function MutashabihatIndex() {
   const counts = await Promise.all(SURAHS.map(async (s) => Object.keys(await loadMutashabihat(s.index)).length));
   return (

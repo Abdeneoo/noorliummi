@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import PlayTrack from './PlayTrack';
 
 /** The Umrah journey: ordered steps, the dhikr of each step (texts passed in from «حصن المسلم» unchanged),
  *  and a lap counter for tawaf and sa'i. Progress is kept on this device only. */
-export interface Dh { title: string; items: { n: number; t: string; r: string; en?: string; tl?: string }[] }
+export interface Dh { title: string; items: { n: number; t: string; r: string; en?: string; tl?: string; a?: string }[] }
 export interface Step { id: string; title: string; hint: string; read?: string; dhikr: Dh[]; laps?: boolean }
 type S = { done: Record<string, boolean>; laps: Record<string, number> };
 const KEY = 'noor.umrah.v2';
@@ -83,7 +84,7 @@ export default function UmrahJourney({ steps, after, lang = 'ar' }: { steps: Ste
               {o && <div className="um-step-body">
                 {x.laps && <Laps id={x.id} n={s.laps[x.id] ?? 0} set={(n) => setLaps(x.id, n)} />}
                 {x.dhikr.map((g) => <div key={g.title} className="um-dhikr"><p className="um-dhikr-t">{g.title}</p>
-                  {g.items.map((it) => <div key={it.n}><p className="dhikr-text" lang="ar" dir="rtl">{it.t}</p>{lang === 'en' && it.tl && <p className="um-tl" lang="en">{it.tl}</p>}{lang === 'en' && it.en && <p className="um-en" lang="en">{it.en}</p>}{it.r && <p className="dhikr-ref">{it.r}</p>}</div>)}</div>)}
+                  {g.items.map((it) => <div key={it.n}>{it.a && <PlayTrack lang={lang} tracks={[{ id: `um-${g.title}-${it.n}`, src: `/audio/adhkar/${it.a}`, title: g.title, by: 'محمد جمعة (OpenDua)', license: 'CC BY 4.0 — Recitation by Muhammad Jumah for OpenDua', text: it.t, page: lang === 'en' ? '/en/umrah' : '/umrah' }]} />}<p className="dhikr-text" lang="ar" dir="rtl">{it.t}</p>{lang === 'en' && it.tl && <p className="um-tl" lang="en">{it.tl}</p>}{lang === 'en' && it.en && <p className="um-en" lang="en">{it.en}</p>}{it.r && <p className="dhikr-ref">{it.r}</p>}</div>)}</div>)}
                 <div className="um-step-foot">
                   {x.read && <a className="btn ghost small" href={x.read}>{t.read}</a>}
                   <button type="button" className={`btn small${d ? ' ghost' : ''}`} onClick={() => toggle(x.id)}>{d ? t.undo : t.ok}</button>
@@ -94,7 +95,7 @@ export default function UmrahJourney({ steps, after, lang = 'ar' }: { steps: Ste
         })}
       </ol>
       {all && <div className="um-done card"><h3>{t.accepted}</h3>
-        {after.map((g) => <div key={g.title} className="um-dhikr"><p className="um-dhikr-t">{g.title}</p>{g.items.map((it) => <div key={it.n}><p className="dhikr-text" lang="ar" dir="rtl">{it.t}</p>{lang === 'en' && it.tl && <p className="um-tl" lang="en">{it.tl}</p>}{lang === 'en' && it.en && <p className="um-en" lang="en">{it.en}</p>}{it.r && <p className="dhikr-ref">{it.r}</p>}</div>)}</div>)}</div>}
+        {after.map((g) => <div key={g.title} className="um-dhikr"><p className="um-dhikr-t">{g.title}</p>{g.items.map((it) => <div key={it.n}>{it.a && <PlayTrack lang={lang} tracks={[{ id: `um-${g.title}-${it.n}`, src: `/audio/adhkar/${it.a}`, title: g.title, by: 'محمد جمعة (OpenDua)', license: 'CC BY 4.0 — Recitation by Muhammad Jumah for OpenDua', text: it.t, page: lang === 'en' ? '/en/umrah' : '/umrah' }]} />}<p className="dhikr-text" lang="ar" dir="rtl">{it.t}</p>{lang === 'en' && it.tl && <p className="um-tl" lang="en">{it.tl}</p>}{lang === 'en' && it.en && <p className="um-en" lang="en">{it.en}</p>}{it.r && <p className="dhikr-ref">{it.r}</p>}</div>)}</div>)}</div>}
     </section>
   );
 }

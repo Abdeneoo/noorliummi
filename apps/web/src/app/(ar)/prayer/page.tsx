@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import MyMosqueTimes from '@/components/MyMosqueTimes';
+import { og } from '@/lib/og-page';
 import PrayerCard from '@/components/PrayerCard';
 import { Hub } from '@/components/Tiles';
-export const metadata: Metadata = { title: 'الصلاة والأذان' };
+export const metadata: Metadata = { title: 'الصلاة والأذان', openGraph: og('/prayer', 'ar', 'الصلاة والأذان') };
 export default function Prayer() {
   return (
     <Hub eyebrow="الصلاة والأذان" title="مواقيت الصلاة والأذان" intro="تُحسب المواقيت على جهازك من موقعك أو مدينتك، ولا يُرسل موقعك إلى أي خادم."
@@ -17,6 +19,7 @@ export default function Prayer() {
         { href: '/adhkar/25', icon: 'adhkar', title: 'الأذكار بعد الصلاة', desc: 'الأذكار بعد السلام من الصلاة.' },
       ]}>
       <PrayerCard />
+      <div className="section"><MyMosqueTimes /></div>
     </Hub>
   );
 }

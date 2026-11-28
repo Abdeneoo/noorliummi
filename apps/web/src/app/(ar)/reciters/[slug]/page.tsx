@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PEOPLE, TV_DUA_CATS, TV_ITEMS, TVC, ihItem, person, tvCat } from '@/lib/people';
@@ -18,8 +19,8 @@ import { QD, ayatOf, surahName } from '@/lib/duas';
 const S = surahs as { index: number; name: string }[];
 export function generateStaticParams() { return PEOPLE.map((p) => ({ slug: p.slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const p = person((await params).slug); if (!p) return {};
-  return { title: `${p.ar} — الأدعية والتلاوات`, description: `ما بصوت ${p.ar} في نور لأمي: الأدعية والأذكار والرقية والتلاوات، مع مصدر كل تسجيل.`, alternates: { languages: { en: `/en/reciters/${p.slug}` } } };
+  const slug = (await params).slug; const p = person(slug); if (!p) return {};
+  return { openGraph: og(`/reciters/${slug}`, 'ar', `${p.ar} — الأدعية والتلاوات`), title: `${p.ar} — الأدعية والتلاوات`, description: `ما بصوت ${p.ar} في نور لأمي: الأدعية والأذكار والرقية والتلاوات، مع مصدر كل تسجيل.`, alternates: { languages: { en: `/en/reciters/${p.slug}` } } };
 }
 
 export default async function ReciterPage({ params }: { params: Promise<{ slug: string }> }) {

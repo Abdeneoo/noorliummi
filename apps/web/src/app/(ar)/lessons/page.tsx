@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { FEATURED, categories, latest } from '@/lib/islamhouse';
 import { LessonList, SourceNote } from '@/components/LessonParts';
@@ -7,7 +8,7 @@ import LessonCatSearch from '@/components/LessonCatSearch';
 import type { IhCat } from '@/lib/islamhouse';
 const flat = (t: IhCat | null, out: [number, string][] = []) => { for (const c of t?.sub_categories ?? []) { out.push([c.id, c.title]); flat(c, out); } return out; };
 export const revalidate = 300;
-export const metadata: Metadata = { title: 'الدروس' };
+export const metadata: Metadata = { title: 'الدروس', openGraph: og('/lessons', 'ar', 'الدروس') };
 export default async function Lessons() {
   const [tree, audio] = await Promise.all([categories(), latest('audios', 1, 8)]);
   return (

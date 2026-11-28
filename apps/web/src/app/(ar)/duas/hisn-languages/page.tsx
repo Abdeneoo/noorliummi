@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-export const metadata: Metadata = { title: 'حصن المسلم بلغات العالم', description: 'ترجمات حصن المسلم من دار الإسلام بأكثر من خمسين لغة، تُفتح من موقعهم.' };
+export const metadata: Metadata = { title: 'حصن المسلم بلغات العالم', description: 'ترجمات حصن المسلم من دار الإسلام بأكثر من خمسين لغة، تُفتح من موقعهم.', openGraph: og('/duas/hisn-languages', 'ar', 'حصن المسلم بلغات العالم', 'ترجمات حصن المسلم من دار الإسلام بأكثر من خمسين لغة، تُفتح من موقعهم.') };
 interface Ed { id: number; title: string; lang: string; page: string; files: { url: string; size: string | null }[] }
 export default function HisnLangs() {
   const D = JSON.parse(readFileSync(join(process.cwd(), 'src/generated/ih-quran/hisn.json'), 'utf8')) as Record<string, Ed[]>;

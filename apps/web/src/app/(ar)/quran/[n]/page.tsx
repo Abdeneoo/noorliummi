@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import AyatText from '@/components/AyatText';
@@ -11,8 +12,8 @@ import { ayat as ayahCount } from '@/lib/arnum';
 export const dynamicParams = false;
 export function generateStaticParams() { return SURAHS.map((s) => ({ n: String(s.index) })); }
 export async function generateMetadata({ params }: { params: Promise<{ n: string }> }): Promise<Metadata> {
-  const s = SURAHS[Number((await params).n) - 1];
-  return { title: s ? `سورة ${s.name}` : 'القرآن الكريم' };
+  const n = Number((await params).n); const s = SURAHS[n - 1];
+  return { title: s ? `سورة ${s.name}` : 'القرآن الكريم', openGraph: og(`/quran/${n}`, 'ar', s ? `سورة ${s.name}` : undefined) };
 }
 
 export default async function SurahPage({ params }: { params: Promise<{ n: string }> }) {

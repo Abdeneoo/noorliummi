@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import BrandLogo from '@/components/BrandLogo';
-export const metadata: Metadata = { title: 'Dedication' };
+export const metadata: Metadata = { title: 'Dedication', openGraph: og('/en/dedication', 'en', 'Dedication') };
 // English rendering of the official Arabic dedication (brand guide); the Arabic is shown first and is the original.
 export default function Dedication() {
   return (

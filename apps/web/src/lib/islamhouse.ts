@@ -38,6 +38,13 @@ export async function item(id: number) { const c = await lessonControl(); if (c.
 export async function author(id: number) { const c = await lessonControl(); return c.off || c.hidden.has(id) ? null : get<IhPerson>(`get-author/${id}/ar/json`); }
 export async function authorItems(id: number, page: number, per = 20) { if ((await lessonControl()).hidden.has(id)) return null; return vis(await get<IhList>(`get-author-items/${id}/showall/ar/ar/${page}/${per}/json`)); }
 export function findCat(tree: IhCat | null, id: number): IhCat | null { if (!tree) return null; if (tree.id === id) return tree; for (const c of tree.sub_categories ?? []) { const f = findCat(c, id); if (f) return f; } return null; }
+/** English audio lessons (IslamHouse, written approval 26 Nov 2026), latest first, with their files. */
+export async function latestEnAudios(per = 12) {
+  if ((await lessonControl()).off) return null;
+  const l = await get<IhList>(`audios/en/en/1/${per}/json`); if (!l) return null;
+  const items = await Promise.all(l.data.map((x) => get<IhItem>(`get-item/${x.id}/en/json`)));
+  return items.filter((x): x is IhItem => !!x && (x.attachments ?? []).some((a) => /mp3/i.test(a.extension_type) || /\.mp3$/i.test(a.url)));
+}
 export const sourceUrl = (x: { id: number; type: string }) => `https://islamhouse.com/ar/${x.type}/${x.id}/`;
 /** Topics the owner asked for, mapped to IslamHouse's own category ids (from its category tree). */
 export const FEATURED: [number, string][] = [[192525, 'العقيدة'], [199946, 'الفقه'], [5366, 'العبادات'], [728011, 'التفسير'], [344947, 'شروح السنة'], [795, 'السيرة النبوية'], [192527, 'الآداب'], [729107, 'فضائل الأخلاق'], [398209, 'الأسرة'], [179666, 'ما يحتاجه المسلم الجديد'], [797, 'ضيوف الرحمن (الحج والعمرة)'], [5392, 'مناسبات دورية (رمضان والمواسم)'], [200217, 'الرقائق والمواعظ'], [766, 'طلاب العلم المبتدئين'], [729106, 'فضائل العبادات'], [728014, 'الدعاء']];

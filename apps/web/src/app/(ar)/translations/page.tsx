@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { qeList } from '@/lib/quranenc-live';
-export const metadata: Metadata = { title: 'ترجمات معاني القرآن الكريم', description: 'كل ترجمات موسوعة القرآن الكريم QuranEnc بأحدث إصداراتها، مع اسم المترجم والإصدار.' };
+export const metadata: Metadata = { title: 'ترجمات معاني القرآن الكريم', description: 'كل ترجمات موسوعة القرآن الكريم QuranEnc بأحدث إصداراتها، مع اسم المترجم والإصدار.', openGraph: og('/translations', 'ar', 'ترجمات معاني القرآن الكريم', 'كل ترجمات موسوعة القرآن الكريم QuranEnc بأحدث إصداراتها، مع اسم المترجم والإصدار.') };
 export const revalidate = 86400;
 export default async function Translations() {
   const L = await qeList(); const langs = [...new Set(L.map((t) => t.language_iso_code))].sort();

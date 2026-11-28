@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
-export const metadata: Metadata = { title: 'كيف نتحقق' };
+export const metadata: Metadata = { title: 'كيف نتحقق', openGraph: og('/verify', 'ar', 'كيف نتحقق') };
 export default function Verify() {
   return (
     <article className="reader" style={{ maxWidth: 780 }}>

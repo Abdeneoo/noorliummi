@@ -12,7 +12,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ slug: s
     <article style={{ maxWidth: 900, margin: '0 auto' }}>
       <header className="page-head"><p className="eyebrow"><Link href="/series">سلاسل مرئية</Link></p><h1>{s.title}</h1><p>الأستاذ {LECTURER} · {s.eps.length.toLocaleString('ar-EG')} حلقة{s.eps.every((e) => e.audio) ? ' · صوتية' : s.eps.some((e) => e.audio) ? ' · صوتية ومرئية' : ' · مرئية'}</p></header>
       {s.slug === 'seerah' && <p className="note">للقراءة: <Link href="/library/fusul">«الفصول في سيرة الرسول ﷺ» للحافظ ابن كثير</Link> بنصه الكامل.</p>}
-      <SeriesPlayer slug={s.slug} eps={s.eps.map((e) => ({ id: e.id, t: shortTitle(e.t), full: e.t, d: e.d, embed: e.embed, audio: e.audio?.u }))} lecturer={LECTURER} />
+      <SeriesPlayer slug={s.slug} eps={s.eps.filter((e) => e.audio || e.embed).map((e) => ({ id: e.id, t: shortTitle(e.t), full: e.t, d: e.d, embed: e.embed, audio: e.audio?.u }))} lecturer={LECTURER} />
     </article>
   );
 }

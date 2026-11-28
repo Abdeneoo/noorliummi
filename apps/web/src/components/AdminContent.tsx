@@ -1,12 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
 import AdminRights from './AdminRights';
-import AdminRecordings from './AdminRecordings';
+import AdminReviews from './AdminReviews';
+import { REVIEW } from '@/lib/review-items';
 const H = { 'content-type': 'application/json', 'x-noor-admin': '1' };
 type Src = { id: string; name: string; items: number; detail: string; license: string };
 /** Content & imports: inventory, link check, IslamHouse update check, hide/show a dua or recording. */
 export default function AdminContent() {
-  const [d, setD] = useState<{ sources: Src[]; hidden: string[] } | null>(null); const [out, setOut] = useState(''); const [busy, setBusy] = useState(''); const [id, setId] = useState('');
+  const [d, setD] = useState<{ sources: Src[]; hidden: string[]; lastUpdates?: { at: string; changes: string[] } | null } | null>(null); const [out, setOut] = useState(''); const [busy, setBusy] = useState(''); const [id, setId] = useState('');
   const load = async () => setD(await (await fetch('/api/admin/content', { cache: 'no-store' })).json());
   useEffect(() => { void load(); }, []);
   const act = async (body: object, label: string) => { setBusy(label); setOut(''); const r = await fetch('/api/admin/content', { method: 'POST', headers: H, body: JSON.stringify(body) }); const j = await r.json(); setBusy(''); setOut(JSON.stringify(j, null, 1)); void load(); };
@@ -24,8 +25,9 @@ export default function AdminContent() {
         <button type="button" className="btn ghost small" onClick={() => act({ action: 'hide', id }, 'hide')}>أخفِ</button><button type="button" className="btn ghost small" onClick={() => act({ action: 'show', id }, 'show')}>أظهر</button></div>
       <p className="note">المخفي الآن: {d.hidden.length ? d.hidden.join('، ') : 'لا شيء'}. الإخفاء يظهر أثره خلال دقائق. إضافة مصادر جديدة تتم بلقطة موثّقة في المستودع ثم إعادة بناء (حتى تبقى كل مادة بمصدرها وبصمتها).</p>
       {out && <pre style={{ whiteSpace: 'pre-wrap', maxHeight: 300, overflow: 'auto', direction: 'ltr' }}>{out}</pre>}
+      {d.lastUpdates && <p className="note">آخر فحص تلقائي للتحديثات: {new Date(d.lastUpdates.at).toLocaleString('ar-EG')} — {d.lastUpdates.changes.length ? d.lastUpdates.changes.join('، ') : 'لا تغييرات'}</p>}
       <AdminRights />
-      <AdminRecordings />
+      <AdminReviews titles={Object.fromEntries(REVIEW.flatMap((g) => g.items.map((i) => [i.key, i.title])))} />
     </section>
   );
 }

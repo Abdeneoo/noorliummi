@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import TodayBoard from '@/components/TodayBoard';
@@ -7,7 +8,7 @@ import { sunnahAt, weekIdx } from '@/lib/weekly-sunnah';
 import { QD, ayatOf, surahName } from '@/lib/duas';
 import nawawi from '@/generated/hadith/nawawi.json';
 import { loadSurah } from '@/lib/quran';
-export const metadata: Metadata = { title: 'يومي مع الله', description: 'لوحتك اليومية: الصلاة القادمة، أذكار الوقت، الورد والختمة، آية وحديث ودعاء اليوم، سنة الأسبوع، الدعاء للوالدين، والمراجعة.' };
+export const metadata: Metadata = { title: 'يومي مع الله', description: 'لوحتك اليومية: الصلاة القادمة، أذكار الوقت، الورد والختمة، آية وحديث ودعاء اليوم، سنة الأسبوع، الدعاء للوالدين، والمراجعة.', openGraph: og('/today', 'ar', 'يومي مع الله', 'لوحتك اليومية: الصلاة القادمة، أذكار الوقت، الورد والختمة، آية وحديث ودعاء اليوم، سنة الأسبوع، الدعاء للوالدين، والمراجعة.') };
 export const revalidate = 3600;
 export default async function Today() {
   const now = new Date(); const date = now.toISOString().slice(0, 10);

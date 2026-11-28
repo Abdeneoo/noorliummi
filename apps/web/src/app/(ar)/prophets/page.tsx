@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { PROPHETS } from '@/lib/prophets';
 import { arDigits } from '@/lib/quran';
-export const metadata: Metadata = { title: 'ذكر الأنبياء في القرآن', description: 'الآيات التي ذُكر فيها كل نبي باسمه في القرآن الكريم، بترتيب المصحف.' };
+export const metadata: Metadata = { title: 'ذكر الأنبياء في القرآن', description: 'الآيات التي ذُكر فيها كل نبي باسمه في القرآن الكريم، بترتيب المصحف.', openGraph: og('/prophets', 'ar', 'ذكر الأنبياء في القرآن', 'الآيات التي ذُكر فيها كل نبي باسمه في القرآن الكريم، بترتيب المصحف.') };
 export default function Prophets() {
   return (
     <article style={{ maxWidth: 820, margin: '0 auto' }}>

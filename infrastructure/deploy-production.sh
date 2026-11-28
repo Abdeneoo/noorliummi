@@ -148,8 +148,32 @@ OnUnitActiveSec=5min
 [Install]
 WantedBy=timers.target
 BEOF
+cat > /etc/systemd/system/noorliummi-prod-ihupdates.service <<BEOF
+[Unit]
+Description=Noor Li Ummi production: weekly IslamHouse update check (talks to our own app only)
+[Service]
+Type=oneshot
+User=noor
+Group=noor
+Environment=NOOR_HOME=$HOME_P
+ExecStart=/usr/bin/env bash $APP/infrastructure/check-ih-updates.sh $PORT
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+BEOF
+cat > /etc/systemd/system/noorliummi-prod-ihupdates.timer <<BEOF
+[Unit]
+Description=Weekly IslamHouse update check (production)
+[Timer]
+OnCalendar=Sat *-*-* 05:23:00
+RandomizedDelaySec=20m
+Persistent=true
+[Install]
+WantedBy=timers.target
+BEOF
 systemctl daemon-reload
-systemctl enable --now --quiet noorliummi-prod-backup.timer noorliummi-prod-health.timer
+systemctl enable --now --quiet noorliummi-prod-backup.timer noorliummi-prod-health.timer noorliummi-prod-ihupdates.timer
 systemctl start noorliummi-prod-backup.service && journalctl -u noorliummi-prod-backup.service -n 2 --no-pager -o cat | grep -E "backup ok|rror" || true
 
 echo "== 7/7 caddy"

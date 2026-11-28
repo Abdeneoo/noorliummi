@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Family from '@/components/Family';
 import { ADHKAR } from '@/lib/adhkar';
 import { SURAHS } from '@/lib/quran';
 import { bookMeta } from '@/lib/books';
-export const metadata: Metadata = { title: 'الأسرة — محتوى الأطفال' };
+export const metadata: Metadata = { title: 'الأسرة — محتوى الأطفال', openGraph: og('/family', 'ar', 'الأسرة — محتوى الأطفال') };
 export default function FamilyPage() {
   return (
     <article style={{ maxWidth: 860, margin: '0 auto' }}>

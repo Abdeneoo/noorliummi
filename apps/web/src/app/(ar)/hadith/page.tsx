@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { arCount, BOOK } from '@/lib/arnum';
 import HadithSearch from '@/components/HadithSearch';
 import { sortedBooks } from '@/lib/hadith';
-export const metadata: Metadata = { title: 'الحديث الشريف' };
+export const metadata: Metadata = { title: 'الحديث الشريف', openGraph: og('/hadith', 'ar', 'الحديث الشريف') };
 const ar = (n: number) => n.toLocaleString('ar-EG');
 export default function HadithIndex() {
   const books = sortedBooks(); const total = books.reduce((t, b) => t + b.count, 0);

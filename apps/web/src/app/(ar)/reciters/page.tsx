@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import ReciterIndex from '@/components/ReciterIndex';
 import { PEOPLE, TV_DUA_CATS, TV_ITEMS, isPriority } from '@/lib/people';
-export const metadata: Metadata = { title: 'القرّاء والمشايخ', description: 'صفحة لكل قارئ: الأدعية والأذكار والرقية والتلاوات المتاحة بصوته، مع مصدر كل تسجيل.' };
+export const metadata: Metadata = { title: 'القرّاء والمشايخ', description: 'صفحة لكل قارئ: الأدعية والأذكار والرقية والتلاوات المتاحة بصوته، مع مصدر كل تسجيل.', openGraph: og('/reciters', 'ar', 'القرّاء والمشايخ', 'صفحة لكل قارئ: الأدعية والأذكار والرقية والتلاوات المتاحة بصوته، مع مصدر كل تسجيل.') };
 export default function RecitersPage() {
   const rows = PEOPLE.map((p) => {
     const tv = TV_ITEMS.filter((x) => x.scholar_id != null && p.tv.includes(x.scholar_id));

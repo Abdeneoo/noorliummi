@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { CHANNEL, LECTURER, SERIES, seconds } from '@/lib/series';
-export const metadata: Metadata = { title: 'سلاسل صوتية ومرئية' };
+export const metadata: Metadata = { title: 'سلاسل صوتية ومرئية', openGraph: og('/series', 'ar', 'سلاسل صوتية ومرئية') };
 const hours = (s: number) => { const h = Math.round(s / 360) / 10; return h >= 1 ? `${h.toLocaleString('ar-EG')} ساعة` : `${Math.round(s / 60).toLocaleString('ar-EG')} دقيقة`; };
 export default function SeriesIndex() {
   return (

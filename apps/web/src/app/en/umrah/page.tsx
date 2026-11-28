@@ -7,7 +7,7 @@ import { loadAdhkar } from '@/lib/adhkar';
 
 export const metadata: Metadata = { title: 'Umrah step by step', description: 'Your Umrah journey step by step, with the adhkar of each step, a lap counter for tawaf and sa\'i, and a map of the mawaqit.', alternates: { languages: { ar: '/umrah' } }, openGraph: og('/en/umrah', 'en', 'Umrah step by step', 'Your Umrah journey step by step, with the adhkar of each step, a lap counter for tawaf and sa\'i, and a map of the mawaqit.') };
 
-const dh = async (ids: [number, string][]): Promise<Dh[]> => Promise.all(ids.map(async ([id, title]) => ({ title, items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r, en: d.en, tl: d.tl })) })));
+const dh = async (ids: [number, string][]): Promise<Dh[]> => Promise.all(ids.map(async ([id, title]) => ({ title, items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r, en: d.en, tl: d.tl, a: d.a })) })));
 
 export default async function UmrahEn() {
   const steps: Step[] = [

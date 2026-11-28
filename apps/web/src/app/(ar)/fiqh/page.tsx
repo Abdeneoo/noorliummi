@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { fiqhIndex, IBADAT } from '@/lib/fiqh';
 import { bookMeta } from '@/lib/books';
 import { arDigits } from '@/lib/quran';
 import FiqhNotice from '@/components/FiqhNotice';
 import FiqhSearchBox from '@/components/FiqhSearchBox';
-export const metadata: Metadata = { title: 'فقه العبادات', description: 'فقه الطهارة والصلاة والزكاة والصيام والحج بالدليل، من «الفقه الميسر» نصًا كاملًا، مع «كيفية صلاة النبي ﷺ» لابن باز وكتب ابن عثيمين.' };
+export const metadata: Metadata = { title: 'فقه العبادات', description: 'فقه الطهارة والصلاة والزكاة والصيام والحج بالدليل، من «الفقه الميسر» نصًا كاملًا، مع «كيفية صلاة النبي ﷺ» لابن باز وكتب ابن عثيمين.', openGraph: og('/fiqh', 'ar', 'فقه العبادات', 'فقه الطهارة والصلاة والزكاة والصيام والحج بالدليل، من «الفقه الميسر» نصًا كاملًا، مع «كيفية صلاة النبي ﷺ» لابن باز وكتب ابن عثيمين.') };
 const EXTERNAL: { title: string; by: string; url: string; why: string }[] = [
   { title: 'الملخص الفقهي', by: 'الشيخ صالح الفوزان', url: 'https://islamhouse.com/ar/books/2089', why: 'صفحة عنوان طبعة دار ابن الجوزي تمنع إعادة النشر، فنكتفي بالرابط.' },
   { title: 'مجالس شهر رمضان', by: 'الشيخ محمد بن صالح العثيمين', url: 'https://binothaimeen.net/', why: 'غير موجود نصًا مرتبًا على IslamHouse؛ يُضاف لاحقًا مع «وضع رمضان» بعد التحقق من نسخته.' },
@@ -29,10 +30,7 @@ export default function Fiqh() {
         <p className="note"><Link href="/fiqh/muqaddimah">مقدمة الكتاب ومنهجه والتمهيد</Link></p>
       </section>
       <section className="section"><h2>كتب مساندة بنصها الكامل</h2>
-        <ul className="athar-dir">{['how-to-pray', 'ahkam-fiqhiyya', 'fusul-siyam', 'ahkam-siyam', 'fasting-fatawa'].map((s) => bookMeta(s)).filter(Boolean).map((b) => <li key={b!.slug}><Link href={`/books/${b!.slug}`}><strong>{b!.title}</strong><small>{b!.author}</small></Link></li>)}</ul>
-      </section>
-      <section className="section"><h2>للاستزادة (روابط خارجية فقط)</h2>
-        <ul className="athar-dir">{EXTERNAL.map((e) => <li key={e.title}><a href={e.url} target="_blank" rel="noopener"><strong>{e.title} ↗</strong><small>{e.by} — {e.why}</small></a></li>)}</ul>
+        <ul className="athar-dir">{['how-to-pray', 'sifat-salah-mukhtasar', 'mawaqit-salah', 'ahkam-fiqhiyya', 'tanbihat-muminat', 'hayd-60', 'janaiz-70', 'faraid', 'zakat-siyam-binbaz', 'fusul-siyam', 'ahkam-siyam', 'fasting-fatawa', 'udhiya', 'fatawa-marda', 'ilam-musafirin', 'adab-safar', 'umrah-mukhtasar'].map((s) => bookMeta(s)).filter(Boolean).map((b) => <li key={b!.slug}><Link href={`/books/${b!.slug}`}><strong>{b!.title}</strong><small>{b!.author}</small></Link></li>)}</ul>
       </section>
     </article>
   );

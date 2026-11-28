@@ -52,7 +52,7 @@ export async function IntlSurah({ lang, n }: { lang: IntlLang; n: number }) {
             {tr[i].fn && <p className="en-fn" lang={lang} dir={t.dir}><strong>{t.footnote}:</strong> {tr[i].fn}</p>}
           </li>))}
       </ol>
-      <p className="note">{t.source}: <a href="https://quranenc.com" target="_blank" rel="noopener">QuranEnc.com</a> — {TR_INFO[lang].title}, v{TR_INFO[lang].version}. {TR_INFO[lang].description}</p>
+      <p className="note">{TR_INFO[lang].title}, v{TR_INFO[lang].version}. {TR_INFO[lang].description}</p>
       <nav className="pager">{n > 1 ? <Link className="btn ghost" href={`/${lang}/quran/${n - 1}`}>{t.prev}</Link> : <span />}<Link className="btn ghost" href={`/${lang}`}>{t.index}</Link>{n < 114 ? <Link className="btn ghost" href={`/${lang}/quran/${n + 1}`}>{t.next}</Link> : <span />}</nav>
     </article>
   );

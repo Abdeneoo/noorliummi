@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
+import LataifSeason from '@/components/LataifSeason';
 import RamadanPanel from '@/components/RamadanPanel';
 import PlayTrack from '@/components/PlayTrack';
 import TvLibrary from '@/components/TvLibrary';
@@ -7,7 +9,7 @@ import { hadithRef } from '@/lib/hadith-ref';
 import { readyPlaylists } from '@/lib/playlists-ready';
 import { TVC, TV_DUA_CATS } from '@/lib/people';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'رمضان — الإمساكية والعد التنازلي والأحكام والأدعية', description: 'إمساكية رمضان حسب مدينتك، والعد التنازلي للإفطار والسحور، وخطة الختمة، وأحكام الصيام والاعتكاف وزكاة الفطر، وأدعية رمضان بأصوات القراء.' };
+export const metadata: Metadata = { title: 'رمضان — الإمساكية والعد التنازلي والأحكام والأدعية', description: 'إمساكية رمضان حسب مدينتك، والعد التنازلي للإفطار والسحور، وخطة الختمة، وأحكام الصيام والاعتكاف وزكاة الفطر، وأدعية رمضان بأصوات القراء.', openGraph: og('/ramadan', 'ar', 'رمضان — الإمساكية والعد التنازلي والأحكام والأدعية', 'إمساكية رمضان حسب مدينتك، والعد التنازلي للإفطار والسحور، وخطة الختمة، وأحكام الصيام والاعتكاف وزكاة الفطر، وأدعية رمضان بأصوات القراء.') };
 export const revalidate = 3600;
 
 const H: [string, string, number, number][] = [
@@ -46,6 +48,7 @@ export default async function RamadanPage() {
         <p className="note">من TVQuran بمشغّله الرسمي (يبقى أسفل الشاشة وأنت تتنقل)، ومن قوائم التشغيل في الموقع.</p>
         <div className="row"><Link className="btn" href="/playlists#ramadan">قائمة أدعية رمضان</Link><Link className="btn ghost" href="/playlists#qunut">أدعية القنوت</Link><Link className="btn ghost" href="/playlists#tahajjud">التهجد وختم القرآن</Link></div>
         <TvLibrary rows={[...ram.tv, ...qunut.tv, ...tah.tv].filter((x, i, a) => a.findIndex((y) => y.id === x.id) === i)} cats={cats} /></section>
+      <LataifSeason group={/رمضان/} title="مجالس رمضان — لطائف المعارف" />
     </article>
   );
 }

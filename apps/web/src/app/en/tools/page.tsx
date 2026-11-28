@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import { Hub } from '@/components/Tiles';
 import MyData from '@/components/MyData';
 import OfflineKit from '@/components/OfflineKit';
-export const metadata: Metadata = { title: 'Tools' };
+export const metadata: Metadata = { title: 'Tools', openGraph: og('/en/tools', 'en', 'Tools') };
 export default function Tools() {
   return (
     <Hub eyebrow="Tools" title="Everyday tools" intro="Every tool runs on your device, and your data stays with you."

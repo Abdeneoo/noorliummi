@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 import { loadSurah, SURAHS, arDigits } from '@/lib/quran';
-export const metadata: Metadata = { title: 'الرقية الشرعية', description: 'سور وآيات من القرآن الكريم وأدعية من «حصن المسلم» بتخريجها — نصوص كما في مصادرها.' };
+export const metadata: Metadata = { title: 'الرقية الشرعية', description: 'سور وآيات من القرآن الكريم وأدعية من «حصن المسلم» بتخريجها — نصوص كما في مصادرها.', openGraph: og('/ruqyah', 'ar', 'الرقية الشرعية', 'سور وآيات من القرآن الكريم وأدعية من «حصن المسلم» بتخريجها — نصوص كما في مصادرها.') };
 const QURAN: { s: number; from: number; to: number; label: string }[] = [
   { s: 1, from: 1, to: 7, label: 'سورة الفاتحة' },
   { s: 2, from: 255, to: 255, label: 'آية الكرسي' },

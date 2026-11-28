@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ADHKAR } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'Adhkar' };
+export const metadata: Metadata = { title: 'Adhkar', openGraph: og('/en/adhkar', 'en', 'Adhkar') };
 export default function Adhkar() {
   return (
     <>

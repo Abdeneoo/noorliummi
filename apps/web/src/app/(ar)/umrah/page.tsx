@@ -8,7 +8,7 @@ import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 
 export const metadata: Metadata = { title: 'العمرة خطوة بخطوة', description: 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.', openGraph: og('/umrah', 'ar', 'العمرة خطوة بخطوة', 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.') };
 
-const dh = async (ids: number[]): Promise<Dh[]> => Promise.all(ids.map(async (id) => ({ title: ADHKAR.find((c) => c.id === id)?.title ?? '', items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r })) })));
+const dh = async (ids: number[]): Promise<Dh[]> => Promise.all(ids.map(async (id) => ({ title: ADHKAR.find((c) => c.id === id)?.title ?? '', items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r, a: d.a })) })));
 
 function Read({ id, title, slug, n, open }: { id: string; title: string; slug: string; n: number; open?: boolean }) {
   const c = chapter(slug, n); if (!c) return null;
@@ -69,7 +69,7 @@ export default async function Umrah() {
         <Read id="mahzurat" title="محظورات الإحرام" slug="sifat-al-hajj" n={8} />
         <Read id="fidya" title="حكم من فعل شيئًا من المحظورات" slug="sifat-al-hajj" n={9} />
         <Read id="safar-ahkam" title="صلاة المسافر" slug="manhaj-umrah-hajj" n={2} />
-        <p className="um-more"><Link href="/books/manhaj-umrah-hajj">الكتاب كاملًا بالأردية والتركية والإندونيسية</Link> · <Link href="/books/manasik">التحقيق والإيضاح — ابن باز</Link></p>
+        <p className="um-more"><Link href="/books/manhaj-umrah-hajj">الكتاب كاملًا بالأردية والتركية والإندونيسية</Link> · <Link href="/books/manasik">التحقيق والإيضاح — ابن باز</Link> · <Link href="/books/umrah-mukhtasar">المختصر في صفة العمرة وأحكامها</Link></p>
       </section>
 
       <section className="um-section" id="services">

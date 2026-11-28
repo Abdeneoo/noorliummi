@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { SURAHS } from '@/lib/quran';
-export const metadata: Metadata = { title: 'The Holy Quran' };
+export const metadata: Metadata = { title: 'The Holy Quran', openGraph: og('/en/quran', 'en', 'The Holy Quran') };
 export default function QuranIndex() {
   return (
     <>

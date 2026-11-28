@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { bab, fiqhIndex } from '@/lib/fiqh';
-export const metadata: Metadata = { title: 'مقدمة «الفقه الميسر» والتمهيد' };
+export const metadata: Metadata = { title: 'مقدمة «الفقه الميسر» والتمهيد', openGraph: og('/fiqh/muqaddimah', 'ar', 'مقدمة «الفقه الميسر» والتمهيد') };
 export default function Intro() {
   const b = bab(0)!; const x = fiqhIndex();
   return (

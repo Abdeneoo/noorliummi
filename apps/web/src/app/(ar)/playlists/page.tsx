@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { readyPlaylists } from '@/lib/playlists-ready';
 import { DuaReciterBar } from '@/components/DuaAyahPlayer';
@@ -9,7 +10,7 @@ import MyPlaylists from '@/components/MyPlaylists';
 import SaveOffline from '@/components/SaveOffline';
 import DuaNav from '@/components/DuaNav';
 import { TVC, TV_DUA_CATS } from '@/lib/people';
-export const metadata: Metadata = { title: 'قوائم تشغيل الأدعية', description: 'قوائم جاهزة لأدعية القرآن والسنة والأنبياء والوالدين والمتوفين والكرب والشفاء والرزق ورمضان والقنوت، وقوائمك الخاصة.' };
+export const metadata: Metadata = { title: 'قوائم تشغيل الأدعية', description: 'قوائم جاهزة لأدعية القرآن والسنة والأنبياء والوالدين والمتوفين والكرب والشفاء والرزق ورمضان والقنوت، وقوائمك الخاصة.', openGraph: og('/playlists', 'ar', 'قوائم تشغيل الأدعية', 'قوائم جاهزة لأدعية القرآن والسنة والأنبياء والوالدين والمتوفين والكرب والشفاء والرزق ورمضان والقنوت، وقوائمك الخاصة.') };
 export default async function PlaylistsPage() {
   const lists = await readyPlaylists();
   const cats = TVC.categories.filter((c) => TV_DUA_CATS.includes(c.id));

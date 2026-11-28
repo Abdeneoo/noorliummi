@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { Hub } from '@/components/Tiles';
-export const metadata: Metadata = { title: 'Sadaqah Jariyah' };
+export const metadata: Metadata = { title: 'Sadaqah Jariyah', openGraph: og('/en/sadaqah', 'en', 'Sadaqah Jariyah') };
 export default function Sadaqah() {
   return (
     <Hub eyebrow="Sadaqah Jariyah" title="A legacy that never ends" intro="This project is an ongoing charity, and you can build a page of remembrance for someone you love."

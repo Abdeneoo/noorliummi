@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { QD, note } from '@/lib/duas';
 import DuaNav from '@/components/DuaNav';
-export const metadata: Metadata = { title: 'فضل الدعاء وآدابه وأوقات الإجابة' };
+export const metadata: Metadata = { title: 'فضل الدعاء وآدابه وأوقات الإجابة', openGraph: og('/duas/adab', 'ar', 'فضل الدعاء وآدابه وأوقات الإجابة') };
 export default function Page() {
   return (
     <article className="reader book" style={{ maxWidth: 820 }}>

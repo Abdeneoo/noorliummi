@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PlayTrack from '@/components/PlayTrack';
 import SaveOffline from '@/components/SaveOffline';
@@ -6,7 +7,7 @@ import EasyMode from '@/components/EasyMode';
 import { readyPlaylists } from '@/lib/playlists-ready';
 import { RECITERS, surahUrl } from '@/lib/reciters';
 import { IHA } from '@/lib/duas';
-export const metadata: Metadata = { title: 'For the sick and the elderly', description: 'One screen with large buttons: Quran, duas for healing, ruqyah, and the rulings of purification, prayer and fasting for the sick.', alternates: { languages: { ar: '/patient' } } };
+export const metadata: Metadata = { title: 'For the sick and the elderly', description: 'One screen with large buttons: Quran, duas for healing, ruqyah, and the rulings of purification, prayer and fasting for the sick.', alternates: { languages: { ar: '/patient' } }, openGraph: og('/en/patient', 'en', 'For the sick and the elderly', 'One screen with large buttons: Quran, duas for healing, ruqyah, and the rulings of purification, prayer and fasting for the sick.') };
 export default async function PatientEn() {
   const r = RECITERS[0]; const S: [number, string][] = [[1, 'al-Fatiha'], [36, 'Ya-Sin'], [67, 'al-Mulk'], [112, 'al-Ikhlas'], [113, 'al-Falaq'], [114, 'an-Nas']];
   const quran = S.map(([n, name]) => ({ id: `q-${r.id}-${n}`, src: surahUrl(r, n), title: `Surah ${name}`, by: r.en, source: 'Islamic Network', page: '/en/patient' }));

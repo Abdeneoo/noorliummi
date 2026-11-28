@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { LIBRARY } from '@/lib/library';
 import { arDigits } from '@/lib/quran';
-export const metadata: Metadata = { title: 'المكتبة' };
+export const metadata: Metadata = { title: 'المكتبة', openGraph: og('/library', 'ar', 'المكتبة') };
 export default function Library() {
   return (
     <article style={{ maxWidth: 820, margin: '0 auto' }}>

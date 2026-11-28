@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Hifz from '@/components/Hifz';
-export const metadata: Metadata = { title: 'الحفظ والمراجعة' };
+export const metadata: Metadata = { title: 'الحفظ والمراجعة', openGraph: og('/hifz', 'ar', 'الحفظ والمراجعة') };
 export default function HifzPage() {
   return (
     <article style={{ maxWidth: 760, margin: '24px auto' }}>

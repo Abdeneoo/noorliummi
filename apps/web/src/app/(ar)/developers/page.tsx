@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
-export const metadata: Metadata = { title: 'للمطوّرين: واجهة القراءة والودجت' };
+export const metadata: Metadata = { title: 'للمطوّرين: واجهة القراءة والودجت', openGraph: og('/developers', 'ar', 'للمطوّرين: واجهة القراءة والودجت') };
 const E: [string, string][] = [['/api/v1/ayah-of-day', 'آية اليوم (نص عثماني، السورة والرقم والرابط)'], ['/api/v1/hadith-of-day', 'حديث اليوم من الأربعين النووية بالترتيب'], ['/api/v1/adhkar?chapter=27', 'باب من حصن المسلم (٢٧ الصباح، ٢٨ المساء، ٢٩ النوم)'], ['/api/v1/times?city=makkah', 'مواقيت اليوم لمدينة من قائمة الموقع (أضف date=YYYY-MM-DD ليوم آخر)']];
 export default function Developers() {
   return (

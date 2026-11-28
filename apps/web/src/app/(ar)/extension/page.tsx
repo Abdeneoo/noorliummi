@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
-export const metadata: Metadata = { title: 'إضافة كروم — ذكّرني' };
+export const metadata: Metadata = { title: 'إضافة كروم — ذكّرني', openGraph: og('/extension', 'ar', 'إضافة كروم — ذكّرني') };
 export default function Extension() {
   return (
     <article style={{ maxWidth: 760, margin: '0 auto' }}>

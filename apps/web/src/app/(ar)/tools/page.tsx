@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import { Hub } from '@/components/Tiles';
 import MyData from '@/components/MyData';
 import OfflineKit from '@/components/OfflineKit';
 import EmbedCode from '@/components/EmbedCode';
 import MonthSummary from '@/components/MonthSummary';
 import FridayReminder from '@/components/FridayReminder';
-export const metadata: Metadata = { title: 'الأدوات' };
+export const metadata: Metadata = { title: 'الأدوات', openGraph: og('/tools', 'ar', 'الأدوات') };
 export default function Tools() {
   return (
     <Hub eyebrow="الأدوات" title="أدوات يومية" intro="كل الأدوات تعمل على جهازك، وبياناتك تبقى عندك."

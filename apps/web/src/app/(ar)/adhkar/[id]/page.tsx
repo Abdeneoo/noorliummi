@@ -1,5 +1,6 @@
 import PrintButton from '@/components/PrintButton';
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import DhikrList from '@/components/DhikrList';
@@ -12,7 +13,7 @@ export function generateStaticParams() { return ADHKAR.map((c) => ({ id: String(
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const c = ADHKAR.find((x) => x.id === Number(id));
-  return { title: c?.title ?? 'الأذكار' };
+  return { title: c?.title ?? 'الأذكار', openGraph: og(`/adhkar/${id}`, 'ar', c?.title) };
 }
 export default async function AdhkarCat({ params }: { params: Promise<{ id: string }> }) {
   const id = Number((await params).id);

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { ADHKAR } from '@/lib/adhkar';
-export const metadata: Metadata = { title: 'أذكار حسب الموقف' };
+export const metadata: Metadata = { title: 'أذكار حسب الموقف', openGraph: og('/situations', 'ar', 'أذكار حسب الموقف') };
 /** Hisn al-Muslim chapters grouped by everyday situation. Titles and texts are the source's own; nothing is added. */
 const GROUPS: [string, number[]][] = [
   ['النوم والاستيقاظ', [29, 1, 31]], ['البيت', [10, 11]], ['المسجد والأذان', [12, 13, 14, 15]], ['الوضوء والخلاء', [8, 9, 6, 7]],

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import BrandLogo from '@/components/BrandLogo';
-export const metadata: Metadata = { title: 'الإهداء' };
+export const metadata: Metadata = { title: 'الإهداء', openGraph: og('/dedication', 'ar', 'الإهداء') };
 // Official dedication text from the brand guide (docs/BRAND_GUIDELINES.docx).
 export default function Dedication() {
   return (

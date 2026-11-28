@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import KhatmaCreate from '@/components/KhatmaCreate';
 import MyKhatmas from '@/components/MyKhatmas';
 import { isSlug } from '@/lib/athar';
 import { getPage } from '@/lib/athar-store';
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'ختمة جماعية' };
+export const metadata: Metadata = { title: 'ختمة جماعية', openGraph: og('/khatma', 'ar', 'ختمة جماعية') };
 export default async function Khatma({ searchParams }: { searchParams: Promise<{ athar?: string }> }) {
   const a = (await searchParams).athar;
   let athar: { slug: string; name: string } | undefined;

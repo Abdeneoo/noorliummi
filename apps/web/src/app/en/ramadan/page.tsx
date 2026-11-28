@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import RamadanPanel from '@/components/RamadanPanel';
-export const metadata: Metadata = { title: 'Ramadan — timetable, countdown and duas', description: 'Ramadan timetable for your city, countdown to iftar and suhoor, a khatma plan, your own marks, reminders, and links to the rulings and duas.', alternates: { languages: { ar: '/ramadan' } } };
+export const metadata: Metadata = { title: 'Ramadan — timetable, countdown and duas', description: 'Ramadan timetable for your city, countdown to iftar and suhoor, a khatma plan, your own marks, reminders, and links to the rulings and duas.', alternates: { languages: { ar: '/ramadan' } }, openGraph: og('/en/ramadan', 'en', 'Ramadan — timetable, countdown and duas', 'Ramadan timetable for your city, countdown to iftar and suhoor, a khatma plan, your own marks, reminders, and links to the rulings and duas.') };
 export default function RamadanEn() {
   return (
     <article style={{ maxWidth: 980, margin: '0 auto' }}>

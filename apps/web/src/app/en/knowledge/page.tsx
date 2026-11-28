@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import { Hub } from '@/components/Tiles';
-export const metadata: Metadata = { title: 'Knowledge' };
+export const metadata: Metadata = { title: 'Knowledge', openGraph: og('/en/knowledge', 'en', 'Knowledge') };
 export default function Knowledge() {
   return (
     <Hub eyebrow="Knowledge" title="Beneficial knowledge" intro="Texts with a documented source and licence, shown as published."

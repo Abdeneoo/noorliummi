@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { BOOK_LANGS, bookList } from '@/lib/books';
-export const metadata: Metadata = { title: 'كتب مختارة' };
+export const metadata: Metadata = { title: 'كتب مختارة', openGraph: og('/books', 'ar', 'كتب مختارة') };
 export default function Books() {
   const list = bookList();
   return (
