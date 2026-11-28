@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import AtharForm from '@/components/AtharForm';
 import MyAthar from '@/components/MyAthar';
+import AtharDemo from '@/components/AtharDemo';
 import { cleanQuery } from '@/lib/athar';
 import { listPages } from '@/lib/athar-store';
 
@@ -23,6 +24,8 @@ export default async function Athar({ searchParams }: { searchParams: Promise<{ 
         <h1>صفحات الأثر</h1>
         <p>صفحات أهداها أصحابها لمن يحبون: سور وأذكار ودعاء. ادخل، اقرأ، وادعُ لأصحابها.</p>
       </header>
+
+      <section className="spot-card" aria-label="كيف تُصنع صفحة أثر" style={{ marginBottom: 20 }}><AtharDemo /></section>
 
       <div className="athar-actions">
         <a className="btn" href="#new">اصنع صفحة لمن تحب</a>

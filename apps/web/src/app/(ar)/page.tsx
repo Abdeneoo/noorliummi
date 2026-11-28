@@ -5,6 +5,7 @@ import PrayerCard from '@/components/PrayerCard';
 import HomeCover from '@/components/HomeCover';
 import { FeaturedSections } from '@/components/SectionsGrid';
 import AppsPanel from '@/components/AppsPanel';
+import Spotlight from '@/components/Spotlight';
 import Reveal from '@/components/Reveal';
 import HomeSections from '@/components/HomeSections';
 import Tasbeeh from '@/components/Tasbeeh';
@@ -25,6 +26,8 @@ export default async function Home() {
         <div className="section-head"><h2 id="sections-title">الأقسام</h2><Link href="/sections">كل الأقسام</Link></div>
         <FeaturedSections pick={['/quran', '/prayer', '/adhkar', '/duas', '/umrah', '/ramadan', '/ghusl', '/ruqyah', '/reciters', '/tafsir', '/fiqh', '/family', '/athar', '/hajj', '/live']} all={{ href: '/sections', title: 'كل الأقسام' }} />
       </section>
+
+      <div className="section"><Spotlight /></div>
 
       <div className="duo section reveal">
         <ContinueReading />
