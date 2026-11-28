@@ -18,6 +18,9 @@
 | `/translations` | ترجمات معاني القرآن | ٧٧ ترجمة بأحدث إصدار من QuranEnc (تُحدَّث يوميًا). |
 | `/duas/hisn-languages` | حصن المسلم بـ٥٩ لغة | ملفات PDF من دار الإسلام. |
 | `/books/<slug>` | ١٢ كتابًا فقهيًا جديدًا | tanbihat-muminat، mawaqit-salah، hayd-60، janaiz-70، faraid، udhiya، zakat-siyam-binbaz، sifat-salah-mukhtasar، fatawa-marda، ilam-musafirin، adab-safar، umrah-mukhtasar. |
+| `/asbab` | أسباب النزول | السيوطي والواحدي سورةً سورة؛ زر في صفحة كل سورة. |
+| `/duas/audio#qunut` | دعاء القنوت وقنوت النازلة | ملفان CC0 مستضافان عندنا (`/audio/qunut/*.mp3`)، يُحفظان دون إنترنت. |
+| `/en/umrah#learn` | كتيّب ابن عثيمين بالإنجليزية | «How to Perform the Rituals of Hajj, ‘Umrah…» بنصه وحواشيه. |
 | `/en/lessons`، `/en/duas` | دروس صوتية إنجليزية، ومدخل الأدعية | الدروس من دار الإسلام وتعمل في الخلفية. |
 | `/prayer`، `/times` | «مواعيد مسجدي» | الجمعة والعيدان يدويًا، محليًا (`noor.mosque.times`). |
 | `/athar` | شرح متحرك لصنع صفحة أثر | داخل إطار آيفون. |
@@ -32,5 +35,12 @@
 - أذكار العمرة: ملفات `/audio/adhkar/OD-*.mp3` (CC BY 4.0 — «Recitation by Muhammad Jumah for OpenDua»).
 - استعمل Media3/MediaSession كما في المرحلة الرابعة.
 
-## 5) المراجعة الشرعية
+## 5) تحديثات البيانات
+- حصن المسلم: صار عندنا صوت لـ٢٠٣ ذكرًا (كان ١٨٩) وترجمة إنجليزية لـ٢٠٤ (كانت ١٨٩)، بعد مطابقة مراجَعة (فروق الرسم فقط) في `database/sources/opendua/fuzzy-map.json`. حقل `a` و`en` في `/api/v1/adhkar` كما هما.
+- التسميع بالصوت: `/hifz` ← «سمّع» يرسل WAV إلى `/api/tasmee/check` (نموذج Tarteel على خادمنا، نواة واحدة و٢ جيجا، لا يُحفظ الصوت). التطبيق يستعمل نفس المسار.
+
+## 6) الإدارة
+- الدخول للوحة `/admin` صار بحساب المالك نفسه (بعد ربطه مرة بالرمز). لا شيء منها في التطبيق.
+
+## 7) المراجعة الشرعية
 - `/review/<رمز>` صفحة خاصة لكل مراجع (لا تُعرض في التطبيق).
