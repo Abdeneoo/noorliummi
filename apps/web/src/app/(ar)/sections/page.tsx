@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import SectionsGrid from '@/components/SectionsGrid';
-export const metadata: Metadata = { title: 'كل الأقسام', description: 'كل أقسام نور لأمي في صفحة واحدة: العبادة اليومية، والعمرة والحج ورمضان، والاستماع، والعلم، والأسرة، والصدقة الجارية، والأدوات.' };
+export const metadata: Metadata = { title: 'كل الأقسام', description: 'كل أقسام نور لأمي في صفحة واحدة: العبادة اليومية، والعمرة والحج ورمضان، والاستماع، والعلم، والأسرة، والصدقة الجارية، والأدوات.', openGraph: og('/sections', 'ar', 'كل الأقسام', 'كل أقسام نور لأمي في صفحة واحدة: العبادة اليومية، والعمرة والحج ورمضان، والاستماع، والعلم، والأسرة، والصدقة الجارية، والأدوات.') };
 export default function Sections() {
   return (
     <article>

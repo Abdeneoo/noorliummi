@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import HomeCover from '@/components/HomeCover';
@@ -7,7 +8,7 @@ import AppsPanel from '@/components/AppsPanel';
 import Reveal from '@/components/Reveal';
 import Tasbeeh from '@/components/Tasbeeh';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
-export const metadata: Metadata = { title: { absolute: 'Noor Li Ummi — Quran, prayer times and adhkar' } };
+export const metadata: Metadata = { title: { absolute: 'Noor Li Ummi — Quran, prayer times and adhkar' }, openGraph: og('/en', 'en', undefined) };
 export default function Home() {
   return (
     <>

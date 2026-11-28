@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import MiqatMap from '@/components/MiqatMap';
 import UmrahJourney, { type Dh, type Step } from '@/components/UmrahJourney';
 import { chapter } from '@/lib/books';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
 
-export const metadata: Metadata = { title: 'العمرة خطوة بخطوة', description: 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.' };
+export const metadata: Metadata = { title: 'العمرة خطوة بخطوة', description: 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.', openGraph: og('/umrah', 'ar', 'العمرة خطوة بخطوة', 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.') };
 
 const dh = async (ids: number[]): Promise<Dh[]> => Promise.all(ids.map(async (id) => ({ title: ADHKAR.find((c) => c.id === id)?.title ?? '', items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r })) })));
 

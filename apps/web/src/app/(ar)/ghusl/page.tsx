@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { bab } from '@/lib/fiqh';
 
-export const metadata: Metadata = { title: 'الغسل من الجنابة', description: 'معنى الغسل وموجباته، وصفة الغسل وكيفيته، والأغسال المستحبة، وأحكام من وجب عليه الغسل — من «الفقه الميسر».' };
+export const metadata: Metadata = { title: 'الغسل من الجنابة', description: 'معنى الغسل وموجباته، وصفة الغسل وكيفيته، والأغسال المستحبة، وأحكام من وجب عليه الغسل — من «الفقه الميسر».', openGraph: og('/ghusl', 'ar', 'الغسل من الجنابة', 'معنى الغسل وموجباته، وصفة الغسل وكيفيته، والأغسال المستحبة، وأحكام من وجب عليه الغسل — من «الفقه الميسر».') };
 type B = { tag: string; ar: string };
 
 export default function Ghusl() {

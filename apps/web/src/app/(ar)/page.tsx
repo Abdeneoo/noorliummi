@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { og } from '@/lib/og-page';
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import HomeCover from '@/components/HomeCover';
@@ -9,6 +11,7 @@ import Tasbeeh from '@/components/Tasbeeh';
 import SeasonCard from '@/components/SeasonCard';
 import { ContinueReading, TodayAdhkar } from '@/components/HomeWidgets';
 
+export const metadata: Metadata = { openGraph: og('/', 'ar') };
 export const revalidate = 3600;
 export default async function Home() {
   return (
