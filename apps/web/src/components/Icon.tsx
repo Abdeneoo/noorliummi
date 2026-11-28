@@ -22,6 +22,19 @@ const P: Record<string, React.ReactNode> = {
   calendar: <><rect x="4" y="5.5" width="16" height="14.5" rx="2" /><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" /></>,
   words: <><path d="M4 7h16M4 12h10M4 17h7" /><path d="M17 14.5v5M14.5 17h5" /></>,
   similar: <><path d="M5 8h10M5 12h14M5 16h10" /><path d="m17 6 2 2-2 2" /></>,
+  kaaba: <><path d="M4 8.5 12 5l8 3.5v10L12 22l-8-3.5Z" /><path d="M4 8.5 12 12l8-3.5M12 12v10" /><path d="M4 11.5 12 15l8-3.5" /></>,
+  moon: <><path d="M18.5 15.5A7.5 7.5 0 0 1 9 4.6a7.5 7.5 0 1 0 9.5 10.9Z" /><path d="M17 4.5v3M15.5 6h3" /></>,
+  shield: <><path d="M12 3 19 6v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6Z" /><path d="m9 12 2 2 4-4" /></>,
+  headphones: <><path d="M4.5 15v-3a7.5 7.5 0 0 1 15 0v3" /><rect x="3.5" y="14" width="4" height="6" rx="1.5" /><rect x="16.5" y="14" width="4" height="6" rx="1.5" /></>,
+  child: <><circle cx="12" cy="5.5" r="2.3" /><path d="M7 11.5 12 9.5l5 2M12 9.5v5.5M9.5 21l2.5-6 2.5 6" /></>,
+  book: <><path d="M5 4.5h10.5A3.5 3.5 0 0 1 19 8v11.5H8.5A3.5 3.5 0 0 1 5 16Z" /><path d="M5 16a3.5 3.5 0 0 1 3.5-3.5H19M9 8h6" /></>,
+  live: <><circle cx="12" cy="12" r="2.2" /><path d="M8 8a5.6 5.6 0 0 0 0 8M16 8a5.6 5.6 0 0 1 0 8M5.2 5.2a9.6 9.6 0 0 0 0 13.6M18.8 5.2a9.6 9.6 0 0 1 0 13.6" /></>,
+  map: <><path d="M9 4.5 3.5 6.5v13L9 17.5l6 2 5.5-2v-13L15 6.5Z" /><path d="M9 4.5v13M15 6.5v13" /></>,
+  phone: <><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" /><path d="M10.5 18.5h3" /></>,
+  laptop: <><rect x="4.5" y="5" width="15" height="10" rx="1.5" /><path d="M2.5 19h19" /></>,
+  puzzle: <><path d="M5 8h3.5a2 2 0 1 1 4 0H16v3.5a2 2 0 1 1 0 4V19H5v-3.5a2 2 0 1 0 0-4Z" /></>,
+  drop: <><path d="M12 3.5c3.4 4.2 6 7.6 6 10.6a6 6 0 0 1-12 0c0-3 2.6-6.4 6-10.6Z" /><path d="M9.2 14.5a2.8 2.8 0 0 0 2.8 2.8" /></>,
+  grid: <><rect x="4" y="4" width="6.5" height="6.5" rx="1.8" /><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.8" /><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.8" /><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.8" /></>,
 };
 export type IconName = keyof typeof P;
 export default function Icon({ name, className = 'ico' }: { name: string; className?: string }) {

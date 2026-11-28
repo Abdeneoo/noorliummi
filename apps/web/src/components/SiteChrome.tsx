@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import Icon from './Icon';
 import ThemeToggle from './ThemeToggle';
 import FontSize from './FontSize';
+import SectionsGrid from './SectionsGrid';
 
 type Lang = 'ar' | 'en';
 type Item = { href: string; label: string; icon: string; match?: string[] };
@@ -20,7 +21,7 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/fiqh', label: 'الفقه', icon: 'hadith', match: ['/fiqh'] },
     { href: '/knowledge', label: 'المعرفة', icon: 'knowledge', match: ['/knowledge', '/tafsir', '/hadith', '/names', '/mutashabihat', '/library', '/topics', '/prophets', '/lessons', '/hadeeth', '/books', '/series'] },
     { href: '/sadaqah', label: 'الصدقة الجارية', icon: 'sadaqah', match: ['/sadaqah', '/dedication', '/athar'] },
-    { href: '/tools', label: 'الأدوات', icon: 'tools', match: ['/tools', '/hifz', '/tasbeeh', '/family', '/extension', '/live'] },
+    { href: '/sections', label: 'كل الأقسام', icon: 'grid', match: ['/sections', '/tools', '/apps'] },
   ],
   en: [
     { href: '/en', label: 'Home', icon: 'home' },
@@ -29,12 +30,12 @@ export const NAV: Record<Lang, Item[]> = {
     { href: '/en/adhkar', label: 'Adhkar', icon: 'adhkar', match: ['/en/adhkar'] },
     { href: '/en/knowledge', label: 'Knowledge', icon: 'knowledge', match: ['/en/knowledge', '/en/names'] },
     { href: '/en/sadaqah', label: 'Sadaqah Jariyah', icon: 'sadaqah', match: ['/en/sadaqah', '/en/dedication'] },
-    { href: '/en/tools', label: 'Tools', icon: 'tools', match: ['/en/tools', '/en/hifz', '/en/tasbeeh'] },
+    { href: '/en/tools', label: 'All sections', icon: 'grid', match: ['/en/tools', '/en/hifz', '/en/tasbeeh'] },
   ],
 };
 const SHORT: Record<Lang, Record<string, string>> = {
-  ar: { '/prayer': 'الصلاة', '/sadaqah': 'الصدقة', more: 'المزيد' },
-  en: { '/en/prayer': 'Prayer', '/en/sadaqah': 'Sadaqah', more: 'More' },
+  ar: { '/prayer': 'الصلاة', '/sadaqah': 'الصدقة', '/sections': 'الأقسام', more: 'الأقسام' },
+  en: { '/en/prayer': 'Prayer', '/en/sadaqah': 'Sadaqah', '/en/tools': 'Sections', more: 'Sections' },
 };
 
 /** Closes an open <details> menu on a click/tap outside it, on Escape, or when the page scrolls. */
@@ -94,7 +95,7 @@ export function TabBar({ lang }: { lang: Lang }) {
   useEffect(() => { if (more.current) more.current.open = false; }, [path]);
   useCloseOnOutside(more);
   const items = NAV[lang];
-  const main = items.slice(0, 4), rest = items.slice(4);
+  const main = items.slice(0, 4);
   return (
     <nav className="tabbar" aria-label={lang === 'ar' ? 'التنقل السريع' : 'Quick navigation'}>
       {main.map((it) => (
@@ -103,12 +104,14 @@ export function TabBar({ lang }: { lang: Lang }) {
         </Link>
       ))}
       <details ref={more}>
-        <summary aria-label={SHORT[lang].more}><Icon name="more" /><span>{SHORT[lang].more}</span></summary>
-        <div className="more-sheet">
-          {rest.map((it) => <Link key={it.href} href={it.href} aria-current={isActive(path, it) ? 'page' : undefined}><Icon name={it.icon} />{it.label}</Link>)}
-          <Link href={lang === 'ar' ? '/sources' : '/en/sources'}><Icon name="hadith" />{lang === 'ar' ? 'المصادر' : 'Sources'}</Link>
-          <Link href="/account"><Icon name="heart" />{lang === 'ar' ? 'حسابي' : 'Account'}</Link>
-          <Link href={lang === 'ar' ? '/en' : '/'} lang={lang === 'ar' ? 'en' : 'ar'}><Icon name="globe" />{lang === 'ar' ? 'English' : 'العربية'}</Link>
+        <summary aria-label={SHORT[lang].more}><Icon name="grid" /><span>{SHORT[lang].more}</span></summary>
+        <div className="more-sheet sx-sheet">
+          <SectionsGrid lang={lang} compact />
+          <div className="sx-sheet-foot">
+            <Link href={lang === 'ar' ? '/sources' : '/en/sources'}>{lang === 'ar' ? 'المصادر' : 'Sources'}</Link>
+            <Link href="/account">{lang === 'ar' ? 'حسابي' : 'Account'}</Link>
+            <Link href={lang === 'ar' ? '/en' : '/'} lang={lang === 'ar' ? 'en' : 'ar'}>{lang === 'ar' ? 'English' : 'العربية'}</Link>
+          </div>
         </div>
       </details>
     </nav>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import MiqatMap from '@/components/MiqatMap';
 import UmrahJourney, { type Dh, type Step } from '@/components/UmrahJourney';
 import { chapter } from '@/lib/books';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
@@ -21,7 +22,7 @@ function Read({ id, title, slug, n, open }: { id: string; title: string; slug: s
 export default async function Umrah() {
   const steps: Step[] = [
     { id: 'safar', title: 'السفر', hint: 'دعاء الركوب ودعاء السفر', dhikr: await dh([96, 97]) },
-    { id: 'ihram', title: 'الإحرام من الميقات', hint: 'التلبية', read: '#mawaqit', dhikr: await dh([116]) },
+    { id: 'ihram', title: 'الإحرام من الميقات', hint: 'التلبية', read: '#map', dhikr: await dh([116]) },
     { id: 'masjid', title: 'دخول المسجد الحرام', hint: 'دعاء دخول المسجد', dhikr: await dh([13]) },
     { id: 'tawaf', title: 'الطواف', hint: 'سبعة أشواط', read: '#sifa', laps: true, dhikr: await dh([117, 118]) },
     { id: 'rakatain', title: 'ركعتا الطواف', hint: 'بعد إتمام الطواف', read: '#sifa', dhikr: [] },
@@ -50,10 +51,15 @@ export default async function Umrah() {
       </header>
 
       <nav className="um-tabs" aria-label="أقسام الصفحة">
-        <a href="#steps">الخطوات</a><a href="#learn">قبل السفر</a><a href="#services">الخدمات</a>
+        <a href="#steps">الخطوات</a><a href="#map">خريطة المواقيت</a><a href="#learn">قبل السفر</a><a href="#services">الخدمات</a>
       </nav>
 
       <UmrahJourney steps={steps} after={after} />
+
+      <section className="um-section" id="map">
+        <div className="um-section-head"><h2>خريطة المواقيت</h2><p>اضغط على أي ميقات لترى مسافته وتفتحه في الخرائط.</p></div>
+        <MiqatMap />
+      </section>
 
       <section className="um-section" id="learn">
         <div className="um-section-head"><h2>اقرأ قبل السفر</h2><p>من كتب الشيخ محمد بن صالح العثيمين.</p></div>
@@ -74,6 +80,8 @@ export default async function Umrah() {
           <Link className="um-tile" href="/live"><strong>البث المباشر</strong><span>من الحرمين</span></Link>
           <Link className="um-tile" href="/duas"><strong>الأدعية</strong><span>من القرآن والسنة</span></Link>
           <Link className="um-tile" href="/hajj"><strong>موسم الحج</strong><span>أيام الحج ومناسكه</span></Link>
+          <Link className="um-tile" href="/ghusl"><strong>الغسل</strong><span>صفته وأحكامه</span></Link>
+          <Link className="um-tile" href="/en/umrah" lang="en"><strong>English</strong><span>Umrah step by step</span></Link>
         </div>
       </section>
     </article>

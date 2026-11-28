@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import PrayerCard from '@/components/PrayerCard';
 import HomeCover from '@/components/HomeCover';
-import Tiles from '@/components/Tiles';
+import { FeaturedSections } from '@/components/SectionsGrid';
+import AppsPanel from '@/components/AppsPanel';
 import Reveal from '@/components/Reveal';
 import HomeSections from '@/components/HomeSections';
 import Tasbeeh from '@/components/Tasbeeh';
@@ -17,28 +18,20 @@ export default async function Home() {
       <div className="lift reveal"><PrayerCard /></div>
       <SeasonCard />
 
+      <section className="section reveal" aria-labelledby="sections-title">
+        <div className="section-head"><h2 id="sections-title">الأقسام</h2><Link href="/sections">كل الأقسام</Link></div>
+        <FeaturedSections pick={['/quran', '/prayer', '/adhkar', '/duas', '/umrah', '/ramadan', '/ghusl', '/ruqyah', '/reciters', '/tafsir', '/fiqh', '/family', '/athar', '/hajj', '/live']} all={{ href: '/sections', title: 'كل الأقسام' }} />
+      </section>
+
       <div className="duo section reveal">
         <ContinueReading />
         <TodayAdhkar />
       </div>
       <div className="section reveal tas-home"><Tasbeeh /></div>
 
-      <HomeSections />
+      <div className="section"><AppsPanel /></div>
 
-      <section className="section reveal" aria-labelledby="sections-title">
-        <div className="section-head"><h2 id="sections-title">استكشف</h2><Link href="/knowledge">كل الأقسام</Link></div>
-        <Tiles items={[
-          { href: '/tafsir', icon: 'tafsir', title: 'التفسير', desc: 'تفسير الجلالين لكل آية.' },
-          { href: '/hadith', icon: 'hadith', title: 'الحديث', desc: 'كتب الحديث مع البحث في نصوصها.' },
-          { href: '/names', icon: 'names', title: 'أسماء الله الحسنى', desc: 'مع الآيات الدالة عليها.' },
-          { href: '/hifz', icon: 'hifz', title: 'الحفظ', desc: 'مراجعة متباعدة على جهازك.' },
-          { href: '/adhan', icon: 'bell', title: 'الأذان', desc: 'اختر الصوت والتنبيه.' },
-          { href: '/today', icon: 'quran', title: 'يومي مع الله', desc: 'لوحة يومك: الصلاة والأذكار والورد والدعاء.' },
-          { href: '/wird', icon: 'quran', title: 'وِردي اليومي', desc: 'خطة ختمة، وأذكار وقتك، وحديث اليوم.' },
-          { href: '/khatma', icon: 'heart', title: 'أهدِ ختمة أو ذكرًا', desc: 'صفحة باسم من تحب، يشارك فيها الأهل.' },
-          { href: '/athar', icon: 'sadaqah', title: 'صفحة أثر', desc: 'صفحة مُهداة لمن تحب.' },
-        ]} />
-      </section>
+      <HomeSections />
 
       <Reveal />
     </>
