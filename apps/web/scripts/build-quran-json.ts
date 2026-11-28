@@ -463,15 +463,15 @@ console.log(`Quran JSON generated: ${meta.length} suras, ${ayat.length} ayat (ch
 // ---- Library: whole books from OpenITI (CC BY-NC-SA 4.0), sectioned for reading ----
 {
   const AR: Record<string, { ar: string; author: string }> = { riyad: { ar: 'رياض الصالحين', author: 'الإمام النووي (ت 676هـ)' }, 'adhkar-nawawi': { ar: 'الأذكار', author: 'الإمام النووي (ت 676هـ)' },
-    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' }, bidaya: { ar: 'بداية المجتهد ونهاية المقتصد', author: 'ابن رشد الحفيد (ت 595هـ)' }, lataif: { ar: 'لطائف المعارف فيما لمواسم العام من الوظائف', author: 'الحافظ ابن رجب الحنبلي (ت 795هـ)' } };
+    qisas: { ar: 'قصص الأنبياء', author: 'الحافظ ابن كثير (ت 774هـ)' }, fusul: { ar: 'الفصول في سيرة الرسول ﷺ', author: 'الحافظ ابن كثير (ت 774هـ)' }, bidaya: { ar: 'بداية المجتهد ونهاية المقتصد', author: 'ابن رشد الحفيد (ت 595هـ)' }, lataif: { ar: 'لطائف المعارف فيما لمواسم العام من الوظائف', author: 'الحافظ ابن رجب الحنبلي (ت 795هـ)' }, lubab: { ar: 'لباب النقول في أسباب النزول', author: 'جلال الدين السيوطي (ت 911هـ)' }, wahidi: { ar: 'أسباب نزول القرآن', author: 'أبو الحسن الواحدي (ت 468هـ)' } };
   const index: unknown[] = [];
   // Two pinned OpenITI sources: the RELEASE corpus (Riyad, al-Adhkar) and the 0775AH repository (Qisas al-Anbiya, al-Fusul — chosen by the owner).
-  const libLines = ['library-openiti', 'library-openiti-0775', 'library-openiti-0600', 'library-openiti-0800'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
+  const libLines = ['library-openiti', 'library-openiti-0775', 'library-openiti-0600', 'library-openiti-0800', 'library-openiti-0925', 'library-openiti-0475'].flatMap((d) => readFileSync(resolve(here, `../../../database/sources/${d}/FILES`), 'utf8').trim().split('\n').map((l) => ({ l, dir: resolve(here, `../../../database/sources/${d}`) })));
   for (const { l: line, dir } of libLines) {
     const [sum, key, path] = line.split(/\s+/); const f = `${dir}/files/${key}.txt`;
     if (!existsSync(f)) throw new Error(`Missing ${key} — run infrastructure/fetch-hadith.sh`);
     if (sha256File(f) !== sum) throw new Error(`Checksum mismatch for library ${key} — refusing to build`);
-    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya' | 'lataif');
+    const b = parseBook(readFileSync(f, 'utf8'), key as 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya' | 'lataif' | 'lubab' | 'wahidi');
     const got = bookLetters(b.sections.map((s) => s.blocks.map((x) => ('p' in x ? x.p : 'h' in x ? x.h : 'v' in x ? x.v : '')).join('')).join(''));
     const want = bookLetters(b.body.split(/\r?\n/).filter((l) => !/^### \|{1,3} /.test(l)).join(' ').replace(/\bms\d+[A-Za-z]?\b/g, ''));
     if (got !== want) throw new Error(`Library ${key}: Arabic letters changed in processing — refusing to build`);

@@ -48,6 +48,7 @@ export const SECTIONS: Record<Lang, SecGroup[]> = {
       { href: '/names', icon: 'names', title: 'أسماء الله الحسنى' },
       { href: '/translations', icon: 'globe', title: 'ترجمات القرآن' },
       { href: '/gharib', icon: 'words', title: 'غريب القرآن' },
+      { href: '/asbab', icon: 'tafsir', title: 'أسباب النزول', desc: 'السيوطي والواحدي' },
     ] },
     { id: 'care', title: 'لك ولأهلك', items: [
       { href: '/ruqyah', icon: 'shield', title: 'الرقية الشرعية' },

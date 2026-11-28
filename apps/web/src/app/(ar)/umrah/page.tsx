@@ -5,10 +5,11 @@ import MiqatMap from '@/components/MiqatMap';
 import UmrahJourney, { type Dh, type Step } from '@/components/UmrahJourney';
 import { chapter } from '@/lib/books';
 import { ADHKAR, loadAdhkar } from '@/lib/adhkar';
+import { UMRAH_AUDIO } from '@/lib/umrah-audio';
 
 export const metadata: Metadata = { title: 'العمرة خطوة بخطوة', description: 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.', openGraph: og('/umrah', 'ar', 'العمرة خطوة بخطوة', 'رحلة العمرة خطوة بخطوة مع أذكار كل خطوة وعدّاد أشواط الطواف والسعي، وصفة العمرة والمواقيت ومحظورات الإحرام.') };
 
-const dh = async (ids: number[]): Promise<Dh[]> => Promise.all(ids.map(async (id) => ({ title: ADHKAR.find((c) => c.id === id)?.title ?? '', items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r, a: d.a })) })));
+const dh = async (ids: number[]): Promise<Dh[]> => Promise.all(ids.map(async (id) => ({ title: ADHKAR.find((c) => c.id === id)?.title ?? '', items: (await loadAdhkar(id)).items.map((d) => ({ n: d.n, t: d.t, r: d.r, a: d.a ?? UMRAH_AUDIO[`${id}:${d.n}`] })) })));
 
 function Read({ id, title, slug, n, open }: { id: string; title: string; slug: string; n: number; open?: boolean }) {
   const c = chapter(slug, n); if (!c) return null;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { og } from '@/lib/og-page';
 import Link from 'next/link';
+import { asbabFor } from '@/lib/asbab';
 import { notFound } from 'next/navigation';
 import AyatText from '@/components/AyatText';
 import AyahShare from '@/components/AyahShare';
@@ -28,6 +29,7 @@ export default async function SurahPage({ params }: { params: Promise<{ n: strin
       </header>
       <div className="row" style={{ justifyContent: 'center', margin: '8px 0 4px' }}>
         <Link className="btn ghost" href={`/tafsir/${n}`}>تفسير السورة</Link>
+        {asbabFor(n)[0] && <Link className="btn ghost" href={`/library/${asbabFor(n)[0].book}/${asbabFor(n)[0].i}`}>أسباب النزول</Link>}
         <Link className="btn ghost" href={`/mutashabihat/${n}`}>المتشابهات</Link>
         <Link className="btn ghost" href={`/quran/${n}/words`}>الكلمات وجذورها</Link>
         <Link className="btn ghost" href={`/sakina?s=${n}`}>وضع السكينة</Link>

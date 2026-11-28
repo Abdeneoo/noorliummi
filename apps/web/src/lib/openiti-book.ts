@@ -7,7 +7,7 @@ export interface Section { title: string; group?: string; blocks: Block[] }
 export interface Book { meta: Record<string, string>; sections: Section[]; body: string }
 const clean = (s: string) => s.replace(/\bms\d+[A-Za-z]?\b/g, ' ').replace(/@QB@\s*/g, '﴿').replace(/\s*@QE@/g, '﴾').replace(/\s*%~%\s*/g, '   *   ').replace(/\s+([.،,:؛])/g, '$1').replace(/\s+/g, ' ').trim();
 
-export type BookKind = 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya' | 'lataif';
+export type BookKind = 'riyad' | 'adhkar-nawawi' | 'qisas' | 'fusul' | 'bidaya' | 'lataif' | 'lubab' | 'wahidi';
 /** Where the author's own text starts (anything before it is the modern editor's introduction, which is not imported). */
 const START: Partial<Record<BookKind, string>> = { qisas: '### | باب ما ورد في خلق آدم' };
 export function parseBook(text: string, kind: BookKind): Book {
@@ -47,6 +47,9 @@ export function parseBook(text: string, kind: BookKind): Book {
     if (kind === 'lataif') {
       // «لطائف المعارف»: «وظائف شهر …» / «وظيفة شهر …» start a month (group); each «مجلس»/«فصل» heading opens a section.
       if ((m = p.match(/^### \|{1,3} ?(.*)$/))) { const t = clean(m[1].replace(/PageV\d+P\d+/g, '')); if (/^(وظائف|وظيفة|فصل ويلتحق)/.test(t)) group = t; open(t || '—'); continue; }
+    }
+    if (kind === 'lubab' || kind === 'wahidi') { // one section per heading: introduction, then one per surah
+      if ((m = p.match(/^### \|{1,3} ?(.*)$/))) { open(clean(m[1].replace(/PageV\d+P\d+/g, '')) || '—'); continue; }
     }
     if (kind === 'qisas' || kind === 'fusul') {
       if ((m = p.match(/^### \|{1,3} ?(.*)$/))) { open(clean(m[1].replace(/PageV\d+P\d+/g, '')) || '—'); continue; }
