@@ -4,8 +4,8 @@ import { BASE, getSettings, saveSettings, getState, setState, safeAthar } from '
 
 const $ = (id) => document.getElementById(id);
 const T = {
-  ar: { settings: 'الإعدادات', back: 'رجوع', next: 'الصلاة القادمة', swap: 'التالي', reset: 'تصفير', of33: 'من ٣٣', plus: '+ صفحة', read: 'اقرأ', athar: '🌿 صفحة أثر مثبّتة', edit: 'تعديل', atharEmpty: 'لم تثبّت صفحة أثر بعد — الصق رابط صفحة من الموقع.', atharCreate: 'صفحات الأثر', atharOpen: 'افتح الصفحة', quran: 'القرآن', adhkar: 'الأذكار', tafsir: 'التفسير', prayer: 'الصلاة', athar_: 'أثر' },
-  en: { settings: 'Settings', back: 'Back', next: 'Next prayer', swap: 'Next', reset: 'Reset', of33: 'of 33', plus: '+ Page', read: 'Read', athar: '🌿 Pinned Athar page', edit: 'Edit', atharEmpty: 'No page pinned — paste a link to a page on the site.', atharCreate: 'Athar pages', atharOpen: 'Open page', quran: 'Quran', adhkar: 'Adhkar', tafsir: 'Tafsir', prayer: 'Prayer', athar_: 'Athar' },
+  ar: { umrah: 'العمرة', sections: 'كل الأقسام', settings: 'الإعدادات', back: 'رجوع', next: 'الصلاة القادمة', swap: 'التالي', reset: 'تصفير', of33: 'من ٣٣', plus: '+ صفحة', read: 'اقرأ', athar: '🌿 صفحة أثر مثبّتة', edit: 'تعديل', atharEmpty: 'لم تثبّت صفحة أثر بعد — الصق رابط صفحة من الموقع.', atharCreate: 'صفحات الأثر', atharOpen: 'افتح الصفحة', quran: 'القرآن', adhkar: 'الأذكار', tafsir: 'التفسير', prayer: 'الصلاة', athar_: 'أثر' },
+  en: { umrah: 'Umrah', sections: 'All sections', settings: 'Settings', back: 'Back', next: 'Next prayer', swap: 'Next', reset: 'Reset', of33: 'of 33', plus: '+ Page', read: 'Read', athar: '🌿 Pinned Athar page', edit: 'Edit', atharEmpty: 'No page pinned — paste a link to a page on the site.', atharCreate: 'Athar pages', atharOpen: 'Open page', quran: 'Quran', adhkar: 'Adhkar', tafsir: 'Tafsir', prayer: 'Prayer', athar_: 'Athar' },
 };
 let s = {}; let st = {}; let showingSettings = false; let pool = []; let di = 0;
 const today = () => new Date().toISOString().slice(0, 10);
